@@ -21,7 +21,7 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/Debug/gsi
+#x64/
 x86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
@@ -32,6 +32,9 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
+
+# Don't ignore debug binary except gsi data
+x64/Debug/gsi
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
