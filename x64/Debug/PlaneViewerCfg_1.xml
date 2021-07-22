@@ -6,14 +6,14 @@
 	<!-- ImageZoomLevel   : 表示する画像(テクスチャ)に使用する画像タイルのズームレベル -->
 	<!-- PolygonSize      : ポリゴンサイズ。Tudeモードで使用する。-->
 
-	<MapConfig
+	<_MapConfig
 		Title="糸島半島"
 		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
 		PolygonSize="400">
 		<Start Longitude="130.1" Latitude="33.5"/>
 		<End   Longitude="130.3" Latitude="33.7"/>
-	</MapConfig>
+	</_MapConfig>
 
 	<_MapConfig
 		Title="糸島半島～佐賀平野"
@@ -122,14 +122,14 @@
 		<End   Longitude="138.80" Latitude="35.4"/>
 	</_MapConfig>
 
-	<_MapConfig
+	<MapConfig
 		Title="伊豆山"
 		PolygonZoomLevel="14"
 		ImageZoomLevel="18"
 		PolygonSize="200">
 		<Start Longitude="139 04  0.0" Latitude="35 06 30.0"/>
 		<End   Longitude="139 06  0.0" Latitude="35 07 30.0"/>
-	</_MapConfig>
+	</MapConfig>
 
 	<_MapConfig
 		Title="八王子"
