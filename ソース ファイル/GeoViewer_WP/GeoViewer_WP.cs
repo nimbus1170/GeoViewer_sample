@@ -187,6 +187,7 @@ public partial class PlaneViewerMainForm : Form
 				{
 					Stopwatch.Lap("draw tude grid");
 
+					// グリッドを描画する。
 					// ◆グリッドをXMLで設定すべきか。
 					var tude_grid_elements = new Dictionary<Int32, CMapGridElement>()
 						{
@@ -214,6 +215,7 @@ public partial class PlaneViewerMainForm : Form
 				{
 					Stopwatch.Lap("draw UTM grid");
 
+					// グリッドを描画する。
 					var utm_grid_elements = new Dictionary<Int32, CMapGridElement>()
 					{
 						{ 1, new CMapGridElement(new Pen(Color.Blue, 2.0f), new Font("ＭＳ ゴシック", 24.0f, GraphicsUnit.Pixel), Brushes.Blue)}

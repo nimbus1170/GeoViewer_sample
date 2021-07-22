@@ -45,6 +45,7 @@ public partial class PlaneViewerMainForm : Form
 
 		try
 		{
+			// ◆どれか一つ選んで実行
 			Run_GeoViewer_WP();
 			//Run_GeoViewer_Tile();
 			//Run_GeoViewer_Tude();
