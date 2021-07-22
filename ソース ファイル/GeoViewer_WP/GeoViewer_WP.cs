@@ -73,7 +73,7 @@ public partial class PlaneViewerMainForm : Form
 
 		var gsi_geoid_model_file = map_data_xml.SelectSingleNode("GSIGeoidModel").Attributes["File"].InnerText;
 
-		Text = title;
+		Text = "ログ - " + title;
 
 		// ◆ここで緯度方向を逆転させる。
 		var wp_sx = ToWorldPixelIntX(polygon_zoom_level, s_tude.Longitude);

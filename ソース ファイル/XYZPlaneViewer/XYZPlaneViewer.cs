@@ -17,7 +17,7 @@ public partial class PlaneViewerMainForm : Form
 {
 	void Run_XYZPlaneViewer()
 	{
-		Text = "PlaneViewer - XYZ";
+		Text = "ログ - XYZ";
 
 		//--------------------------------------------------
 

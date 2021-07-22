@@ -2,16 +2,19 @@
 
 <PlaneViewerConfig>
 
+	<!-- Title            : ウインドウに表示するタイトル -->
 	<!-- PolygonZoomLevel : このズームレベルのピクセル間隔をポリゴンサイズにする。WPまたはTileモードで使用する。-->
 	<!-- ImageZoomLevel   : 表示する画像(テクスチャ)に使用する画像タイルのズームレベル -->
 	<!-- PolygonSize      : ポリゴンサイズ。Tudeモードで使用する。-->
+	<!-- Start            : 表示範囲の南西隅 -->
+	<!-- Endo             : 表示範囲の北東隅 -->
 
 	<_MapConfig
 		Title="糸島半島"
 		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
 		PolygonSize="400">
-		<Start Longitude="130.1" Latitude="33.5"/>
+		<Start Longitude="130.1" Latitude="33.5"/> <!-- 十進形式 -->
 		<End   Longitude="130.3" Latitude="33.7"/>
 	</_MapConfig>
 
@@ -20,8 +23,8 @@
 		PolygonZoomLevel="10"
 		ImageZoomLevel="15"
 		PolygonSize="800">
-		<Start Longitude="130.1" Latitude="33  5 0.00"/> <!-- 度分秒形式 -->
-		<End   Longitude="130.3" Latitude="33 45 0.00"/>
+		<Start Longitude="130  6 0.00" Latitude="33  5 0.00"/> <!-- 度分秒形式 -->
+		<End   Longitude="130 18 0.00" Latitude="33 45 0.00"/>
 	</_MapConfig>
 
 	<_MapConfig
@@ -68,14 +71,14 @@
 		<End   Longitude="131 12 0.0" Latitude="33  1 0.0"/>
 	</_MapConfig>
 
-	<_MapConfig
+	<MapConfig
 		Title="桜島"
 		PolygonZoomLevel="12"
 		ImageZoomLevel="15"
 		PolygonSize="400">
 		<Start Longitude="130 33 0.0" Latitude="31 32 0.0"/>
 		<End   Longitude="130 44 0.0" Latitude="31 38 0.0"/>
-	</_MapConfig>
+	</MapConfig>
 
 	<_MapConfig
 		Title="島原半島"
@@ -122,14 +125,14 @@
 		<End   Longitude="138.80" Latitude="35.4"/>
 	</_MapConfig>
 
-	<MapConfig
+	<_MapConfig
 		Title="伊豆山"
 		PolygonZoomLevel="14"
 		ImageZoomLevel="18"
 		PolygonSize="200">
 		<Start Longitude="139 04  0.0" Latitude="35 06 30.0"/>
 		<End   Longitude="139 06  0.0" Latitude="35 07 30.0"/>
-	</MapConfig>
+	</_MapConfig>
 
 	<_MapConfig
 		Title="八王子"
@@ -161,16 +164,16 @@
 	<MapData>
 
 		<!-- 地図データフォルダ -->
-		<!-- ◆このフォルダのgsi以下の各フォルダに必要なズームレベルのフォルダが自動作成され、必要な国土地理院タイルがダウンロードされる。-->
+		<!-- このフォルダのgsi以下の各フォルダに必要なズームレベルのフォルダが自動作成され、必要な国土地理院タイルがダウンロードされる。-->
 		<_MapDataFolder Folder="C:/DSF/MapData"/>
 		<MapDataFolder Folder="."/>
 
-		<!-- ◆ここでテクスチャに地図画像と衛星画像のいずれかを設定する。-->
-		<!-- ◆gsiより下のフォルダは自動作成されるため、ここのフォルダ名は変更しないこと。-->
+		<!-- ◆ここでテクスチャに地図画像と衛星画像のいずれかをコメントアウトで切り替える。-->
+		<!-- ◆gsiより下のフォルダは自動作成されるため、gsi以下のフォルダ名は変更しないこと。-->
 
 		<!-- 地図画像タイル -->
 		<_GSIImageTiles Folder="C:/DSF/MapData/gsi/std" Ext="png"/>
-		<GSIImageTiles Folder="./gsi/std" Ext="png"/>
+		<_GSIImageTiles Folder="./gsi/std" Ext="png"/>
 
 		<!-- 衛星画像タイル -->
 		<_GSIImageTiles Folder="C:/DSF/MapData/gsi/seamlessphoto" Ext="jpg"/>
