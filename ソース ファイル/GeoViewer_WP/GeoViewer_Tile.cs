@@ -58,28 +58,37 @@ public partial class PlaneViewerMainForm : Form
 
 		var map_cfg_xml = cfg_xml.SelectSingleNode("PlaneViewerConfig/MapConfig");
 
-		var title			=				  map_cfg_xml.Attributes["Title"		].InnerText;
-		var view_zoom_level = Convert.ToInt32(map_cfg_xml.Attributes["ViewZoomLevel"].InnerText);
+		var title = map_cfg_xml.Attributes["Title"].InnerText;
+
+		var polygon_zoom_level = Convert.ToInt32(map_cfg_xml.Attributes["PolygonZoomLevel"].InnerText);
+		var img_zoom_level	   = Convert.ToInt32(map_cfg_xml.Attributes["ImageZoomLevel"  ].InnerText);
 
 		var s_tude = ReadTude(map_cfg_xml.SelectSingleNode("Start"));
 		var e_tude = ReadTude(map_cfg_xml.SelectSingleNode("End"  ));
 		
-		var map_fld_xml = cfg_xml.SelectSingleNode("PlaneViewerConfig/MapFolder");
+		var map_data_xml = cfg_xml.SelectSingleNode("PlaneViewerConfig/MapData");
 
-		var gsi_img_tile_fld = map_fld_xml.SelectSingleNode("GSIImageTiles").Attributes["Folder"].InnerText;
-		var gsi_img_tile_ext = map_fld_xml.SelectSingleNode("GSIImageTiles").Attributes["Ext"	].InnerText;
+		var map_data_fld = map_data_xml.SelectSingleNode("MapDataFolder").Attributes["Folder"].InnerText;
 
-		var gsi_ev_tile_fld = map_fld_xml.SelectSingleNode("GSIElevationTiles").Attributes["Folder"].InnerText;
+		var gsi_img_tile_fld = map_data_xml.SelectSingleNode("GSIImageTiles").Attributes["Folder"].InnerText;
+		var gsi_img_tile_ext = map_data_xml.SelectSingleNode("GSIImageTiles").Attributes["Ext"	].InnerText;
 
-		var gsi_geoid_model_file = map_fld_xml.SelectSingleNode("GSIGeoidModel").Attributes["File"].InnerText;
+		var gsi_ev_tile_fld = map_data_xml.SelectSingleNode("GSIElevationTiles").Attributes["Folder"].InnerText;
 
-		Text = "ログ - " + title;
+		var gsi_geoid_model_file = map_data_xml.SelectSingleNode("GSIGeoidModel").Attributes["File"].InnerText;
+
+		//--------------------------------------------------
+
+		Text = title;
+
+		// ◆タイル単位でDLできるようにしろ。
+		DownloadGSITiles(s_tude, e_tude, img_zoom_level, map_data_fld);
 
 		// ◆ここで緯度方向を逆転させる。
-		var wp_sx = ToWorldPixelIntX(view_zoom_level, s_tude.Longitude);
-		var wp_sy = ToWorldPixelIntY(view_zoom_level, e_tude.Latitude );
-		var wp_ex = ToWorldPixelIntX(view_zoom_level, e_tude.Longitude);
-		var wp_ey = ToWorldPixelIntY(view_zoom_level, s_tude.Latitude );
+		var wp_sx = ToWorldPixelIntX(polygon_zoom_level, s_tude.Longitude);
+		var wp_sy = ToWorldPixelIntY(polygon_zoom_level, e_tude.Latitude );
+		var wp_ex = ToWorldPixelIntX(polygon_zoom_level, e_tude.Longitude);
+		var wp_ey = ToWorldPixelIntY(polygon_zoom_level, s_tude.Latitude );
 
 		// 表示タイル
 		// 標高データ(タイル)や画像データ(タイル)とは(ズームレベルが)関係なく、表示範囲を(タイル単位に)決定するためのもの。
@@ -113,28 +122,32 @@ public partial class PlaneViewerMainForm : Form
 			var ev_s_tile = new CTile(GetTileX(ev_sx), GetTileY(ev_sy));
 			var ev_e_tile = new CTile(GetTileX(ev_ex), GetTileY(ev_ey));
 
+			Stopwatch.Lap("build elevation map data");
+		
 			// 国土地理院標高タイル
 			ev_map_data = new CElevationMapData_GSI_DEM_PNG(gsi_ev_tile_fld, ev_s_tile, ev_e_tile);
+
+			Stopwatch.Lap("- elevation map data built");
 		}
 
 		// 高度クラスに標高地図データを設定する。
 		// これにより、座標オブジェクトの変更で当該座標の標高が設定される。
 		CAltitude.SetElevationMapData(ev_map_data);
 
-		Stopwatch.Lap("build elevation map data");
-
 		//--------------------------------------------------
 		// ② ジオイド地図データを作成する。
 
+		Stopwatch.Lap("build geoid map data");
+
 		// 国土地理院ジオイド地図データ
 		var geoid_map_data = new CGSIGeoidMapData(gsi_geoid_model_file);
+
+		Stopwatch.Lap("- geoid map data built");
 
 		// 高度クラスにジオイド地図データを設定する。
 		// これにより、座標オブジェクトの変更で当該座標のジオイド高が設定される。
 		// ◆タイル版では高度クラスに直接反映しない。
 		CAltitude.SetGeoidMapData(geoid_map_data);
-
-		Stopwatch.Lap("build geoid map data");
 
 		//--------------------------------------------------
 		// ③ 地図画像データを作成する。
@@ -146,8 +159,6 @@ public partial class PlaneViewerMainForm : Form
 			var img_wp_sy = GetStartWorldPixelIntY(view_tile_sy);
 			var img_wp_ex = GetEndWorldPixelIntX  (view_tile_ex);
 			var img_wp_ey = GetEndWorldPixelIntY  (view_tile_ey);
-
-			Int32 img_zoom_level = 15;
 
 			img_wp_sx.ZoomLevel = img_zoom_level;
 			img_wp_sy.ZoomLevel = img_zoom_level;
@@ -250,8 +261,12 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// ④ ビューアフォームを作成する。
 
+		Stopwatch.Lap("build viewer form");
+
 		// ◆viewer_form.Viewerはnullであり、後で設定する。
 		var viewer_form = new GeoViewViewerForm_Tile();
+
+		Stopwatch.Lap("- viewer form built");
 
 		viewer_form.Text = title;
 
@@ -259,8 +274,6 @@ public partial class PlaneViewerMainForm : Form
 		// ◆シーン作成状況の表示は整理されていないのでシーンの作成状況は実質的に表示できない。
 		//  (途中で作成状況の表示(進行)が止まる。)
 		viewer_form.Show();
-
-		Stopwatch.Lap("build viewer form");
 
 		//--------------------------------------------------
 		// ⑤ ビューアパラメータを作成する。←①②③④
@@ -280,12 +293,16 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// ⑥ コントローラフォームを作成する。
 
+		Stopwatch.Lap("build controller form");
+
 		// ◆controller_form.Viewerはnullであり、後で設定する。
 		var controller_form = new GeoViewerControllerForm_Tude(GeoViewer_Tude);
 
-		controller_form.Show();
+		Stopwatch.Lap("- controller form built");
 
-		Stopwatch.Lap("build controller form");
+		controller_form.Text = title;
+
+		controller_form.Show();
 
 		//--------------------------------------------------
 		// ⑦ コントローラパラメータを作成する。←⑥
@@ -343,9 +360,11 @@ public partial class PlaneViewerMainForm : Form
 		// ▼ここの設定順序には依存関係があるので、整理してライブラリに収めろ。ユーザプログラミングに晒すな。
 		// →◆ユーザプログラミングでフォーム(コントロール)が作成されるので、その部分は別になるが。
 
+		Stopwatch.Lap("build viewer");
+
 		GeoViewer_WP = new CGeoViewer_WP(viewer_params, scene_config, controller_parts, Info, Stopwatch);
 			
-		Stopwatch.Lap("build viewer");
+		Stopwatch.Lap("- viewer built");
 
 		//--------------------------------------------------
 		// ⑩ ビューアフォームとコントローラフォームにビューアを設定する。←⑨
@@ -366,22 +385,28 @@ public partial class PlaneViewerMainForm : Form
 
 		var config_form = new GeoViewerConfigForm(GeoViewer_WP);
 
+		config_form.Text = title;
+
 		config_form.Show();
 
 		//--------------------------------------------------
 		// ⑫ シーンを描画する。←⑨
 
+		Stopwatch.Lap("create scene");
+
 		GeoViewer_WP.CreateScene();
 
-		Stopwatch.Lap("create scene");
+		Stopwatch.Lap("- scene created");
 
 		//--------------------------------------------------
 		// ⑬ 図形を描画する。←⑨
 
+		Stopwatch.Lap("draw shapes");
+
 		// ここはWP版で。
 		GeoViewerDrawShapes_Tude(GeoViewer_WP);
 
-		Stopwatch.Lap("draw shapes");
+		Stopwatch.Lap("- shapes drawn");
 
 		//--------------------------------------------------
 

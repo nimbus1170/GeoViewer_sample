@@ -56,8 +56,7 @@ public partial class PlaneViewerMainForm : Form
 		var title =	map_cfg_xml.Attributes["Title"].InnerText;
 
 		var polygon_zoom_level = Convert.ToInt32(map_cfg_xml.Attributes["PolygonZoomLevel"].InnerText);
-
-		var img_zoom_level = Convert.ToInt32(map_cfg_xml.Attributes["ImageZoomLevel"].InnerText);
+		var img_zoom_level	   = Convert.ToInt32(map_cfg_xml.Attributes["ImageZoomLevel"  ].InnerText);
 
 		var s_tude = ReadTude(map_cfg_xml.SelectSingleNode("Start"));
 		var e_tude = ReadTude(map_cfg_xml.SelectSingleNode("End"  ));
@@ -73,18 +72,17 @@ public partial class PlaneViewerMainForm : Form
 
 		var gsi_geoid_model_file = map_data_xml.SelectSingleNode("GSIGeoidModel").Attributes["File"].InnerText;
 
-		Text = "ログ - " + title;
+		//--------------------------------------------------
+
+		Text = title;
+
+		DownloadGSITiles(s_tude, e_tude, img_zoom_level, map_data_fld);
 
 		// ◆ここで緯度方向を逆転させる。
 		var wp_sx = ToWorldPixelIntX(polygon_zoom_level, s_tude.Longitude);
 		var wp_sy = ToWorldPixelIntY(polygon_zoom_level, e_tude.Latitude );
 		var wp_ex = ToWorldPixelIntX(polygon_zoom_level, e_tude.Longitude);
 		var wp_ey = ToWorldPixelIntY(polygon_zoom_level, s_tude.Latitude );
-
-		//--------------------------------------------------
-		// タイルをダウンロードする。
-
-		DownloadGSITiles(s_tude, e_tude, img_zoom_level, map_data_fld);
 
 		//--------------------------------------------------
 		// ① 標高地図データを作成する。
@@ -129,6 +127,7 @@ public partial class PlaneViewerMainForm : Form
 
 		Stopwatch.Lap("build geoid map data");
 
+		// ◆例外ではなく無視するようにしろ。
 		if(!(File.Exists(gsi_geoid_model_file))) throw new Exception("geoid model file not found");
 
 		// 国土地理院ジオイド地図データ
@@ -299,6 +298,8 @@ public partial class PlaneViewerMainForm : Form
 
 		Stopwatch.Lap("- controller form built");
 
+		controller_form.Text = title;
+
 		controller_form.Show();
 
 		//--------------------------------------------------
@@ -381,6 +382,8 @@ public partial class PlaneViewerMainForm : Form
 		// 　　　　設定に統一すべきではないか？
 
 		var config_form = new GeoViewerConfigForm(GeoViewer_WP);
+
+		config_form.Text = title;
 
 		config_form.Show();
 

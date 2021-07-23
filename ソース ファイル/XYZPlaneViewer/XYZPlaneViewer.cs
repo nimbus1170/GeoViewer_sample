@@ -17,7 +17,13 @@ public partial class PlaneViewerMainForm : Form
 {
 	void Run_XYZPlaneViewer()
 	{
-		Text = "ログ - XYZ";
+		//--------------------------------------------------
+
+		var title = "XYZ";
+
+		//--------------------------------------------------
+
+		Text = title;
 
 		//--------------------------------------------------
 
@@ -44,6 +50,8 @@ public partial class PlaneViewerMainForm : Form
 
 		Stopwatch.Lap("- viewer form built");
 
+		viewer_form.Text = title;
+
 		viewer_form.Show();
 
 		//--------------------------------------------------
@@ -68,6 +76,8 @@ public partial class PlaneViewerMainForm : Form
 		var controller_form = new XYZPlaneViewerControllerForm(XYZPlaneViewer);
 
 		Stopwatch.Lap("- control form built");
+
+		controller_form.Text = title;
 
 		controller_form.Show();
 
@@ -140,6 +150,8 @@ public partial class PlaneViewerMainForm : Form
 		// ⑨ 表示設定フォームを作成する。←⑧
 
 		var config_form = new PlaneViewerConfigForm(XYZPlaneViewer);
+
+		config_form.Text = title;
 
 		config_form.Show();
 

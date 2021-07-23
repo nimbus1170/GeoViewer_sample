@@ -112,10 +112,7 @@ public partial class PlaneViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		Text = "ログ - " + title;
-
-		//--------------------------------------------------
-		// タイルをダウンロードする。
+		Text = title;
 
 		DownloadGSITiles(s_tude, e_tude, img_zoom_level, map_data_fld);
 
@@ -271,6 +268,8 @@ public partial class PlaneViewerMainForm : Form
 
 		Stopwatch.Lap("- controller form built");
 
+		controller_form.Text = title;
+
 		controller_form.Show();
 
 		//--------------------------------------------------
@@ -353,6 +352,8 @@ public partial class PlaneViewerMainForm : Form
 		// 　　　　設定に統一すべきではないか？
 
 		var config_form = new GeoViewerConfigForm(GeoViewer_Tude);
+
+		config_form.Text = title;
 
 		config_form.Show();
 
