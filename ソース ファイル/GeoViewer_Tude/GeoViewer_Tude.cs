@@ -174,6 +174,7 @@ public partial class PlaneViewerMainForm : Form
 			Stopwatch.Lap("draw tude grid");
 
 			// グリッドを描画する。
+			// ◆キーはグリッド間隔(分)
 			// ◆XMLで設定すべきか。
 			var tude_grid_elements = new Dictionary<Int32, CMapGridElement>()
 				{
@@ -202,6 +203,7 @@ public partial class PlaneViewerMainForm : Form
 			Stopwatch.Lap("draw UTM grid");
 
 			// グリッドを描画する。
+			// ◆キーはグリッド間隔(km)
 			// ◆XMLで設定すべきか。
 			var utm_grid_elements = new Dictionary<Int32, CMapGridElement>()
 			{
