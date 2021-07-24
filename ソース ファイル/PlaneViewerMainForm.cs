@@ -58,16 +58,16 @@ public partial class PlaneViewerMainForm : Form
 			var vert_nx = info_dictionary["VertexNX"];
 			var vert_ny = info_dictionary["VertexNY"];
 
-			MessageListBox.Items.Add($"        vertex_nx : {vert_nx}");
-			MessageListBox.Items.Add($"        vertex_ny : {vert_ny}");
-			MessageListBox.Items.Add($"    tri_polygon_n : {(vert_nx - 1) * (vert_ny - 1) * 2}");
-			MessageListBox.Items.Add($"            tex_w : {info_dictionary["TexW"]}");
-			MessageListBox.Items.Add($"            tex_h : {info_dictionary["TexH"]}");
-			MessageListBox.Items.Add($"            tex_n : {info_dictionary["TexN"]}");
-			MessageListBox.Items.Add($"    PlaneSizeEW_m : {PlaneSizeEW}");
-			MessageListBox.Items.Add($"    PlaneSizeNS_m : {PlaneSizeNS}");
-			MessageListBox.Items.Add($"polygon_size_EW_m : {PlaneSizeEW / (vert_nx - 1)}");
-			MessageListBox.Items.Add($"polygon_size_NS_m : {PlaneSizeNS / (vert_ny - 1)}");
+			MessageListBox.Items.Add($"     VertexNX : {vert_nx}");
+			MessageListBox.Items.Add($"     VertexNX : {vert_ny}");
+			MessageListBox.Items.Add($" TriPpolygonN : {(vert_nx - 1) * (vert_ny - 1) * 2}");
+			MessageListBox.Items.Add($"         TexW : {info_dictionary["TexW"]}pix");
+			MessageListBox.Items.Add($"         TexH : {info_dictionary["TexH"]}pix");
+			MessageListBox.Items.Add($"         TexN : {info_dictionary["TexN"]}");
+			MessageListBox.Items.Add($"  PlaneSizeEW : {PlaneSizeEW}m");
+			MessageListBox.Items.Add($"  PlaneSizeNS : {PlaneSizeNS}m");
+			MessageListBox.Items.Add($"PolygonSizeEW : {PlaneSizeEW / (vert_nx - 1)}m");
+			MessageListBox.Items.Add($"PolygonSizeNS : {PlaneSizeNS / (vert_ny - 1)}m");
 			MessageListBox.Items.Add($"");
 
 			//--------------------------------------------------
@@ -87,7 +87,7 @@ public partial class PlaneViewerMainForm : Form
 				MessageListBox.Items.Add($"{laptime, 5} ({laptime_percentage, 4:0.0}%) : {laptimes_i.Key}");
 			}
 
-			MessageListBox.Items.Add($"total {total_time} milliseond");
+			MessageListBox.Items.Add($"total {total_time}ms");
 		}
 		catch(System.Xml.XPath.XPathException ex)
 		{

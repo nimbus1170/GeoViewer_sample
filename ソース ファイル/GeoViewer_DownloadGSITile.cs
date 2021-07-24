@@ -36,15 +36,18 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 画像タイルを取得する。
 		{ 
-			var tile_sx = GetTileX(ToWorldPixelX(img_zoom_level, s_tude.Longitude)).Value();
-			var tile_ex = GetTileX(ToWorldPixelX(img_zoom_level, e_tude.Longitude)).Value();
-			var tile_sy = GetTileY(ToWorldPixelY(img_zoom_level, e_tude.Latitude )).Value();
-			var tile_ey = GetTileY(ToWorldPixelY(img_zoom_level, s_tude.Latitude )).Value();
+			var s_tile = new CTile
+				(GetTileX(ToWorldPixelX(img_zoom_level, s_tude.Longitude)),
+				 GetTileY(ToWorldPixelY(img_zoom_level, e_tude.Latitude ))); // ◆緯度方向を逆転させる。
+
+			var e_tile = new CTile
+				(GetTileX(ToWorldPixelX(img_zoom_level, e_tude.Longitude)),
+				 GetTileY(ToWorldPixelY(img_zoom_level, s_tude.Latitude )));
 
 //			Console.WriteLine("Image Tiles");
 //			Console.WriteLine("number of tiles to download：" + ((tile_ex - tile_sx + 1) * (tile_ey - tile_sy + 1)).ToString());
 
-			DownloadGSIImageTiles(tile_sx, tile_sy, tile_ex, tile_ey, img_zoom_level, save_fld);
+			DownloadGSIImageTiles(s_tile, e_tile, save_fld);
 		}
 
 		//--------------------------------------------------
@@ -53,26 +56,33 @@ public partial class PlaneViewerMainForm : Form
 			// ◆取り敢えずレベル14に固定する。標高タイルはレベル15が無い所が多い。
 			Int32 ev_zoom_level = 14;
 
-			var tile_sx = GetTileX(ToWorldPixelX(ev_zoom_level, s_tude.Longitude)).Value();
-			var tile_ex = GetTileX(ToWorldPixelX(ev_zoom_level, e_tude.Longitude)).Value();
-			var tile_sy = GetTileY(ToWorldPixelY(ev_zoom_level, e_tude.Latitude )).Value();
-			var tile_ey = GetTileY(ToWorldPixelY(ev_zoom_level, s_tude.Latitude )).Value();
+			var s_tile = new CTile
+				(GetTileX(ToWorldPixelX(ev_zoom_level, s_tude.Longitude)),
+				 GetTileY(ToWorldPixelY(ev_zoom_level, e_tude.Latitude ))); // ◆緯度方向を逆転させる。
+
+			var e_tile = new CTile
+				(GetTileX(ToWorldPixelX(ev_zoom_level, e_tude.Longitude)),
+				 GetTileY(ToWorldPixelY(ev_zoom_level, s_tude.Latitude )));
 
 //			Console.WriteLine("DEM Tiles");
 //			Console.WriteLine("number of tiles to download : " + ((tile_ex - tile_sx + 1) * (tile_ey - tile_sy + 1)).ToString());
 
-			DownloadGSIElevationTiles(tile_sx, tile_sy, tile_ex, tile_ey, ev_zoom_level, save_fld);
+			DownloadGSIElevationTiles(s_tile, e_tile, save_fld);
 		}
 	}
 
 	private void DownloadGSIImageTiles
-	(in Int32 tile_sx,
-	 in Int32 tile_sy,
-	 in Int32 tile_ex,
-	 in Int32 tile_ey,
-	 in Int32 img_zoom_level,
+	(in CTile s_tile,
+	 in CTile e_tile,
 	 in string save_fld)
 	{ 
+		var tile_sx_val = s_tile.X().Value();
+		var tile_sy_val = s_tile.Y().Value();
+		var tile_ex_val = e_tile.X().Value();
+		var tile_ey_val = e_tile.Y().Value();
+
+		var img_zoom_level = s_tile.ZoomLevel();
+
 		//--------------------------------------------------
 		// 地図画像タイルを取得する。
 
@@ -81,12 +91,12 @@ public partial class PlaneViewerMainForm : Form
 		if(!(Directory.Exists(img_save_fld)))
 			Directory.CreateDirectory(img_save_fld);
 
-		for(var tile_y = tile_sy; tile_y <= tile_ey; tile_y++)
-			for(var tile_x = tile_sx; tile_x <= tile_ex; tile_x++)
+		for(var tile_y_val = tile_sy_val; tile_y_val <= tile_ey_val; tile_y_val++)
+			for(var tile_x_val = tile_sx_val; tile_x_val <= tile_ex_val; tile_x_val++)
 				{
 					// ◆国土地理院タイル地図のサイトの仕様が変更された場合は設定ファイルでは対応困難なのでハードコードする。
-					string img_url  = $"https://cyberjapandata.gsi.go.jp/xyz/std/{img_zoom_level}/{tile_x}/{tile_y}.png";
-					string img_path = img_save_fld + $"/{img_zoom_level}_{tile_x}_{tile_y}.png";
+					string img_url  = $"https://cyberjapandata.gsi.go.jp/xyz/std/{img_zoom_level}/{tile_x_val}/{tile_y_val}.png";
+					string img_path = img_save_fld + $"/{img_zoom_level}_{tile_x_val}_{tile_y_val}.png";
 
 					DownloadGSITile(img_url, img_path);
 				}
@@ -99,24 +109,28 @@ public partial class PlaneViewerMainForm : Form
 		if(!(Directory.Exists(img_save_fld)))
 			Directory.CreateDirectory(img_save_fld);
 
-		for(var tile_y = tile_sy; tile_y <= tile_ey; tile_y++)
-			for(var tile_x = tile_sx; tile_x <= tile_ex; tile_x++)
+		for(var tile_y_val = tile_sy_val; tile_y_val <= tile_ey_val; tile_y_val++)
+			for(var tile_x_val = tile_sx_val; tile_x_val <= tile_ex_val; tile_x_val++)
 				{
-					string img_url  = $"https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{img_zoom_level}/{tile_x}/{tile_y}.jpg";
-					string img_path = img_save_fld + $"/{img_zoom_level}_{tile_x}_{tile_y}.jpg";
+					string img_url  = $"https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{img_zoom_level}/{tile_x_val}/{tile_y_val}.jpg";
+					string img_path = img_save_fld + $"/{img_zoom_level}_{tile_x_val}_{tile_y_val}.jpg";
 
 					DownloadGSITile(img_url, img_path);
 				}
 	}
 		
 	private void DownloadGSIElevationTiles
-	(in Int32 tile_sx,
-	 in Int32 tile_sy,
-	 in Int32 tile_ex,
-	 in Int32 tile_ey,
-	 in Int32 ev_zoom_level,
+	(in CTile s_tile,
+	 in CTile e_tile,
 	 in string save_fld)
 	{ 
+		var tile_sx_val = s_tile.X().Value();
+		var tile_sy_val = s_tile.Y().Value();
+		var tile_ex_val = e_tile.X().Value();
+		var tile_ey_val = e_tile.Y().Value();
+
+		var ev_zoom_level = s_tile.ZoomLevel();
+
 		//--------------------------------------------------
 		// 標高タイルを取得する。
 
@@ -125,11 +139,11 @@ public partial class PlaneViewerMainForm : Form
 		if(!(Directory.Exists(ev_save_fld)))
 			Directory.CreateDirectory(ev_save_fld);
 
-		for(var tile_y = tile_sy; tile_y <= tile_ey; tile_y++)
-			for(var tile_x = tile_sx; tile_x <= tile_ex; tile_x++)
+		for(var tile_y_val = tile_sy_val; tile_y_val <= tile_ey_val; tile_y_val++)
+			for(var tile_x_val = tile_sx_val; tile_x_val <= tile_ex_val; tile_x_val++)
 			{
-				string ev_url  = $"https://cyberjapandata.gsi.go.jp/xyz/dem_png/{ev_zoom_level}/{tile_x}/{tile_y}.png";
-				string ev_path = ev_save_fld + $"/{ev_zoom_level}_{tile_x}_{tile_y}.png";
+				string ev_url  = $"https://cyberjapandata.gsi.go.jp/xyz/dem_png/{ev_zoom_level}/{tile_x_val}/{tile_y_val}.png";
+				string ev_path = ev_save_fld + $"/{ev_zoom_level}_{tile_x_val}_{tile_y_val}.png";
 			
 				DownloadGSITile(ev_url, ev_path);
 			}

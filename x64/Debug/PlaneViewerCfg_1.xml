@@ -173,11 +173,11 @@
 
 		<!-- 地図画像タイル -->
 		<_GSIImageTiles Folder="C:/DSF/MapData/gsi/std" Ext="png"/>
-		<_GSIImageTiles Folder="./gsi/std" Ext="png"/>
+		<GSIImageTiles Folder="./gsi/std" Ext="png"/>
 
 		<!-- 衛星画像タイル -->
 		<_GSIImageTiles Folder="C:/DSF/MapData/gsi/seamlessphoto" Ext="jpg"/>
-		<GSIImageTiles Folder="./gsi/seamlessphoto" Ext="jpg"/>
+		<_GSIImageTiles Folder="./gsi/seamlessphoto" Ext="jpg"/>
 
 		<!-- 標高タイル -->
 		<_GSIElevationTiles Folder="C:/DSF/MapData/gsi/dem_png"/>
