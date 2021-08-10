@@ -23,7 +23,7 @@
 		Title="糸島半島"
 		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
-		PolygonSize="400">
+		PolygonSize="400"> <!-- m -->
 		<Start Longitude="130.1" Latitude="33.5"/> <!-- 十進形式 -->
 		<End   Longitude="130.3" Latitude="33.7"/>
 	</_MapConfig>
