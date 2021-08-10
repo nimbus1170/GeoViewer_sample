@@ -2,7 +2,7 @@
 // GeoViewerConfigFor.cs
 //
 //---------------------------------------------------------------------------
-using DSF_NET_SceneGraph;
+using DSF_NET_Scene;
 
 using System;
 using System.Windows.Forms;

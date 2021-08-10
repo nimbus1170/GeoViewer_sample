@@ -2,8 +2,7 @@
 // PlanViewerMainForm.cs
 //
 //---------------------------------------------------------------------------
-using DSF_NET_SceneGraph;
-
+using DSF_NET_Scene;
 using DSF_NET_Utility;
 
 using System;
@@ -46,10 +45,10 @@ public partial class PlaneViewerMainForm : Form
 		try
 		{
 			// ◆どれか一つ選んで実行
-			Run_GeoViewer_WP();
-			//Run_GeoViewer_Tile();
-			//Run_GeoViewer_Tude();
-			//Run_XYZPlaneViewer();
+			Run_GeoViewer_WP();		// ワールドピクセル単位の地形表示
+			//Run_GeoViewer_Tile();	// タイル単位の地形表示
+			//Run_GeoViewer_Tude();	// 経緯度単位の地形表示
+			//Run_XYZPlaneViewer();	// 単純なXYZプレーン
 
 			//--------------------------------------------------
 

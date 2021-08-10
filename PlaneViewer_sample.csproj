@@ -93,20 +93,17 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NET_GSITileDownloader">
-      <HintPath>..\..\..\..\..\bin\NET_GSITileDownloader.dll</HintPath>
+    <Reference Include="DSF_NET_GSITileDownloader">
+      <HintPath>..\..\..\..\..\bin\DSF_NET_GSITileDownloader.dll</HintPath>
     </Reference>
-    <Reference Include="NET_MapGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\bin\NET_MapGrid.dll</HintPath>
+    <Reference Include="DSF_NET_MapGrid">
+      <HintPath>..\..\..\..\..\bin\DSF_NET_MapGrid.dll</HintPath>
     </Reference>
-    <Reference Include="NET_SceneGraph, Version=1.0.7785.32546, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\bin\NET_SceneGraph.dll</HintPath>
+    <Reference Include="DSF_NET_Scene">
+      <HintPath>..\..\..\..\..\bin\DSF_NET_Scene.dll</HintPath>
     </Reference>
-    <Reference Include="NET_TacticalDrawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\bin\NET_TacticalDrawing.dll</HintPath>
+    <Reference Include="DSF_NET_TacticalDrawing">
+      <HintPath>..\..\..\..\..\bin\DSF_NET_TacticalDrawing.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

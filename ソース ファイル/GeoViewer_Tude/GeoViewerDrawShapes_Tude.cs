@@ -4,7 +4,7 @@
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
 using DSF_NET_Geometry;
-using DSF_NET_SceneGraph;
+using DSF_NET_Scene;
 
 using static DSF_NET_Geography.Convert_MGRS_UTM;
 using static DSF_NET_Geography.Convert_Tude_UTM;
@@ -88,7 +88,7 @@ public partial class PlaneViewerMainForm : Form
 
 		// 分割数10
 		// ◆DSF_NET_Geometryに同名のクラスがある。以下同じ。
-		var circle_1 = new DSF_NET_SceneGraph.CGeoCircle(10, symbol_1_pos, 1000)
+		var circle_1 = new DSF_NET_Scene.CGeoCircle(10, symbol_1_pos, 1000)
 			.SetLineWidth(5.0f)
 			.SetColor(1.0f, 0.0f, 0.0f, 0.5f) // R,G,B,アルファ(透明度)
 			.SetFill(false);
@@ -99,7 +99,7 @@ public partial class PlaneViewerMainForm : Form
 		// 扇形
 
 		// 分割数10
-		var fan_1 = new DSF_NET_SceneGraph.CGeoFan(10, symbol_2_pos, 1000, new CMil(5600), new CMil( 800))
+		var fan_1 = new DSF_NET_Scene.CGeoFan(10, symbol_2_pos, 1000, new CMil(5600), new CMil( 800))
 			.SetColor(1.0f, 1.0f, 0.0f, 0.5f)
 			.SetFill(true);
 
@@ -108,7 +108,7 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 直線
 
-		var line_1 = new DSF_NET_SceneGraph.CGeoLine(symbol_1_pos, symbol_2_pos)
+		var line_1 = new DSF_NET_Scene.CGeoLine(symbol_1_pos, symbol_2_pos)
 			.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
 			.SetLineWidth(2.0f);
 

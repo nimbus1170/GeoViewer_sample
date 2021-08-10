@@ -5,7 +5,7 @@
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
 using DSF_NET_Geometry;
-using DSF_NET_SceneGraph;
+using DSF_NET_Scene;
 
 using System;
 using System.Drawing;

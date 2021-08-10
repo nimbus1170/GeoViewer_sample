@@ -9,9 +9,8 @@ using DSF_NET_Map;
 using static DSF_NET_TacticalDrawing.ReadXML;
 
 using static DSF_NET_Geography.Convert_Tude_WorldPixel;
+using static DSF_NET_Geography.GSITileDownloader;
 using static DSF_NET_Geography.XMapTile;
-
-using static DSF_CS_Geography.GSITileDownloader;
 
 using System;
 using System.Collections.Generic;
