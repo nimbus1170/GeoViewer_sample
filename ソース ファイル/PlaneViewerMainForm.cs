@@ -45,7 +45,7 @@ public partial class PlaneViewerMainForm : Form
 		try
 		{
 			// ◆どれか一つ選んで実行
-			Run_GeoViewer_WP();		// ワールドピクセル単位の地形表示
+			Run_GeoViewer_WP();	    // ワールドピクセル単位の地形表示
 			//Run_GeoViewer_Tile();	// タイル単位の地形表示
 			//Run_GeoViewer_Tude();	// 経緯度単位の地形表示
 			//Run_XYZPlaneViewer();	// 単純なXYZプレーン
@@ -61,7 +61,7 @@ public partial class PlaneViewerMainForm : Form
 			MessageListBox.Items.Add($"      ポリゴン数 : {(vert_nx - 1) * (vert_ny - 1) * 2}");
 			MessageListBox.Items.Add($"テクスチャサイズ : {info_dictionary["TexW"]}pix x {info_dictionary["TexH"]}pix");
 			MessageListBox.Items.Add($"  テクスチャ枚数 : {info_dictionary["TexN"]}");
-			MessageListBox.Items.Add($"  プレーンサイズ : {PlaneSizeEW}m x {PlaneSizeNS}m");
+			MessageListBox.Items.Add($"  表示地域サイズ : {PlaneSizeEW}m x {PlaneSizeNS}m");
 			MessageListBox.Items.Add($"  ポリゴンサイズ : {PlaneSizeEW / (vert_nx - 1)}m x {PlaneSizeNS / (vert_ny - 1)}m");
 			MessageListBox.Items.Add($"");
 

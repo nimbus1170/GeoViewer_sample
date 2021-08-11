@@ -99,14 +99,14 @@
 		<End   Longitude="130 24 0.0" Latitude="32 53 0.0"/>
 	</_MapConfig>
 
-	<MapConfig
+	<_MapConfig
 		Title="伊豆大島"
 		PolygonZoomLevel="12"
 		ImageZoomLevel="15"
 		PolygonSize="400">
 		<Start Longitude="139.34" Latitude="34.67"/>
 		<End   Longitude="139.46" Latitude="34.80"/>
-	</MapConfig>
+	</_MapConfig>
 
 	<_MapConfig
 		Title="硫黄島"
@@ -117,14 +117,15 @@
 		<End   Longitude="141.36" Latitude="24.82"/>
 	</_MapConfig>
 
-	<_MapConfig
+	<!-- ◆PolygonZoomLevelが15以上だと汚くなる。標高タイルのズームレベルを超えるからか。その場合はTudeモードの方がきれい。-->
+	<MapConfig
 		Title="南硫黄島"
 		PolygonZoomLevel="14"
 		ImageZoomLevel="16"
-		PolygonSize="400">
+		PolygonSize="5">
 		<Start Longitude="141.45" Latitude="24.22"/>
 		<End   Longitude="141.48" Latitude="24.25"/>
-	</_MapConfig>
+	</MapConfig>
 
 	<_MapConfig
 		Title="眉山"
