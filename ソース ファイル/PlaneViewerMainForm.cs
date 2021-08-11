@@ -57,16 +57,12 @@ public partial class PlaneViewerMainForm : Form
 			var vert_nx = info_dictionary["VertexNX"];
 			var vert_ny = info_dictionary["VertexNY"];
 
-			MessageListBox.Items.Add($"     VertexNX : {vert_nx}");
-			MessageListBox.Items.Add($"     VertexNX : {vert_ny}");
-			MessageListBox.Items.Add($" TriPpolygonN : {(vert_nx - 1) * (vert_ny - 1) * 2}");
-			MessageListBox.Items.Add($"         TexW : {info_dictionary["TexW"]}pix");
-			MessageListBox.Items.Add($"         TexH : {info_dictionary["TexH"]}pix");
-			MessageListBox.Items.Add($"         TexN : {info_dictionary["TexN"]}");
-			MessageListBox.Items.Add($"  PlaneSizeEW : {PlaneSizeEW}m");
-			MessageListBox.Items.Add($"  PlaneSizeNS : {PlaneSizeNS}m");
-			MessageListBox.Items.Add($"PolygonSizeEW : {PlaneSizeEW / (vert_nx - 1)}m");
-			MessageListBox.Items.Add($"PolygonSizeNS : {PlaneSizeNS / (vert_ny - 1)}m");
+			MessageListBox.Items.Add($"          頂点数 : {vert_nx} x {vert_ny}");
+			MessageListBox.Items.Add($"      ポリゴン数 : {(vert_nx - 1) * (vert_ny - 1) * 2}");
+			MessageListBox.Items.Add($"テクスチャサイズ : {info_dictionary["TexW"]}pix x {info_dictionary["TexH"]}pix");
+			MessageListBox.Items.Add($"  テクスチャ枚数 : {info_dictionary["TexN"]}");
+			MessageListBox.Items.Add($"  プレーンサイズ : {PlaneSizeEW}m x {PlaneSizeNS}m");
+			MessageListBox.Items.Add($"  ポリゴンサイズ : {PlaneSizeEW / (vert_nx - 1)}m x {PlaneSizeNS / (vert_ny - 1)}m");
 			MessageListBox.Items.Add($"");
 
 			//--------------------------------------------------
