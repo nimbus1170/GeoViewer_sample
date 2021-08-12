@@ -35,7 +35,7 @@ public partial class GeoViewViewerForm_Tile : PlaneViewerForm
 			$"ñkà‹  {ct_lt_dms.Deg:00}ìx{ct_lt_dms.Min:00}ï™{ct_lt_dms.Sec:00.000}ïb ( {ct_lt_deg:00.00000})\n" +
 			$"UTM {ct_utm.LongitudinalZone:00}{ct_utm.LatitudinalZone:0} {ct_utm.EW:00000} {ct_utm.NS:00000}\n" +
 			$"UTM {ct_utm.LongitudinalZone:00}{ct_utm.LatitudinalZone:0} {GetMGRSID(ct_utm):00} {GetMGRSCoordEW(ct_utm):00000} {GetMGRSCoordNS(ct_utm):00000}\n" +
-			$"ïWçÇ {ct.Altitude.Value(DAltitudeBase.AboveSeaLevel):0.0}m";
+			$"ïWçÇ {ct.Altitude.Value(DAltitudeBase.AMSL):0.0}m";
 	}
 }
 //---------------------------------------------------------------------------

@@ -33,53 +33,11 @@ public partial class PlaneViewerMainForm : Form
 
 		//--------------------------------------------------
 		// 設定をハードコードする場合
-		{ 
 /*		var title = "糸島半島";
 		var s_tude = new CTude(new CLongitude(130.1), new CLatitude(33.5));
 		var e_tude = new CTude(new CLongitude(130.3), new CLatitude(33.7));
 		var polygon_size = 400; // ◆1000にすると玄界島の右下に穴が開く。
 */
-/*		var title = "糸島半島～佐賀平野";
-		var s_tude = new CTude(new CLongitude(130.1), new CLatitude(33.1));
-		var e_tude = new CTude(new CLongitude(130.3), new CLatitude(33.7));
-		var polygon_size = 800; // ◆1000にすると玄界島の右下に穴が開く。
-*/
-/*		var title = "可也山";
-		var tude_s = new CTude(new CLongitude(130.15), new CLatitude(33.56));
-		var tude_e = new CTude(new CLongitude(130.18), new CLatitude(33.58));
-		var polygon_size = 10;
-*/
-/*		var title = "志賀島";
-		var tude_s = new CTude(new CLongitude(130.281029), new CLatitude(33.657748));
-		var tude_e = new CTude(new CLongitude(130.317340), new CLatitude(33.690176));
-		var polygon_size = 20;
-*/
-/*		var title = "八王子";
-		var s_tude = new CTude(new CLongitude(139.23), new CLatitude(35.61));
-		var e_tude = new CTude(new CLongitude(139.40), new CLatitude(35.70));
-		var polygon_size = 200;
-*/
-/*		var title = "自宅周辺";
-		var tude_s = new CTude(new CLongitude(new CDMS(139, 16, 10.0).ToDecimalDeg()), new CLatitude(new CDMS(35, 39, 30.0).ToDecimalDeg()));
-		var tude_e = new CTude(new CLongitude(new CDMS(139, 17, 10.0).ToDecimalDeg()), new CLatitude(new CDMS(35, 40,  0.0).ToDecimalDeg()));
-		var polygon_size = 10;
-*/
-/*		var title = "天竜川(経度帯境界付近)";
-		var s_tude = new CTude(new CLongitude(137.9), new CLatitude(34.9));
-		var e_tude = new CTude(new CLongitude(138.1), new CLatitude(35.1));
-		var polygon_size = 1000;
-*/
-/*		var title = "熊本北部";
-		var s_tude = new CTude(new CLongitude(131.0), new CLatitude(33.0));
-		var e_tude = new CTude(new CLongitude(131.3), new CLatitude(33.3));
-		var polygon_size = 400;
-*/
-/*		var title = "富士山";
-		var s_tude = new CTude(new CLongitude(138.65), new CLatitude(35.3));
-		var e_tude = new CTude(new CLongitude(138.80), new CLatitude(35.4));
-		var polygon_size = 50;
-*/		}
-
 		//--------------------------------------------------
 		// 設定を設定ファイルで与える場合
 		// ◆設定未定義については例外が出る。
@@ -102,7 +60,7 @@ public partial class PlaneViewerMainForm : Form
 		
 		var map_data_xml = cfg_xml.SelectSingleNode("PlaneViewerConfig/MapData");
 
-		var map_data_fld = map_data_xml.SelectSingleNode("MapDataFolder").Attributes["Folder"].InnerText;
+		var map_data_fld = map_data_xml.SelectSingleNode("MapData").Attributes["Folder"].InnerText;
 
 		var gsi_img_tile_fld = map_data_xml.SelectSingleNode("GSIImageTiles").Attributes["Folder"].InnerText;
 		var gsi_img_tile_ext = map_data_xml.SelectSingleNode("GSIImageTiles").Attributes["Ext"	 ].InnerText;
@@ -387,6 +345,10 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 
 		Viewer = GeoViewer_Tude;
+
+		//--------------------------------------------------
+
+		DisplayLog(s_tude, e_tude);
 	}
 }
 //---------------------------------------------------------------------------

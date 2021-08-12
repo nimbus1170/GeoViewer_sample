@@ -70,87 +70,58 @@ public partial class PlaneViewerMainForm : Form
 		}
 	}
 
+	// 画像タイルを取得する。
+	// ◆GeoViewer_Tileがタイル単位で取得するのでこのメソッドは省かない。
 	private void DownloadGSIImageTiles
 	(in CTile s_tile,
 	 in CTile e_tile,
 	 in string save_fld)
 	{ 
-		var tile_sx_val = s_tile.X().Value();
-		var tile_sy_val = s_tile.Y().Value();
-		var tile_ex_val = e_tile.X().Value();
-		var tile_ey_val = e_tile.Y().Value();
+		var tile_sx = s_tile.X().Value();
+		var tile_sy = s_tile.Y().Value();
+		var tile_ex = e_tile.X().Value();
+		var tile_ey = e_tile.Y().Value();
 
-		var img_zoom_level = s_tile.ZoomLevel();
+		var zoom_level = s_tile.ZoomLevel();
 
-		//--------------------------------------------------
 		// 地図画像タイルを取得する。
+		for(var tile_y = tile_sy; tile_y <= tile_ey; tile_y++)
+			for(var tile_x = tile_sx; tile_x <= tile_ex; tile_x++)
+				DownloadGSITile(DTileType.IMAGE, zoom_level, tile_x, tile_y, save_fld);
 
-		string img_save_fld = save_fld + $"/gsi/std/{img_zoom_level}";
-
-		if(!(Directory.Exists(img_save_fld)))
-			Directory.CreateDirectory(img_save_fld);
-
-		for(var tile_y_val = tile_sy_val; tile_y_val <= tile_ey_val; tile_y_val++)
-			for(var tile_x_val = tile_sx_val; tile_x_val <= tile_ex_val; tile_x_val++)
-				{
-					// ◆国土地理院タイル地図のサイトの仕様が変更された場合は設定ファイルでは対応困難なのでハードコードする。
-					string img_url  = $"https://cyberjapandata.gsi.go.jp/xyz/std/{img_zoom_level}/{tile_x_val}/{tile_y_val}.png";
-					string img_path = img_save_fld + $"/{img_zoom_level}_{tile_x_val}_{tile_y_val}.png";
-
-					DownloadGSITile(img_url, img_path);
-				}
-
-		//--------------------------------------------------
 		// 衛星画像タイルを取得する。
-
-		img_save_fld = save_fld + $"/gsi/seamlessphoto/{img_zoom_level}";
-
-		if(!(Directory.Exists(img_save_fld)))
-			Directory.CreateDirectory(img_save_fld);
-
-		for(var tile_y_val = tile_sy_val; tile_y_val <= tile_ey_val; tile_y_val++)
-			for(var tile_x_val = tile_sx_val; tile_x_val <= tile_ex_val; tile_x_val++)
-				{
-					string img_url  = $"https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{img_zoom_level}/{tile_x_val}/{tile_y_val}.jpg";
-					string img_path = img_save_fld + $"/{img_zoom_level}_{tile_x_val}_{tile_y_val}.jpg";
-
-					DownloadGSITile(img_url, img_path);
-				}
+		for(var tile_y = tile_sy; tile_y <= tile_ey; tile_y++)
+			for(var tile_x = tile_sx; tile_x <= tile_ex; tile_x++)
+				DownloadGSITile(DTileType.PHOTO, zoom_level, tile_x, tile_y, save_fld);
 	}
 		
+	// 標高タイルを取得する。
+	// ◆GeoViewer_Tileがタイル単位で取得するのでこのメソッドは省かない。
 	private void DownloadGSIElevationTiles
 	(in CTile s_tile,
 	 in CTile e_tile,
 	 in string save_fld)
 	{ 
-		var tile_sx_val = s_tile.X().Value();
-		var tile_sy_val = s_tile.Y().Value();
-		var tile_ex_val = e_tile.X().Value();
-		var tile_ey_val = e_tile.Y().Value();
+		var tile_sx = s_tile.X().Value();
+		var tile_sy = s_tile.Y().Value();
+		var tile_ex = e_tile.X().Value();
+		var tile_ey = e_tile.Y().Value();
 
-		var ev_zoom_level = s_tile.ZoomLevel();
+		var zoom_level = s_tile.ZoomLevel();
 
-		//--------------------------------------------------
-		// 標高タイルを取得する。
-
-		string ev_save_fld = save_fld + $"/gsi/dem_png/{ev_zoom_level}";
-
-		if(!(Directory.Exists(ev_save_fld)))
-			Directory.CreateDirectory(ev_save_fld);
-
-		for(var tile_y_val = tile_sy_val; tile_y_val <= tile_ey_val; tile_y_val++)
-			for(var tile_x_val = tile_sx_val; tile_x_val <= tile_ex_val; tile_x_val++)
-			{
-				string ev_url  = $"https://cyberjapandata.gsi.go.jp/xyz/dem_png/{ev_zoom_level}/{tile_x_val}/{tile_y_val}.png";
-				string ev_path = ev_save_fld + $"/{ev_zoom_level}_{tile_x_val}_{tile_y_val}.png";
-			
-				DownloadGSITile(ev_url, ev_path);
-			}
+		for(var tile_y = tile_sy; tile_y <= tile_ey; tile_y++)
+			for(var tile_x = tile_sx; tile_x <= tile_ex; tile_x++)
+				DownloadGSITile(DTileType.DEM_PNG, zoom_level, tile_x, tile_y, save_fld);
 	}
 
-	private void DownloadGSITile(string url, string save_path)
+	private void DownloadGSITile
+		(in DTileType tile_type,
+		 in int zoom_level,
+		 in int tile_x,
+		 in int tile_y,
+		 in string save_fld)
 	{
-		switch(DownloadTile(url, save_path))
+		switch(DownloadTile(tile_type, zoom_level, tile_x, tile_y, save_fld))
 		{
 			case DDownloadResult.Downloaded:
 //				Console.WriteLine(save_path + " : Downloaded");

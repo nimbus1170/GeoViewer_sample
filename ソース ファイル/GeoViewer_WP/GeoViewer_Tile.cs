@@ -2,16 +2,12 @@
 // GeoViewer_Tile.cs
 // 地形ビューア(タイル単位)
 //
-// ◆タイル単位でのダウンロードが不完全
-//
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
 using DSF_NET_Geometry;
 using DSF_NET_Map;
 using DSF_NET_Scene;
 
-using static DSF_NET_Geography.Convert_Tude_GeoCentricCoord;
-using static DSF_NET_Geography.Convert_Tude_WorldPixel;
 using static DSF_NET_Geography.Convert_Tude_WorldPixelInt;
 using static DSF_NET_Geography.XMapTile;
 
@@ -36,20 +32,10 @@ public partial class PlaneViewerMainForm : Form
 	{
 		//--------------------------------------------------
 		// ◆設定をハードコードする場合
-		{
 /*		var title = "糸島半島～福岡市";
 		var ct = new CTude(new CLongitude(130.2), new CLatitude(33.6));
 		var view_zoom_level = 10;
 */
-/*		var title = "八王子";
-		var ct = new CTude(new CLongitude(139.30), new CLatitude(35.65));
-		var view_zoom_level = 12;
-*/
-/*		var title = "富士山";
-		var ct = new CTude(new CLongitude(138.7), new CLatitude(35.35));
-		var view_zoom_level = 12;
-*/		}
-
 		//--------------------------------------------------
 		// 設定を設定ファイルで与える場合
 		// 座標範囲s_tudeとe_tudeを含むタイルを連結表示する。
@@ -73,7 +59,7 @@ public partial class PlaneViewerMainForm : Form
 		
 		var map_data_xml = cfg_xml.SelectSingleNode("PlaneViewerConfig/MapData");
 
-		var map_data_fld = map_data_xml.SelectSingleNode("MapDataFolder").Attributes["Folder"].InnerText;
+		var map_data_fld = map_data_xml.SelectSingleNode("MapData").Attributes["Folder"].InnerText;
 
 		var gsi_img_tile_fld = map_data_xml.SelectSingleNode("GSIImageTiles").Attributes["Folder"].InnerText;
 		var gsi_img_tile_ext = map_data_xml.SelectSingleNode("GSIImageTiles").Attributes["Ext"	 ].InnerText;
@@ -399,7 +385,7 @@ public partial class PlaneViewerMainForm : Form
 		Stopwatch.Lap("- viewer built");
 
 		//--------------------------------------------------
-		// 10 ビューアフォームとコントローラフォームにビューアを設定する。←⑨
+		// 10 ビューアフォームとコントローラフォームにビューアを設定する。← 9
 
 		viewer_form	   .Viewer = GeoViewer_WP;
 		controller_form.Viewer = GeoViewer_WP;
@@ -445,28 +431,8 @@ public partial class PlaneViewerMainForm : Form
 		Viewer = GeoViewer_WP;
 
 		//--------------------------------------------------
-		// 表示用のポリゴンサイズを計算する。
-		{ 
-			var tude_00 = s_tude;
-			var tude_10 = new CTude(e_tude.Longitude, s_tude.Latitude);
-			var tude_01 = new CTude(s_tude.Longitude, e_tude.Latitude);
 
-			var coord_00 = ToGeoCentricCoord(tude_00);
-			var coord_10 = ToGeoCentricCoord(tude_10);
-			var coord_01 = ToGeoCentricCoord(tude_01);
-
-			var dx_00_10 = coord_10.X - coord_00.X;
-			var dy_00_10 = coord_10.Y - coord_00.Y;
-			var dz_00_10 = coord_10.Z - coord_00.Z;
-
-			PlaneSizeEW = (int)(Math.Sqrt(dx_00_10 * dx_00_10 + dy_00_10 * dy_00_10 + dz_00_10 * dz_00_10));
-
-			var dx_00_01 = coord_01.X - coord_00.X;
-			var dy_00_01 = coord_01.Y - coord_00.Y;
-			var dz_00_01 = coord_01.Z - coord_00.Z;
-
-			PlaneSizeNS = (int)(Math.Sqrt(dx_00_01 * dx_00_01 + dy_00_01 * dy_00_01 + dz_00_01 * dz_00_01));
-		}
+		DisplayLog(s_tude, e_tude);
 	}
 }
 //---------------------------------------------------------------------------

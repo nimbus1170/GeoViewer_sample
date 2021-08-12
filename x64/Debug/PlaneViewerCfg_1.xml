@@ -16,17 +16,17 @@
 		 この値（ズームレベル）が大きいほど、ポリゴンサイズが細かくなり、画像が精細になりますが、ダウンロードされる画像タイル数が増え、
 		 処理に時間とメモリを必要とするようになります。ズームレベルについては https://maps.gsi.go.jp/development/siyou.html をご覧ください。-->
 
-	<!-- ！注意！　表示範囲が広い場合、ImageZoomLevelを大きくしすぎると、必要なテクスチャメモリが大きくなり過ぎてOpenGLの動作が停止することが
+	<!-- ！注意！表示範囲が広い場合、ImageZoomLevelを大きくしすぎると、必要なテクスチャメモリが大きくなり過ぎてOpenGLの動作が停止することが
 		 ありました。変更する場合は、現在の設定値から少しずつ変更してみてください。-->
 
-	<_MapConfig  
+	<MapConfig  
 		Title="糸島半島"
 		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
 		PolygonSize="400"> <!-- m -->
 		<Start Longitude="130.1" Latitude="33.5"/> <!-- 十進形式 -->
 		<End   Longitude="130.3" Latitude="33.7"/>
-	</_MapConfig>
+	</MapConfig>
 
 	<_MapConfig
 		Title="糸島半島～佐賀平野"
@@ -118,14 +118,14 @@
 	</_MapConfig>
 
 	<!-- ◆PolygonZoomLevelが15以上だと汚くなる。標高タイルのズームレベルを超えるからか。その場合はTudeモードの方がきれい。-->
-	<MapConfig
+	<_MapConfig
 		Title="南硫黄島"
 		PolygonZoomLevel="14"
 		ImageZoomLevel="16"
 		PolygonSize="5">
 		<Start Longitude="141.45" Latitude="24.22"/>
 		<End   Longitude="141.48" Latitude="24.25"/>
-	</MapConfig>
+	</_MapConfig>
 
 	<_MapConfig
 		Title="眉山"
@@ -199,42 +199,35 @@
 		<End   Longitude="139.40" Latitude="35.70"/>
 	</_MapConfig>
 
-	<MapData>
+	<!-- 地図データ -->
+	<!-- このフォルダのgsi以下の各フォルダに必要なズームレベルのフォルダが自動作成され、必要な国土地理院タイルがダウンロードされる。-->
+	<_MapData Folder="C:/DSF/MapData"/>
+	<MapData Folder="."/>
 
-		<!-- 地図データフォルダ -->
-		<!-- このフォルダのgsi以下の各フォルダに必要なズームレベルのフォルダが自動作成され、必要な国土地理院タイルがダウンロードされる。-->
-		<_MapDataFolder Folder="C:/DSF/MapData"/>
-		<MapDataFolder Folder="."/>
+	<!-- ◆テクスチャに地図画像と衛星画像のいずれかを<GSIImageTiles>のコメントアウトで切り替える。-->
+	<!-- ◆gsiより下のフォルダは自動作成されるため、gsi以下のフォルダ名は変更しないこと。-->
 
-		<!-- ◆テクスチャに地図画像と衛星画像のいずれかを<GSIImageTiles>のコメントアウトで切り替える。-->
-		<!-- ◆gsiより下のフォルダは自動作成されるため、gsi以下のフォルダ名は変更しないこと。-->
+	<!-- 地図画像タイル -->
+	<_GSIImageTiles Folder="C:/DSF/MapData/gsi/std" Ext="png"/>
+	<GSIImageTiles Folder="./gsi/std" Ext="png"/>
 
-		<!-- 地図画像タイル -->
-		<_GSIImageTiles Folder="C:/DSF/MapData/gsi/std" Ext="png"/>
-		<GSIImageTiles Folder="./gsi/std" Ext="png"/>
+	<!-- 衛星画像タイル -->
+	<_GSIImageTiles Folder="C:/DSF/MapData/gsi/seamlessphoto" Ext="jpg"/>
+	<_GSIImageTiles Folder="./gsi/seamlessphoto" Ext="jpg"/>
 
-		<!-- 衛星画像タイル -->
-		<_GSIImageTiles Folder="C:/DSF/MapData/gsi/seamlessphoto" Ext="jpg"/>
-		<_GSIImageTiles Folder="./gsi/seamlessphoto" Ext="jpg"/>
+	<!-- 標高タイル -->
+	<_GSIElevationTiles Folder="C:/DSF/MapData/gsi/dem_png"/>
+	<GSIElevationTiles Folder="./gsi/dem_png"/>
 
-		<!-- 標高タイル -->
-		<_GSIElevationTiles Folder="C:/DSF/MapData/gsi/dem_png"/>
-		<GSIElevationTiles Folder="./gsi/dem_png"/>
-
-		<!-- ジオイドモデル -->
-		<_GSIGeoidModel File="C:/DSF/MapData/gsi/gsigeo2011_ver2_1_asc/program/gsigeo2011_ver2_1.bin"/>
-		<GSIGeoidModel File="./gsi/gsigeo2011_ver2_1_asc/program/gsigeo2011_ver2_1.bin"/>
-
-	</MapData>
+	<!-- ジオイドモデル -->
+	<_GSIGeoidModel File="C:/DSF/MapData/gsi/gsigeo2011_ver2_1_asc/program/gsigeo2011_ver2_1.bin"/>
+	<GSIGeoidModel File="./gsi/gsigeo2011_ver2_1_asc/program/gsigeo2011_ver2_1.bin"/>
 
 	<!-- ◆保留 -->
-	<_Drawing>
+	<_Drawing File="C:/DSF/SharedData/MapView/MapDrawing/MapDrawing_test_1.xml"/>
 
-		<_File>"C:/DSF/SharedData/MapView/MapDrawing/MapDrawing_test_1.xml"</_File>
-
-		<!-- ◆フォルダ内のすべてのファイルを描画するやり方(後回し) -->
-		<_Folder>"C:/DSF/SharedData/MapView/MapDrawing"</_Folder>
-
-	</_Drawing>
+	<!-- ◆保留 -->
+	<!-- ◆フォルダ内のすべてのファイルを描画するやり方 -->
+	<_Drawing Folder="C:/DSF/SharedData/MapView/MapDrawing"/>
 
 </PlaneViewerConfig>

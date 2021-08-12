@@ -8,8 +8,6 @@ using DSF_NET_Geometry;
 using DSF_NET_Map;
 using DSF_NET_Scene;
 
-using static DSF_NET_Geography.Convert_Tude_GeoCentricCoord;
-using static DSF_NET_Geography.Convert_Tude_WorldPixel;
 using static DSF_NET_Geography.Convert_Tude_WorldPixelInt;
 using static DSF_NET_Geography.XMapTile;
 
@@ -62,16 +60,14 @@ public partial class PlaneViewerMainForm : Form
 		var s_tude = ReadTude(map_cfg_xml.SelectSingleNode("Start"));
 		var e_tude = ReadTude(map_cfg_xml.SelectSingleNode("End"  ));
 		
-		var map_data_xml = cfg_xml.SelectSingleNode("PlaneViewerConfig/MapData");
+		var map_data_fld = cfg_xml.SelectSingleNode("PlaneViewerConfig/MapData").Attributes["Folder"].InnerText;
 
-		var map_data_fld = map_data_xml.SelectSingleNode("MapDataFolder").Attributes["Folder"].InnerText;
+		var gsi_img_tile_fld = cfg_xml.SelectSingleNode("PlaneViewerConfig/GSIImageTiles").Attributes["Folder"].InnerText;
+		var gsi_img_tile_ext = cfg_xml.SelectSingleNode("PlaneViewerConfig/GSIImageTiles").Attributes["Ext"	 ].InnerText;
 
-		var gsi_img_tile_fld = map_data_xml.SelectSingleNode("GSIImageTiles").Attributes["Folder"].InnerText;
-		var gsi_img_tile_ext = map_data_xml.SelectSingleNode("GSIImageTiles").Attributes["Ext"	 ].InnerText;
+		var gsi_ev_tile_fld = cfg_xml.SelectSingleNode("PlaneViewerConfig/GSIElevationTiles").Attributes["Folder"].InnerText;
 
-		var gsi_ev_tile_fld = map_data_xml.SelectSingleNode("GSIElevationTiles").Attributes["Folder"].InnerText;
-
-		var gsi_geoid_model_file = map_data_xml.SelectSingleNode("GSIGeoidModel").Attributes["File"].InnerText;
+		var gsi_geoid_model_file = cfg_xml.SelectSingleNode("PlaneViewerConfig/GSIGeoidModel").Attributes["File"].InnerText;
 
 		//--------------------------------------------------
 
@@ -418,28 +414,8 @@ public partial class PlaneViewerMainForm : Form
 		Viewer = GeoViewer_WP;
 
 		//--------------------------------------------------
-		// 表示用のポリゴンサイズを計算する。
-		{ 
-			var tude_00 = s_tude;
-			var tude_10 = new CTude(e_tude.Longitude, s_tude.Latitude);
-			var tude_01 = new CTude(s_tude.Longitude, e_tude.Latitude);
 
-			var coord_00 = ToGeoCentricCoord(tude_00);
-			var coord_10 = ToGeoCentricCoord(tude_10);
-			var coord_01 = ToGeoCentricCoord(tude_01);
-
-			var dx_00_10 = coord_10.X - coord_00.X;
-			var dy_00_10 = coord_10.Y - coord_00.Y;
-			var dz_00_10 = coord_10.Z - coord_00.Z;
-
-			PlaneSizeEW = (int)(Math.Sqrt(dx_00_10 * dx_00_10 + dy_00_10 * dy_00_10 + dz_00_10 * dz_00_10));
-
-			var dx_00_01 = coord_01.X - coord_00.X;
-			var dy_00_01 = coord_01.Y - coord_00.Y;
-			var dz_00_01 = coord_01.Z - coord_00.Z;
-
-			PlaneSizeNS = (int)(Math.Sqrt(dx_00_01 * dx_00_01 + dy_00_01 * dy_00_01 + dz_00_01 * dz_00_01));
-		}
+		DisplayLog(s_tude, e_tude);
 	}
 }
 //---------------------------------------------------------------------------
