@@ -60,7 +60,9 @@ public partial class PlaneViewerMainForm : Form
 		}
 		catch(Exception ex)
 		{
-			MessageListBox.Items.Add("Error > " + ex.Message);
+			//	MessageListBox.Items.Add("Error > " + ex.StackTrace);
+				MessageListBox.Items.Add("Error > " + ex.Message);
+
 		}
 	}
 

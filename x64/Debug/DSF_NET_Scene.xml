@@ -73,6 +73,38 @@ MGRSID(100km平方識別子) + 東西座標(10km～1mの5桁) + 南北座標(10k
         <member name="T:DSF_NET_Geography.CElevationMapData_Tude">
             <summary>標高地図データクラス(経緯度)</summary>
         </member>
+        <member name="M:DSF_NET_Geometry.CLine.IsCross3D(DSF_NET_Geometry.CLine!System.Runtime.CompilerServices.IsConst,DSF_NET_Geometry.CLine!System.Runtime.CompilerServices.IsConst,System.Double@,System.Double@)">
+            <summary>
+２直線が交差するか否かを判定する。(3D)
+交差の成否に関わらず、line1の始点からの割合がrate1に、line2の始点からの割合がrate2に入る。
+</summary>
+            <param name="line1">直線１</param>
+            <param name="line2">直線２</param>
+            <param name="rate1">直線１上の交差位置</param>
+            <param name="rate2">直線２上の交差位置</param>
+            <returns>交差の有無</returns>
+            <summary>
+２直線が交差するか否かを判定する。(3D)
+交差の成否に関わらず、line1の始点からの割合がrate1に、line2の始点からの割合がrate2に入る。
+</summary>
+            <param name="line1">直線１</param>
+            <param name="line2">直線２</param>
+            <returns>交差の有無</returns>
+        </member>
+        <member name="M:DSF_NET_Geometry.CLine.IsCross2D(DSF_NET_Geometry.CLine!System.Runtime.CompilerServices.IsConst,DSF_NET_Geometry.CLine!System.Runtime.CompilerServices.IsConst,DSF_NET_Geometry.CCoord@)">
+            <summary>2直線が交差するか否かを判定する。(2D)</summary>
+            <remarks>交差したらxpに交点が入る。</remarks>
+            <returns>交差の有無</returns>
+        </member>
+        <member name="M:DSF_NET_Geometry.CLine.ExtendP1(System.Double!System.Runtime.CompilerServices.IsConst)">
+            <summary>線分をそれぞれの方向に伸縮させる。</summary>
+        </member>
+        <member name="M:DSF_NET_Geometry.CLine.Length2D">
+            <summary>線分の長さ</summary>
+        </member>
+        <member name="T:DSF_NET_Geometry.CLine">
+            <summary>線分クラス</summary>
+        </member>
         <member name="T:_SETJMP_FLOAT128">
 @ref core
 </member>
@@ -1181,37 +1213,5 @@ There is no guarantee on the actual qualifier.
         <member name="T:glm.qualifier">
 Qualify GLM types in term of alignment (packed, aligned) and precision in term of ULPs (lowp, mediump, highp)
 </member>
-        <member name="M:DSF_NET_Geometry.CLine.IsCross3D(DSF_NET_Geometry.CLine!System.Runtime.CompilerServices.IsConst,DSF_NET_Geometry.CLine!System.Runtime.CompilerServices.IsConst,System.Double@,System.Double@)">
-            <summary>
-２直線が交差するか否かを判定する。(3D)
-交差の成否に関わらず、line1の始点からの割合がrate1に、line2の始点からの割合がrate2に入る。
-</summary>
-            <param name="line1">直線１</param>
-            <param name="line2">直線２</param>
-            <param name="rate1">直線１上の交差位置</param>
-            <param name="rate2">直線２上の交差位置</param>
-            <returns>交差の有無</returns>
-            <summary>
-２直線が交差するか否かを判定する。(3D)
-交差の成否に関わらず、line1の始点からの割合がrate1に、line2の始点からの割合がrate2に入る。
-</summary>
-            <param name="line1">直線１</param>
-            <param name="line2">直線２</param>
-            <returns>交差の有無</returns>
-        </member>
-        <member name="M:DSF_NET_Geometry.CLine.IsCross2D(DSF_NET_Geometry.CLine!System.Runtime.CompilerServices.IsConst,DSF_NET_Geometry.CLine!System.Runtime.CompilerServices.IsConst,DSF_NET_Geometry.CCoord@)">
-            <summary>2直線が交差するか否かを判定する。(2D)</summary>
-            <remarks>交差したらxpに交点が入る。</remarks>
-            <returns>交差の有無</returns>
-        </member>
-        <member name="M:DSF_NET_Geometry.CLine.ExtendP1(System.Double!System.Runtime.CompilerServices.IsConst)">
-            <summary>線分をそれぞれの方向に伸縮させる。</summary>
-        </member>
-        <member name="M:DSF_NET_Geometry.CLine.Length2D">
-            <summary>線分の長さ</summary>
-        </member>
-        <member name="T:DSF_NET_Geometry.CLine">
-            <summary>線分クラス</summary>
-        </member>
     </members>
 </doc>

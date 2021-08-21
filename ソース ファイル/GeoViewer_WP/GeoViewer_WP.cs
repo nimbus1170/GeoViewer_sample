@@ -132,7 +132,7 @@ public partial class PlaneViewerMainForm : Form
 		Stopwatch.Lap("build geoid map data");
 
 		// ◆例外ではなくジオイドを無視するようにしろ。
-		if(!(File.Exists(gsi_geoid_model_file))) throw new Exception("geoid model file not found");
+//		if(!(File.Exists(gsi_geoid_model_file))) throw new Exception("geoid model file not found");
 
 		// 国土地理院ジオイドデータ
 		var geoid_map_data = new CGSIGeoidMapData(gsi_geoid_model_file);
