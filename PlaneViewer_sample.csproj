@@ -73,7 +73,7 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>x64\Debug\</OutputPath>
+    <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>0</WarningLevel>
     <DebugType>full</DebugType>
@@ -94,16 +94,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DSF_NET_GSITileDownloader">
-      <HintPath>..\..\..\..\..\bin\DSF_NET_GSITileDownloader.dll</HintPath>
+      <HintPath>..\..\..\..\lib\DSF_NET_GSITileDownloader.dll</HintPath>
     </Reference>
     <Reference Include="DSF_NET_MapGrid">
-      <HintPath>..\..\..\..\..\bin\DSF_NET_MapGrid.dll</HintPath>
+      <HintPath>..\..\..\..\lib\DSF_NET_MapGrid.dll</HintPath>
     </Reference>
     <Reference Include="DSF_NET_Scene">
-      <HintPath>..\..\..\..\..\bin\DSF_NET_Scene.dll</HintPath>
+      <HintPath>..\..\..\..\lib\DSF_NET_Scene.dll</HintPath>
     </Reference>
     <Reference Include="DSF_NET_TacticalDrawing">
-      <HintPath>..\..\..\..\..\bin\DSF_NET_TacticalDrawing.dll</HintPath>
+      <HintPath>..\..\..\..\lib\DSF_NET_TacticalDrawing.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -116,11 +116,11 @@
     <Compile Include="ソース ファイル\GeoViewer_DownloadGSITile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewerConfigForm.cs">
+    <Compile Include="ソース ファイル\GeoViewerCfgForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewerConfigForm.Designer.cs">
-      <DependentUpon>GeoViewerConfigForm.cs</DependentUpon>
+    <Compile Include="ソース ファイル\GeoViewerCfgForm.Designer.cs">
+      <DependentUpon>GeoViewerCfgForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ソース ファイル\PlaneViewerControllerForm.cs">
       <SubType>Form</SubType>
@@ -128,7 +128,7 @@
     <Compile Include="ソース ファイル\PlaneViewerControllerForm.Designer.cs">
       <DependentUpon>PlaneViewerControllerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_Tude\GeoViewerControllerForm_Tude.cs">
+    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewerControllerForm_LgLt.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewerControllerForm.cs">
@@ -143,7 +143,7 @@
     <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewerForm_Tile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_Tude\GeoViewerForm_Tude.cs">
+    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewerForm_LgLt.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewerForm_WP.cs">
@@ -152,7 +152,7 @@
     <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_Tude\GeoViewerDrawShapes_Tude.cs">
+    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewerDrawShapes_LgLt.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewerDrawShapes.cs">
@@ -172,16 +172,16 @@
     </Compile>
     <Compile Include="ソース ファイル\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ソース ファイル\PlaneViewerConfigForm.cs">
+    <Compile Include="ソース ファイル\PlaneViewerCfgForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\PlaneViewerConfigForm.Designer.cs">
-      <DependentUpon>PlaneViewerConfigForm.cs</DependentUpon>
+    <Compile Include="ソース ファイル\PlaneViewerCfgForm.Designer.cs">
+      <DependentUpon>PlaneViewerCfgForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewer_Tile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_Tude\GeoViewer_Tude.cs">
+    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewer_LgLt.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewer_WP.cs">
@@ -190,8 +190,8 @@
     <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <EmbeddedResource Include="ソース ファイル\GeoViewerConfigForm.resx">
-      <DependentUpon>GeoViewerConfigForm.cs</DependentUpon>
+    <EmbeddedResource Include="ソース ファイル\GeoViewerCfgForm.resx">
+      <DependentUpon>GeoViewerCfgForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ソース ファイル\PlaneViewerControllerForm.resx">
@@ -216,8 +216,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ソース ファイル\PlaneViewerConfigForm.resx">
-      <DependentUpon>PlaneViewerConfigForm.cs</DependentUpon>
+    <EmbeddedResource Include="ソース ファイル\PlaneViewerCfgForm.resx">
+      <DependentUpon>PlaneViewerCfgForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include=".gitignore" />
@@ -230,6 +230,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="頂点が1個足りない.pptx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -247,7 +248,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="x64\Debug\PlaneViewerCfg_1.xml" />
+    <Content Include="bin\x64\Debug\Drawing_test_1.xml" />
+    <Content Include="bin\x64\Debug\PlaneViewerCfg_1.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

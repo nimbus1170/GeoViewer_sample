@@ -4,9 +4,10 @@
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
 using DSF_NET_Scene;
+using DSF_NET_Profiler;
 using DSF_NET_Utility;
 
-using static DSF_NET_Geography.Convert_Tude_GeoCentricCoord;
+using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
 
 using System;
 using System.Collections.Generic;
@@ -20,21 +21,21 @@ namespace PlaneViewer_sample
 public partial class PlaneViewerMainForm : Form
 {
 	CGeoViewer_WP	GeoViewer_WP;
-	CGeoViewer_Tude	GeoViewer_Tude; 
+	CGeoViewer_LgLt	GeoViewer_LgLt; 
 	CXYZPlaneViewer XYZPlaneViewer; 
 
 	CPlaneViewer Viewer = null;
 
-	readonly string ConfigFileName;
+	readonly string CfgFileName;
 
-	CInfoMap   Info		 = new CInfoMap	 ();
-	CStopwatch Stopwatch = new CStopwatch();
+	CInfoMap  Info	   = new CInfoMap ();
+	CProfiler Profiler = new CProfiler();
 
 	public PlaneViewerMainForm(string[] args)
 	{
 		InitializeComponent();
 
-		ConfigFileName = args[0];
+		CfgFileName = args[0];
 	}
 
 	private void Form1_Load(object sender, EventArgs e)
@@ -45,10 +46,10 @@ public partial class PlaneViewerMainForm : Form
 		try
 		{
 			// ◆どれか一つ選んで実行
-			Run_GeoViewer_WP();	// ワールドピクセル単位の地形表示
-			//Run_GeoViewer_Tile();	// タイル単位の地形表示
-			//Run_GeoViewer_Tude();	// 経緯度単位の地形表示
-			//Run_XYZPlaneViewer();	// 単純なXYZプレーン
+			Run_GeoViewer_WP(); // ワールドピクセル単位の地形表示
+			//Run_GeoViewer_Tile(); // タイル単位の地形表示
+			//Run_GeoViewer_LgLt(); // 経緯度単位の地形表示
+			//Run_XYZPlaneViewer(); // 単純なXYZプレーン
 		}
 		catch(System.Xml.XPath.XPathException ex)
 		{
@@ -60,24 +61,23 @@ public partial class PlaneViewerMainForm : Form
 		}
 		catch(Exception ex)
 		{
-			//	MessageListBox.Items.Add("Error > " + ex.StackTrace);
-				MessageListBox.Items.Add("Error > " + ex.Message);
-
+		//	MessageListBox.Items.Add("Error > " + ex.StackTrace);
+			MessageListBox.Items.Add("Error > " + ex.Message);
 		}
 	}
 
-	private void DisplayLog(in CTude s_tude, in CTude e_tude)
+	private void DisplayLog(in CLgLt s_lglt, in CLgLt e_lglt)
 	{
 		//--------------------------------------------------
 		// プレーンサイズを計算する。
 
-		var tude_00 = s_tude;
-		var tude_10 = new CTude(e_tude.Longitude, s_tude.Latitude);
-		var tude_01 = new CTude(s_tude.Longitude, e_tude.Latitude);
+		var lglt_00 = s_lglt;
+		var lglt_10 = new CLgLt(e_lglt.Lg, s_lglt.Lt);
+		var lglt_01 = new CLgLt(s_lglt.Lg, e_lglt.Lt);
 
-		var coord_00 = ToGeoCentricCoord(tude_00);
-		var coord_10 = ToGeoCentricCoord(tude_10);
-		var coord_01 = ToGeoCentricCoord(tude_01);
+		var coord_00 = ToGeoCentricCoord(lglt_00);
+		var coord_10 = ToGeoCentricCoord(lglt_10);
+		var coord_01 = ToGeoCentricCoord(lglt_01);
 
 		var dx_00_10 = coord_10.X - coord_00.X;
 		var dy_00_10 = coord_10.Y - coord_00.Y;
@@ -109,22 +109,22 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 
 		// ◆このメソッドに入る前にStopするべきでは？
-		Stopwatch.Stop();
+		Profiler.Stop();
 
-		MessageListBox.Items.Add("elapsed times in millisecond");
+		MessageListBox.Items.Add("elapsed time   memory delta");
 
-		var total_time = Stopwatch.TotalTime;
+		var total_time = Profiler.TotalTime;
 
-		foreach(var laptimes_i in Stopwatch.LapTimes)
+		foreach(var profile in Profiler.Profiles)
 		{
-			var laptime = laptimes_i.Value;
+			var laptime = profile.Value.LapTime;
 
-			double laptime_percentage = ToDouble(laptime) / total_time * 100;
+			var laptime_percentage = ToDouble(laptime) / total_time * 100;
 
-			MessageListBox.Items.Add($"{laptime, 5} ({laptime_percentage, 4:0.0}%) : {laptimes_i.Key}");
+			MessageListBox.Items.Add($"{laptime, 5}ms ({laptime_percentage, 4:0.0}%) {profile.Value.MemDelta.PhysMem / 1000.0, 9:#,###,###}KB : {profile.Key}");
 		}
 
-		MessageListBox.Items.Add($"total {total_time}ms");
+		MessageListBox.Items.Add($"total {total_time}ms   {Profiler.TotalMem.PhysMem / 1000.0, 9:#,###,###}KB");
 	}
 }
 //---------------------------------------------------------------------------

@@ -8,10 +8,10 @@ using DSF_NET_Geometry;
 using DSF_NET_Map;
 using DSF_NET_Scene;
 
-using static DSF_NET_Geography.Convert_Tude_WorldPixelInt;
+using static DSF_NET_Geography.Convert_LgLt_WPInt;
+using static DSF_NET_Geography.Convert_LgLt_WP;
 using static DSF_NET_Geography.XMapTile;
-
-using static DSF_NET_TacticalDrawing.ReadXML;
+using static DSF_NET_TacticalDrawing.XMLReader;
 
 using System;
 using System.Collections.Generic;
@@ -21,6 +21,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 
+using static System.Convert;
 using static System.Drawing.Drawing2D.DashStyle;
 //---------------------------------------------------------------------------
 namespace PlaneViewer_sample
@@ -28,46 +29,63 @@ namespace PlaneViewer_sample
 //---------------------------------------------------------------------------
 public partial class PlaneViewerMainForm : Form
 {
+	// 地表面プリミティブ作成でWP単位の座標を得るため。
+	// ◆GeoViewerDrawShapes_LgLtにWPの要素が出てきている。
+	int PolygonZoomLevel;
+
 	void Run_GeoViewer_WP()
 	{
-		Stopwatch.Lap("run Viewer_WP");
+		Profiler.Lap("run Viewer_WP");
 
 		//--------------------------------------------------
 		// ◆設定をハードコードする場合
-/*		var title = "糸島半島～福岡市";
-		var ct = new CTude(new CLongitude(130.2), new CLatitude(33.6));
-		var polygon_zoom_level = 10;
-		var img_zoom_level = 15;
-*/
+		{
+/*			var title = "糸島半島～福岡市";
+			var ct = new CLgLt(new CLg(130.2), new CLt(33.6));
+			var polygon_zoom_level = 10;
+			var img_zoom_level = 15;
+*/		}
+
 		//--------------------------------------------------
 		// 設定を設定ファイルで与える場合
-		// 座標範囲s_tudeとe_tudeを含むタイルを連結表示する。
+		// 座標範囲s_lgltとe_lgltを含むタイルを連結表示する。
 		// ●１個タイルの頂点数は256x256なので、view_zoom_levelでポリゴンサイズが決まる。
 		// ◆設定未定義については例外が出る。
 		// →▼設定誤りに対しては詳細なメッセージを表示するようにしたい。
 
 		var cfg_xml = new XmlDocument();
 
-		cfg_xml.Load(ConfigFileName);
+		cfg_xml.Load(CfgFileName);
 
-		var map_cfg_xml = cfg_xml.SelectSingleNode("PlaneViewerConfig/MapConfig");
+		var plane_viewer_cfg_xml = cfg_xml.SelectSingleNode("PlaneViewerCfg");
+
+		var map_cfg_xml = plane_viewer_cfg_xml.SelectSingleNode("MapCfg");
 
 		var title =	map_cfg_xml.Attributes["Title"].InnerText;
 
-		var polygon_zoom_level = Convert.ToInt32(map_cfg_xml.Attributes["PolygonZoomLevel"].InnerText);
-		var img_zoom_level	   = Convert.ToInt32(map_cfg_xml.Attributes["ImageZoomLevel"  ].InnerText);
+	//	var polygon_zoom_level = ToInt32(map_cfg_xml.Attributes["PolygonZoomLevel"].InnerText);
+		PolygonZoomLevel   = ToInt32(map_cfg_xml.Attributes["PolygonZoomLevel"].InnerText);
+		var img_zoom_level = ToInt32(map_cfg_xml.Attributes["ImageZoomLevel"  ].InnerText);
 
-		var s_tude = ReadTude(map_cfg_xml.SelectSingleNode("Start"));
-		var e_tude = ReadTude(map_cfg_xml.SelectSingleNode("End"  ));
+		// クランプ前の開始・終了経緯度座標
+		// ◆プレーンをWP単位にクランプするので、クランプ前のものを使用しないようにする。
+		var s_lglt_0 = ReadLgLt(map_cfg_xml.SelectSingleNode("Start"));
+		var e_lglt_0 = ReadLgLt(map_cfg_xml.SelectSingleNode("End"  ));
 		
-		var map_data_fld = cfg_xml.SelectSingleNode("PlaneViewerConfig/MapData").Attributes["Folder"].InnerText;
+		var map_data_fld = plane_viewer_cfg_xml.SelectSingleNode("MapData").Attributes["Folder"].InnerText;
 
-		var gsi_img_tile_fld = cfg_xml.SelectSingleNode("PlaneViewerConfig/GSIImageTiles").Attributes["Folder"].InnerText;
-		var gsi_img_tile_ext = cfg_xml.SelectSingleNode("PlaneViewerConfig/GSIImageTiles").Attributes["Ext"	 ].InnerText;
+		var gsi_img_tile_fld = plane_viewer_cfg_xml.SelectSingleNode("GSIImageTiles").Attributes["Folder"].InnerText;
+		var gsi_img_tile_ext = plane_viewer_cfg_xml.SelectSingleNode("GSIImageTiles").Attributes["Ext"	 ].InnerText;
 
-		var gsi_ev_tile_fld = cfg_xml.SelectSingleNode("PlaneViewerConfig/GSIElevationTiles").Attributes["Folder"].InnerText;
+		var gsi_ev_tile_fld = plane_viewer_cfg_xml.SelectSingleNode("GSIElevationTiles").Attributes["Folder"].InnerText;
 
-		var gsi_geoid_model_file = cfg_xml.SelectSingleNode("PlaneViewerConfig/GSIGeoidModel").Attributes["File"].InnerText;
+		var gsi_geoid_model_file = plane_viewer_cfg_xml.SelectSingleNode("GSIGeoidModel").Attributes["File"].InnerText;
+
+		var grid_cfg_xml = plane_viewer_cfg_xml.SelectSingleNode("Grid");
+
+		var grid_font_size = ToInt32(grid_cfg_xml.Attributes["FontSize"].InnerText);
+
+		var grid_ol_cfg = grid_cfg_xml.SelectSingleNode("GridOverlay");
 
 		//--------------------------------------------------
 
@@ -77,198 +95,109 @@ public partial class PlaneViewerMainForm : Form
 		// 0 タイルをダウンロードする。
 		// ◆GeoViewer_Tileと比較して、正しいか？
 
-		Stopwatch.Lap("download tiles");
+		Profiler.Lap("download tiles");
 
-		DownloadGSITiles(s_tude, e_tude, img_zoom_level, map_data_fld);
+		// ◆ここはクランプ前で良いのか？
+		DownloadGSITiles(s_lglt_0, e_lglt_0, img_zoom_level, map_data_fld);
 
-		Stopwatch.Lap("- tiles downloaded");
+		Profiler.Lap("- tiles downloaded");
 
 		//--------------------------------------------------
+		// 0 開始・終了座標について、経緯度座標をクランプしてWP座標を作成するとともに、WP座標にクランプされた経緯度座標を作成する。
 
-		// ◆ここで緯度方向を逆転させる。
-		var wp_sx = ToWorldPixelIntX(polygon_zoom_level, s_tude.Longitude);
-		var wp_sy = ToWorldPixelIntY(polygon_zoom_level, e_tude.Latitude );
-		var wp_ex = ToWorldPixelIntX(polygon_zoom_level, e_tude.Longitude);
-		var wp_ey = ToWorldPixelIntY(polygon_zoom_level, s_tude.Latitude );
+		// ◆緯度方向を逆転させる。緯度方向の逆転を一般化するには範囲にする必要があるか。
+		var s_wp = new CWPInt(ToWPIntX(PolygonZoomLevel, s_lglt_0.Lg), ToWPIntY(PolygonZoomLevel, e_lglt_0.Lt));
+		var e_wp = new CWPInt(ToWPIntX(PolygonZoomLevel, e_lglt_0.Lg), ToWPIntY(PolygonZoomLevel, s_lglt_0.Lt));
+
+		// ◆南北は逆転している。WPの南北逆転を一律に変換できないか？範囲クラスにするべきか。
+		var s_lglt = new CLgLt(ToLg(s_wp.X), ToLt(e_wp.Y));
+		var e_lglt = new CLgLt(ToLg(e_wp.X), ToLt(s_wp.Y));
 
 		//--------------------------------------------------
 		// 1 標高地図データを作成する。
 
-		// 表示範囲が含まれる標高タイルを求める。
-		// 表示範囲(WP)と標高タイルはズームレベルが異なるので、表示タイルの開始・終了ピクセルのズームレベルを標高タイルのズームレベルに変更して求める。
+		Profiler.Lap("build elevation map data");
 
-		// 標高データ用にズームレベルを変更するのでコピーする。
-		// ◆ディープコピーしていなかったので元のズームレベルまで変わってしまっていた。
-		var ev_wp_sx = new CWorldPixelIntX(wp_sx);
-		var ev_wp_sy = new CWorldPixelIntY(wp_sy);
-		var ev_wp_ex = new CWorldPixelIntX(wp_ex);
-		var ev_wp_ey = new CWorldPixelIntY(wp_ey);
-
+		// 開始・終了座標は標高データのズームレベルの新規インスタンスにする。
 		// ◆標高データのズームレベルは取り敢えず14のみ。
-		Int32 ev_zoom_level = 14;
+		var ev_map_data = new CElevationMapData_GSI_DEM_PNG
+			(gsi_ev_tile_fld,
+			 GetTile(new CWPInt(s_wp, 14)),
+			 GetTile(new CWPInt(e_wp, 14)));
 
-		ev_wp_sx.ZoomLevel = 
-		ev_wp_sy.ZoomLevel = 
-		ev_wp_ex.ZoomLevel = 
-		ev_wp_ey.ZoomLevel = ev_zoom_level;
-		
-		var ev_s_tile = new CTile(GetTileX(ev_wp_sx), GetTileY(ev_wp_sy));
-		var ev_e_tile = new CTile(GetTileX(ev_wp_ex), GetTileY(ev_wp_ey));
+		Profiler.Lap("- elevation map data built");
 
-		Stopwatch.Lap("build elevation map data");
-
-		// 国土地理院標高タイルから標高地図データを作成する。
-		var ev_map_data = new CElevationMapData_GSI_DEM_PNG(gsi_ev_tile_fld, ev_s_tile, ev_e_tile);
-
-		Stopwatch.Lap("- elevation map data built");
-
-		// 高度クラスに標高地図データを設定する。
-		// これにより、座標オブジェクトに標高が自動設定される。
+		// 高度クラスに標高地図データを設定することにより、座標オブジェクトに標高が自動設定される。
 		CAltitude.SetElevationMapData(ev_map_data);
 
 		//--------------------------------------------------
 		// 2 ジオイドデータを作成する。
 
-		Stopwatch.Lap("build geoid map data");
+		Profiler.Lap("build geoid map data");
 
 		// ◆例外ではなくジオイドを無視するようにしろ。
-//		if(!(File.Exists(gsi_geoid_model_file))) throw new Exception("geoid model file not found");
+	//	if(!(File.Exists(gsi_geoid_model_file))) throw new Exception("geoid model file not found");
 
-		// 国土地理院ジオイドデータ
 		var geoid_map_data = new CGSIGeoidMapData(gsi_geoid_model_file);
 
-		Stopwatch.Lap("- geoid map data built");
+		Profiler.Lap("- geoid map data built");
 
-		// 高度クラスにジオイドデータを設定する。
-		// これにより、座標オブジェクトにジオイド高が自動設定される。
+		// 高度クラスにジオイドデータを設定することにより、座標オブジェクトにジオイド高が自動設定される。
 		// ◆WP版では高度クラスに直接反映しない。
 		CAltitude.SetGeoidMapData(geoid_map_data);
 
 		//--------------------------------------------------
 		// 3 地図画像データを作成する。
 
-		// 地図画像データ用にズームレベルを変更するのでコピーする。
-		// ◆ディープコピーしていなかったので元のズームレベルまで変わってしまっていた。
-		var img_wp_sx = new CWorldPixelIntX(wp_sx);
-		var img_wp_sy = new CWorldPixelIntY(wp_sy);
-		var img_wp_ex = new CWorldPixelIntX(wp_ex);
-		var img_wp_ey = new CWorldPixelIntY(wp_ey);
-
-		img_wp_sx.ZoomLevel = 
-		img_wp_sy.ZoomLevel = 
-		img_wp_ex.ZoomLevel = 
-		img_wp_ey.ZoomLevel = img_zoom_level;
-
-		var img_s_wp = new CWorldPixelInt(img_wp_sx, img_wp_sy);
-		var img_e_wp = new CWorldPixelInt(img_wp_ex, img_wp_ey);
+		// 地図画像データのズームレベルにするので新規インスタンスにする。
+		var img_s_wp = new CWPInt(s_wp, img_zoom_level);
+		var img_e_wp = new CWPInt(e_wp, img_zoom_level);
 
 		//--------------------------------------------------
 		// 3.1 地図画像を作成する。
 
-		Stopwatch.Lap("build map image");
+		Profiler.Lap("build map image");
 
 		var map_img = GSIImageTile.MakeMapImageFromGSITiles(gsi_img_tile_fld, gsi_img_tile_ext, img_s_wp, img_e_wp);
 
-		Stopwatch.Lap("- map image built");
+		Profiler.Lap("- map image built");
 
 		//--------------------------------------------------
 		// 3.2 グリッドを描画する。
-		{ 
-			// ◆南北は逆転している。WPの南北逆転を一律に変換できないか？範囲クラスにするべきか。
-			var img_s_lg = ToLongitude(img_wp_sx);
-			var img_s_lt = ToLatitude (img_wp_ey);
-			var img_e_lg = ToLongitude(img_wp_ex);
-			var img_e_lt = ToLatitude (img_wp_sy);
-
-			var img_s_tude = new CTude(img_s_lg, img_s_lt);
-			var img_e_tude = new CTude(img_e_lg, img_e_lt);
-
-			//--------------------------------------------------
-			// 3.2.1 経緯度グリッドを描画する。
-			{
-				Stopwatch.Lap("draw tude grid");
-
-				// グリッドを描画する。
-				// ◆キーはグリッド間隔(分)
-				// ◆XMLで設定すべきか。
-				var tude_grid_elements = new Dictionary<Int32, CMapGridElement>()
-					{
-						{ 5, new CMapGridElement(new Pen(Color.Black, 2.0f)				      , new Font("ＭＳ ゴシック", 24.0f, GraphicsUnit.Pixel), Brushes.Black)},
-						{ 1, new CMapGridElement(new Pen(Color.Black, 2.0f){ DashStyle = Dot }, null												, null		   )}
-					};
-
-				var tude_grid_text_elements_in_min = new HashSet<CMapGridTextElement>(new CMapGridTextComparer());
-
-				CTudeGrid.Draw(map_img, img_s_tude, img_e_tude, tude_grid_elements, tude_grid_text_elements_in_min);
-
-				var g = Graphics.FromImage(map_img);
-
-				// グリッド文字列を描画する。
-				foreach(var grid_text_element in tude_grid_text_elements_in_min)
-					g.DrawImage(grid_text_element.gridTextBitmap, (int)(grid_text_element.gridTextCoord.X), (int)(grid_text_element.gridTextCoord.Y));
-
-				g.Dispose();
-
-				Stopwatch.Lap("- tude grid drawn");
-			}
-
-			//--------------------------------------------------
-			// 3.2.2 UTMグリッドを描画する。
-			{
-				Stopwatch.Lap("draw UTM grid");
-
-				// グリッドを描画する。
-				// ◆キーはグリッド間隔(km)
-				// ◆XMLで設定すべきか。
-				var utm_grid_elements = new Dictionary<Int32, CMapGridElement>()
-				{
-					{ 1, new CMapGridElement(new Pen(Color.Blue, 2.0f), new Font("ＭＳ ゴシック", 24.0f, GraphicsUnit.Pixel), Brushes.Blue)}
-				};
-
-				var utm_grid_text_elements_in_min = new HashSet<CMapGridTextElement>(new CMapGridTextComparer());
-
-				CUTMGrid.Draw(map_img, img_s_tude, img_e_tude, utm_grid_elements, utm_grid_text_elements_in_min);
-
-				var g = Graphics.FromImage(map_img);
-
-				// グリッド文字列を描画する。
-				foreach(var grid_text_element in utm_grid_text_elements_in_min)
-					g.DrawImage(grid_text_element.gridTextBitmap, (int)(grid_text_element.gridTextCoord.X), (int)(grid_text_element.gridTextCoord.Y));
-
-				g.Dispose();
-
-				Stopwatch.Lap("- UTM grid drawn");
-			}
+		
+		// グリッドオーバレイを作成するようになっていなければ地図に描画する。
+		if(grid_ol_cfg == null)
+		{
+			DrawLgLtGrid(map_img, s_lglt, e_lglt, grid_font_size);
+			DrawUTMGrid (map_img, s_lglt, e_lglt, grid_font_size);
 		}
 
 		//--------------------------------------------------
-		// 3.3 地図画像データを作成する。
+		// 3.3 画像地図データを作成する。
 
-		Stopwatch.Lap("build image map data");
+		Profiler.Lap("build image map data");
 
 		var img_map_data = new CImageMapData_WP(map_img, img_s_wp, img_e_wp);
 
-		Stopwatch.Lap("- image map data built");
+		Profiler.Lap("- image map data built");
 
 		// ◆テスト
-		// →地図画像は作成できていると思われる。グリッドが足りないように見えるが、タイルから切り出す前だからか？そうでもない？
 		{
-/*				var map_img_test_form = new MapImageTestForm();
-
+/*			// ◆地図画像は作成できていると思われる。グリッドが足りないように見えるが、タイルから切り出す前だからか？そうでもない？
+			var map_img_test_form = new MapImageTestForm();
 			map_img_test_form.pictureBox1.Image = map_img;
-
 			map_img_test_form.Show();
 */		}
 
 		//--------------------------------------------------
 		// 4 ビューアフォームを作成する。
 
-		Stopwatch.Lap("build viewer form");
+		Profiler.Lap("build viewer form");
 
 		// ◆viewer_form.Viewerはnullであり、後で設定する。
 		var viewer_form = new GeoViewViewerForm_WP();
 
-		Stopwatch.Lap("- viewer form built");
+		Profiler.Lap("- viewer form built");
 
 		viewer_form.Text = title;
 
@@ -280,12 +209,12 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 5 ビューアパラメータを作成する。← 1,2,3,4
 
-		var viewer_params = new CViewerParameters_WP();
+		var viewer_params = new CViewerParams_WP();
 
 		{
 			viewer_params.viewer_control = viewer_form.PictureBox;
-			viewer_params.s_wp = new CWorldPixelInt(wp_sx, wp_sy);
-			viewer_params.e_wp = new CWorldPixelInt(wp_ex, wp_ey);
+			viewer_params.s_wp = s_wp;
+			viewer_params.e_wp = e_wp;
 			viewer_params.ev_map_data = ev_map_data;
 			viewer_params.geoid_map_data = geoid_map_data;
 			viewer_params.img_map_data = img_map_data;
@@ -295,12 +224,12 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 6 コントローラフォームを作成する。
 
-		Stopwatch.Lap("build controller form");
+		Profiler.Lap("build controller form");
 
 		// ◆controller_form.Viewerはnullであり、後で設定する。
-		var controller_form = new GeoViewerControllerForm_Tude(GeoViewer_Tude);
+		var controller_form = new GeoViewerControllerForm_LgLt(GeoViewer_LgLt);
 
-		Stopwatch.Lap("- controller form built");
+		Profiler.Lap("- controller form built");
 
 		controller_form.Text = title;
 
@@ -349,7 +278,7 @@ public partial class PlaneViewerMainForm : Form
 		// 8 表示設定を作成する。
 		// ◆表示設定フォームにはビューアを設定するためビューア作成後に作成する。
 
-		var scene_config = new CSceneConfig
+		var scene_cfg = new CSceneCfg
 			(0.6f, // 環境光反射係数 [0,1]
 		 	 0.5f, // 鏡面反射係数   [0,1]
 			 64,   // ハイライト     [0,128]
@@ -362,16 +291,16 @@ public partial class PlaneViewerMainForm : Form
 		// ▼ここの設定順序には依存関係があるので、整理してライブラリに収めろ。ユーザプログラミングに晒すな。
 		// →◆ユーザプログラミングでフォーム(コントロール)が作成されるので、その部分は別になるが。
 
-		Stopwatch.Lap("build viewer");
+		Profiler.Lap("build viewer");
 
-		GeoViewer_WP = new CGeoViewer_WP(viewer_params, scene_config, controller_parts, Info, Stopwatch);
+		GeoViewer_WP = new CGeoViewer_WP(viewer_params, scene_cfg, controller_parts, Info, Profiler);
 
-		Stopwatch.Lap("- viewer built");
+		Profiler.Lap("- viewer built");
 
 		//--------------------------------------------------
 		// 10 ビューアフォームとコントローラフォームにビューアを設定する。← 9
 
-		viewer_form	   .Viewer = GeoViewer_WP;
+		viewer_form	   .Viewer =
 		controller_form.Viewer = GeoViewer_WP;
 
 		//--------------------------------------------------
@@ -385,29 +314,110 @@ public partial class PlaneViewerMainForm : Form
 		// 　　　　ビューアへの表示設定は、ビューアを経由して設定フォームに設定されているが、設定フォームからの
 		// 　　　　設定に統一すべきではないか？
 
-		var config_form = new GeoViewerConfigForm(GeoViewer_WP);
+		var cfg_form = new GeoViewerCfgForm(GeoViewer_WP);
 
-		config_form.Text = title;
+		cfg_form.Text = title;
 
-		config_form.Show();
+		cfg_form.Show();
 
 		//--------------------------------------------------
 		// 12 シーンを描画する。← 9
 
-		Stopwatch.Lap("create scene");
+		Profiler.Lap("create scene");
 
 		GeoViewer_WP.CreateScene();
 
-		Stopwatch.Lap("- scene created");
+		Profiler.Lap("- scene created");
 
 		//--------------------------------------------------
 		// 13 図形を描画する。← 9
 
-		Stopwatch.Lap("draw shapes");
+		Profiler.Lap("draw shapes");
 
-		GeoViewerDrawShapes_Tude(GeoViewer_WP);
+		GeoViewerDrawShapes_LgLt(GeoViewer_WP);
 
-		Stopwatch.Lap("- shapes drawn");
+		Profiler.Lap("- shapes drawn");
+
+		//--------------------------------------------------
+		// 14 オーバレイプレーンを描画する。← 9
+
+		//--------------------------------------------------
+		// 14.1 地図を半透明にして重ねてみる。
+		if(false)
+		{
+			Profiler.Lap("draw map overlay");
+			GeoViewer_WP.AddOverlayPlane(img_map_data, 1000.0, 0.5f);
+			Profiler.Lap("- map overlay drawn");
+		}
+
+		//--------------------------------------------------
+		// 14.2 グリッドをオーバレイに描画する。
+
+		if(grid_ol_cfg != null)
+		{
+			Profiler.Lap("draw grid overlay");
+
+			// オーバレイのサイズの基準(小さい辺をこのサイズにする。)
+			var ol_size = ToInt32(grid_ol_cfg.Attributes["Size"].InnerText);
+			int ol_w = (map_img.Height > map_img.Width )? ol_size: (ol_size * map_img.Width  / map_img.Height);
+			int ol_h = (map_img.Width  > map_img.Height)? ol_size: (ol_size * map_img.Height / map_img.Width ); 
+
+			// ◆テクスチャサイズは任意だが、フォントサイズ等がテクスチャサイズに引きずられる。GraphicsUnit.Pixel以外でも。
+			var grid_map_img = new Bitmap(ol_w, ol_h);
+
+			DrawLgLtGrid(grid_map_img, s_lglt, e_lglt, grid_font_size);
+			DrawUTMGrid (grid_map_img, s_lglt, e_lglt, grid_font_size);
+
+			// 地表面プレーンからの高さ
+		 	var ol_offset = ToDouble(grid_ol_cfg.Attributes["Offset"].InnerText);
+
+			GeoViewer_WP.AddOverlayPlane
+				(new CImageMapData_WP(grid_map_img, img_s_wp, img_e_wp),
+				 ol_offset,
+				 1.0f); // 透明度
+
+			Profiler.Lap("- grid overlay drawn");
+		}
+
+		//--------------------------------------------------
+		// 14.3 部分的にオーバレイプレーンを重ねてみる。
+		if(true)
+		{
+			Profiler.Lap("draw overlay on Mt.Kayasan");
+
+			// オーバレイのサイズの基準(小さい辺をこのサイズにする。)
+			int ol_size = 1000;
+			int ol_w = (map_img.Height > map_img.Width )? ol_size: (ol_size * map_img.Width  / map_img.Height);
+			int ol_h = (map_img.Width  > map_img.Height)? ol_size: (ol_size * map_img.Height / map_img.Width ); 
+
+			// 可也山
+			var ol_s_lg = new CLg(new CDMS(130,  9, 0.0).Value); var ol_s_lt = new CLt(new CDMS( 33, 34, 0.0).Value);
+			var ol_e_lg = new CLg(new CDMS(130, 10, 0.0).Value); var ol_e_lt = new CLt(new CDMS( 33, 35, 0.0).Value);
+
+			// ◆オーバレイの範囲は南北逆転
+			var ol = GeoViewer_WP.MakeOverlay
+				(ToWPInt(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_e_lt)),
+				 ToWPInt(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_s_lt)),
+				 ol_w, ol_h);
+
+			var p_from = ol.ToPointOnOverlay(ToWP(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_s_lt)));
+			var p_to   = ol.ToPointOnOverlay(ToWP(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_e_lt)));
+
+			var g = ol.GetGraphics();
+
+			g.DrawRectangle(new Pen(Color.Red, 5.0f), 0, 0, ol_w, ol_h);
+
+			g.DrawLine(new Pen(Color.Red, 5.0f), p_from, p_to);
+
+			g.Dispose();
+		
+			GeoViewer_WP.AddOverlayPlane
+				(ol,
+				 200.0, // 地表面プレーンからの高さ
+				 0.5f); // 透明度
+
+			 Profiler.Lap("- overlay on Mt.Kayasan drawn");
+		}
 
 		//--------------------------------------------------
 
@@ -415,7 +425,7 @@ public partial class PlaneViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		DisplayLog(s_tude, e_tude);
+		DisplayLog(s_lglt, e_lglt);
 	}
 }
 //---------------------------------------------------------------------------

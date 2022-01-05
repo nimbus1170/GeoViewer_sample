@@ -34,22 +34,22 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 1 地表面画像データを作成する。
 
-		Stopwatch.Lap("build map image");
+		Profiler.Lap("build map image");
 
 		var img_map_data = 
 //			new CImageMapData_XYZ(new Bitmap("C:/DSF/SharedData/Images/地面.bmp"), s_coord, e_coord);
 			new CImageMapData_XYZ(new Bitmap("./Images/地面.bmp"), s_coord, e_coord);
 
-		Stopwatch.Lap("- map image built");
+		Profiler.Lap("- map image built");
 
 		//--------------------------------------------------
 		// 2 ビューアフォームを作成する。
 
-		Stopwatch.Lap("build viewer form");
+		Profiler.Lap("build viewer form");
 
 		var viewer_form = new XYZPlaneViewerForm();
 
-		Stopwatch.Lap("- viewer form built");
+		Profiler.Lap("- viewer form built");
 
 		viewer_form.Text = title;
 
@@ -58,7 +58,7 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 3 ビューアパラメータを作成する。← 1,2
 
-		var viewer_params = new CXYZPlaneViewerParameters();
+		var viewer_params = new CXYZPlaneViewerParams();
 
 		{ 
 			viewer_params.viewer_control = viewer_form.PictureBox;
@@ -72,11 +72,11 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 4 コントローラフォームを作成する。
 
-		Stopwatch.Lap("build controller form");
+		Profiler.Lap("build controller form");
 
 		var controller_form = new XYZPlaneViewerControllerForm(XYZPlaneViewer);
 
-		Stopwatch.Lap("- controller form built");
+		Profiler.Lap("- controller form built");
 
 		controller_form.Text = title;
 
@@ -124,7 +124,7 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 6 表示設定を作成する。
 
-		var scene_config = new CSceneConfig
+		var scene_cfg = new CSceneCfg
 			(0.8f, // 環境光反射係数 [0,1]
 			 1.0f, // 鏡面反射係数   [0,1]
 			 128,  // ハイライト     [0,128]
@@ -135,11 +135,11 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 7 ビューアを作成する。← 3,5,6,7
 
-		Stopwatch.Lap("build viewer");
+		Profiler.Lap("build viewer");
 
-		XYZPlaneViewer = new CXYZPlaneViewer(viewer_params, scene_config, controller_parts, Info, Stopwatch);
+		XYZPlaneViewer = new CXYZPlaneViewer(viewer_params, scene_cfg, controller_parts, Info, Profiler);
 
-		Stopwatch.Lap("- viewer built");
+		Profiler.Lap("- viewer built");
 
 		//--------------------------------------------------
 		// 8 ビューアフォームとコントローラフォームにビューアを設定する。← 7
@@ -150,7 +150,7 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 9 表示設定フォームを作成する。← 7
 
-		var config_form = new PlaneViewerConfigForm(XYZPlaneViewer);
+		var config_form = new PlaneViewerCfgForm(XYZPlaneViewer);
 
 		config_form.Text = title;
 
@@ -159,20 +159,20 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 10 シーンを描画する。← 7
 
-		Stopwatch.Lap("create scene");
+		Profiler.Lap("create scene");
 
 		XYZPlaneViewer.CreateScene();
 
-		Stopwatch.Lap("- scene created");
+		Profiler.Lap("- scene created");
 
 		//--------------------------------------------------
 		// 11 図形を描画する。← 7
 
-		Stopwatch.Lap("draw shapes");
+		Profiler.Lap("draw shapes");
 
 		XYZPlaneViewerDrawShapes();
 
-		Stopwatch.Lap("- shapes drawn");
+		Profiler.Lap("- shapes drawn");
 
 		//--------------------------------------------------
 

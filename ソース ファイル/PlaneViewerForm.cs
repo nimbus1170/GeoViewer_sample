@@ -26,62 +26,53 @@ public abstract partial class PlaneViewerForm : Form
 
 	private void PictureBox_Resize(object sender, EventArgs e)
 	{
-		if(Viewer == null) return;
-		Viewer.Resize(PictureBox.Width, PictureBox.Height);
+		Viewer?.Resize(PictureBox.Width, PictureBox.Height);
 	}
 
 	private void PictureBox_Paint(object sender, PaintEventArgs e)
 	{
-		if(Viewer == null) return;
-		Viewer.DrawScene();
+		Viewer?.DrawScene();
 	}
 
 	private void PictureBox_MouseDown(object sender, MouseEventArgs e)
 	{
-		if(Viewer == null) return;
-		Viewer.MouseDown(e);
+		Viewer?.MouseDown(e);
 	}
 
 	private void PictureBox_MouseMove(object sender, MouseEventArgs e)
 	{
-		if(Viewer == null) return;
-		Viewer.MouseMove(e);
-
+		Viewer?.MouseMove(e);
 		DispObjInfo();
 	}
 
 	private void PictureBox_MouseUp(object sender, MouseEventArgs e)
 	{
-		if(Viewer == null) return;
-		Viewer.MouseUp(e);
+		Viewer?.MouseUp(e);
 	}
 
 	private void PictureBox_MouseWheel(object sender, MouseEventArgs e)
 	{
-		if(Viewer == null) return;
-		Viewer.DistFB(-e.Delta * SystemInformation.MouseWheelScrollLines / 60); // ◆移動量は目分量	
+		Viewer?.DistFB(-e.Delta * SystemInformation.MouseWheelScrollLines / 60); // ◆移動量は目分量	
 	}
 
-	private void PlaneViewerForm_Tude_KeyPress(object sender, KeyPressEventArgs e)
+	private void PlaneViewerForm_LgLt_KeyPress(object sender, KeyPressEventArgs e)
 	{
-		if(Viewer == null) return;
-
 		if(e.KeyChar == 'w')
-			Viewer.MoveFB(10);
+			Viewer?.MoveFB(10);
 		else if(e.KeyChar == 's')
-			Viewer.MoveFB(-10);
+			Viewer?.MoveFB(-10);
 		else
 			return;
 	}
 
-	private void PlaneViewerForm_Tude_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+	private void PlaneViewerForm_LgLt_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
 	{
 		switch(e.KeyCode)
 		{
-			case Keys.Up   : Viewer.LookUD( 10); break;
-			case Keys.Down : Viewer.LookUD(-10); break;
-			case Keys.Right: Viewer.TurnRL(-10); break;
-			case Keys.Left : Viewer.TurnRL( 10); break;
+			case Keys.Up   : Viewer?.LookUD( 10); break;
+			case Keys.Down : Viewer?.LookUD(-10); break;
+			case Keys.Right: Viewer?.TurnRL(-10); break;
+			case Keys.Left : Viewer?.TurnRL( 10); break;
 		}
 	}
 

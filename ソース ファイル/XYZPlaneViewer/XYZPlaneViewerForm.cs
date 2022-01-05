@@ -16,8 +16,9 @@ public partial class XYZPlaneViewerForm : PlaneViewerForm
 	{
 		CCoord ct = ((CXYZPlaneViewer)Viewer).Center;
 
-		ObjInfoLabel.Text = $"X : {ct.X:0000}\n" + 
-							$"Y : {ct.Y:0000}";
+		ObjInfoLabel.Text =
+			$"X : {ct.X:0000}\n" + 
+			$"Y : {ct.Y:0000}";
 	}
 }
 //---------------------------------------------------------------------------

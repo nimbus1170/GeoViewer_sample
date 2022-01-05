@@ -22,50 +22,42 @@ public partial class PlaneViewerControllerForm : Form
 
 	private void ObjXScrollBar_Scroll(object sender, ScrollEventArgs e)
 	{
-		if (Viewer == null) return;
-		Viewer.ObjXScrollBar_Scroll();
+		Viewer?.ObjXScrollBar_Scroll();
 	}
 
 	private void ObjYScrollBar_Scroll(object sender, ScrollEventArgs e)
 	{
-		if (Viewer == null) return;
-		Viewer.ObjYScrollBar_Scroll();
+		Viewer?.ObjYScrollBar_Scroll();
 	}
 
 	private void DistanceScrollBar_Scroll(object sender, ScrollEventArgs e)
 	{
-		if (Viewer == null) return;
-		Viewer.DistanceScrollBar_Scroll();
+		Viewer?.DistanceScrollBar_Scroll();
 	}
 
 	private void AngleScrollBar_Scroll(object sender, ScrollEventArgs e)
 	{
-		if (Viewer == null) return;
-		Viewer.AngleScrollBar_Scroll();
+		Viewer?.AngleScrollBar_Scroll();
 	}
 
 	private void DirScrollBar_Scroll(object sender, ScrollEventArgs e)
 	{
-		if (Viewer == null) return;
-		Viewer.DirScrollBar_Scroll();
+		Viewer?.DirScrollBar_Scroll();
 	}
 
 	private void ObserverXScrollBar_Scroll(object sender, ScrollEventArgs e)
 	{
-		if (Viewer == null) return;
-		Viewer.ObserverXScrollBar_Scroll();
+		Viewer?.ObserverXScrollBar_Scroll();
 	}
 
 	private void ObserverYScrollBar_Scroll(object sender, ScrollEventArgs e)
 	{
-		if (Viewer == null) return;
-		Viewer.ObserverYScrollBar_Scroll();
+		Viewer?.ObserverYScrollBar_Scroll();
 	}
 
 	private void ObserverAltitudeScrollBar_Scroll(object sender, ScrollEventArgs e)
 	{
-		if (Viewer == null) return;
-		Viewer.ObserverAltitudeScrollBar_Scroll();
+		Viewer?.ObserverAltitudeScrollBar_Scroll();
 	}
 
 	private void Height0Button_Click(object sender, EventArgs e)

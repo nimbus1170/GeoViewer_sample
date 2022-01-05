@@ -6,9 +6,9 @@ using DSF_NET_Geography;
 using DSF_NET_Geometry;
 using DSF_NET_Map;
 
-using static DSF_NET_TacticalDrawing.ReadXML;
+using static DSF_NET_TacticalDrawing.XMLReader;
 
-using static DSF_NET_Geography.Convert_Tude_WorldPixel;
+using static DSF_NET_Geography.Convert_LgLt_WP;
 using static DSF_NET_Geography.GSITileDownloader;
 using static DSF_NET_Geography.XMapTile;
 
@@ -27,8 +27,8 @@ namespace PlaneViewer_sample
 public partial class PlaneViewerMainForm : Form
 {
 	private void DownloadGSITiles
-	(in CTude s_tude,
-	 in CTude e_tude,
+	(in CLgLt s_lglt,
+	 in CLgLt e_lglt,
 	 in Int32 img_zoom_level,
 	 in string save_fld)
 	{ 
@@ -36,12 +36,12 @@ public partial class PlaneViewerMainForm : Form
 		// 画像タイルを取得する。
 		{ 
 			var s_tile = new CTile
-				(GetTileX(ToWorldPixelX(img_zoom_level, s_tude.Longitude)),
-				 GetTileY(ToWorldPixelY(img_zoom_level, e_tude.Latitude ))); // ◆緯度方向を逆転させる。
+				(GetTileX(ToWPX(img_zoom_level, s_lglt.Lg)),
+				 GetTileY(ToWPY(img_zoom_level, e_lglt.Lt))); // ◆緯度方向を逆転させる。
 
 			var e_tile = new CTile
-				(GetTileX(ToWorldPixelX(img_zoom_level, e_tude.Longitude)),
-				 GetTileY(ToWorldPixelY(img_zoom_level, s_tude.Latitude )));
+				(GetTileX(ToWPX(img_zoom_level, e_lglt.Lg)),
+				 GetTileY(ToWPY(img_zoom_level, s_lglt.Lt)));
 
 //			Console.WriteLine("Image Tiles");
 //			Console.WriteLine("number of tiles to download：" + ((tile_ex - tile_sx + 1) * (tile_ey - tile_sy + 1)).ToString());
@@ -56,12 +56,12 @@ public partial class PlaneViewerMainForm : Form
 			Int32 ev_zoom_level = 14;
 
 			var s_tile = new CTile
-				(GetTileX(ToWorldPixelX(ev_zoom_level, s_tude.Longitude)),
-				 GetTileY(ToWorldPixelY(ev_zoom_level, e_tude.Latitude ))); // ◆緯度方向を逆転させる。
+				(GetTileX(ToWPX(ev_zoom_level, s_lglt.Lg)),
+				 GetTileY(ToWPY(ev_zoom_level, e_lglt.Lt))); // ◆緯度方向を逆転させる。
 
 			var e_tile = new CTile
-				(GetTileX(ToWorldPixelX(ev_zoom_level, e_tude.Longitude)),
-				 GetTileY(ToWorldPixelY(ev_zoom_level, s_tude.Latitude )));
+				(GetTileX(ToWPX(ev_zoom_level, e_lglt.Lg)),
+				 GetTileY(ToWPY(ev_zoom_level, s_lglt.Lt)));
 
 //			Console.WriteLine("DEM Tiles");
 //			Console.WriteLine("number of tiles to download : " + ((tile_ex - tile_sx + 1) * (tile_ey - tile_sy + 1)).ToString());
@@ -77,12 +77,12 @@ public partial class PlaneViewerMainForm : Form
 	 in CTile e_tile,
 	 in string save_fld)
 	{ 
-		var tile_sx = s_tile.X().Value();
-		var tile_sy = s_tile.Y().Value();
-		var tile_ex = e_tile.X().Value();
-		var tile_ey = e_tile.Y().Value();
+		var tile_sx = s_tile.X.Value;
+		var tile_sy = s_tile.Y.Value;
+		var tile_ex = e_tile.X.Value;
+		var tile_ey = e_tile.Y.Value;
 
-		var zoom_level = s_tile.ZoomLevel();
+		var zoom_level = s_tile.ZoomLevel;
 
 		// 地図画像タイルを取得する。
 		for(var tile_y = tile_sy; tile_y <= tile_ey; tile_y++)
@@ -102,12 +102,12 @@ public partial class PlaneViewerMainForm : Form
 	 in CTile e_tile,
 	 in string save_fld)
 	{ 
-		var tile_sx = s_tile.X().Value();
-		var tile_sy = s_tile.Y().Value();
-		var tile_ex = e_tile.X().Value();
-		var tile_ey = e_tile.Y().Value();
+		var tile_sx = s_tile.X.Value;
+		var tile_sy = s_tile.Y.Value;
+		var tile_ex = e_tile.X.Value;
+		var tile_ey = e_tile.Y.Value;
 
-		var zoom_level = s_tile.ZoomLevel();
+		var zoom_level = s_tile.ZoomLevel;
 
 		for(var tile_y = tile_sy; tile_y <= tile_ey; tile_y++)
 			for(var tile_x = tile_sx; tile_x <= tile_ex; tile_x++)
@@ -127,7 +127,7 @@ public partial class PlaneViewerMainForm : Form
 //				Console.WriteLine(save_path + " : Downloaded");
 				break;
 
-			case DDownloadResult.AlreadyExistInLocal:
+			case DDownloadResult.ExistInLocal:
 //				Console.WriteLine(save_path + " : Already exists in local");
 				break;
 

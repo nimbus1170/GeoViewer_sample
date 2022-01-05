@@ -37,9 +37,8 @@
 			// 
 			this.PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.PictureBox.Location = new System.Drawing.Point(0, 0);
-			this.PictureBox.Margin = new System.Windows.Forms.Padding(2);
 			this.PictureBox.Name = "PictureBox";
-			this.PictureBox.Size = new System.Drawing.Size(624, 441);
+			this.PictureBox.Size = new System.Drawing.Size(1040, 662);
 			this.PictureBox.TabIndex = 0;
 			this.PictureBox.TabStop = false;
 			this.PictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox_Paint);
@@ -52,25 +51,25 @@
 			// 
 			this.ObjInfoLabel.AutoSize = true;
 			this.ObjInfoLabel.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.ObjInfoLabel.Location = new System.Drawing.Point(12, 9);
+			this.ObjInfoLabel.Location = new System.Drawing.Point(20, 14);
+			this.ObjInfoLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			this.ObjInfoLabel.Name = "ObjInfoLabel";
-			this.ObjInfoLabel.Size = new System.Drawing.Size(77, 12);
+			this.ObjInfoLabel.Size = new System.Drawing.Size(116, 18);
 			this.ObjInfoLabel.TabIndex = 1;
 			this.ObjInfoLabel.Text = "ObjInfoLabel";
 			// 
 			// PlaneViewerForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(624, 441);
+			this.ClientSize = new System.Drawing.Size(1040, 662);
 			this.ControlBox = false;
 			this.Controls.Add(this.ObjInfoLabel);
 			this.Controls.Add(this.PictureBox);
-			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "PlaneViewerForm";
 			this.Text = "PlaneViewerForm";
-			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PlaneViewerForm_Tude_KeyPress);
-			this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PlaneViewerForm_Tude_PreviewKeyDown);
+			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PlaneViewerForm_LgLt_KeyPress);
+			this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PlaneViewerForm_LgLt_PreviewKeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -81,5 +80,5 @@
 
 		public System.Windows.Forms.PictureBox PictureBox;
         protected System.Windows.Forms.Label ObjInfoLabel;
-    }
+	}
 }
