@@ -20,8 +20,8 @@ public partial class GeoViewerForm_LgLt : PlaneViewerForm
 	{
 		var ct = ((CGeoViewer_LgLt)Viewer).Center;
 
-		var ct_lg_deg = ct.Lg.Value;
-		var ct_lt_deg = ct.Lt.Value;
+		var ct_lg_deg = ct.Lg.DecimalDeg;
+		var ct_lt_deg = ct.Lt.DecimalDeg;
 
 		var ct_lg_dms = new CDMS(ct_lg_deg);
 		var ct_lt_dms = new CDMS(ct_lt_deg);

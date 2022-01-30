@@ -113,14 +113,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ソース ファイル\GeoViewer_DownloadGSITile.cs">
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_DownloadGSITile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewerCfgForm.cs">
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewerCfgForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewerCfgForm.Designer.cs">
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewerCfgForm.Designer.cs">
       <DependentUpon>GeoViewerCfgForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_Defensiveposition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_MineField.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\PlaneViewerControllerForm.cs">
       <SubType>Form</SubType>
@@ -128,7 +137,7 @@
     <Compile Include="ソース ファイル\PlaneViewerControllerForm.Designer.cs">
       <DependentUpon>PlaneViewerControllerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewerControllerForm_LgLt.cs">
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewerControllerForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewerControllerForm.cs">
@@ -140,22 +149,22 @@
     <Compile Include="ソース ファイル\PlaneViewerForm.Designer.cs">
       <DependentUpon>PlaneViewerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewerForm_Tile.cs">
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_WP\GeoViewerForm_Tile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewerForm_LgLt.cs">
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_LgLt\GeoViewerForm_LgLt.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewerForm_WP.cs">
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_WP\GeoViewerForm_WP.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewerDrawShapes_LgLt.cs">
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_DrawShapes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewerDrawShapes.cs">
+    <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewer_DrawShapes.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\PlaneViewerMainForm.cs">
@@ -178,19 +187,19 @@
     <Compile Include="ソース ファイル\PlaneViewerCfgForm.Designer.cs">
       <DependentUpon>PlaneViewerCfgForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewer_Tile.cs">
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_WP\GeoViewer_Tile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewer_LgLt.cs">
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_LgLt\GeoViewer_LgLt.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewer_WP.cs">
+    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_WP\GeoViewer_WP.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <EmbeddedResource Include="ソース ファイル\GeoViewerCfgForm.resx">
+    <EmbeddedResource Include="ソース ファイル\GeoViewer\GeoViewerCfgForm.resx">
       <DependentUpon>GeoViewerCfgForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -248,7 +257,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\x64\Debug\Drawing_test_1.xml" />
+    <Content Include="bin\x64\Debug\MapDrawing_test_1.xml" />
     <Content Include="bin\x64\Debug\PlaneViewerCfg_1.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,5 @@
 ﻿//
-// PlaneViewerCfgFor.cs
+// PlaneViewerCfgForm.cs
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Scene;

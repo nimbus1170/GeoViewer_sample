@@ -1,5 +1,5 @@
 ﻿//
-// GeoViewerDrawShapes_LgLt.cs
+// GeoViewer_DrawShapes.cs
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
@@ -10,32 +10,36 @@ using DSF_NET_TacticalDrawing;
 using static DSF_NET_Geography.Convert_MGRS_UTM;
 using static DSF_NET_Geography.Convert_LgLt_UTM;
 using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
+using static DSF_NET_TacticalDrawing.CMineField;
+using static DSF_NET_TacticalDrawing.CDefensivePosition;
 using static DSF_NET_TacticalDrawing.StickerPrimitive;
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Xml;
 //---------------------------------------------------------------------------
 namespace PlaneViewer_sample
 {
 //---------------------------------------------------------------------------
 public partial class PlaneViewerMainForm : Form
 {
-	void GeoViewerDrawShapes_LgLt(CGeoViewer viewer)
+	void GeoViewerDrawShapes(CGeoViewer viewer)
 	{
 		//--------------------------------------------------
 		// シンボル１
 
-		var symbol_1_pos = ToLgLt(ToUTM(52, 'S', "FC", 09800, 11950, new CAltitude(10)));
+		var symbol_1_p = ToLgLt(ToUTM(52, 'S', "FC", 09800, 11950, new CAltitude(10)));
 
 		viewer.AddPrimitive
-			(new CGeoSymbol(100, 100, symbol_1_pos)
+			(new CGeoSymbol(100, 100, symbol_1_p)
 				// ◆ビットマップストリームだと正しく表示されない。
-//				.SetTex(new Bitmap("C:/DSF/SharedData/Symbols/Unit/inf/blue/plt.gif"), 8);
-//				.SetTex(new Bitmap("C:/DSF/SharedData/Symbols/Unit/inf/blue/plt.bmp"), 8);
-//				.SetTex("C:/DSF/SharedData/Symbols/Unit/inf/blue/plt.bmp", 8);
-				.SetTex("./Symbols/plt.bmp", 8));
+//				.SetTexture(new Bitmap("C:/DSF/SharedData/Symbols/Unit/inf/blue/plt.gif"), 8);
+//				.SetTexture(new Bitmap("C:/DSF/SharedData/Symbols/Unit/inf/blue/plt.bmp"), 8);
+//				.SetTexture("C:/DSF/SharedData/Symbols/Unit/inf/blue/plt.bmp", 8);
+				.SetTexture("./Symbols/plt.bmp", 8));
 
 		//--------------------------------------------------
 		// テキスト１
@@ -66,34 +70,34 @@ public partial class PlaneViewerMainForm : Form
 		}
 
 		viewer.AddPrimitive
-			(new CGeoSymbol(200.0, 32.0, symbol_1_pos, new CCoord(50.0 + 100.0, 0.0, 0.0)) // ◆サイズは目分量
-				.SetTex(text_canvas, 0));
+			(new CGeoSymbol(200.0, 32.0, symbol_1_p, new CCoord(50.0 + 100.0, 0.0, 0.0)) // ◆サイズは目分量
+				.SetTexture(text_canvas, 0));
 
 		//--------------------------------------------------
 		// シンボル２
 
-		var symbol_2_pos = ToLgLt(ToUTM(52, 'S', "FC", 20000, 20000, new CAltitude(2500)));
+		var symbol_2_p = ToLgLt(ToUTM(52, 'S', "FC", 20000, 20000, new CAltitude(2500)));
 
 		viewer.AddPrimitive
-			(new CGeoSymbol(100.0, 100.0, symbol_2_pos)
-//				.SetTex("C:/DSF/SharedData/Symbols/Person/Red/UnKnown.bmp", 0));
-				.SetTex("./Symbols/Unknown.bmp", 0));
+			(new CGeoSymbol(100.0, 100.0, symbol_2_p)
+//				.SetTexture("C:/DSF/SharedData/Symbols/Person/Red/UnKnown.bmp", 0));
+				.SetTexture("./Symbols/Unknown.bmp", 0));
 
 		//--------------------------------------------------
 		// 円
 
 		// ◆DSF_NET_Geometryに同名のクラスがある。以下同じ。
 		viewer.AddPrimitive
-			(new CGeoCircle(12, symbol_1_pos, 1000)	// 頂点数12
-				.SetLineWidth(5.0f)
+			(new CGeoCircle(12, symbol_1_p, 1000)	// 頂点数12
 				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
+				.SetLineWidth(5.0f)
 				.SetFill(false));
 
 		//--------------------------------------------------
 		// 扇形
 
 		viewer.AddPrimitive
-			(new CGeoFan(10, symbol_2_pos, 1000, new CMil(5600), new CMil(800))	// 分割数10
+			(new CGeoFan(10, symbol_2_p, 1000, new CMil(5600), new CMil(800))	// 分割数10
 				.SetColor(1.0f, 1.0f, 0.0f, 0.5f)
 				.SetFill(true));
 
@@ -101,7 +105,7 @@ public partial class PlaneViewerMainForm : Form
 		// 直線
 
 		viewer.AddPrimitive
-			(new CGeoLine(symbol_1_pos, symbol_2_pos)
+			(new CGeoLine(symbol_1_p, symbol_2_p)
 				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
 				.SetLineWidth(2.0f));
 
@@ -109,52 +113,59 @@ public partial class PlaneViewerMainForm : Form
 		// 放物線
 
 		viewer.AddPrimitive
-			(new CGeoParabola(10, symbol_1_pos, symbol_2_pos, new CMil(1200.0)) // 分割数10、射角1200ミル
+			(new CGeoParabola(10, symbol_1_p, symbol_2_p, new CMil(1200.0)) // 分割数10、射角1200ミル
 				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
 				.SetLineWidth(2.0f));
 
 		//--------------------------------------------------
+		// 連続線
+
+		viewer.AddPrimitive
+			(new CGeoPolyline()
+				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
+				.SetLineWidth(2.0f)
+				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07100, 14000, new CAltitude(50))))
+				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07200, 14100, new CAltitude(50))))
+				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07300, 14000, new CAltitude(50))))
+				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07400, 14100, new CAltitude(50)))));
+
+		//--------------------------------------------------
 		// 地表面に沿う線分
-		// ◆動作を確認出来たらDLLに括り出したいが、WPとLgLtで処理が異なる。
+		// ◆動作を確認出来たらDLLに括り出したい。
 		// ◆四角ポリゴンが鞍形のように中が盛り上がっていると線分が隠れる場合がある。三角ポリゴンなら隠れないようにできそうだが。
 		// ◆他の図形にも適用したいが、べた書きするか？
 
 		// 糸島
-	//	var sticker_line_s_pos = symbol_1_pos;
-	//	var sticker_line_e_pos = symbol_2_pos;
+	//	var sticker_line_s = symbol_1_p;
+	//	var sticker_line_e = symbol_2_p;
+		var sticker_line_s = ToLgLt(ToUTM(52, 'S', "FC", 07000, 14000, new CAltitude(50)));
+		var sticker_line_e = ToLgLt(ToUTM(52, 'S', "FC", 08500, 16000, new CAltitude(50)));
 
 		// 富士山
-		var sticker_line_s_pos = ToLgLt(ToUTM(54, 'S', "TE", 88000, 10000, new CAltitude(50)));
-		var sticker_line_e_pos = ToLgLt(ToUTM(54, 'S', "TE", 96000, 18000, new CAltitude(50)));
+	//	var sticker_line_s_pos = ToLgLt(ToUTM(54, 'S', "TE", 88000, 10000, new CAltitude(50)));
+	//	var sticker_line_e_pos = ToLgLt(ToUTM(54, 'S', "TE", 96000, 18000, new CAltitude(50)));
 
 		// ◆WPの要素であるPolygonZoomLevelが出てきている。標高データがタイルなので仕方ないか。
-		var nodes = MakeStickerLineStripNodesWP(PolygonZoomLevel, sticker_line_s_pos, sticker_line_e_pos, 20);
+		var nodes = MakeStickerLineStripNodesWP(PolygonZoomLevel, sticker_line_s, sticker_line_e, 50);
 		
-		var last_node = sticker_line_s_pos;
+		var sticker_line = new CGeoPolyline()
+			.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
+			.SetLineWidth(2.0f);
+
+		// ●内容を後で設定してもOK。参照だからか。
+		viewer.AddPrimitive(sticker_line);
 
 		foreach(var node in nodes)
 		{
-			var curr_node = node.Value; 
+			sticker_line.AddNode(node.Value);
 
+			// 確認のため●を描画する。
 			viewer.AddPrimitive
-				(new CGeoLine(last_node, curr_node)
-					.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
-					.SetLineWidth(2.0f));
-
-			last_node = curr_node;
-
-			// 確認用
-			viewer.AddPrimitive
-				(new CGeoCircle(8, curr_node, 10)
+				(new CGeoCircle(8, node.Value, 10)
 					.SetLineWidth(2.0f)
-					.SetColor(1.0f, 0.0f, 0.0f, 0.5f) // R,G,B,アルファ(透明度)
+					.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
 					.SetFill(true));
 		}
-
-		viewer.AddPrimitive
-			(new CGeoLine(last_node, sticker_line_e_pos)
-				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
-				.SetLineWidth(2.0f));
 	}
 }
 //---------------------------------------------------------------------------

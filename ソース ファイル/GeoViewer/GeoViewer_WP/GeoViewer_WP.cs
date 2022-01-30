@@ -1,17 +1,12 @@
 ﻿//
-// GeoViewer_Tile.cs
-// 地形ビューア(タイル単位)
+// GeoViewer_WP.cs
+// 地形ビューア(ワールドピクセル単位)
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
 using DSF_NET_Geometry;
 using DSF_NET_Map;
 using DSF_NET_Scene;
-
-using static DSF_NET_Geography.Convert_LgLt_WPInt;
-using static DSF_NET_Geography.Convert_LgLt_WP;
-using static DSF_NET_Geography.XMapTile;
-using static DSF_NET_TacticalDrawing.XMLReader;
 
 using System;
 using System.Collections.Generic;
@@ -21,6 +16,11 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 
+using static DSF_NET_Geography.Convert_LgLt_WP;
+using static DSF_NET_Geography.Convert_LgLt_WPInt;
+using static DSF_NET_Geography.XMapTile;
+using static DSF_NET_TacticalDrawing.XMLReader;
+
 using static System.Convert;
 using static System.Drawing.Drawing2D.DashStyle;
 //---------------------------------------------------------------------------
@@ -29,7 +29,11 @@ namespace PlaneViewer_sample
 //---------------------------------------------------------------------------
 public partial class PlaneViewerMainForm : Form
 {
-	void Run_GeoViewer_Tile()
+	// 地表面プリミティブ作成でWP単位の座標を得るため。
+	// ◆GeoViewerDrawShapes_LgLtにWPの要素が出てきている。
+	int PolygonZoomLevel;
+
+	void Run_GeoViewer_WP()
 	{
 		Profiler.Lap("run Viewer_WP");
 
@@ -37,8 +41,9 @@ public partial class PlaneViewerMainForm : Form
 		// ◆設定をハードコードする場合
 		{
 /*			var title = "糸島半島～福岡市";
-			var ct = new CLgLt(new CLongitude(130.2), new CLatitude(33.6));
-			var view_zoom_level = 10;
+			var ct = new CLgLt(new CLg(130.2), new CLt(33.6));
+			var polygon_zoom_level = 10;
+			var img_zoom_level = 15;
 */		}
 
 		//--------------------------------------------------
@@ -56,7 +61,7 @@ public partial class PlaneViewerMainForm : Form
 
 		var map_cfg_xml = plane_viewer_cfg_xml.SelectSingleNode("MapCfg");
 
-		var title = map_cfg_xml.Attributes["Title"].InnerText;
+		var title =	map_cfg_xml.Attributes["Title"].InnerText;
 
 	//	var polygon_zoom_level = ToInt32(map_cfg_xml.Attributes["PolygonZoomLevel"].InnerText);
 		PolygonZoomLevel   = ToInt32(map_cfg_xml.Attributes["PolygonZoomLevel"].InnerText);
@@ -87,60 +92,42 @@ public partial class PlaneViewerMainForm : Form
 		Text = title;
 
 		//--------------------------------------------------
+		// 0 タイルをダウンロードする。
+		// ◆GeoViewer_Tileと比較して、正しいか？
+
+		Profiler.Lap("download tiles");
+
+		// ◆ここはクランプ前で良いのか？
+		DownloadGSITiles(s_lglt_0, e_lglt_0, img_zoom_level, map_data_fld);
+
+		Profiler.Lap("- tiles downloaded");
+
+		//--------------------------------------------------
 		// 0 開始・終了座標について、経緯度座標をクランプしてWP座標を作成するとともに、WP座標にクランプされた経緯度座標を作成する。
 
-		// タイルへのクランプ前のポリゴン単位のWP座標
-		var s_wp_0 = new CWPInt(ToWPIntX(PolygonZoomLevel, s_lglt_0.Lg), ToWPIntY(PolygonZoomLevel, e_lglt_0.Lt));
-		var e_wp_0 = new CWPInt(ToWPIntX(PolygonZoomLevel, e_lglt_0.Lg), ToWPIntY(PolygonZoomLevel, s_lglt_0.Lt));
+		// ◆緯度方向を逆転させる。緯度方向の逆転を一般化するには範囲にする必要があるか。
+		var s_wp = new CWPInt(ToWPIntX(PolygonZoomLevel, s_lglt_0.Lg), ToWPIntY(PolygonZoomLevel, e_lglt_0.Lt));
+		var e_wp = new CWPInt(ToWPIntX(PolygonZoomLevel, e_lglt_0.Lg), ToWPIntY(PolygonZoomLevel, s_lglt_0.Lt));
 
-		// タイル
-		var s_tile = GetTile(s_wp_0);
-		var e_tile = GetTile(e_wp_0);
-
-		// タイルにクランプされたWP座標
-		var s_wp = new CWPInt(GetStartWPIntX(s_tile.X), GetStartWPIntY(s_tile.Y));
-		var e_wp = new CWPInt(GetEndWPIntX  (e_tile.X), GetEndWPIntY  (e_tile.Y));
-
-		// タイルにクランプされた経緯度座標
+		// ◆南北は逆転している。WPの南北逆転を一律に変換できないか？範囲クラスにするべきか。
 		var s_lglt = new CLgLt(ToLg(s_wp.X), ToLt(e_wp.Y));
 		var e_lglt = new CLgLt(ToLg(e_wp.X), ToLt(s_wp.Y));
 
 		//--------------------------------------------------
-		// 1 標高タイルをダウンロードして標高地図データを作成する。
-
-		// 表示タイルに含まれる標高タイルを求める。
-		// ズームレベルを変更するので、元のWP座標に影響を与えないよう(ディープ)コピーする。
-		var ev_s_wp = new CWPInt(s_wp);
-		var ev_e_wp = new CWPInt(e_wp);
-
-		// ◆標高データのズームレベルは取り敢えず14のみ。
-		ev_s_wp.ZoomLevel =
-		ev_e_wp.ZoomLevel = 14;
-
-		var ev_s_tile = GetTile(ev_s_wp);
-		var ev_e_tile = GetTile(ev_e_wp);
-
-		//--------------------------------------------------
-		// 1.1 標高タイルをダウンロードする。
-
-		Profiler.Lap("download elevation tiles");
-
-		DownloadGSIElevationTiles(ev_s_tile, ev_e_tile, map_data_fld);
-
-		Profiler.Lap("- elevation tiles downloaded");
-
-		//--------------------------------------------------
-		// 1.2 標高データを作成する。
+		// 1 標高地図データを作成する。
 
 		Profiler.Lap("build elevation map data");
-		
-		// 国土地理院標高タイルから標高地図データを作成する。
-		var ev_map_data = new CElevationMapData_GSI_DEM_PNG(gsi_ev_tile_fld, ev_s_tile, ev_e_tile);
+
+		// 開始・終了座標は標高データのズームレベルの新規インスタンスにする。
+		// ◆標高データのズームレベルは取り敢えず14のみ。
+		var ev_map_data = new CElevationMapData_GSI_DEM_PNG
+			(gsi_ev_tile_fld,
+			 GetTile(new CWPInt(s_wp, 14)),
+			 GetTile(new CWPInt(e_wp, 14)));
 
 		Profiler.Lap("- elevation map data built");
 
-		// 高度クラスに標高地図データを設定する。
-		// これにより、座標オブジェクトに標高が自動設定される。
+		// 高度クラスに標高地図データを設定することにより、座標オブジェクトに標高が自動設定される。
 		CAltitude.SetElevationMapData(ev_map_data);
 
 		//--------------------------------------------------
@@ -156,67 +143,51 @@ public partial class PlaneViewerMainForm : Form
 		Profiler.Lap("- geoid map data built");
 
 		// 高度クラスにジオイドデータを設定することにより、座標オブジェクトにジオイド高が自動設定される。
-		// ◆タイル版では高度クラスに直接反映しない。
+		// ◆WP版では高度クラスに直接反映しない。
 		CAltitude.SetGeoidMapData(geoid_map_data);
 
 		//--------------------------------------------------
-		// 3 地図画像タイルをダウンロードして地図画像データを作成する。
+		// 3 地図画像データを作成する。
 
-		var img_s_wp = new CWPInt(s_wp);
-		var img_e_wp = new CWPInt(e_wp);
-
-		img_s_wp.ZoomLevel =
-		img_e_wp.ZoomLevel = img_zoom_level;
-
-		var img_s_tile = GetTile(img_s_wp);
-		var img_e_tile = GetTile(img_e_wp);
+		// 地図画像データのズームレベルにするので新規インスタンスにする。
+		var img_s_wp = new CWPInt(s_wp, img_zoom_level);
+		var img_e_wp = new CWPInt(e_wp, img_zoom_level);
 
 		//--------------------------------------------------
-		// 3.1 地図画像タイルをダウンロードする。
-
-		Profiler.Lap("download map tiles");
-
-		DownloadGSIImageTiles(img_s_tile, img_e_tile, map_data_fld);
-
-		Profiler.Lap("- map tiles downloaded");
-
-		//--------------------------------------------------
-		// 3.2 地図画像を作成する。
+		// 3.1 地図画像を作成する。
 
 		Profiler.Lap("build map image");
 
-	// ◆タイルで範囲を与えるとズレる。タイルはそのタイルの始点を指してないか？標高との整合もWPの方が正しいようだ。
-		var map_img = GSIImageTile.MakeMapImageFromGSITiles(gsi_img_tile_fld, gsi_img_tile_ext, img_s_tile/*tile*/, img_e_tile/*tile*/);
+		var map_img = GSIImageTile.MakeMapImageFromGSITiles(gsi_img_tile_fld, gsi_img_tile_ext, img_s_wp, img_e_wp);
 
 		Profiler.Lap("- map image built");
 
 		//--------------------------------------------------
-		// 3.3 グリッドを描画する。
-
+		// 3.2 グリッドを描画する。
+		
 		// グリッドオーバレイを作成するようになっていなければ地図に描画する。
 		if(grid_ol_cfg == null)
-		{ 
+		{
 			DrawLgLtGrid(map_img, s_lglt, e_lglt, grid_font_size);
 			DrawUTMGrid (map_img, s_lglt, e_lglt, grid_font_size);
 		}
 
 		//--------------------------------------------------
-		// 3.4 地図画像データを作成する。
+		// 3.3 画像地図データを作成する。
 
 		Profiler.Lap("build image map data");
 
-		var img_map_data = new CImageMapData_WP(map_img, img_s_tile, img_e_tile);
+		var img_map_data = new CImageMapData_WP(map_img, img_s_wp, img_e_wp);
+
+		Profiler.Lap("- image map data built");
 
 		// ◆テスト
 		{
-/*				MapImageTestForm map_img_test_form = new MapImageTestForm();
-
+/*			// ◆地図画像は作成できていると思われる。グリッドが足りないように見えるが、タイルから切り出す前だからか？そうでもない？
+			var map_img_test_form = new MapImageTestForm();
 			map_img_test_form.pictureBox1.Image = map_img;
-
 			map_img_test_form.Show();
 */		}
-
-		Profiler.Lap("- image map data built");
 
 		//--------------------------------------------------
 		// 4 ビューアフォームを作成する。
@@ -224,7 +195,7 @@ public partial class PlaneViewerMainForm : Form
 		Profiler.Lap("build viewer form");
 
 		// ◆viewer_form.Viewerはnullであり、後で設定する。
-		var viewer_form = new GeoViewViewerForm_Tile();
+		var viewer_form = new GeoViewViewerForm_WP();
 
 		Profiler.Lap("- viewer form built");
 
@@ -238,12 +209,11 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 5 ビューアパラメータを作成する。← 1,2,3,4
 
-		var viewer_params = new CViewerParams_Tile();
-
+		var viewer_params = new CViewerParams_WP();
 		{
 			viewer_params.viewer_control = viewer_form.PictureBox;
-			viewer_params.s_tile = s_tile;
-			viewer_params.e_tile = e_tile;
+			viewer_params.s_wp = s_wp;
+			viewer_params.e_wp = e_wp;
 			viewer_params.ev_map_data = ev_map_data;
 			viewer_params.geoid_map_data = geoid_map_data;
 			viewer_params.img_map_data = img_map_data;
@@ -268,7 +238,6 @@ public partial class PlaneViewerMainForm : Form
 		// 7 コントローラパラメータを作成する。← 6
 
 		var controller_parts = new CControllerParts();
-
 		{
 			controller_parts.ObjXTextBox   = controller_form.ObjXTextBox;
 			controller_parts.ObjXScrollBar = controller_form.ObjXScrollBar;
@@ -307,7 +276,7 @@ public partial class PlaneViewerMainForm : Form
 		// 8 表示設定を作成する。
 		// ◆表示設定フォームにはビューアを設定するためビューア作成後に作成する。
 
-		CSceneCfg scene_cfg = new CSceneCfg
+		var scene_cfg = new CSceneCfg
 			(0.6f, // 環境光反射係数 [0,1]
 		 	 0.5f, // 鏡面反射係数   [0,1]
 			 64,   // ハイライト     [0,128]
@@ -323,7 +292,7 @@ public partial class PlaneViewerMainForm : Form
 		Profiler.Lap("build viewer");
 
 		GeoViewer_WP = new CGeoViewer_WP(viewer_params, scene_cfg, controller_parts, Info, Profiler);
-			
+
 		Profiler.Lap("- viewer built");
 
 		//--------------------------------------------------
@@ -361,12 +330,23 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 13 図形を描画する。← 9
 
+		//--------------------------------------------------
+		// 13.1 図形を描画する。
+
 		Profiler.Lap("draw shapes");
 
-		// ◆ここはWP版を渡す。
-		GeoViewerDrawShapes_LgLt(GeoViewer_WP);
+		GeoViewerDrawShapes(GeoViewer_WP);
 
 		Profiler.Lap("- shapes drawn");
+
+		//--------------------------------------------------
+		// 13.2 図形をXMLファイルから読み込み表示する。
+
+		var drawing_xml = new XmlDocument();
+
+		drawing_xml.Load(plane_viewer_cfg_xml.SelectSingleNode("Drawing").Attributes["File"].InnerText);
+
+		GeoViewerDrawShapesXML(GeoViewer_WP, drawing_xml);
 
 		//--------------------------------------------------
 		// 14 オーバレイプレーンを描画する。← 9
@@ -421,12 +401,8 @@ public partial class PlaneViewerMainForm : Form
 			int ol_h = (map_img.Width  > map_img.Height)? ol_size: (ol_size * map_img.Height / map_img.Width ); 
 
 			// 可也山
-		//	var ol_s_lg = new CLg(new CDMS(130,  9, 0.0).Value); var ol_s_lt = new CLt(new CDMS( 33, 34, 0.0).Value);
-		//	var ol_e_lg = new CLg(new CDMS(130, 10, 0.0).Value); var ol_e_lt = new CLt(new CDMS( 33, 35, 0.0).Value);
-
-			// 香椎沖
-			var ol_s_lg = new CLg(new CDMS(130, 24, 0.0).Value); var ol_s_lt = new CLt(new CDMS( 33, 42, 0.0).Value);
-			var ol_e_lg = new CLg(new CDMS(130, 25, 0.0).Value); var ol_e_lt = new CLt(new CDMS( 33, 43, 0.0).Value);
+			var ol_s_lg = new CLg(new CDMS(130,  9, 0.0).DecimalDeg); var ol_s_lt = new CLt(new CDMS( 33, 34, 0.0).DecimalDeg);
+			var ol_e_lg = new CLg(new CDMS(130, 10, 0.0).DecimalDeg); var ol_e_lt = new CLt(new CDMS( 33, 35, 0.0).DecimalDeg);
 
 			// ◆オーバレイの範囲は南北逆転
 			var ol = GeoViewer_WP.MakeOverlay

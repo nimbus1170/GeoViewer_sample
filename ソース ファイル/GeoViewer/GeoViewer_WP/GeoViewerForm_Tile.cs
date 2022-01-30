@@ -16,14 +16,14 @@ using System.Reflection.Emit;
 namespace PlaneViewer_sample
 {
 //---------------------------------------------------------------------------
-public partial class GeoViewViewerForm_WP : PlaneViewerForm
+public partial class GeoViewViewerForm_Tile : PlaneViewerForm
 {
 	public override void DispObjInfo()
 	{
 		var ct = ToLgLt(((CGeoViewer_WP)Viewer).Center);
 
-		var ct_lg_deg = ct.Lg.Value;
-		var ct_lt_deg = ct.Lt.Value;
+		var ct_lg_deg = ct.Lg.DecimalDeg;
+		var ct_lt_deg = ct.Lt.DecimalDeg;
 
 		var ct_lg_dms = new CDMS(ct_lg_deg);
 		var ct_lt_dms = new CDMS(ct_lt_deg);

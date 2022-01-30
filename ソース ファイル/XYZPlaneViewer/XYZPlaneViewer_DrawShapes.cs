@@ -23,8 +23,8 @@ public partial class PlaneViewerMainForm : Form
 
 		XYZPlaneViewer.AddPrimitive
 			(new CGLBlock(1000.0, block_1_pos)
-//				.SetTex("C:/DSF/SharedData/Images/blockface.bmp", 0);
-				.SetTex("./Images/blockface.bmp", 0));
+//				.SetTexture("C:/DSF/SharedData/Images/blockface.bmp", 0);
+				.SetTexture("./Images/blockface.bmp", 0));
 
 		//--------------------------------------------------
 		// ブロック２
@@ -33,8 +33,8 @@ public partial class PlaneViewerMainForm : Form
 
 		XYZPlaneViewer.AddPrimitive
 			(new CGLBlock(1000.0, block_2_pos)
-//				.SetTex("C:/DSF/SharedData/Images/blockface.bmp", 0);
-				.SetTex("./Images/blockface.bmp", 0));
+//				.SetTexture("C:/DSF/SharedData/Images/blockface.bmp", 0);
+				.SetTexture("./Images/blockface.bmp", 0));
 
 		//--------------------------------------------------
 		// 放物線

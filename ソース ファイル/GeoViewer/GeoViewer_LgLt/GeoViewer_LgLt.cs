@@ -304,7 +304,7 @@ public partial class PlaneViewerMainForm : Form
 		{
 			Profiler.Lap("draw shapes");
 
-			GeoViewerDrawShapes_LgLt(GeoViewer_LgLt);
+			GeoViewerDrawShapes(GeoViewer_LgLt);
 
 			Profiler.Lap("- shapes drawn");
 		}
@@ -365,8 +365,8 @@ public partial class PlaneViewerMainForm : Form
 			int ol_h = (map_img.Width  > map_img.Height)? ol_size: (ol_size * map_img.Height / map_img.Width ); 
 
 			// 可也山
-			var ol_s_lglt = new CLgLt(new CLg(new CDMS(130,  9, 0.0).Value), new CLt(new CDMS(33, 34, 0.0).Value));
-			var ol_e_lglt = new CLgLt(new CLg(new CDMS(130, 10, 0.0).Value), new CLt(new CDMS(33, 35, 0.0).Value));
+			var ol_s_lglt = new CLgLt(new CLg(new CDMS(130,  9, 0.0).DecimalDeg), new CLt(new CDMS(33, 34, 0.0).DecimalDeg));
+			var ol_e_lglt = new CLgLt(new CLg(new CDMS(130, 10, 0.0).DecimalDeg), new CLt(new CDMS(33, 35, 0.0).DecimalDeg));
 
 			var ol = GeoViewer_LgLt.MakeOverlay(ol_s_lglt, ol_e_lglt, ol_w, ol_h);
 
