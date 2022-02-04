@@ -19,13 +19,13 @@ namespace PlaneViewer_sample
 public partial class PlaneViewerMainForm : Form
 {
 	// 地雷原の定義をXMLノードから読み込み描画する。
-	void GeoViewerDrawMineFieldsXML(CGeoViewer viewer, in XmlNode map_drawing_group_xml_node)
+	void GeoViewer_DrawShapesXML_MineField(CGeoViewer viewer, in XmlNode map_drawing_group_xml_node)
 	{
 		var minefields = ReadMineFields(map_drawing_group_xml_node);
 
 		foreach(var minefield in minefields)
 		{
-			// ◆地雷原一つが不正で例外を出すべきか？
+			// ◆地雷原ひとつが不正で例外を出すべきか？
 			if(minefield.FrontEdgeNodes.Count < 2) throw new Exception("minefield front edge nodes must be more than 2");
 			if(minefield.BackEdgeNodes .Count < 2) throw new Exception("minefield back edge nodes must be more than 2");
 

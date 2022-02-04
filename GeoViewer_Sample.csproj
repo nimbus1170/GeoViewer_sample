@@ -7,8 +7,8 @@
     <ProjectGuid>{5A776951-F481-48C0-9528-9B6522DDB235}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PlaneViewer_sample</RootNamespace>
-    <AssemblyName>PlaneViewer_sample</AssemblyName>
+    <RootNamespace>GeoViewer_sample</RootNamespace>
+    <AssemblyName>GeoViewer_sample</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

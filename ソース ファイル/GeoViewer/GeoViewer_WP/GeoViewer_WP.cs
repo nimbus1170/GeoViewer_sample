@@ -296,10 +296,13 @@ public partial class PlaneViewerMainForm : Form
 		Profiler.Lap("- viewer built");
 
 		//--------------------------------------------------
-		// 10 ビューアフォームとコントローラフォームにビューアを設定する。← 9
+		// 10 メインフォーム、ビューアフォーム及びコントローラフォームにビューアを設定する。← 9
 
+						Viewer =
 		viewer_form	   .Viewer =
 		controller_form.Viewer = GeoViewer_WP;
+
+		//Viewer = GeoViewer_WP;
 
 		//--------------------------------------------------
 		// 11 表示設定フォームを作成する。← 9
@@ -346,7 +349,7 @@ public partial class PlaneViewerMainForm : Form
 
 		drawing_xml.Load(plane_viewer_cfg_xml.SelectSingleNode("Drawing").Attributes["File"].InnerText);
 
-		GeoViewerDrawShapesXML(GeoViewer_WP, drawing_xml);
+		GeoViewer_DrawShapesXML(GeoViewer_WP, drawing_xml);
 
 		//--------------------------------------------------
 		// 14 オーバレイプレーンを描画する。← 9
@@ -431,7 +434,7 @@ public partial class PlaneViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		Viewer = GeoViewer_WP;
+	//	Viewer = GeoViewer_WP;
 
 		//--------------------------------------------------
 
