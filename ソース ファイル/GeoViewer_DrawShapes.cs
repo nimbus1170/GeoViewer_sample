@@ -7,33 +7,30 @@ using DSF_NET_Geometry;
 using DSF_NET_Scene;
 using DSF_NET_TacticalDrawing;
 
-using static DSF_NET_Geography.Convert_MGRS_UTM;
-using static DSF_NET_Geography.Convert_LgLt_UTM;
-using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
-using static DSF_NET_TacticalDrawing.CMineField;
-using static DSF_NET_TacticalDrawing.CDefensivePosition;
-using static DSF_NET_TacticalDrawing.StickerPrimitive;
-
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using System.Xml;
+
+using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
+using static DSF_NET_Geography.Convert_LgLt_UTM;
+using static DSF_NET_Geography.Convert_MGRS_UTM;
+using static DSF_NET_TacticalDrawing.CDefensivePosition;
+using static DSF_NET_TacticalDrawing.CMineField;
+using static DSF_NET_TacticalDrawing.StickerPrimitive;
 //---------------------------------------------------------------------------
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
-public partial class PlaneViewerMainForm : Form
+public partial class GeoViewerMainForm : Form
 {
-	void GeoViewerDrawShapes(CGeoViewer viewer)
+	void GeoViewerDrawShapes()
 	{
 		//--------------------------------------------------
 		// シンボル１
 
 		var symbol_1_p = ToLgLt(ToUTM(52, 'S', "FC", 09800, 11950, new CAltitude(10)));
 
-		viewer.AddPrimitive
+		Viewer.AddPrimitive
 			(new CGeoSymbol(100, 100, symbol_1_p)
 				// ◆ビットマップストリームだと正しく表示されない。
 //				.SetTexture(new Bitmap("C:/DSF/SharedData/Symbols/Unit/inf/blue/plt.gif"), 8);
@@ -46,7 +43,7 @@ public partial class PlaneViewerMainForm : Form
 		// OpenGLバージョン
 		// ◆日本語表示はできない。
 		
-		viewer.AddPrimitive
+		Viewer.AddPrimitive
 			(new CGeoString("Kayasan", ToLgLt(ToUTM(52, 'S', "FC", 07760, 15320, new CAltitude(50))))
 				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)); // ◆色が設定できない。
 
@@ -69,7 +66,7 @@ public partial class PlaneViewerMainForm : Form
 			g.Dispose();
 		}
 
-		viewer.AddPrimitive
+		Viewer.AddPrimitive
 			(new CGeoSymbol(200.0, 32.0, symbol_1_p, new CCoord(50.0 + 100.0, 0.0, 0.0)) // ◆サイズは目分量
 				.SetTexture(text_canvas, 0));
 
@@ -78,7 +75,7 @@ public partial class PlaneViewerMainForm : Form
 
 		var symbol_2_p = ToLgLt(ToUTM(52, 'S', "FC", 20000, 20000, new CAltitude(2500)));
 
-		viewer.AddPrimitive
+		Viewer.AddPrimitive
 			(new CGeoSymbol(100.0, 100.0, symbol_2_p)
 //				.SetTexture("C:/DSF/SharedData/Symbols/Person/Red/UnKnown.bmp", 0));
 				.SetTexture("./Symbols/Unknown.bmp", 0));
@@ -87,7 +84,7 @@ public partial class PlaneViewerMainForm : Form
 		// 円
 
 		// ◆DSF_NET_Geometryに同名のクラスがある。以下同じ。
-		viewer.AddPrimitive
+		Viewer.AddPrimitive
 			(new CGeoCircle(12, symbol_1_p, 1000)	// 頂点数12
 				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
 				.SetLineWidth(5.0f)
@@ -96,7 +93,7 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 扇形
 
-		viewer.AddPrimitive
+		Viewer.AddPrimitive
 			(new CGeoFan(10, symbol_2_p, 1000, new CMil(5600), new CMil(800))	// 分割数10
 				.SetColor(1.0f, 1.0f, 0.0f, 0.5f)
 				.SetFill(true));
@@ -104,7 +101,7 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 直線
 
-		viewer.AddPrimitive
+		Viewer.AddPrimitive
 			(new CGeoLine(symbol_1_p, symbol_2_p)
 				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
 				.SetLineWidth(2.0f));
@@ -112,7 +109,7 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 放物線
 
-		viewer.AddPrimitive
+		Viewer.AddPrimitive
 			(new CGeoParabola(10, symbol_1_p, symbol_2_p, new CMil(1200.0)) // 分割数10、射角1200ミル
 				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
 				.SetLineWidth(2.0f));
@@ -120,7 +117,7 @@ public partial class PlaneViewerMainForm : Form
 		//--------------------------------------------------
 		// 連続線
 
-		viewer.AddPrimitive
+		Viewer.AddPrimitive
 			(new CGeoPolyline()
 				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
 				.SetLineWidth(2.0f)
@@ -153,14 +150,14 @@ public partial class PlaneViewerMainForm : Form
 			.SetLineWidth(2.0f);
 
 		// ●内容を後で設定してもOK。参照だからか。
-		viewer.AddPrimitive(sticker_line);
+		Viewer.AddPrimitive(sticker_line);
 
 		foreach(var node in nodes)
 		{
 			sticker_line.AddNode(node.Value);
 
 			// 確認のため●を描画する。
-			viewer.AddPrimitive
+			Viewer.AddPrimitive
 				(new CGeoCircle(8, node.Value, 10)
 					.SetLineWidth(2.0f)
 					.SetColor(1.0f, 0.0f, 0.0f, 0.5f)

@@ -13,13 +13,13 @@ using System.Xml;
 using static DSF_NET_TacticalDrawing.CDefensivePosition;
 using static DSF_NET_TacticalDrawing.StickerPrimitive;
 //---------------------------------------------------------------------------
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
-public partial class PlaneViewerMainForm : Form
+public partial class GeoViewerMainForm : Form
 {
 	// ñhå‰êwínÇÃíËã`ÇXMLÉmÅ[ÉhÇ©ÇÁì«Ç›çûÇ›ï`âÊÇ∑ÇÈÅB
-	void GeoViewer_DrawShapesXML_DefensivePosition(CGeoViewer viewer, in XmlNode map_drawing_group_xml_node)
+	void GeoViewer_DrawShapesXML_DefensivePosition(in XmlNode map_drawing_group_xml_node)
 	{
 		var defensive_positions = ReadDefensivePositions(map_drawing_group_xml_node);
 
@@ -38,7 +38,7 @@ public partial class PlaneViewerMainForm : Form
 				.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
 				.SetLineWidth(defensive_position.LineWidth);
 
-			viewer.AddPrimitive(dp_line);
+			Viewer.AddPrimitive(dp_line);
 
 			// çÇÇ≥Ç™ê›íËÇ≥ÇÍÇƒÇ¢Ç»Ç¢ÇÃÇ≈ê›íËÇ∑ÇÈÅB
 			foreach(var node in defensive_position.BorderNodes)
@@ -58,7 +58,7 @@ public partial class PlaneViewerMainForm : Form
 			unit_level_line_p1.Altitude.Set(20, DAltitudeBase.AGL);
 			unit_level_line_p2.Altitude.Set(20, DAltitudeBase.AGL);
 
-			viewer.AddPrimitive
+			Viewer.AddPrimitive
 				(new CGeoLine(unit_level_line_p1, unit_level_line_p2)
 					.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
 					.SetLineWidth(defensive_position.LineWidth));

@@ -113,65 +113,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_DownloadGSITile.cs">
+    <Compile Include="ソース ファイル\GeoViewer_DownloadGSITile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewerCfgForm.cs">
+    <Compile Include="ソース ファイル\GeoViewerCfgForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewerCfgForm.Designer.cs">
+    <Compile Include="ソース ファイル\GeoViewerCfgForm.Designer.cs">
       <DependentUpon>GeoViewerCfgForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML.cs">
+    <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_Defensiveposition.cs">
+    <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_Defensiveposition.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_MineField.cs">
+    <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_MineField.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\PlaneViewerControllerForm.cs">
+    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewerForm_Tile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\PlaneViewerControllerForm.Designer.cs">
-      <DependentUpon>PlaneViewerControllerForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewerControllerForm.cs">
+    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewerForm_LgLt.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewerControllerForm.cs">
+    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewerForm_WP.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\PlaneViewerForm.cs">
+    <Compile Include="ソース ファイル\GeoViewer_DrawShapes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\PlaneViewerForm.Designer.cs">
-      <DependentUpon>PlaneViewerForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_WP\GeoViewerForm_Tile.cs">
+    <Compile Include="ソース ファイル\GeoViewerMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_LgLt\GeoViewerForm_LgLt.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_WP\GeoViewerForm_WP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_DrawShapes.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewer_DrawShapes.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\PlaneViewerMainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\PlaneViewerMainForm.Designer.cs">
-      <DependentUpon>PlaneViewerMainForm.cs</DependentUpon>
+    <Compile Include="ソース ファイル\GeoViewerMainForm.Designer.cs">
+      <DependentUpon>GeoViewerMainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ソース ファイル\MapImageTestForm.cs">
       <SubType>Form</SubType>
@@ -179,38 +155,35 @@
     <Compile Include="ソース ファイル\MapImageTestForm.Designer.cs">
       <DependentUpon>MapImageTestForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ソース ファイル\GeoViewerControllerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ソース ファイル\GeoViewerControllerForm.Designer.cs">
+      <DependentUpon>GeoViewerControllerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ソース ファイル\GeoViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ソース ファイル\GeoViewerForm.Designer.cs">
+      <DependentUpon>GeoViewerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ソース ファイル\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ソース ファイル\PlaneViewerCfgForm.cs">
+    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewer_Tile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\PlaneViewerCfgForm.Designer.cs">
-      <DependentUpon>PlaneViewerCfgForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_WP\GeoViewer_Tile.cs">
+    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewer_LgLt.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_LgLt\GeoViewer_LgLt.cs">
+    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewer_WP.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer\GeoViewer_WP\GeoViewer_WP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\XYZPlaneViewer\XYZPlaneViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <EmbeddedResource Include="ソース ファイル\GeoViewer\GeoViewerCfgForm.resx">
+    <EmbeddedResource Include="ソース ファイル\GeoViewerCfgForm.resx">
       <DependentUpon>GeoViewerCfgForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ソース ファイル\PlaneViewerControllerForm.resx">
-      <DependentUpon>PlaneViewerControllerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ソース ファイル\PlaneViewerForm.resx">
-      <DependentUpon>PlaneViewerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ソース ファイル\PlaneViewerMainForm.resx">
-      <DependentUpon>PlaneViewerMainForm.cs</DependentUpon>
+    <EmbeddedResource Include="ソース ファイル\GeoViewerMainForm.resx">
+      <DependentUpon>GeoViewerMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ソース ファイル\MapImageTestForm.resx">
       <DependentUpon>MapImageTestForm.cs</DependentUpon>
@@ -225,9 +198,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ソース ファイル\PlaneViewerCfgForm.resx">
-      <DependentUpon>PlaneViewerCfgForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="ソース ファイル\GeoViewerControllerForm.resx">
+      <DependentUpon>GeoViewerControllerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ソース ファイル\GeoViewerForm.resx">
+      <DependentUpon>GeoViewerForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include=".gitignore" />
     <None Include="Properties\Settings.settings">
@@ -258,7 +233,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\x64\Debug\MapDrawing_test_1.xml" />
-    <Content Include="bin\x64\Debug\PlaneViewerCfg_1.xml" />
+    <Content Include="bin\x64\Debug\GeoViewerCfg_1.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

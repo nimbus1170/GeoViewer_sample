@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 	public partial class MapImageTestForm :Form
 	{

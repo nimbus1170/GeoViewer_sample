@@ -13,10 +13,10 @@ using static DSF_NET_Geography.Convert_LgLt_WP;
 using System;
 using System.Reflection.Emit;
 //---------------------------------------------------------------------------
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
-public partial class GeoViewViewerForm_Tile : PlaneViewerForm
+public partial class GeoViewViewerForm_WP : GeoViewerForm
 {
 	public override void DispObjInfo()
 	{

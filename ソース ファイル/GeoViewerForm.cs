@@ -8,14 +8,14 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 //---------------------------------------------------------------------------
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
-public abstract partial class PlaneViewerForm : Form
+public abstract partial class GeoViewerForm : Form
 {
-	public CPlaneViewer Viewer = null;
+	public CGeoViewer Viewer = null;
 
-	public PlaneViewerForm()
+	public GeoViewerForm()
 	{
 		InitializeComponent();
 

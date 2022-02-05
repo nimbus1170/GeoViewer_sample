@@ -2,18 +2,16 @@
 // GeoViewer_DrawShapesXML.cs
 //
 //---------------------------------------------------------------------------
-using DSF_NET_Scene;
-
 using System.Windows.Forms;
 using System.Xml;
 //---------------------------------------------------------------------------
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
-public partial class PlaneViewerMainForm : Form
+public partial class GeoViewerMainForm : Form
 {
 	// ◆ここにviewerを渡す必要はないと思うが、PlaneViewerXYZがあるために、PlaneViewerMainFormがGeoViewerではなくPlaneViewerを持つようになってしまっている。XYZはやはり分ける。
-	void GeoViewer_DrawShapesXML(CGeoViewer viewer, in XmlNode drawing_xml_node)
+	void GeoViewer_DrawShapesXML(in XmlNode drawing_xml_node)
 	{
 		var map_drawing_group_xml_nodes = drawing_xml_node.SelectNodes("MapDrawings/MapDrawingGroup");
 
@@ -21,10 +19,10 @@ public partial class PlaneViewerMainForm : Form
 		foreach(XmlNode map_drawing_group_xml_node in map_drawing_group_xml_nodes)
 		{
 			// 地雷原の定義をXMLノードから読み込み、描画する。
-			GeoViewer_DrawShapesXML_MineField(viewer, map_drawing_group_xml_node);
+			GeoViewer_DrawShapesXML_MineField(map_drawing_group_xml_node);
 
 			// 防御陣地をXMLノードから読み込み、図形描画レイヤに追加する。
-			GeoViewer_DrawShapesXML_DefensivePosition(viewer, map_drawing_group_xml_node);
+			GeoViewer_DrawShapesXML_DefensivePosition(map_drawing_group_xml_node);
 		}
 	}
 }

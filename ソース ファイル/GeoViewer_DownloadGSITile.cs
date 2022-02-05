@@ -21,10 +21,10 @@ using System.IO
 using System.Windows.Forms;
 using System.Xml;
 //---------------------------------------------------------------------------
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
-public partial class PlaneViewerMainForm : Form
+public partial class GeoViewerMainForm : Form
 {
 	private void DownloadGSITiles
 	(in CLgLt s_lglt,

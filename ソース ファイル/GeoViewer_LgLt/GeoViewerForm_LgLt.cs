@@ -1,5 +1,5 @@
 //
-//
+// GeoViewerForm_Tude.cs
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
@@ -8,19 +8,17 @@ using DSF_NET_Scene;
 
 using static DSF_NET_Geography.Convert_MGRS_UTM;
 using static DSF_NET_Geography.Convert_LgLt_UTM;
-using static DSF_NET_Geography.Convert_LgLt_WP;
 
 using System;
-using System.Reflection.Emit;
 //---------------------------------------------------------------------------
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
-public partial class GeoViewViewerForm_WP : PlaneViewerForm
+public partial class GeoViewerForm_LgLt : GeoViewerForm
 {
 	public override void DispObjInfo()
 	{
-		var ct = ToLgLt(((CGeoViewer_WP)Viewer).Center);
+		var ct = ((CGeoViewer_LgLt)Viewer).Center;
 
 		var ct_lg_deg = ct.Lg.DecimalDeg;
 		var ct_lt_deg = ct.Lt.DecimalDeg;

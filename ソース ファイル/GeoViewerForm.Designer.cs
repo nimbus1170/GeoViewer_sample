@@ -1,6 +1,6 @@
-﻿namespace PlaneViewer_sample
+﻿namespace GeoViewer_sample
 {
-	partial class PlaneViewerForm
+	partial class GeoViewerForm
 	{
 		/// <summary>
 		/// Required designer variable.

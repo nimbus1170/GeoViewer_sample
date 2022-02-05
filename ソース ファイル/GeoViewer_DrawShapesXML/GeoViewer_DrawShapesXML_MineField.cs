@@ -13,13 +13,13 @@ using System.Xml;
 using static DSF_NET_TacticalDrawing.CMineField;
 using static DSF_NET_TacticalDrawing.StickerPrimitive;
 //---------------------------------------------------------------------------
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
-public partial class PlaneViewerMainForm : Form
+public partial class GeoViewerMainForm : Form
 {
 	// 地雷原の定義をXMLノードから読み込み描画する。
-	void GeoViewer_DrawShapesXML_MineField(CGeoViewer viewer, in XmlNode map_drawing_group_xml_node)
+	void GeoViewer_DrawShapesXML_MineField(in XmlNode map_drawing_group_xml_node)
 	{
 		var minefields = ReadMineFields(map_drawing_group_xml_node);
 
@@ -38,7 +38,7 @@ public partial class PlaneViewerMainForm : Form
 				.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
 				.SetLineWidth(minefield.LineWidth);
 
-			viewer.AddPrimitive(mf_line);
+			Viewer.AddPrimitive(mf_line);
 
 			// Polylineにつなげるために逆順にする。
 			minefield.BackEdgeNodes.Reverse();
@@ -71,7 +71,7 @@ public partial class PlaneViewerMainForm : Form
 			{
 				type_symbol_ct.Altitude.Set(20, DAltitudeBase.AGL);
 
-				viewer.AddPrimitive
+				Viewer.AddPrimitive
 					(new CGeoCircle(12, type_symbol_ct, type_symbol_r)
 						.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
 						.SetLineWidth(1.0f)
@@ -89,7 +89,7 @@ public partial class PlaneViewerMainForm : Form
 
 				type_symbol_ct.Altitude.Set(20, DAltitudeBase.AGL);
 
-				viewer.AddPrimitive
+				Viewer.AddPrimitive
 					(new CGeoCircle(12, type_symbol_ct, type_symbol_r)
 						.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
 						.SetLineWidth(1.0f)
@@ -102,7 +102,7 @@ public partial class PlaneViewerMainForm : Form
 				ap_top1.Altitude.Set(20, DAltitudeBase.AGL);
 				ap_top2.Altitude.Set(20, DAltitudeBase.AGL);
 
-				viewer.AddPrimitive
+				Viewer.AddPrimitive
 					(new CGeoPolyline()
 						.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
 						.SetLineWidth(minefield.LineWidth)

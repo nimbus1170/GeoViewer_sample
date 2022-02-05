@@ -1,5 +1,5 @@
 ﻿//
-// GeoViewerCfgForm.cs
+// GeoViewer_CfgForm.cs
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Scene;
@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 using static System.Convert;
 //---------------------------------------------------------------------------
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
 public partial class GeoViewerCfgForm : Form

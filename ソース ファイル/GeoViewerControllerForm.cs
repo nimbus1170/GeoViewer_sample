@@ -7,14 +7,14 @@ using DSF_NET_Scene;
 using System;
 using System.Windows.Forms;
 //---------------------------------------------------------------------------
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
-public partial class PlaneViewerControllerForm : Form
+public partial class GeoViewerControllerForm : Form
 {
-	public CPlaneViewer Viewer;
+	public CGeoViewer Viewer;
 
-	public PlaneViewerControllerForm(CPlaneViewer viewer)
+	public GeoViewerControllerForm(CGeoViewer viewer)
 	{
 		InitializeComponent();
 		Viewer = viewer;

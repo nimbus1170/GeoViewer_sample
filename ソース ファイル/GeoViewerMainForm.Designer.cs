@@ -1,6 +1,6 @@
-﻿namespace PlaneViewer_sample
+﻿namespace GeoViewer_sample
 {
-	partial class PlaneViewerMainForm
+	partial class GeoViewerMainForm
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 	static class Program
 	{
@@ -17,7 +17,7 @@ namespace PlaneViewer_sample
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new PlaneViewerMainForm(args));
+			Application.Run(new GeoViewerMainForm(args));
 		}
 	}
 }

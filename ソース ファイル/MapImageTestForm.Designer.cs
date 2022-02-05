@@ -1,4 +1,4 @@
-﻿namespace PlaneViewer_sample
+﻿namespace GeoViewer_sample
 {
 	partial class MapImageTestForm
 	{

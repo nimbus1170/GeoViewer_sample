@@ -15,23 +15,19 @@ using System.Windows.Forms;
 
 using static System.Convert;
 //---------------------------------------------------------------------------
-namespace PlaneViewer_sample
+namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
-public partial class PlaneViewerMainForm : Form
+public partial class GeoViewerMainForm : Form
 {
-	CGeoViewer_WP	GeoViewer_WP;
-	CGeoViewer_LgLt	GeoViewer_LgLt; 
-	CXYZPlaneViewer XYZPlaneViewer; 
-
-	CPlaneViewer Viewer = null;
+	CGeoViewer Viewer = null;
 
 	readonly string CfgFileName;
 
 	CInfoMap  Info	   = new CInfoMap ();
 	CProfiler Profiler = new CProfiler();
 
-	public PlaneViewerMainForm(string[] args)
+	public GeoViewerMainForm(string[] args)
 	{
 		InitializeComponent();
 
@@ -49,7 +45,6 @@ public partial class PlaneViewerMainForm : Form
 			Run_GeoViewer_WP(); // ワールドピクセル単位の地形表示
 			//Run_GeoViewer_Tile(); // タイル単位の地形表示
 			//Run_GeoViewer_LgLt(); // 経緯度単位の地形表示
-			//Run_XYZPlaneViewer(); // 単純なXYZプレーン
 		}
 		catch(System.Xml.XPath.XPathException ex)
 		{
