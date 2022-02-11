@@ -10,7 +10,6 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
-	// ◆ここにviewerを渡す必要はないと思うが、PlaneViewerXYZがあるために、PlaneViewerMainFormがGeoViewerではなくPlaneViewerを持つようになってしまっている。XYZはやはり分ける。
 	void GeoViewer_DrawShapesXML(in XmlNode drawing_xml_node)
 	{
 		var map_drawing_group_xml_nodes = drawing_xml_node.SelectNodes("MapDrawings/MapDrawingGroup");
@@ -23,6 +22,9 @@ public partial class GeoViewerMainForm : Form
 
 			// 防御陣地をXMLノードから読み込み、図形描画レイヤに追加する。
 			GeoViewer_DrawShapesXML_DefensivePosition(map_drawing_group_xml_node);
+
+			// 特科陣地をXMLノードから読み込み、図形描画レイヤに追加する。
+			GeoViewer_DrawShapesXML_FiringPosition(map_drawing_group_xml_node);
 		}
 	}
 }

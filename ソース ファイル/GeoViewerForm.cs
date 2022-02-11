@@ -13,6 +13,7 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public abstract partial class GeoViewerForm : Form
 {
+	// ◆関係フォームの依存関係(作成順)のためコンストラクタで指定できないのでreadonlyやprivateにできない。
 	public CGeoViewer Viewer = null;
 
 	public GeoViewerForm()
@@ -36,7 +37,16 @@ public abstract partial class GeoViewerForm : Form
 
 	private void PictureBox_MouseDown(object sender, MouseEventArgs e)
 	{
-		Viewer?.MouseDown(e);
+		switch(e.Button)
+		{
+			case MouseButtons.Middle:
+				contextMenuStrip1.Show(Left + e.X, Top + e.Y);
+				break;
+
+			default:
+				Viewer?.MouseDown(e);
+				break;
+		}
 	}
 
 	private void PictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -74,6 +84,17 @@ public abstract partial class GeoViewerForm : Form
 			case Keys.Right: Viewer?.TurnRL(-10); break;
 			case Keys.Left : Viewer?.TurnRL( 10); break;
 		}
+	}
+
+	private void MarkerToolStripMenuItem_Click(Object sender, EventArgs e)
+	{
+		var item = (ToolStripMenuItem)sender;
+
+		item.Checked = !(item.Checked);	
+
+		Viewer?
+			.SetMarkerMode(item.Checked? true: false)
+			.DrawScene();
 	}
 
 	public abstract void DispObjInfo();

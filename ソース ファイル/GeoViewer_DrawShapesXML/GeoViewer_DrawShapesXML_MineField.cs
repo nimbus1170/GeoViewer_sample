@@ -5,13 +5,14 @@
 using DSF_NET_Geography;
 using DSF_NET_Scene;
 
+using static DSF_NET_TacticalDrawing.CMineField;
+using static DSF_NET_TacticalDrawing.StickerPrimitive;
+using static DSF_NET_TacticalDrawing.XMLReader;
+
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
-
-using static DSF_NET_TacticalDrawing.CMineField;
-using static DSF_NET_TacticalDrawing.StickerPrimitive;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -31,14 +32,15 @@ public partial class GeoViewerMainForm : Form
 
 			var color = Color.FromArgb(minefield.Color);
 
+			var r = color.R / 255f;
+			var g = color.G / 255f;
+			var b = color.B / 255f;
+			var a = color.A / 255f;
+			
+			var line_width = minefield.LineWidth;
+
 			//--------------------------------------------------
-			// 地雷原の外枠を描画する。
-
-			var mf_line = new CGeoPolyline()
-				.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
-				.SetLineWidth(minefield.LineWidth);
-
-			Viewer.AddPrimitive(mf_line);
+			// 外縁を描画する。
 
 			// Polylineにつなげるために逆順にする。
 			minefield.BackEdgeNodes.Reverse();
@@ -50,12 +52,12 @@ public partial class GeoViewerMainForm : Form
 			foreach(var node in minefield.FrontEdgeNodes)
 				node.Altitude.Set(20, DAltitudeBase.AGL);
 
-			var stripped_nodes = MakeStickerLineStripNodesWP(PolygonZoomLevel, minefield.FrontEdgeNodes, 20);
-
-			mf_line.AddNodes(stripped_nodes);
-
-			// 最後に蓋をする。
-			mf_line.AddNode(minefield.FrontEdgeNodes[0]);
+			Viewer.AddPrimitive
+				(new CGeoPolyline()
+					.SetColor(r, g, b, a)
+					.SetLineWidth(line_width)
+					.AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, minefield.FrontEdgeNodes, 20))
+					.AddNode(minefield.FrontEdgeNodes[0]));	// フタをする。◆最後の線分は地面に沿わないのでは？
 
 			//--------------------------------------------------
 			// 地雷原種別シンボルを描画する。
@@ -73,8 +75,7 @@ public partial class GeoViewerMainForm : Form
 
 				Viewer.AddPrimitive
 					(new CGeoCircle(12, type_symbol_ct, type_symbol_r)
-						.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
-						.SetLineWidth(1.0f)
+						.SetColor(r, g, b, a)
 						.SetFill(true));
 			}
 
@@ -91,8 +92,7 @@ public partial class GeoViewerMainForm : Form
 
 				Viewer.AddPrimitive
 					(new CGeoCircle(12, type_symbol_ct, type_symbol_r)
-						.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
-						.SetLineWidth(1.0f)
+						.SetColor(r, g, b, a)
 						.SetFill(true));
 
 				// APのヒゲ
@@ -104,8 +104,8 @@ public partial class GeoViewerMainForm : Form
 
 				Viewer.AddPrimitive
 					(new CGeoPolyline()
-						.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
-						.SetLineWidth(minefield.LineWidth)
+						.SetColor(r, g, b, a)
+						.SetLineWidth(line_width)
 						.AddNode(ap_top1)
 						.AddNode(type_symbol_ct)
 						.AddNode(ap_top2));

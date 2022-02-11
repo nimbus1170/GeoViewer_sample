@@ -5,13 +5,14 @@
 using DSF_NET_Geography;
 using DSF_NET_Scene;
 
+using static DSF_NET_TacticalDrawing.CDefensivePosition;
+using static DSF_NET_TacticalDrawing.StickerPrimitive;
+using static DSF_NET_TacticalDrawing.XMLReader;
+
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
-
-using static DSF_NET_TacticalDrawing.CDefensivePosition;
-using static DSF_NET_TacticalDrawing.StickerPrimitive;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -31,22 +32,25 @@ public partial class GeoViewerMainForm : Form
 
 			var color = Color.FromArgb(defensive_position.Color);
 
+			var r = color.R / 255f;
+			var g = color.G / 255f;
+			var b = color.B / 255f;
+			var a = color.A / 255f;
+
+			var line_width = defensive_position.LineWidth;
+
 			//--------------------------------------------------
 			// 外縁を描画する。
 		
-			var dp_line = new CGeoPolyline()
-				.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
-				.SetLineWidth(defensive_position.LineWidth);
-
-			Viewer.AddPrimitive(dp_line);
-
 			// 高さが設定されていないので設定する。
 			foreach(var node in defensive_position.BorderNodes)
 				node.Altitude.Set(20, DAltitudeBase.AGL);
 
-			var stripped_nodes = MakeStickerLineStripNodesWP(PolygonZoomLevel, defensive_position.BorderNodes, 20);
-
-			dp_line.AddNodes(stripped_nodes);
+			Viewer.AddPrimitive
+				(new CGeoPolyline()
+					.SetColor(r, g, b, a)
+					.SetLineWidth(line_width)
+					.AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, defensive_position.BorderNodes, 20)));
 		
 			//--------------------------------------------------
 			// 部隊規模標示を描画する。
@@ -60,8 +64,8 @@ public partial class GeoViewerMainForm : Form
 
 			Viewer.AddPrimitive
 				(new CGeoLine(unit_level_line_p1, unit_level_line_p2)
-					.SetColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f)
-					.SetLineWidth(defensive_position.LineWidth));
+					.SetColor(r, g, b, a)
+					.SetLineWidth(line_width));
 		}
 	}
 }

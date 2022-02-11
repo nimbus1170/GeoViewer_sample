@@ -14,9 +14,9 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerCfgForm : Form
 {
-	private CGeoViewer Viewer = null;
+	private readonly CGeoViewer Viewer = null;
 
-	public GeoViewerCfgForm(CGeoViewer viewer)
+	public GeoViewerCfgForm(in CGeoViewer viewer)
 	{
 		InitializeComponent();
 
@@ -118,7 +118,7 @@ public partial class GeoViewerCfgForm : Form
 			.DrawScene();
 	}
 
-	// 視程モード霧に設定する。
+	// 視程モードを霧に設定する。
 	private void FogFogRadioButton_CheckedChanged(object sender, EventArgs e)
 	{
 		Viewer?
@@ -126,7 +126,7 @@ public partial class GeoViewerCfgForm : Form
 			.DrawScene();
 	}
 
-	// 視程モード夜暗に設定する。
+	// 視程モードを夜暗に設定する。
 	private void FogDarkRadioButton_CheckedChanged(object sender, EventArgs e)
 	{
 		Viewer?
@@ -157,6 +157,6 @@ public partial class GeoViewerCfgForm : Form
 			.SetMarkerMode(MarkerCheckBox.Checked? true: false)
 			.DrawScene();
 	}
-	}
+}
 //---------------------------------------------------------------------------
 }

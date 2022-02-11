@@ -12,11 +12,13 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerControllerForm : Form
 {
+	// ◆関係フォームの依存関係(作成順)のためコンストラクタで指定できないのでreadonlyやprivateにできない。
 	public CGeoViewer Viewer;
 
-	public GeoViewerControllerForm(CGeoViewer viewer)
+	public GeoViewerControllerForm(in CGeoViewer viewer)
 	{
 		InitializeComponent();
+
 		Viewer = viewer;
 	}
 

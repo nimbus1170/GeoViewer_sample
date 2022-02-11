@@ -125,7 +125,10 @@
     <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_Defensiveposition.cs">
+    <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_DefensivePosition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_FiringPositions.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_MineField.cs">

@@ -210,6 +210,7 @@ public partial class GeoViewerMainForm : Form
 		// 5 ビューアパラメータを作成する。← 1,2,3,4
 
 		var viewer_params = new CViewerParams_WP();
+
 		{
 			viewer_params.viewer_control = viewer_form.PictureBox;
 			viewer_params.s_wp = s_wp;

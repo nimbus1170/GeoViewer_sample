@@ -20,7 +20,8 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
-	CGeoViewer Viewer = null;
+	// ◆関係フォームの依存関係(作成順)のためコンストラクタで指定できないのでreadonlyやprivateにできない。
+	public CGeoViewer Viewer = null;
 
 	readonly string CfgFileName;
 
