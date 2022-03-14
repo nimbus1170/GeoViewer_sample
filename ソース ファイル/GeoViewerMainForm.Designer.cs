@@ -28,42 +28,41 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.MessageListBox = new System.Windows.Forms.ListBox();
+			this.DialogTextBox = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
-			// MessageListBox
+			// DialogTextBox
 			// 
-			this.MessageListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MessageListBox.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.MessageListBox.FormattingEnabled = true;
-			this.MessageListBox.HorizontalScrollbar = true;
-			this.MessageListBox.ItemHeight = 12;
-			this.MessageListBox.Location = new System.Drawing.Point(0, 0);
-			this.MessageListBox.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-			this.MessageListBox.Name = "MessageListBox";
-			this.MessageListBox.Size = new System.Drawing.Size(515, 311);
-			this.MessageListBox.TabIndex = 0;
+			this.DialogTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.DialogTextBox.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.DialogTextBox.Location = new System.Drawing.Point(0, 0);
+			this.DialogTextBox.Multiline = true;
+			this.DialogTextBox.Name = "DialogTextBox";
+			this.DialogTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.DialogTextBox.Size = new System.Drawing.Size(858, 466);
+			this.DialogTextBox.TabIndex = 4;
+			this.DialogTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.InputTextBox_KeyDown);
+			this.DialogTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputTextBox_KeyPress);
+			this.DialogTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.InputTextBox_MouseDown);
+			this.DialogTextBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.InputTextBox_MouseMove);
 			// 
-			// PlaneViewerMainForm
+			// GeoViewerMainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(515, 311);
-			this.Controls.Add(this.MessageListBox);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "PlaneViewerMainForm";
+			this.ClientSize = new System.Drawing.Size(858, 466);
+			this.Controls.Add(this.DialogTextBox);
+			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.Name = "GeoViewerMainForm";
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
-
-		private System.Windows.Forms.ListBox MessageListBox;
+		private System.Windows.Forms.TextBox DialogTextBox;
 	}
 }
 

@@ -16,7 +16,7 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerForm_LgLt : GeoViewerForm
 {
-	public override void DispObjInfo()
+	public override void ShowObjInfo()
 	{
 		var ct = ((CGeoViewer_LgLt)Viewer).Center;
 

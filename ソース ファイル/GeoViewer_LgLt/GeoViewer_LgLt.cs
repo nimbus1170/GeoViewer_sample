@@ -76,7 +76,7 @@ public partial class GeoViewerMainForm : Form
 		var gsi_geoid_model_file = plane_viewer_cfg_xml.SelectSingleNode("GSIGeoidModel").Attributes["File"].InnerText;
 
 		var grid_cfg_xml = plane_viewer_cfg_xml.SelectSingleNode("Grid");
-
+	
 		var grid_font_size = ToInt32(grid_cfg_xml.Attributes["FontSize"].InnerText);
 
 		var grid_ol_cfg = grid_cfg_xml.SelectSingleNode("GridOverlay");
@@ -302,17 +302,28 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 		// 13 図形を描画する。← 9
+
+		//--------------------------------------------------
+		// 13.1 図形を描画する。
 		if(true)
 		{
 			Profiler.Lap("draw shapes");
 
-			GeoViewerDrawShapes();
+			DrawShapes();
 
 			Profiler.Lap("- shapes drawn");
 		}
 
 		//--------------------------------------------------
-		// 14 オーバレイプレーンを描画する。← 9
+		// 13.2 図形をXMLファイルから読み込み表示する。
+		// ◆StickerLineはWP単位なのでGeoViewer_LgLtでは正しく表示されない。
+
+		MapDrawingFileName = plane_viewer_cfg_xml.SelectSingleNode("Drawing").Attributes["File"].InnerText;
+
+		DrawShapesXML();
+
+		//--------------------------------------------------
+		// 14 オーバレイを描画する。← 9
 
 		//--------------------------------------------------
 		// 14.1 地図を半透明にして重ねてみる。
@@ -321,7 +332,7 @@ public partial class GeoViewerMainForm : Form
 			Profiler.Lap("draw map overlay");
 
 			// ◆下のテクスチャを隠してしまう。何かあったはず。
-			viewer.AddOverlayPlane(img_map_data, 1000.0, 0.5f);
+			viewer.AddOverlay("test_map_ol", img_map_data, 1000.0, 0.5f);
 
 			Profiler.Lap("- map overlay drawn");
 		}
@@ -344,11 +355,12 @@ public partial class GeoViewerMainForm : Form
 			DrawLgLtGrid(grid_map_img, s_lglt, e_lglt, grid_font_size);
 			DrawUTMGrid (grid_map_img, s_lglt, e_lglt, grid_font_size);
 
-			// 地表面プレーンからの高さ
+			// 地表面からの高さ
 		 	var ol_offset = ToDouble(grid_ol_cfg.Attributes["Offset"].InnerText);
 
-			viewer.AddOverlayPlane
-				(new CImageMapData_LgLt(grid_map_img, s_lglt, e_lglt),
+			viewer.AddOverlay
+				("grid",
+				 new CImageMapData_LgLt(grid_map_img, s_lglt, e_lglt),
 				 ol_offset,
 				 1.0f); // 透明度
 
@@ -356,7 +368,7 @@ public partial class GeoViewerMainForm : Form
 		}
 
 		//--------------------------------------------------
-		// 14.3 部分的にオーバレイプレーンを重ねてみる。
+		// 14.3 部分的にオーバレイを重ねてみる。
 		if(true)
 		{
 			Profiler.Lap("draw overlay on Mt.Kayasan");
@@ -384,9 +396,10 @@ public partial class GeoViewerMainForm : Form
 			
 			g.Dispose();
 
-			viewer.AddOverlayPlane
-				(ol,
-				 200.0, // 地表面プレーンからの高さ
+			viewer.AddOverlay
+				("test_ol",
+				 ol,
+				 200.0, // 地表面からの高さ
 				 1.0f); // 透明度
 
 			Profiler.Lap("- overlay on Mt.Kayasan drawn");
@@ -394,7 +407,9 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		DisplayLog(s_lglt, e_lglt);
+		ShowLog(s_lglt, e_lglt);
+
+		Viewer.DrawScene();
 	}
 
 	void DrawLgLtGrid(in Bitmap map_img, in CLgLt s_lglt, in CLgLt e_lglt, in int font_size_m)

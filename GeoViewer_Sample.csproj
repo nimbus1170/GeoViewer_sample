@@ -99,7 +99,8 @@
     <Reference Include="DSF_NET_MapGrid">
       <HintPath>..\..\..\..\lib\DSF_NET_MapGrid.dll</HintPath>
     </Reference>
-    <Reference Include="DSF_NET_Scene">
+    <Reference Include="DSF_NET_Scene, Version=1.0.8078.30661, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\DSF_NET_Scene.dll</HintPath>
     </Reference>
     <Reference Include="DSF_NET_TacticalDrawing">
@@ -132,6 +133,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_MineField.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ソース ファイル\GeoViewer_ParseCommand.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ソース ファイル\GeoViewer_ShowLog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewerForm_Tile.cs">

@@ -335,31 +335,37 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 		// 13.1 図形を描画する。
+		if(true)
+		{
+			Profiler.Lap("draw shapes");
 
-		Profiler.Lap("draw shapes");
+			DrawShapes();
 
-		GeoViewerDrawShapes();
-
-		Profiler.Lap("- shapes drawn");
+			Profiler.Lap("- shapes drawn");
+		}
 
 		//--------------------------------------------------
 		// 13.2 図形をXMLファイルから読み込み表示する。
+		if(true)
+		{
+			Profiler.Lap("draw XML shapes");
 
-		var drawing_xml = new XmlDocument();
+			MapDrawingFileName = plane_viewer_cfg_xml.SelectSingleNode("Drawing").Attributes["File"].InnerText;
 
-		drawing_xml.Load(plane_viewer_cfg_xml.SelectSingleNode("Drawing").Attributes["File"].InnerText);
+			DrawShapesXML();
 
-		GeoViewer_DrawShapesXML(drawing_xml);
+			Profiler.Lap("- XML shapes drawn");
+		}
 
 		//--------------------------------------------------
-		// 14 オーバレイプレーンを描画する。← 9
+		// 14 オーバレイを描画する。← 9
 
 		//--------------------------------------------------
 		// 14.1 地図を半透明にして重ねてみる。
 		if(false)
 		{
 			Profiler.Lap("draw map overlay");
-			viewer.AddOverlayPlane(img_map_data, 1000.0, 0.5f);
+			viewer.AddOverlay("test_map_ol", img_map_data, 1000.0, 0.5f);
 			Profiler.Lap("- map overlay drawn");
 		}
 
@@ -381,11 +387,12 @@ public partial class GeoViewerMainForm : Form
 			DrawLgLtGrid(grid_map_img, s_lglt, e_lglt, grid_font_size);
 			DrawUTMGrid (grid_map_img, s_lglt, e_lglt, grid_font_size);
 
-			// 地表面プレーンからの高さ
+			// 地表面からの高さ
 		 	var ol_offset = ToDouble(grid_ol_cfg.Attributes["Offset"].InnerText);
 
-			viewer.AddOverlayPlane
-				(new CImageMapData_WP(grid_map_img, img_s_wp, img_e_wp),
+			viewer.AddOverlay
+				("grid",
+				 new CImageMapData_WP(grid_map_img, img_s_wp, img_e_wp),
 				 ol_offset,
 				 1.0f); // 透明度
 
@@ -393,7 +400,7 @@ public partial class GeoViewerMainForm : Form
 		}
 
 		//--------------------------------------------------
-		// 14.3 部分的にオーバレイプレーンを重ねてみる。
+		// 14.3 部分的にオーバレイを重ねてみる。
 		if(true)
 		{
 			Profiler.Lap("draw overlay on Mt.Kayasan");
@@ -424,9 +431,11 @@ public partial class GeoViewerMainForm : Form
 
 			g.Dispose();
 		
-			viewer.AddOverlayPlane
-				(ol,
-				 200.0, // 地表面プレーンからの高さ
+			// ◆オフセットやアルファ値はなぜCOverlayのメンバにしないのか？
+			viewer.AddOverlay
+				("test_ol",
+				 ol,
+				 200.0, // 地表面からの高さ
 				 0.5f); // 透明度
 
 			 Profiler.Lap("- overlay on Mt.Kayasan drawn");
@@ -434,7 +443,9 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		DisplayLog(s_lglt, e_lglt);
+		Viewer.DrawScene();
+
+		ShowLog(s_lglt, e_lglt);
 	}
 }
 //---------------------------------------------------------------------------

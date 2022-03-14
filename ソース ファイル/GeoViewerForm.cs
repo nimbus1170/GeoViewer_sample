@@ -52,7 +52,7 @@ public abstract partial class GeoViewerForm : Form
 	private void PictureBox_MouseMove(object sender, MouseEventArgs e)
 	{
 		Viewer?.MouseMove(e);
-		DispObjInfo();
+		ShowObjInfo();
 	}
 
 	private void PictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -97,7 +97,7 @@ public abstract partial class GeoViewerForm : Form
 			.DrawScene();
 	}
 
-	public abstract void DispObjInfo();
+	public abstract void ShowObjInfo();
 }
 //---------------------------------------------------------------------------
 }

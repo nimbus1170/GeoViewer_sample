@@ -2,18 +2,13 @@
 // PlanViewerMainForm.cs
 //
 //---------------------------------------------------------------------------
-using DSF_NET_Geography;
 using DSF_NET_Scene;
 using DSF_NET_Profiler;
 using DSF_NET_Utility;
 
-using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
-
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
-using static System.Convert;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -25,8 +20,14 @@ public partial class GeoViewerMainForm : Form
 
 	readonly string CfgFileName;
 
+	string MapDrawingFileName = null;
+
 	CInfoMap  Info	   = new CInfoMap ();
 	CProfiler Profiler = new CProfiler();
+
+	List<string> cmd_history = new List<string>();
+
+	int curr_cmd_history_pos;
 
 	public GeoViewerMainForm(string[] args)
 	{
@@ -49,78 +50,107 @@ public partial class GeoViewerMainForm : Form
 		}
 		catch(System.Xml.XPath.XPathException ex)
 		{
-			MessageListBox.Items.Add("XPath Error > " + ex.Message);
+			DialogTextBox.AppendText("XPath Error : " + ex.Message + "\r\n");
 		}
 		catch(System.NullReferenceException ex)
 		{
-			MessageListBox.Items.Add("Error > " + ex.Message);
+			DialogTextBox.AppendText("Error : " + ex.Message + "\r\n");
 		}
 		catch(Exception ex)
 		{
-		//	MessageListBox.Items.Add("Error > " + ex.StackTrace);
-			MessageListBox.Items.Add("Error > " + ex.Message);
+		//	InputTextBox.AppendText("Error : " + ex.StackTrace + "\r\n");
+			DialogTextBox.AppendText("Error : " + ex.Message + "\r\n");
 		}
 	}
 
-	private void DisplayLog(in CLgLt s_lglt, in CLgLt e_lglt)
+	private void InputTextBox_KeyPress(Object sender, KeyPressEventArgs e)
+	{
+		// ◆プロンプト(>)の後で改行しないよう、Enterを打ち消してプロンプトに置き換える必要があるが、これができるのはなぜかKeyPressイベントだけ。
+
+		var tb = sender as TextBox;
+			
+		switch(e.KeyChar)
+		{
+			case '\r': // Enter
+
+				tb.AppendText("\r\n");
+
+				var cmd_line = tb.Lines[tb.Lines.Length - 2].Substring(1);
+
+				if(cmd_line != "")
+				{
+					if((cmd_history.Count == 0) || (cmd_history[cmd_history.Count - 1] != cmd_line))
+						cmd_history.Add(cmd_line);
+
+					curr_cmd_history_pos = cmd_history.Count - 1;
+						
+					var ret = ParseCommand(cmd_line);
+
+					// ◆複数行の文字列が返ることもあるので改行も含めておく。
+					if(ret != "") tb.AppendText(ret);
+				}
+
+				// ◆プロンプト(>)の後で改行しないようEnterを打ち消してプロンプトに置き換える。
+				e.KeyChar = '>';
+
+				break;
+
+			case '\b': // Backspace
+
+				// ◆プロンプト(>)を残すようにする。
+				// 　何もしないので空白('')を設定したいが、設定できないので'\0'を設定する。
+				if(tb.Lines[tb.Lines.Length - 1].Length == 1) e.KeyChar = '\0';
+
+				break;
+		}
+	}
+
+	private void InputTextBox_KeyDown(Object sender, KeyEventArgs e)
 	{
 		//--------------------------------------------------
-		// プレーンサイズを計算する。
 
-		var lglt_00 = s_lglt;
-		var lglt_10 = new CLgLt(e_lglt.Lg, s_lglt.Lt);
-		var lglt_01 = new CLgLt(s_lglt.Lg, e_lglt.Lt);
-
-		var coord_00 = ToGeoCentricCoord(lglt_00);
-		var coord_10 = ToGeoCentricCoord(lglt_10);
-		var coord_01 = ToGeoCentricCoord(lglt_01);
-
-		var dx_00_10 = coord_10.X - coord_00.X;
-		var dy_00_10 = coord_10.Y - coord_00.Y;
-		var dz_00_10 = coord_10.Z - coord_00.Z;
-
-		var plane_size_EW = (int)(Math.Sqrt(dx_00_10 * dx_00_10 + dy_00_10 * dy_00_10 + dz_00_10 * dz_00_10));
-
-		var dx_00_01 = coord_01.X - coord_00.X;
-		var dy_00_01 = coord_01.Y - coord_00.Y;
-		var dz_00_01 = coord_01.Z - coord_00.Z;
-
-		var plane_size_NS = (int)(Math.Sqrt(dx_00_01 * dx_00_01 + dy_00_01 * dy_00_01 + dz_00_01 * dz_00_01));
+		if(e.KeyCode == Keys.Escape) Application.Exit();		
 
 		//--------------------------------------------------
-
-		var info_dictionary = Info.ToDictionary();
-
-		var vert_nx = info_dictionary["VertexNX"];
-		var vert_ny = info_dictionary["VertexNY"];
-
-		MessageListBox.Items.Add($"          頂点数 : {vert_nx} x {vert_ny}");
-		MessageListBox.Items.Add($"      ポリゴン数 : {(vert_nx - 1) * (vert_ny - 1) * 2}");
-		MessageListBox.Items.Add($"テクスチャサイズ : {info_dictionary["TexW"]}pix x {info_dictionary["TexH"]}pix");
-		MessageListBox.Items.Add($"  テクスチャ枚数 : {info_dictionary["TexN"]}");
-		MessageListBox.Items.Add($"  表示地域サイズ : {plane_size_EW}m x {plane_size_NS}m");
-		MessageListBox.Items.Add($"  ポリゴンサイズ : {plane_size_EW / (vert_nx - 1)}m x {plane_size_NS / (vert_ny - 1)}m");
-		MessageListBox.Items.Add($"");
+		// 矢印キーでカーソルがテキストの末尾以外のところに行かないように止める。
+		// ◆KeyPressイベントは矢印キー等では発生しない。
+		if((e.KeyCode == Keys.Up) || (e.KeyCode == Keys.Left)) e.SuppressKeyPress = true;
 
 		//--------------------------------------------------
+		// コマンド履歴を入力する。
 
-		// ◆このメソッドに入る前にStopするべきでは？
-		Profiler.Stop();
+		if(cmd_history.Count == 0) return;
 
-		MessageListBox.Items.Add("elapsed time   memory delta");
+		if((e.KeyCode != Keys.Up) && (e.KeyCode != Keys.Down)) return;
 
-		var total_time = Profiler.TotalTime;
+		var tb = sender as TextBox;
 
-		foreach(var profile in Profiler.Profiles)
-		{
-			var laptime = profile.Value.LapTime;
+		tb.Text = tb.Text.Remove(tb.Text.LastIndexOf('>'));
 
-			var laptime_percentage = ToDouble(laptime) / total_time * 100;
+		tb.AppendText(">" + cmd_history[curr_cmd_history_pos]);
 
-			MessageListBox.Items.Add($"{laptime, 5}ms ({laptime_percentage, 4:0.0}%) {profile.Value.MemDelta.PhysMem / 1000.0, 9:#,###,###}KB : {profile.Key}");
-		}
+		switch(e.KeyCode)
+		{ 
+			case Keys.Up:
+				if(curr_cmd_history_pos > 0) curr_cmd_history_pos--;
+				break;
 
-		MessageListBox.Items.Add($"total {total_time}ms   {Profiler.TotalMem.PhysMem / 1000.0, 9:#,###,###}KB");
+			case Keys.Down:
+				if(curr_cmd_history_pos < (cmd_history.Count - 1)) curr_cmd_history_pos++;
+				break;
+		} 
+	}
+
+	private void InputTextBox_MouseDown(Object sender, MouseEventArgs e)
+	{
+		// マウスクリックでカーソルがテキストの末尾以外のところに行かないようにする。
+		((TextBox)sender).AppendText("\0");
+	}
+
+	private void InputTextBox_MouseMove(Object sender, MouseEventArgs e)
+	{
+		// マウスによる範囲選択でカーソルがテキストの末尾以外のところに行かないようにする。範囲選択も解除される。
+		if(e.Button == MouseButtons.Left) ((TextBox)sender).AppendText("\0");
 	}
 }
 //---------------------------------------------------------------------------

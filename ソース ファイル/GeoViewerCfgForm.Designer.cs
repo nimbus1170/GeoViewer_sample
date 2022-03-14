@@ -37,6 +37,7 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.ElevationMagnifyTrackBar = new System.Windows.Forms.TrackBar();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.WireRadioButton = new System.Windows.Forms.RadioButton();
 			this.MappingRadioButton = new System.Windows.Forms.RadioButton();
 			this.SmoothRadioButton = new System.Windows.Forms.RadioButton();
 			this.FlatRadioButton = new System.Windows.Forms.RadioButton();
@@ -53,7 +54,6 @@
 			this.label8 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
-			this.WireRadioButton = new System.Windows.Forms.RadioButton();
 			((System.ComponentModel.ISupportInitialize)(this.ShininessTrackBar)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.AmbientTrackBar)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.SpecularTrackBar)).BeginInit();
@@ -156,6 +156,17 @@
 			this.groupBox1.TabIndex = 8;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "ｼｪｰﾃﾞｨﾝｸﾞﾓｰﾄﾞ";
+			// 
+			// WireRadioButton
+			// 
+			this.WireRadioButton.AutoSize = true;
+			this.WireRadioButton.Location = new System.Drawing.Point(17, 27);
+			this.WireRadioButton.Name = "WireRadioButton";
+			this.WireRadioButton.Size = new System.Drawing.Size(75, 22);
+			this.WireRadioButton.TabIndex = 3;
+			this.WireRadioButton.Text = "ワイヤ";
+			this.WireRadioButton.UseVisualStyleBackColor = true;
+			this.WireRadioButton.CheckedChanged += new System.EventHandler(this.WireRadioButton_CheckedChanged);
 			// 
 			// MappingRadioButton
 			// 
@@ -351,17 +362,6 @@
 			this.label6.Size = new System.Drawing.Size(17, 18);
 			this.label6.TabIndex = 19;
 			this.label6.Text = "0";
-			// 
-			// WireRadioButton
-			// 
-			this.WireRadioButton.AutoSize = true;
-			this.WireRadioButton.Location = new System.Drawing.Point(17, 27);
-			this.WireRadioButton.Name = "WireRadioButton";
-			this.WireRadioButton.Size = new System.Drawing.Size(75, 22);
-			this.WireRadioButton.TabIndex = 3;
-			this.WireRadioButton.Text = "ワイヤ";
-			this.WireRadioButton.UseVisualStyleBackColor = true;
-			this.WireRadioButton.CheckedChanged += new System.EventHandler(this.WireRadioButton_CheckedChanged);
 			// 
 			// GeoViewerCfgForm
 			// 
