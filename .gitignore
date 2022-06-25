@@ -35,7 +35,7 @@ bld/
 
 # Don't ignore debug binary except gsi data
 bin/Debug/net6.0-windows/gsi/dem_png
-bin/Debug/net6.0-windows/gsi/gsigeo2011_ver2_1_asc/program/gsigeo_ver2_1.*
+bin/Debug/net6.0-windows/gsi/gsigeo2011_ver2_1_asc/program/gsigeo2011_ver2_1.*
 bin/Debug/net6.0-windows/gsi/seamlessphoto
 bin/Debug/net6.0-windows/gsi/std
 
