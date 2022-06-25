@@ -41,8 +41,9 @@
 			// 
 			this.PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.PictureBox.Location = new System.Drawing.Point(0, 0);
+			this.PictureBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.PictureBox.Name = "PictureBox";
-			this.PictureBox.Size = new System.Drawing.Size(1040, 662);
+			this.PictureBox.Size = new System.Drawing.Size(1002, 712);
 			this.PictureBox.TabIndex = 0;
 			this.PictureBox.TabStop = false;
 			this.PictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox_Paint);
@@ -54,8 +55,8 @@
 			// ObjInfoLabel
 			// 
 			this.ObjInfoLabel.AutoSize = true;
-			this.ObjInfoLabel.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.ObjInfoLabel.Location = new System.Drawing.Point(20, 14);
+			this.ObjInfoLabel.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.ObjInfoLabel.Location = new System.Drawing.Point(20, 19);
 			this.ObjInfoLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			this.ObjInfoLabel.Name = "ObjInfoLabel";
 			this.ObjInfoLabel.Size = new System.Drawing.Size(116, 18);
@@ -79,12 +80,13 @@
 			// 
 			// GeoViewerForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1040, 662);
+			this.ClientSize = new System.Drawing.Size(1002, 712);
 			this.ControlBox = false;
 			this.Controls.Add(this.ObjInfoLabel);
 			this.Controls.Add(this.PictureBox);
+			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.Name = "GeoViewerForm";
 			this.Text = "PlaneViewerForm";
 			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PlaneViewerForm_LgLt_KeyPress);

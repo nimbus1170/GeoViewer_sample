@@ -16,6 +16,7 @@ namespace GeoViewer_sample
  			if(args.Length < 1) throw new Exception("arguments number not enough.");
 
 			Application.EnableVisualStyles();
+			Application.SetHighDpiMode(HighDpiMode.SystemAware);
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new GeoViewerMainForm(args));
 		}

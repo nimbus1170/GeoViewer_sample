@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "GeoViewer_Sample": {
+      "commandName": "Project",
+      "commandLineArgs": "GeoViewerCfg_1.xml\r\n",
+      "nativeDebugging": true
+    }
+  }
+}

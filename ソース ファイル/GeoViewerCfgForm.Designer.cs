@@ -66,7 +66,8 @@
 			// ShininessTrackBar
 			// 
 			this.ShininessTrackBar.LargeChange = 10;
-			this.ShininessTrackBar.Location = new System.Drawing.Point(102, 15);
+			this.ShininessTrackBar.Location = new System.Drawing.Point(102, 21);
+			this.ShininessTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.ShininessTrackBar.Maximum = 128;
 			this.ShininessTrackBar.Name = "ShininessTrackBar";
 			this.ShininessTrackBar.Size = new System.Drawing.Size(353, 69);
@@ -78,24 +79,25 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(30, 21);
+			this.label1.Location = new System.Drawing.Point(30, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(74, 18);
+			this.label1.Size = new System.Drawing.Size(76, 25);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "ハイライト";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(43, 96);
+			this.label2.Location = new System.Drawing.Point(40, 100);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(62, 18);
+			this.label2.Size = new System.Drawing.Size(66, 25);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "環境光";
 			// 
 			// AmbientTrackBar
 			// 
-			this.AmbientTrackBar.Location = new System.Drawing.Point(102, 88);
+			this.AmbientTrackBar.Location = new System.Drawing.Point(102, 98);
+			this.AmbientTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.AmbientTrackBar.Maximum = 100;
 			this.AmbientTrackBar.Name = "AmbientTrackBar";
 			this.AmbientTrackBar.Size = new System.Drawing.Size(353, 69);
@@ -107,16 +109,17 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(43, 170);
+			this.label3.Location = new System.Drawing.Point(43, 177);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(62, 18);
+			this.label3.Size = new System.Drawing.Size(66, 25);
 			this.label3.TabIndex = 5;
 			this.label3.Text = "鏡面光";
 			// 
 			// SpecularTrackBar
 			// 
 			this.SpecularTrackBar.LargeChange = 10;
-			this.SpecularTrackBar.Location = new System.Drawing.Point(102, 164);
+			this.SpecularTrackBar.Location = new System.Drawing.Point(102, 175);
+			this.SpecularTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.SpecularTrackBar.Maximum = 100;
 			this.SpecularTrackBar.Name = "SpecularTrackBar";
 			this.SpecularTrackBar.Size = new System.Drawing.Size(353, 69);
@@ -128,15 +131,16 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(25, 243);
+			this.label4.Location = new System.Drawing.Point(25, 255);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(80, 18);
+			this.label4.Size = new System.Drawing.Size(84, 25);
 			this.label4.TabIndex = 7;
 			this.label4.Text = "標高倍率";
 			// 
 			// ElevationMagnifyTrackBar
 			// 
-			this.ElevationMagnifyTrackBar.Location = new System.Drawing.Point(102, 237);
+			this.ElevationMagnifyTrackBar.Location = new System.Drawing.Point(102, 252);
+			this.ElevationMagnifyTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.ElevationMagnifyTrackBar.Maximum = 5;
 			this.ElevationMagnifyTrackBar.Name = "ElevationMagnifyTrackBar";
 			this.ElevationMagnifyTrackBar.Size = new System.Drawing.Size(353, 69);
@@ -150,9 +154,11 @@
 			this.groupBox1.Controls.Add(this.MappingRadioButton);
 			this.groupBox1.Controls.Add(this.SmoothRadioButton);
 			this.groupBox1.Controls.Add(this.FlatRadioButton);
-			this.groupBox1.Location = new System.Drawing.Point(462, 15);
+			this.groupBox1.Location = new System.Drawing.Point(462, 21);
+			this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(165, 157);
+			this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.groupBox1.Size = new System.Drawing.Size(165, 218);
 			this.groupBox1.TabIndex = 8;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "ｼｪｰﾃﾞｨﾝｸﾞﾓｰﾄﾞ";
@@ -160,9 +166,10 @@
 			// WireRadioButton
 			// 
 			this.WireRadioButton.AutoSize = true;
-			this.WireRadioButton.Location = new System.Drawing.Point(17, 27);
+			this.WireRadioButton.Location = new System.Drawing.Point(17, 38);
+			this.WireRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.WireRadioButton.Name = "WireRadioButton";
-			this.WireRadioButton.Size = new System.Drawing.Size(75, 22);
+			this.WireRadioButton.Size = new System.Drawing.Size(77, 29);
 			this.WireRadioButton.TabIndex = 3;
 			this.WireRadioButton.Text = "ワイヤ";
 			this.WireRadioButton.UseVisualStyleBackColor = true;
@@ -172,9 +179,10 @@
 			// 
 			this.MappingRadioButton.AutoSize = true;
 			this.MappingRadioButton.Checked = true;
-			this.MappingRadioButton.Location = new System.Drawing.Point(17, 117);
+			this.MappingRadioButton.Location = new System.Drawing.Point(17, 162);
+			this.MappingRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.MappingRadioButton.Name = "MappingRadioButton";
-			this.MappingRadioButton.Size = new System.Drawing.Size(97, 22);
+			this.MappingRadioButton.Size = new System.Drawing.Size(103, 29);
 			this.MappingRadioButton.TabIndex = 2;
 			this.MappingRadioButton.TabStop = true;
 			this.MappingRadioButton.Text = "マッピング";
@@ -184,9 +192,10 @@
 			// SmoothRadioButton
 			// 
 			this.SmoothRadioButton.AutoSize = true;
-			this.SmoothRadioButton.Location = new System.Drawing.Point(17, 87);
+			this.SmoothRadioButton.Location = new System.Drawing.Point(17, 121);
+			this.SmoothRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.SmoothRadioButton.Name = "SmoothRadioButton";
-			this.SmoothRadioButton.Size = new System.Drawing.Size(92, 22);
+			this.SmoothRadioButton.Size = new System.Drawing.Size(91, 29);
 			this.SmoothRadioButton.TabIndex = 1;
 			this.SmoothRadioButton.Text = "スムーズ";
 			this.SmoothRadioButton.UseVisualStyleBackColor = true;
@@ -195,9 +204,10 @@
 			// FlatRadioButton
 			// 
 			this.FlatRadioButton.AutoSize = true;
-			this.FlatRadioButton.Location = new System.Drawing.Point(17, 57);
+			this.FlatRadioButton.Location = new System.Drawing.Point(17, 79);
+			this.FlatRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.FlatRadioButton.Name = "FlatRadioButton";
-			this.FlatRadioButton.Size = new System.Drawing.Size(80, 22);
+			this.FlatRadioButton.Size = new System.Drawing.Size(85, 29);
 			this.FlatRadioButton.TabIndex = 0;
 			this.FlatRadioButton.Text = "フラット";
 			this.FlatRadioButton.UseVisualStyleBackColor = true;
@@ -209,9 +219,11 @@
 			this.groupBox2.Controls.Add(this.FogDarkRadioButton);
 			this.groupBox2.Controls.Add(this.FogFogRadioButton);
 			this.groupBox2.Controls.Add(this.FogNoRadioButton);
-			this.groupBox2.Location = new System.Drawing.Point(640, 15);
+			this.groupBox2.Location = new System.Drawing.Point(640, 21);
+			this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(140, 182);
+			this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.groupBox2.Size = new System.Drawing.Size(140, 253);
 			this.groupBox2.TabIndex = 9;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "視程";
@@ -223,14 +235,15 @@
             0,
             0,
             0});
-			this.VisibilityNumericUpDown.Location = new System.Drawing.Point(18, 132);
+			this.VisibilityNumericUpDown.Location = new System.Drawing.Point(18, 183);
+			this.VisibilityNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.VisibilityNumericUpDown.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
 			this.VisibilityNumericUpDown.Name = "VisibilityNumericUpDown";
-			this.VisibilityNumericUpDown.Size = new System.Drawing.Size(100, 25);
+			this.VisibilityNumericUpDown.Size = new System.Drawing.Size(100, 31);
 			this.VisibilityNumericUpDown.TabIndex = 3;
 			this.VisibilityNumericUpDown.ThousandsSeparator = true;
 			this.VisibilityNumericUpDown.Value = new decimal(new int[] {
@@ -244,9 +257,10 @@
 			// 
 			this.FogDarkRadioButton.AutoSize = true;
 			this.FogDarkRadioButton.Checked = true;
-			this.FogDarkRadioButton.Location = new System.Drawing.Point(17, 87);
+			this.FogDarkRadioButton.Location = new System.Drawing.Point(17, 121);
+			this.FogDarkRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.FogDarkRadioButton.Name = "FogDarkRadioButton";
-			this.FogDarkRadioButton.Size = new System.Drawing.Size(69, 22);
+			this.FogDarkRadioButton.Size = new System.Drawing.Size(73, 29);
 			this.FogDarkRadioButton.TabIndex = 2;
 			this.FogDarkRadioButton.TabStop = true;
 			this.FogDarkRadioButton.Text = "夜暗";
@@ -256,9 +270,10 @@
 			// FogFogRadioButton
 			// 
 			this.FogFogRadioButton.AutoSize = true;
-			this.FogFogRadioButton.Location = new System.Drawing.Point(17, 57);
+			this.FogFogRadioButton.Location = new System.Drawing.Point(17, 79);
+			this.FogFogRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.FogFogRadioButton.Name = "FogFogRadioButton";
-			this.FogFogRadioButton.Size = new System.Drawing.Size(51, 22);
+			this.FogFogRadioButton.Size = new System.Drawing.Size(55, 29);
 			this.FogFogRadioButton.TabIndex = 1;
 			this.FogFogRadioButton.Text = "霧";
 			this.FogFogRadioButton.UseVisualStyleBackColor = true;
@@ -267,9 +282,10 @@
 			// FogNoRadioButton
 			// 
 			this.FogNoRadioButton.AutoSize = true;
-			this.FogNoRadioButton.Location = new System.Drawing.Point(17, 27);
+			this.FogNoRadioButton.Location = new System.Drawing.Point(17, 38);
+			this.FogNoRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.FogNoRadioButton.Name = "FogNoRadioButton";
-			this.FogNoRadioButton.Size = new System.Drawing.Size(87, 22);
+			this.FogNoRadioButton.Size = new System.Drawing.Size(91, 29);
 			this.FogNoRadioButton.TabIndex = 0;
 			this.FogNoRadioButton.Text = "無限遠";
 			this.FogNoRadioButton.UseVisualStyleBackColor = true;
@@ -278,9 +294,10 @@
 			// LocalViewCheckBox
 			// 
 			this.LocalViewCheckBox.AutoSize = true;
-			this.LocalViewCheckBox.Location = new System.Drawing.Point(461, 183);
+			this.LocalViewCheckBox.Location = new System.Drawing.Point(461, 254);
+			this.LocalViewCheckBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.LocalViewCheckBox.Name = "LocalViewCheckBox";
-			this.LocalViewCheckBox.Size = new System.Drawing.Size(160, 22);
+			this.LocalViewCheckBox.Size = new System.Drawing.Size(164, 29);
 			this.LocalViewCheckBox.TabIndex = 10;
 			this.LocalViewCheckBox.Text = "鏡面光視点有効";
 			this.LocalViewCheckBox.UseVisualStyleBackColor = true;
@@ -289,9 +306,10 @@
 			// MarkerCheckBox
 			// 
 			this.MarkerCheckBox.AutoSize = true;
-			this.MarkerCheckBox.Location = new System.Drawing.Point(461, 211);
+			this.MarkerCheckBox.Location = new System.Drawing.Point(461, 293);
+			this.MarkerCheckBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.MarkerCheckBox.Name = "MarkerCheckBox";
-			this.MarkerCheckBox.Size = new System.Drawing.Size(91, 22);
+			this.MarkerCheckBox.Size = new System.Drawing.Size(89, 29);
 			this.MarkerCheckBox.TabIndex = 11;
 			this.MarkerCheckBox.Text = "マーカー";
 			this.MarkerCheckBox.UseVisualStyleBackColor = true;
@@ -300,8 +318,8 @@
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label11.Location = new System.Drawing.Point(423, 282);
+			this.label11.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.label11.Location = new System.Drawing.Point(428, 290);
 			this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(17, 18);
@@ -311,8 +329,8 @@
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label10.Location = new System.Drawing.Point(362, 282);
+			this.label10.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.label10.Location = new System.Drawing.Point(364, 290);
 			this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(17, 18);
@@ -322,8 +340,8 @@
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label9.Location = new System.Drawing.Point(300, 282);
+			this.label9.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.label9.Location = new System.Drawing.Point(302, 290);
 			this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(17, 18);
@@ -333,8 +351,8 @@
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label8.Location = new System.Drawing.Point(238, 282);
+			this.label8.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.label8.Location = new System.Drawing.Point(241, 290);
 			this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(17, 18);
@@ -344,8 +362,8 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label7.Location = new System.Drawing.Point(177, 282);
+			this.label7.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.label7.Location = new System.Drawing.Point(177, 290);
 			this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(17, 18);
@@ -355,8 +373,8 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label6.Location = new System.Drawing.Point(115, 282);
+			this.label6.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.label6.Location = new System.Drawing.Point(113, 290);
 			this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(17, 18);
@@ -365,9 +383,9 @@
 			// 
 			// GeoViewerCfgForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 364);
+			this.ClientSize = new System.Drawing.Size(800, 351);
 			this.ControlBox = false;
 			this.Controls.Add(this.label11);
 			this.Controls.Add(this.label10);
@@ -388,6 +406,7 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.ShininessTrackBar);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.Name = "GeoViewerCfgForm";
 			this.Text = "シーン設定";
 			((System.ComponentModel.ISupportInitialize)(this.ShininessTrackBar)).EndInit();

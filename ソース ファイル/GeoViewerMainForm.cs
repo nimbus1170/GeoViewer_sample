@@ -8,6 +8,7 @@ using DSF_NET_Utility;
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using System.Windows.Forms;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
@@ -22,10 +23,10 @@ public partial class GeoViewerMainForm : Form
 
 	string MapDrawingFileName = null;
 
-	CInfoMap  Info	   = new CInfoMap ();
-	CProfiler Profiler = new CProfiler();
+	CInfoMap  Info	   = new ();
+	CProfiler Profiler = new ();
 
-	List<string> cmd_history = new List<string>();
+	List<string> cmd_history = new ();
 
 	int curr_cmd_history_pos;
 
@@ -36,6 +37,7 @@ public partial class GeoViewerMainForm : Form
 		CfgFileName = args[0];
 	}
 
+	[SupportedOSPlatform("windows")] // Windows固有API(Graphics)が使用されていることを宣言する。
 	private void Form1_Load(object sender, EventArgs e)
 	{
 		// ◆Form_Loadだと、このフォームは最後まで表示されない
@@ -65,43 +67,31 @@ public partial class GeoViewerMainForm : Form
 
 	private void InputTextBox_KeyPress(Object sender, KeyPressEventArgs e)
 	{
-		// ◆プロンプト(>)の後で改行しないよう、Enterを打ち消してプロンプトに置き換える必要があるが、これができるのはなぜかKeyPressイベントだけ。
-
-		var tb = sender as TextBox;
-			
-		switch(e.KeyChar)
+		// プロンプト(>)の後で改行しないよう、Enterを打ち消してプロンプトに置き換える。
+		// これができるのはKeyPressイベントだけ。
+		if(e.KeyChar == '\r') // Enter
 		{
-			case '\r': // Enter
+			var tb = sender as TextBox;
 
-				tb.AppendText("\r\n");
+			tb.AppendText("\r\n");
 
-				var cmd_line = tb.Lines[tb.Lines.Length - 2].Substring(1);
+			var cmd_line = tb.Lines[^2].Substring(1);
 
-				if(cmd_line != "")
-				{
-					if((cmd_history.Count == 0) || (cmd_history[cmd_history.Count - 1] != cmd_line))
-						cmd_history.Add(cmd_line);
+			if(cmd_line != "")
+			{
+				if((cmd_history.Count == 0) || (cmd_history[^1] != cmd_line))
+					cmd_history.Add(cmd_line);
 
-					curr_cmd_history_pos = cmd_history.Count - 1;
+				curr_cmd_history_pos = cmd_history.Count - 1;
 						
-					var ret = ParseCommand(cmd_line);
+				var ret = ParseCommand(cmd_line);
 
-					// ◆複数行の文字列が返ることもあるので改行も含めておく。
-					if(ret != "") tb.AppendText(ret);
-				}
+				// ◆複数行の文字列が返ることもあるので改行も含めておく。
+				if(ret != "") tb.AppendText(ret);
+			}
 
-				// ◆プロンプト(>)の後で改行しないようEnterを打ち消してプロンプトに置き換える。
-				e.KeyChar = '>';
-
-				break;
-
-			case '\b': // Backspace
-
-				// ◆プロンプト(>)を残すようにする。
-				// 　何もしないので空白('')を設定したいが、設定できないので'\0'を設定する。
-				if(tb.Lines[tb.Lines.Length - 1].Length == 1) e.KeyChar = '\0';
-
-				break;
+			// ◆プロンプト(>)の後で改行しないようEnterを打ち消してプロンプトに置き換える。
+			e.KeyChar = '>';
 		}
 	}
 
@@ -111,34 +101,43 @@ public partial class GeoViewerMainForm : Form
 
 		if(e.KeyCode == Keys.Escape) Application.Exit();		
 
-		//--------------------------------------------------
-		// 矢印キーでカーソルがテキストの末尾以外のところに行かないように止める。
-		// ◆KeyPressイベントは矢印キー等では発生しない。
-		if((e.KeyCode == Keys.Up) || (e.KeyCode == Keys.Left)) e.SuppressKeyPress = true;
-
-		//--------------------------------------------------
-		// コマンド履歴を入力する。
-
-		if(cmd_history.Count == 0) return;
-
-		if((e.KeyCode != Keys.Up) && (e.KeyCode != Keys.Down)) return;
-
 		var tb = sender as TextBox;
 
-		tb.Text = tb.Text.Remove(tb.Text.LastIndexOf('>'));
+		//--------------------------------------------------
+		// 矢印キー等でカーソルが上やコマンドプロンプトより左に行かないようにする。
+		// ◆KeyPressイベントは矢印キー等では発生しない。
 
-		tb.AppendText(">" + cmd_history[curr_cmd_history_pos]);
+		if(e.KeyCode == Keys.Up) e.SuppressKeyPress = true;
 
-		switch(e.KeyCode)
-		{ 
-			case Keys.Up:
-				if(curr_cmd_history_pos > 0) curr_cmd_history_pos--;
-				break;
+		if(((e.KeyCode == Keys.Left) || (e.KeyCode == Keys.Back)) && (tb.Text[tb.SelectionStart - 1] == '>')) e.SuppressKeyPress = true;
 
-			case Keys.Down:
-				if(curr_cmd_history_pos < (cmd_history.Count - 1)) curr_cmd_history_pos++;
-				break;
-		} 
+		if(e.KeyCode == Keys.Home)
+		{
+			e.SuppressKeyPress = true;
+		
+			tb.SelectionStart = tb.Text.LastIndexOf('>') + 1;
+		}
+
+		//-------------------------------------------------
+		// コマンド履歴を入力する。
+
+		if(((e.KeyCode == Keys.Up) || (e.KeyCode == Keys.Down)) && (cmd_history.Count > 0))
+		{
+			tb.Text = tb.Text.Remove(tb.Text.LastIndexOf('>'));
+
+			tb.AppendText(">" + cmd_history[curr_cmd_history_pos]);
+
+			switch(e.KeyCode)
+			{ 
+				case Keys.Up:
+					if(curr_cmd_history_pos > 0) curr_cmd_history_pos--;
+					break;
+
+				case Keys.Down:
+					if(curr_cmd_history_pos < (cmd_history.Count - 1)) curr_cmd_history_pos++;
+					break;
+			} 
+		}
 	}
 
 	private void InputTextBox_MouseDown(Object sender, MouseEventArgs e)

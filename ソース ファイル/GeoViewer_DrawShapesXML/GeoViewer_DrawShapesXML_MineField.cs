@@ -50,32 +50,26 @@ public partial class GeoViewerMainForm : Form
 			// ◆FrontEdgeNodesを使い回す。
 			mf.FrontEdgeNodes.AddRange(mf.BackEdgeNodes);
 
-			// 高さが設定されていないので設定する。
-			foreach(var node in mf.FrontEdgeNodes)
-				node.Altitude.Set(20, DAltitudeBase.AGL);
-
 			Viewer.AddShape
 				(name,
 				 new CGeoPolyline()
 					.SetColor(r, g, b, a)
 					.SetLineWidth(line_width)
-					.AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, mf.FrontEdgeNodes, 20))
-					.AddNode(mf.FrontEdgeNodes[0]));	// フタをする。◆最後の線分は地面に沿わないのでは？
+					.AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, mf.FrontEdgeNodes))
+					.AddNode(mf.FrontEdgeNodes[0])); // フタをする。◆最後の線分は地面に沿わないのでは？
 
 			//--------------------------------------------------
 			// 地雷原種別シンボルを描画する。
 		 
 			// シンボルの直径
 			// ◆目分量(m)
-			int type_symbol_r = 20;
+			const int type_symbol_r = 20;
 
 			//--------------------------------------------------
 			// 地雷原種別シンボル(AT)を描画する。
 		 
 			foreach(var type_symbol_ct in mf.TypeSymbolPos_AT)
 			{
-				type_symbol_ct.Altitude.Set(20, DAltitudeBase.AGL);
-
 				Viewer.AddShape
 					(name,
 					 new CGeoCircle(12, type_symbol_ct, type_symbol_r)
@@ -92,8 +86,6 @@ public partial class GeoViewerMainForm : Form
 			{
 				var type_symbol_ct = type_symbol_i.Current;
 
-				type_symbol_ct.Altitude.Set(20, DAltitudeBase.AGL);
-
 				Viewer.AddShape
 					(name,
 					 new CGeoCircle(12, type_symbol_ct, type_symbol_r)
@@ -103,9 +95,6 @@ public partial class GeoViewerMainForm : Form
 				// APのヒゲ
 				type_symbol_i.MoveNext(); var ap_top1 = type_symbol_i.Current;
 				type_symbol_i.MoveNext(); var ap_top2 = type_symbol_i.Current;
-
-				ap_top1.Altitude.Set(20, DAltitudeBase.AGL);
-				ap_top2.Altitude.Set(20, DAltitudeBase.AGL);
 
 				Viewer.AddShape
 					(name,

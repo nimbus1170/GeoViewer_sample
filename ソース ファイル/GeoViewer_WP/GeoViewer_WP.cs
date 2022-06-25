@@ -5,14 +5,10 @@
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
 using DSF_NET_Geometry;
-using DSF_NET_Map;
 using DSF_NET_Scene;
 
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.IO;
+using System.Runtime.Versioning;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -22,7 +18,6 @@ using static DSF_NET_Geography.XMapTile;
 using static DSF_NET_TacticalDrawing.XMLReader;
 
 using static System.Convert;
-using static System.Drawing.Drawing2D.DashStyle;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -33,6 +28,7 @@ public partial class GeoViewerMainForm : Form
 	// ◆GeoViewerDrawShapes_LgLtにWPの要素が出てきている。
 	int PolygonZoomLevel;
 
+	[SupportedOSPlatform("windows")] // Windows固有API(Graphics)が使用されていることを宣言する。
 	void Run_GeoViewer_WP()
 	{
 		Profiler.Lap("run Viewer_WP");
@@ -95,12 +91,8 @@ public partial class GeoViewerMainForm : Form
 		// 0 タイルをダウンロードする。
 		// ◆GeoViewer_Tileと比較して、正しいか？
 
-		Profiler.Lap("download tiles");
-
 		// ◆ここはクランプ前で良いのか？
 		DownloadGSITiles(s_lglt_0, e_lglt_0, img_zoom_level, map_data_fld);
-
-		Profiler.Lap("- tiles downloaded");
 
 		//--------------------------------------------------
 		// 0 開始・終了座標について、経緯度座標をクランプしてWP座標を作成するとともに、WP座標にクランプされた経緯度座標を作成する。
@@ -116,8 +108,6 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 1 標高地図データを作成する。
 
-		Profiler.Lap("build elevation map data");
-
 		// 開始・終了座標は標高データのズームレベルの新規インスタンスにする。
 		// ◆標高データのズームレベルは取り敢えず14のみ。
 		var ev_map_data = new CElevationMapData_GSI_DEM_PNG
@@ -125,22 +115,16 @@ public partial class GeoViewerMainForm : Form
 			 GetTile(new CWPInt(s_wp, 14)),
 			 GetTile(new CWPInt(e_wp, 14)));
 
-		Profiler.Lap("- elevation map data built");
-
 		// 高度クラスに標高地図データを設定することにより、座標オブジェクトに標高が自動設定される。
 		CAltitude.SetElevationMapData(ev_map_data);
 
 		//--------------------------------------------------
 		// 2 ジオイドデータを作成する。
 
-		Profiler.Lap("build geoid map data");
-
 		// ◆例外ではなくジオイドを無視するようにしろ。
 	//	if(!(File.Exists(gsi_geoid_model_file))) throw new Exception("geoid model file not found");
 
 		var geoid_map_data = new CGSIGeoidMapData(gsi_geoid_model_file);
-
-		Profiler.Lap("- geoid map data built");
 
 		// 高度クラスにジオイドデータを設定することにより、座標オブジェクトにジオイド高が自動設定される。
 		// ◆WP版では高度クラスに直接反映しない。
@@ -156,11 +140,7 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 3.1 地図画像を作成する。
 
-		Profiler.Lap("build map image");
-
 		var map_img = GSIImageTile.MakeMapImageFromGSITiles(gsi_img_tile_fld, gsi_img_tile_ext, img_s_wp, img_e_wp);
-
-		Profiler.Lap("- map image built");
 
 		//--------------------------------------------------
 		// 3.2 グリッドを描画する。
@@ -175,11 +155,7 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 3.3 画像地図データを作成する。
 
-		Profiler.Lap("build image map data");
-
 		var img_map_data = new CImageMapData_WP(map_img, img_s_wp, img_e_wp);
-
-		Profiler.Lap("- image map data built");
 
 		// ◆テスト
 		{
@@ -192,87 +168,67 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 4 ビューアフォームを作成する。
 
-		Profiler.Lap("build viewer form");
-
 		// ◆viewer_form.Viewerはnullであり、後で設定する。
-		var viewer_form = new GeoViewViewerForm_WP();
-
-		Profiler.Lap("- viewer form built");
-
-		viewer_form.Text = title;
-
-		// シーンの作成状況等を表示するため先に表示しておく。
-		// ◆シーン作成状況の表示は整理されていないのでシーンの作成状況は実質的に表示できない。
-		//  (途中で作成状況の表示(進行)が止まる。)
-		viewer_form.Show();
+		var viewer_form = new GeoViewViewerForm_WP(){ Text = title, Visible = true };
 
 		//--------------------------------------------------
 		// 5 ビューアパラメータを作成する。← 1,2,3,4
 
-		var viewer_params = new CViewerParams_WP();
-
-		{
-			viewer_params.viewer_control = viewer_form.PictureBox;
-			viewer_params.s_wp = s_wp;
-			viewer_params.e_wp = e_wp;
-			viewer_params.ev_map_data = ev_map_data;
-			viewer_params.geoid_map_data = geoid_map_data;
-			viewer_params.img_map_data = img_map_data;
-			viewer_params.options = "view_tri_polygons";
-		}
+		var viewer_params = new CViewerParams_WP()
+			{
+				viewer_control = viewer_form.PictureBox,
+				s_wp		   = s_wp,
+				e_wp		   = e_wp,
+				ev_map_data	   = ev_map_data,
+				geoid_map_data = geoid_map_data,
+				img_map_data   = img_map_data,
+				options		   = "view_tri_polygons"
+			};
 
 		//--------------------------------------------------
 		// 6 コントローラフォームを作成する。
 
-		Profiler.Lap("build controller form");
-
 		// ◆controller_form.Viewerはnullであり、後で設定する。
-	// ◆nullを渡しているのは無意味
- 		var controller_form = new GeoViewerControllerForm(null);
-
-		Profiler.Lap("- controller form built");
-
-		controller_form.Text = title;
-
-		controller_form.Show();
+		// ◆nullを渡しているのは無意味
+ 		var controller_form = new GeoViewerControllerForm(null){ Text = title, Visible = true };
 
 		//--------------------------------------------------
 		// 7 コントローラパラメータを作成する。← 6
 
-		var controller_parts = new CControllerParts();
-		{
-			controller_parts.ObjXTextBox   = controller_form.ObjXTextBox;
-			controller_parts.ObjXScrollBar = controller_form.ObjXScrollBar;
-			controller_parts.MaxObjXLabel  = controller_form.MaxObjXLabel;
-			controller_parts.MinObjXLabel  = controller_form.MinObjXLabel;
+		var controller_parts = new CControllerParts()
+			{
+				ObjXTextBox   = controller_form.ObjXTextBox,
+				ObjXScrollBar = controller_form.ObjXScrollBar,
+				MaxObjXLabel  = controller_form.MaxObjXLabel,
+				MinObjXLabel  = controller_form.MinObjXLabel,
 
-			controller_parts.ObjYTextBox   = controller_form.ObjYTextBox;
-			controller_parts.ObjYScrollBar = controller_form.ObjYScrollBar;
-			controller_parts.MaxObjYLabel  = controller_form.MaxObjYLabel;
-			controller_parts.MinObjYLabel  = controller_form.MinObjYLabel;
+				ObjYTextBox   = controller_form.ObjYTextBox,
+				ObjYScrollBar = controller_form.ObjYScrollBar,
+				MaxObjYLabel  = controller_form.MaxObjYLabel,
+				MinObjYLabel  = controller_form.MinObjYLabel,
 
-			controller_parts.DirScrollBar = controller_form.DirScrollBar;
-			controller_parts.DirTextBox   = controller_form.DirTextBox;
+				DirScrollBar = controller_form.DirScrollBar,
+				DirTextBox   = controller_form.DirTextBox,
 
-			controller_parts.DistanceScrollBar = controller_form.DistanceScrollBar;
-			controller_parts.DistanceTextBox   = controller_form.DistanceTextBox;
+				DistanceScrollBar = controller_form.DistanceScrollBar,
+				DistanceTextBox   = controller_form.DistanceTextBox,
 
-			controller_parts.AngleScrollBar = controller_form.AngleScrollBar;
-			controller_parts.AngleTextBox	= controller_form.AngleTextBox;
+				AngleScrollBar = controller_form.AngleScrollBar,
+				AngleTextBox   = controller_form.AngleTextBox,
 
-			controller_parts.ObserverXScrollBar = controller_form.ObserverXScrollBar;
-			controller_parts.ObserverXTextBox	= controller_form.ObserverXTextBox;
-			controller_parts.MaxObserverXLabel  = controller_form.MaxObserverXLabel;
-			controller_parts.MinObserverXLabel  = controller_form.MinObserverXLabel;
+				ObserverXScrollBar = controller_form.ObserverXScrollBar,
+				ObserverXTextBox   = controller_form.ObserverXTextBox,
+				MaxObserverXLabel  = controller_form.MaxObserverXLabel,
+				MinObserverXLabel  = controller_form.MinObserverXLabel,
 
-			controller_parts.ObserverYScrollBar = controller_form.ObserverYScrollBar;
-			controller_parts.ObserverYTextBox	= controller_form.ObserverYTextBox;
-			controller_parts.MaxObserverYLabel  = controller_form.MaxObserverYLabel;
-			controller_parts.MinObserverYLabel  = controller_form.MinObserverYLabel;
+				ObserverYScrollBar = controller_form.ObserverYScrollBar,
+				ObserverYTextBox   = controller_form.ObserverYTextBox,
+				MaxObserverYLabel  = controller_form.MaxObserverYLabel,
+				MinObserverYLabel  = controller_form.MinObserverYLabel,
 
-			controller_parts.ObserverAltitudeScrollBar = controller_form.ObserverAltitudeScrollBar;
-			controller_parts.ObserverAltitudeTextBox   = controller_form.ObserverAltitudeTextBox;
-		}
+				ObserverAltitudeScrollBar = controller_form.ObserverAltitudeScrollBar,
+				ObserverAltitudeTextBox   = controller_form.ObserverAltitudeTextBox
+			};
 
 		//--------------------------------------------------
 		// 8 表示設定を作成する。
@@ -291,11 +247,7 @@ public partial class GeoViewerMainForm : Form
 		// ▼ここの設定順序には依存関係があるので、整理してライブラリに収めろ。ユーザプログラミングに晒すな。
 		// →◆ユーザプログラミングでフォーム(コントロール)が作成されるので、その部分は別になるが。
 
-		Profiler.Lap("build viewer");
-
 		var viewer = new CGeoViewer_WP(viewer_params, scene_cfg, controller_parts, Info, Profiler);
-
-		Profiler.Lap("- viewer built");
 
 		//--------------------------------------------------
 		// 10 メインフォーム、コントローラフォーム及びビューアフォームにビューアを設定する。← 9
@@ -315,46 +267,27 @@ public partial class GeoViewerMainForm : Form
 		// 　　　　ビューアへの表示設定は、ビューアを経由して設定フォームに設定されているが、設定フォームからの
 		// 　　　　設定に統一すべきではないか？
 
-		var cfg_form = new GeoViewerCfgForm(viewer);
-
-		cfg_form.Text = title;
-
-		cfg_form.Show();
+		var cfg_form = new GeoViewerCfgForm(viewer){ Text = title, Visible = true };
 
 		//--------------------------------------------------
 		// 12 シーンを描画する。← 9
 
-		Profiler.Lap("create scene");
-
 		viewer.CreateScene();
-
-		Profiler.Lap("- scene created");
 
 		//--------------------------------------------------
 		// 13 図形を描画する。← 9
 
 		//--------------------------------------------------
 		// 13.1 図形を描画する。
-		if(true)
-		{
-			Profiler.Lap("draw shapes");
-
-			DrawShapes();
-
-			Profiler.Lap("- shapes drawn");
-		}
+		if(true) DrawShapes();
 
 		//--------------------------------------------------
 		// 13.2 図形をXMLファイルから読み込み表示する。
 		if(true)
 		{
-			Profiler.Lap("draw XML shapes");
-
 			MapDrawingFileName = plane_viewer_cfg_xml.SelectSingleNode("Drawing").Attributes["File"].InnerText;
 
 			DrawShapesXML();
-
-			Profiler.Lap("- XML shapes drawn");
 		}
 
 		//--------------------------------------------------
@@ -362,20 +295,13 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 		// 14.1 地図を半透明にして重ねてみる。
-		if(false)
-		{
-			Profiler.Lap("draw map overlay");
-			viewer.AddOverlay("test_map_ol", img_map_data, 1000.0, 0.5f);
-			Profiler.Lap("- map overlay drawn");
-		}
+		if(false) viewer.AddOverlay("test_map_ol", img_map_data, 1000.0, 0.5f);
 
 		//--------------------------------------------------
 		// 14.2 グリッドをオーバレイに描画する。
 
 		if(grid_ol_cfg != null)
 		{
-			Profiler.Lap("draw grid overlay");
-
 			// オーバレイのサイズの基準(小さい辺をこのサイズにする。)
 			var ol_size = ToInt32(grid_ol_cfg.Attributes["Size"].InnerText);
 			int ol_w = (map_img.Height > map_img.Width )? ol_size: (ol_size * map_img.Width  / map_img.Height);
@@ -395,16 +321,13 @@ public partial class GeoViewerMainForm : Form
 				 new CImageMapData_WP(grid_map_img, img_s_wp, img_e_wp),
 				 ol_offset,
 				 1.0f); // 透明度
-
-			Profiler.Lap("- grid overlay drawn");
 		}
 
 		//--------------------------------------------------
 		// 14.3 部分的にオーバレイを重ねてみる。
+		// ◆オーバレイが範囲外にあると当然エラーになる。(たまたまならない場合もある。)
 		if(true)
 		{
-			Profiler.Lap("draw overlay on Mt.Kayasan");
-
 			// オーバレイのサイズの基準(小さい辺をこのサイズにする。)
 			int ol_size = 1000;
 			int ol_w = (map_img.Height > map_img.Width )? ol_size: (ol_size * map_img.Width  / map_img.Height);
@@ -437,8 +360,6 @@ public partial class GeoViewerMainForm : Form
 				 ol,
 				 200.0, // 地表面からの高さ
 				 0.5f); // 透明度
-
-			 Profiler.Lap("- overlay on Mt.Kayasan drawn");
 		}
 
 		//--------------------------------------------------

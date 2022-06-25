@@ -75,7 +75,7 @@ public partial class GeoViewerMainForm : Form
 		// ◆このメソッドに入る前にStopするべきでは？
 		Profiler.Stop();
 
-		DialogTextBox.AppendText("elapsed time   memory delta\r\n");
+		DialogTextBox.AppendText("  elapsed time  memory delta\r\n");
 
 		var total_time = Profiler.TotalTime;
 
@@ -85,10 +85,13 @@ public partial class GeoViewerMainForm : Form
 
 			var laptime_percentage = ToDouble(laptime) / total_time * 100;
 
-			DialogTextBox.AppendText($"{laptime, 5}ms ({laptime_percentage, 4:0.0}%) {profile.Value.MemDelta.PhysMem / 1000.0, 9:#,###,###}KB : {profile.Key}\r\n");
+			DialogTextBox.AppendText($"{laptime, 6:#,0}ms ({laptime_percentage, 4:0.0}%) {profile.Value.MemDelta.PhysMem / 1000.0, 9:#,###,###}KB : {profile.Key}\r\n");
 		}
 
-		DialogTextBox.AppendText($"total {total_time}ms   {Profiler.TotalMem.PhysMem / 1000.0, 9:#,###,###}KB\r\n");
+	//	DialogTextBox.AppendText($"total {total_time, 6:#,0}ms  {Profiler.TotalMem.PhysMem / 1000.0, 9:#,###,###}KB\r\n");
+	
+		DialogTextBox.AppendText($"{total_time, 6:#,0}ms         {Profiler.TotalMem.PhysMem / 1000.0, 9:#,###,###}KB : total\r\n");
+	
 		DialogTextBox.AppendText($"\r\n");
 
 		//--------------------------------------------------

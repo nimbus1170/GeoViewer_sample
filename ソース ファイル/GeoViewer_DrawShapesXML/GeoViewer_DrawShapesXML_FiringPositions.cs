@@ -44,17 +44,13 @@ public partial class GeoViewerMainForm : Form
 			//--------------------------------------------------
 			// 外縁を描画する。
 			
-			// 高さが設定されていないので設定する。
-			foreach(var node in fp.BorderNodes)
-				node.Altitude.Set(20, DAltitudeBase.AGL);
-
 			// ◆CGeoPolygonが必要か。
 			Viewer.AddShape
 				(name,
 				 new CGeoPolyline()
 					.SetColor(r, g, b, a)
 					.SetLineWidth(line_width)
-					.AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, fp.BorderNodes, 20))
+					.AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, fp.BorderNodes))
 					.AddNode(fp.BorderNodes[0])); // フタをする。◆最後の線分は地面に沿わないのでは？
 
 			//--------------------------------------------------
@@ -62,15 +58,11 @@ public partial class GeoViewerMainForm : Form
 		 
 			var inner_symbol = fp.InnerSymbol;
 
-			// 高さが設定されていないので設定する。
-			for(var i = 0; i < 6; ++i)
-				inner_symbol[i].Altitude.Set(20, DAltitudeBase.AGL);
-
-			Viewer.AddShape(name, new CGeoPolyline().SetColor(r, g, b, a).SetLineWidth(line_width).AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, new List<CLgLt>(){inner_symbol[0], inner_symbol[1]}, 20)));
-			Viewer.AddShape(name, new CGeoPolyline().SetColor(r, g, b, a).SetLineWidth(line_width).AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, new List<CLgLt>(){inner_symbol[2], inner_symbol[1]}, 20)));
-			Viewer.AddShape(name, new CGeoPolyline().SetColor(r, g, b, a).SetLineWidth(line_width).AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, new List<CLgLt>(){inner_symbol[1], inner_symbol[4]}, 20)));
-			Viewer.AddShape(name, new CGeoPolyline().SetColor(r, g, b, a).SetLineWidth(line_width).AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, new List<CLgLt>(){inner_symbol[3], inner_symbol[4]}, 20)));
-			Viewer.AddShape(name, new CGeoPolyline().SetColor(r, g, b, a).SetLineWidth(line_width).AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, new List<CLgLt>(){inner_symbol[5], inner_symbol[4]}, 20)));
+			Viewer.AddShape(name, new CGeoPolyline().SetColor(r, g, b, a).SetLineWidth(line_width).AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, new List<CLgLt>(){inner_symbol[0], inner_symbol[1]})));
+			Viewer.AddShape(name, new CGeoPolyline().SetColor(r, g, b, a).SetLineWidth(line_width).AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, new List<CLgLt>(){inner_symbol[2], inner_symbol[1]})));
+			Viewer.AddShape(name, new CGeoPolyline().SetColor(r, g, b, a).SetLineWidth(line_width).AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, new List<CLgLt>(){inner_symbol[1], inner_symbol[4]})));
+			Viewer.AddShape(name, new CGeoPolyline().SetColor(r, g, b, a).SetLineWidth(line_width).AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, new List<CLgLt>(){inner_symbol[3], inner_symbol[4]})));
+			Viewer.AddShape(name, new CGeoPolyline().SetColor(r, g, b, a).SetLineWidth(line_width).AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, new List<CLgLt>(){inner_symbol[5], inner_symbol[4]})));
 		}
 	}
 }

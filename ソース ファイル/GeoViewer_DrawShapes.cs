@@ -5,17 +5,15 @@
 using DSF_NET_Geography;
 using DSF_NET_Geometry;
 using DSF_NET_Scene;
-using DSF_NET_TacticalDrawing;
 
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Runtime.Versioning; // for SupportedOSPlatform
 using System.Windows.Forms;
 
 using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
 using static DSF_NET_Geography.Convert_LgLt_UTM;
 using static DSF_NET_Geography.Convert_MGRS_UTM;
-using static DSF_NET_TacticalDrawing.CDefensivePosition;
-using static DSF_NET_TacticalDrawing.CMineField;
 using static DSF_NET_TacticalDrawing.StickerShape;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
@@ -23,6 +21,7 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
+	[SupportedOSPlatform("windows")] // Windows固有API(Graphics)が使用されていることを宣言する。
 	void DrawShapes()
 	{
 		//--------------------------------------------------
@@ -152,7 +151,7 @@ public partial class GeoViewerMainForm : Form
 	//	var sticker_line_e_pos = ToLgLt(ToUTM(54, 'S', "TE", 96000, 18000, new CAltitude(50)));
 
 		// ◆WPの要素であるPolygonZoomLevelが出てきている。標高データがタイルなので仕方ないか。標高地図データを指定するようにできないか？
-		var nodes = MakeStickerLineStripNodesWP(PolygonZoomLevel, sticker_line_s, sticker_line_e, 50);
+		var nodes = MakeStickerLineStripNodesWP(PolygonZoomLevel, sticker_line_s, sticker_line_e);
 		
 		var sticker_line = new CGeoPolyline()
 			.SetColor(1.0f, 0.0f, 0.0f, 0.5f)

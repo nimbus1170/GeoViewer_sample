@@ -44,16 +44,12 @@ public partial class GeoViewerMainForm : Form
 			//--------------------------------------------------
 			// 外縁を描画する。
 		
-			// 高さが設定されていないので設定する。
-			foreach(var node in dp.BorderNodes)
-				node.Altitude.Set(20, DAltitudeBase.AGL);
-
 			Viewer.AddShape
 				(name,
 				 new CGeoPolyline()
 					.SetColor(r, g, b, a)
 					.SetLineWidth(line_width)
-					.AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, dp.BorderNodes, 20)));
+					.AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, dp.BorderNodes)));
 		
 			//--------------------------------------------------
 			// 部隊規模標示を描画する。
@@ -61,9 +57,6 @@ public partial class GeoViewerMainForm : Form
 		
 			var unit_level_line_p1 = dp.UnitLevelNodes[0];
 			var unit_level_line_p2 = dp.UnitLevelNodes[1];
-
-			unit_level_line_p1.Altitude.Set(20, DAltitudeBase.AGL);
-			unit_level_line_p2.Altitude.Set(20, DAltitudeBase.AGL);
 
 			Viewer.AddShape
 				(name,

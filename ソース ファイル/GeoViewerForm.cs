@@ -2,7 +2,13 @@
 //
 //
 //---------------------------------------------------------------------------
+using DSF_NET_Geography;
+using DSF_NET_Geometry;
 using DSF_NET_Scene;
+
+using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
+using static DSF_NET_Geography.Convert_LgLt_UTM;
+using static DSF_NET_Geography.Convert_MGRS_UTM;
 
 using System;
 using System.Drawing;
@@ -51,7 +57,9 @@ public abstract partial class GeoViewerForm : Form
 
 	private void PictureBox_MouseMove(object sender, MouseEventArgs e)
 	{
-		Viewer?.MouseMove(e);
+		if(Viewer == null) return;
+	
+		Viewer.MouseMove(e);
 		ShowObjInfo();
 	}
 
@@ -67,37 +75,62 @@ public abstract partial class GeoViewerForm : Form
 
 	private void PlaneViewerForm_LgLt_KeyPress(object sender, KeyPressEventArgs e)
 	{
+		if(Viewer == null) return;
+
 		if(e.KeyChar == 'w')
-			Viewer?.MoveFB(10);
+			Viewer.MoveFB(10);
 		else if(e.KeyChar == 's')
-			Viewer?.MoveFB(-10);
-		else
-			return;
+			Viewer.MoveFB(-10);
 	}
 
 	private void PlaneViewerForm_LgLt_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
 	{
+		if(Viewer == null) return;
+
 		switch(e.KeyCode)
 		{
-			case Keys.Up   : Viewer?.LookUD( 10); break;
-			case Keys.Down : Viewer?.LookUD(-10); break;
-			case Keys.Right: Viewer?.TurnRL(-10); break;
-			case Keys.Left : Viewer?.TurnRL( 10); break;
+			case Keys.Up   : Viewer.LookUD( 10); break;
+			case Keys.Down : Viewer.LookUD(-10); break;
+			case Keys.Right: Viewer.TurnRL(-10); break;
+			case Keys.Left : Viewer.TurnRL( 10); break;
 		}
 	}
 
 	private void MarkerToolStripMenuItem_Click(Object sender, EventArgs e)
 	{
+		if(Viewer == null) return;
+	
 		var item = (ToolStripMenuItem)sender;
 
 		item.Checked = !(item.Checked);	
 
-		Viewer?
+		Viewer
 			.SetMarkerMode(item.Checked? true: false)
 			.DrawScene();
 	}
 
 	public abstract void ShowObjInfo();
+
+	protected void ShowObjInfoImpl(CLgLt ct)
+	{
+		var ct_lg_deg = ct.Lg.DecimalDeg;
+		var ct_lt_deg = ct.Lt.DecimalDeg;
+
+		var ct_lg_dms = new CDMS(ct_lg_deg);
+		var ct_lt_dms = new CDMS(ct_lt_deg);
+
+		var ct_utm = ToUTM(ct);
+
+		var (x, y, z) = BLHToXYZ(ct_lt_deg, ct_lg_deg, ct.GetAltitude(DAltitudeBase.AE));
+
+		ObjInfoLabel.Text = 
+			$"東経 {ct_lg_dms.Deg:000}度{ct_lg_dms.Min:00}分{ct_lg_dms.Sec:00.000}秒 ({ct_lg_deg:000.00000}度)\n" +
+			$"北緯  {ct_lt_dms.Deg:00}度{ct_lt_dms.Min:00}分{ct_lt_dms.Sec:00.000}秒 ( {ct_lt_deg:00.00000}度)\n" +
+			$"UTM  {ct_utm.LgBand:00}{((ct_utm.Hemi == DHemi.N)? "n": "s")}   {ct_utm.EW:00000} {ct_utm.NS:00000}\n" +
+			$"MGRS {ct_utm.LgBand:00}{GetLtBand(ToLgLt(ct_utm).Lt):0} {GetMGRS_ID(ct_utm):00} {GetMGRS_EW(ct_utm):00000}   {GetMGRS_NS(ct_utm):00000}\n" +
+			$"標高 {ct.GetAltitude(DAltitudeBase.AMSL):0.0}m　ｼﾞｵｲﾄﾞ高 {ct.GetAltitude(DAltitudeBase.AE) - ct.GetAltitude(DAltitudeBase.AMSL):0.000}m\n" +
+			$"地心直交座標 X:{(int)x:#,0}m Y:{(int)y:#,0}m Z:{(int)z:#,0}m";
+	}
 }
 //---------------------------------------------------------------------------
 }

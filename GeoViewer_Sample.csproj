@@ -1,18 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5A776951-F481-48C0-9528-9B6522DDB235}</ProjectGuid>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GeoViewer_sample</RootNamespace>
-    <AssemblyName>GeoViewer_sample</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -28,206 +17,50 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <PlatformTarget>x64</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>0</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup />
-  <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>0</WarningLevel>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <_UseVSHostingProcess>true</_UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="bin\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <None Remove="bin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="upgrade-assistant.clef" />
+    <None Remove="ソース ファイル\GeoViewerCfg_1.xml" />
+    <None Remove="ソース ファイル\MapDrawing_test_1.xml" />
+    <None Remove="地形表示サンプル.odt" />
+    <None Remove="地形表示サンプル.pdf" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="DSF_NET_GSITileDownloader">
-      <HintPath>..\..\..\..\lib\DSF_NET_GSITileDownloader.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_GSITileDownloader.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DSF_NET_MapGrid">
-      <HintPath>..\..\..\..\lib\DSF_NET_MapGrid.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_MapGrid.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="DSF_NET_Scene, Version=1.0.8078.30661, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\lib\DSF_NET_Scene.dll</HintPath>
+    <Reference Include="DSF_NET_Scene">
+      <HintPath>..\..\..\..\lib\Debug\clr\DSF_NET_Scene.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DSF_NET_TacticalDrawing">
-      <HintPath>..\..\..\..\lib\DSF_NET_TacticalDrawing.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_TacticalDrawing.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ソース ファイル\GeoViewer_DownloadGSITile.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewerCfgForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewerCfgForm.Designer.cs">
-      <DependentUpon>GeoViewerCfgForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_DefensivePosition.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_FiringPositions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_DrawShapesXML\GeoViewer_DrawShapesXML_MineField.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_ParseCommand.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_ShowLog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewerForm_Tile.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewerForm_LgLt.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewerForm_WP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_DrawShapes.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewerMainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewerMainForm.Designer.cs">
-      <DependentUpon>GeoViewerMainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ソース ファイル\MapImageTestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\MapImageTestForm.Designer.cs">
-      <DependentUpon>MapImageTestForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewerControllerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewerControllerForm.Designer.cs">
-      <DependentUpon>GeoViewerControllerForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewerForm.Designer.cs">
-      <DependentUpon>GeoViewerForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ソース ファイル\Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewer_Tile.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_LgLt\GeoViewer_LgLt.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ソース ファイル\GeoViewer_WP\GeoViewer_WP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <EmbeddedResource Include="ソース ファイル\GeoViewerCfgForm.resx">
-      <DependentUpon>GeoViewerCfgForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ソース ファイル\GeoViewerMainForm.resx">
-      <DependentUpon>GeoViewerMainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ソース ファイル\MapImageTestForm.resx">
-      <DependentUpon>MapImageTestForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <EmbeddedResource Include="ソース ファイル\GeoViewerControllerForm.resx">
-      <DependentUpon>GeoViewerControllerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ソース ファイル\GeoViewerForm.resx">
-      <DependentUpon>GeoViewerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include=".gitignore" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <None Include="頂点が1個足りない.pptx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
@@ -242,15 +75,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\x64\Debug\MapDrawing_test_1.xml" />
-    <Content Include="bin\x64\Debug\GeoViewerCfg_1.xml" />
+    <Content Include="bin\Debug\net6.0-windows\GeoViewerCfg_1.xml" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.326103">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
+  </ItemGroup>
 </Project>

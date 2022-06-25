@@ -19,7 +19,7 @@ public partial class GeoViewerMainForm : Form
 		if(cmd_lines.Length == 0) return "no command line";
 		
 		// ◆複数行の文字列が返ることもあるので改行も含める。
-		string ret = $"";
+		string ret = "";
 
 		switch(cmd_lines[0])
 		{
@@ -28,8 +28,8 @@ public partial class GeoViewerMainForm : Form
 				if(cmd_lines.Length == 1)
 					Viewer.ShowShapes();
 				else
-					for(var name_i = 1; name_i < cmd_lines.Length; ++name_i)
-						Viewer.ShowShapes(cmd_lines[name_i]);
+					for(var names_i = 1; names_i < cmd_lines.Length; ++names_i)
+						Viewer.ShowShapes(cmd_lines[names_i]);
 
 				Viewer.DrawScene();
 				
@@ -40,8 +40,8 @@ public partial class GeoViewerMainForm : Form
 				if(cmd_lines.Length == 1)
 					Viewer.HideShapes();
 				else
-					for(var name_i = 1; name_i < cmd_lines.Length; ++name_i)
-						Viewer.HideShapes(cmd_lines[name_i]);
+					for(var names_i = 1; names_i < cmd_lines.Length; ++names_i)
+						Viewer.HideShapes(cmd_lines[names_i]);
 
 				Viewer.DrawScene();
 				
@@ -52,8 +52,8 @@ public partial class GeoViewerMainForm : Form
 				if(cmd_lines.Length == 1)
 					Viewer.ShowOverlays();
 				else
-					for(var name_i = 1; name_i < cmd_lines.Length; ++name_i)
-						Viewer.ShowOverlays(cmd_lines[name_i]);
+					for(var names_i = 1; names_i < cmd_lines.Length; ++names_i)
+						Viewer.ShowOverlays(cmd_lines[names_i]);
 
 				Viewer.DrawScene();
 				
@@ -64,14 +64,14 @@ public partial class GeoViewerMainForm : Form
 				if(cmd_lines.Length == 1)
 					Viewer.HideOverlays();
 				else
-					for(var name_i = 1; name_i < cmd_lines.Length; ++name_i)
-						Viewer.HideOverlays(cmd_lines[name_i]);
+					for(var names_i = 1; names_i < cmd_lines.Length; ++names_i)
+						Viewer.HideOverlays(cmd_lines[names_i]);
 
 				Viewer.DrawScene();
 				
 				break;
 
-			case "showglobjcount":
+			case "countobj":
 
 				var gl_objs_count = Viewer.GLObjectCount();	
 
