@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" standalone="yes"?>
+
+<!-- PlaneViewerとは別ファイルなので注意 -->
+
+<MapDrawings>
+
+	<!-- Color : ARGB -->
+	<MapDrawingGroup
+		Color="ff007f00"
+		LineWidth="2"
+		Altitude="20">
+
+		<!-- 地雷原1 -->
+		<MineField Name="mf_1" Type="ATAP" Depth="100" FrontEdgeDirection="RightToLeft">
+			<FrontEdgeNode Lg="130.154" Lt="33.562"/>
+			<FrontEdgeNode Lg="130.158" Lt="33.562"/>
+		</MineField>
+
+		<!-- 地雷原2 -->
+		<MineField Name="mf_2" Type="AT" Depth="200" FrontEdgeDirection="RightToLeft">
+			<FrontEdgeNode Lg="130.158" Lt="33.566"/>
+			<FrontEdgeNode Lg="130.162" Lt="33.566"/>
+			<FrontEdgeNode Lg="130.160" Lt="33.564"/>
+		</MineField>
+
+		<!-- 地雷原3 -->
+		<MineField Name="mf_3" Type="AP" Depth="200" FrontEdgeDirection="RightToLeft">
+			<FrontEdgeNode Lg="130.154" Lt="33.572"/>
+			<FrontEdgeNode Lg="130.158" Lt="33.570"/>
+			<FrontEdgeNode Lg="130.162" Lt="33.570"/>
+			<FrontEdgeNode Lg="130.164" Lt="33.568"/>
+		</MineField>
+
+		<!-- 地雷原4 -->
+		<MineField Name="mf_4" Type="ATAP" Depth="200" FrontEdgeDirection="RightToLeft">
+			<FrontEdgeNode UTM="52S FC 0680016000"/>
+			<FrontEdgeNode UTM="52S FC 07001600"/>
+			<FrontEdgeNode UTM="52S FC 072162"/>
+			<FrontEdgeNode Lg="130.158" Lt="33.574"/>
+			<FrontEdgeNode Lg="130.162" Lt="33.574"/>
+			<FrontEdgeNode Lg="130.164" Lt="33.576"/>
+		</MineField>
+
+	</MapDrawingGroup>
+
+	<!-- Color : ARGB -->
+	<MapDrawingGroup
+		Color="ffff0000"
+		LineWidth="2"
+		Altitude="20">
+
+		<!-- 防御陣地1 -->
+		<!-- ◆取り敢えず正面幅,縦深,方向,角の半径を指定 -->
+		<!-- ▼簡易陣地も -->
+		<DefensivePosition
+			Name="dp_1"
+			UnitLevel="Co"
+			Width="400"
+			Depth="800"
+			Direction="400"
+			RectR="360">
+			<!-- ◆取り敢えず前縁中央 -->
+			<FrontEdgeNode UTM="52S FC 08501550"/>
+		</DefensivePosition>
+
+	</MapDrawingGroup>
+
+	<!-- Color : ARGB -->
+	<MapDrawingGroup
+		Color="ffff0000"
+		LineWidth="2"
+		Altitude="20">
+
+		<!-- 特科陣地1 -->
+		<!-- ◆取り敢えず正面幅,縦深,方向を指定 -->
+		<!-- ◆部隊規模は未実装 -->
+		<FiringPosition
+			Name="fp_1"
+			Width="1200"
+			Depth="300"
+			Direction="2000">
+			<!-- ◆属性でも良さそうだが、経緯度とUTMがあるので読み分けるためにXMLノードにしている。-->
+			<Center UTM="52S FC 07501550"/>
+		</FiringPosition>
+
+	</MapDrawingGroup>
+
+</MapDrawings>
