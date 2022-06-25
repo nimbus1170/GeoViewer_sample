@@ -39,8 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="upgrade-assistant.clef" />
-    <None Remove="ソース ファイル\GeoViewerCfg_1.xml" />
-    <None Remove="ソース ファイル\MapDrawing_test_1.xml" />
+    <None Remove="src\GeoViewerCfg_1.xml" />
+    <None Remove="src\MapDrawing_test_1.xml" />
     <None Remove="地形表示サンプル.odt" />
     <None Remove="地形表示サンプル.pdf" />
   </ItemGroup>

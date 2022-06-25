@@ -34,10 +34,10 @@ bld/
 [Ll]ogs/
 
 # Don't ignore debug binary except gsi data
-bin/Debug/net6.0-windows/gsi/dem_png
+bin/Debug/net6.0-windows/gsi/dem_png/*/
 bin/Debug/net6.0-windows/gsi/gsigeo2011_ver2_1_asc/program/gsigeo2011_ver2_1.*
-bin/Debug/net6.0-windows/gsi/seamlessphoto
-bin/Debug/net6.0-windows/gsi/std
+bin/Debug/net6.0-windows/gsi/seamlessphoto/*/
+bin/Debug/net6.0-windows/gsi/std/*/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
