@@ -4,4 +4,4 @@
 
 ![image](image.jpg)
 
-詳しくは「GeoViewer_sample.pdf」をご覧ください。
+詳しくは「GeoViewer_sample_github.pdf」をご覧ください。
