@@ -24,12 +24,12 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
-	// 地表面プリミティブ作成でWP単位の座標を得るため。
-	// ◆GeoViewerDrawShapes_LgLtにWPの要素が出てきている。
-	int PolygonZoomLevel;
-
-	[SupportedOSPlatform("windows")] // Windows固有API(Graphics)が使用されていることを宣言する。
-	void Run_GeoViewer_WP()
+	[SupportedOSPlatform("windows")]
+	CGeoViewer_WP CreateGeoViewer_WP
+		(in PictureBox picture_box,
+		 in CGeoidMapData geoid_map_data,
+		 in CSceneCfg scene_cfg,
+		 in CControllerParts controller_parts)
 	{
 		Profiler.Lap("run Viewer_WP");
 
