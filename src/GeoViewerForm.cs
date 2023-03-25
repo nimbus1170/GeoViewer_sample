@@ -81,6 +81,8 @@ public abstract partial class GeoViewerForm : Form
 			Viewer.MoveFB(10);
 		else if(e.KeyChar == 's')
 			Viewer.MoveFB(-10);
+
+		ShowObjInfo();
 	}
 
 	private void PlaneViewerForm_LgLt_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)

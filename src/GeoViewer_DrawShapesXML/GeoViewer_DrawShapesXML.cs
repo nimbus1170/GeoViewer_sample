@@ -12,23 +12,23 @@ public partial class GeoViewerMainForm : Form
 {
 	void DrawShapesXML()
 	{
-		var map_drawing_xml = new XmlDocument();
+		var drawing_doc = new XmlDocument();
 
-		map_drawing_xml.Load(MapDrawingFileName);
+		drawing_doc.Load(DrawingFileName);
 
-		var map_drawing_group_xml_nodes = map_drawing_xml.SelectNodes("MapDrawings/MapDrawingGroup");
+		var drawing_groups = drawing_doc.SelectNodes("DrawingGroups/DrawingGroup");
 
 		// XMLファイル内の図形描画グループのノードを逐次に渡して処理する。
-		foreach(XmlNode map_drawing_group_xml_node in map_drawing_group_xml_nodes)
+		foreach(XmlNode drawing_group in drawing_groups)
 		{
 			// 地雷原の定義をXMLノードから読み込み、描画する。
-			DrawShapesXML_MineField(map_drawing_group_xml_node);
+			DrawShapesXML_MineField(drawing_group);
 
 			// 防御陣地をXMLノードから読み込み、描画する。
-			DrawShapesXML_DefensivePosition(map_drawing_group_xml_node);
+			DrawShapesXML_DefensivePosition(drawing_group);
 
 			// 特科陣地をXMLノードから読み込み、描画する。
-			DrawShapesXML_FiringPosition(map_drawing_group_xml_node);
+			DrawShapesXML_FiringPosition(drawing_group);
 		}
 	}
 }

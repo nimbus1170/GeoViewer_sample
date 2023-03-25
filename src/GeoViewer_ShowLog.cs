@@ -16,14 +16,14 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
-	private void ShowLog(in CLgLt s_lglt, in CLgLt e_lglt)
+	private void ShowLog()
 	{
 		//--------------------------------------------------
 		// プレーンサイズを計算する。
 
-		var lglt_00 = s_lglt;
-		var lglt_10 = new CLgLt(e_lglt.Lg, s_lglt.Lt);
-		var lglt_01 = new CLgLt(s_lglt.Lg, e_lglt.Lt);
+		var lglt_00 = StartLgLt;
+		var lglt_10 = new CLgLt(EndLgLt  .Lg, StartLgLt.Lt);
+		var lglt_01 = new CLgLt(StartLgLt.Lg, EndLgLt  .Lt);
 
 		var coord_00 = ToGeoCentricCoord(lglt_00);
 		var coord_10 = ToGeoCentricCoord(lglt_10);
@@ -33,6 +33,7 @@ public partial class GeoViewerMainForm : Form
 		var dy_00_10 = coord_10.Y - coord_00.Y;
 		var dz_00_10 = coord_10.Z - coord_00.Z;
 
+		// ◆C#にはHypotがない。
 		var plane_size_EW = (int)(Sqrt(dx_00_10 * dx_00_10 + dy_00_10 * dy_00_10 + dz_00_10 * dz_00_10));
 
 		var dx_00_01 = coord_01.X - coord_00.X;

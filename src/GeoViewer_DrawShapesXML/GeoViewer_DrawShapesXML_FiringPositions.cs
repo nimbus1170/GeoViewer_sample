@@ -20,11 +20,11 @@ namespace GeoViewer_sample
 public partial class GeoViewerMainForm : Form
 {
 	// 特科陣地の定義をXMLノードから読み込み描画する。
-	void DrawShapesXML_FiringPosition(in XmlNode map_drawing_group_xml_node)
+	void DrawShapesXML_FiringPosition(in XmlNode drawing_group)
 	{
-		var firing_positions = ReadFiringPositions(map_drawing_group_xml_node);
+		var fps = ReadFiringPositions(drawing_group);
 
-		foreach(var fp in firing_positions)
+		foreach(var fp in fps)
 		{
 			// ◆射撃陣地ひとつが不正で例外を出すべきか？
 			if(fp.BorderNodes.Count  <  2) throw new Exception("firing position border edge nodes must be more than 2");

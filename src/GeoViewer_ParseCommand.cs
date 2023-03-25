@@ -2,7 +2,6 @@
 // PlanViewerMainForm_ParseCommand.cs
 //
 //---------------------------------------------------------------------------
-using System;
 using System.Windows.Forms;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
@@ -18,18 +17,23 @@ public partial class GeoViewerMainForm : Form
 
 		if(cmd_lines.Length == 0) return "no command line";
 		
+		var cmd		= cmd_lines[0];
+		var options = cmd_lines[1..];
+
 		// ◆複数行の文字列が返ることもあるので改行も含める。
 		string ret = "";
 
-		switch(cmd_lines[0])
+		// ◆ヘルプと処理を一緒に書けないか？デリゲート(Func/Action)でコンテナに入れるとできそうだが、
+		// 　複雑になる。switchだと書きやすいか？switch以外で書けないが。
+		switch(cmd)
 		{
 			case "showshapes":
 	
-				if(cmd_lines.Length == 1)
+				if(options.Length == 0)
 					Viewer.ShowShapes();
 				else
-					for(var names_i = 1; names_i < cmd_lines.Length; ++names_i)
-						Viewer.ShowShapes(cmd_lines[names_i]);
+					foreach(var shape_name in options)
+						Viewer.ShowShapes(shape_name);
 
 				Viewer.DrawScene();
 				
@@ -37,11 +41,11 @@ public partial class GeoViewerMainForm : Form
 
 			case "hideshapes":
 
-				if(cmd_lines.Length == 1)
+				if(options.Length == 0)
 					Viewer.HideShapes();
 				else
-					for(var names_i = 1; names_i < cmd_lines.Length; ++names_i)
-						Viewer.HideShapes(cmd_lines[names_i]);
+					foreach(var shape_name in options)
+						Viewer.HideShapes(shape_name);
 
 				Viewer.DrawScene();
 				
@@ -49,11 +53,11 @@ public partial class GeoViewerMainForm : Form
 
 			case "showoverlays":
 	
-				if(cmd_lines.Length == 1)
+				if(options.Length == 0)
 					Viewer.ShowOverlays();
 				else
-					for(var names_i = 1; names_i < cmd_lines.Length; ++names_i)
-						Viewer.ShowOverlays(cmd_lines[names_i]);
+					foreach(var ol_name in options)
+						Viewer.ShowOverlays(ol_name);
 
 				Viewer.DrawScene();
 				
@@ -61,11 +65,11 @@ public partial class GeoViewerMainForm : Form
 
 			case "hideoverlays":
 
-				if(cmd_lines.Length == 1)
+				if(options.Length == 0)
 					Viewer.HideOverlays();
 				else
-					for(var names_i = 1; names_i < cmd_lines.Length; ++names_i)
-						Viewer.HideOverlays(cmd_lines[names_i]);
+					foreach(var ol_name in options)
+						Viewer.HideOverlays(ol_name);
 
 				Viewer.DrawScene();
 				
@@ -78,6 +82,21 @@ public partial class GeoViewerMainForm : Form
 				foreach(var gl_objs_count_i in gl_objs_count)
 					ret	+= $"{gl_objs_count_i.Key, -12} : {gl_objs_count_i.Value}\r\n";
 	
+				break;
+
+			case "reloadshapes":
+
+				if(DrawingFileName == null) break;
+				
+				Viewer.DeleteShapes();
+
+				DrawShapesXML();
+
+				Viewer.DrawScene();
+
+				break;
+
+			case "help":
 				break;
 
 			default:

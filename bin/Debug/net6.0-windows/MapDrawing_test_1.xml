@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" standalone="yes"?>
 
-<!-- PlaneViewerとは別ファイルなので注意 -->
+<!-- ◆MapViewerとフォーマットを共用するものとする。-->
 
-<MapDrawings>
+<DrawingGroups>
+
+	<!-- ◆Drawingごとに名前を付けるべきか。-->
 
 	<!-- Color : ARGB -->
-	<MapDrawingGroup
+	<DrawingGroup
 		Color="ff007f00"
 		LineWidth="2"
 		Altitude="20">
@@ -18,7 +20,7 @@
 
 		<!-- 地雷原2 -->
 		<MineField Name="mf_2" Type="AT" Depth="200" FrontEdgeDirection="RightToLeft">
-			<FrontEdgeNode Lg="130.158" Lt="33.566"/>
+			<FrontEdgeNode Lg="130.156" Lt="33.566"/>
 			<FrontEdgeNode Lg="130.162" Lt="33.566"/>
 			<FrontEdgeNode Lg="130.160" Lt="33.564"/>
 		</MineField>
@@ -41,10 +43,10 @@
 			<FrontEdgeNode Lg="130.164" Lt="33.576"/>
 		</MineField>
 
-	</MapDrawingGroup>
+	</DrawingGroup>
 
 	<!-- Color : ARGB -->
-	<MapDrawingGroup
+	<DrawingGroup
 		Color="ffff0000"
 		LineWidth="2"
 		Altitude="20">
@@ -63,10 +65,10 @@
 			<FrontEdgeNode UTM="52S FC 08501550"/>
 		</DefensivePosition>
 
-	</MapDrawingGroup>
+	</DrawingGroup>
 
 	<!-- Color : ARGB -->
-	<MapDrawingGroup
+	<DrawingGroup
 		Color="ffff0000"
 		LineWidth="2"
 		Altitude="20">
@@ -83,6 +85,6 @@
 			<Center UTM="52S FC 07501550"/>
 		</FiringPosition>
 
-	</MapDrawingGroup>
+	</DrawingGroup>
 
-</MapDrawings>
+</DrawingGroups>

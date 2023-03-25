@@ -20,11 +20,11 @@ namespace GeoViewer_sample
 public partial class GeoViewerMainForm : Form
 {
 	// 地雷原の定義をXMLノードから読み込み描画する。
-	void DrawShapesXML_MineField(in XmlNode map_drawing_group_xml_node)
+	void DrawShapesXML_MineField(in XmlNode drawing_group)
 	{
-		var minefields = ReadMineFields(map_drawing_group_xml_node);
+		var mfs = ReadMineFields(drawing_group);
 
-		foreach(var mf in minefields)
+		foreach(var mf in mfs)
 		{
 			// ◆地雷原ひとつが不正で例外を出すべきか？
 			if(mf.FrontEdgeNodes.Count < 2) throw new Exception("minefield front edge nodes must be more than 2");

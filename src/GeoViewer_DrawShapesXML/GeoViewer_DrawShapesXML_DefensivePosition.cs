@@ -20,11 +20,11 @@ namespace GeoViewer_sample
 public partial class GeoViewerMainForm : Form
 {
 	// 防御陣地の定義をXMLノードから読み込み描画する。
-	void DrawShapesXML_DefensivePosition(in XmlNode map_drawing_group_xml_node)
+	void DrawShapesXML_DefensivePosition(in XmlNode drawing_group)
 	{
-		var defensive_positions = ReadDefensivePositions(map_drawing_group_xml_node);
+		var dps = ReadDefensivePositions(drawing_group);
 
-		foreach(var dp in defensive_positions)
+		foreach(var dp in dps)
 		{
 			// ◆防御陣地ひとつが不正で例外を出すべきか？
 			if(dp.BorderNodes   .Count < 2) throw new Exception("defensive position border nodes must be more than 2");
