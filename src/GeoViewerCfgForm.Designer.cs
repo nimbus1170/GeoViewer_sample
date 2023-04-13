@@ -28,399 +28,321 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.ShininessTrackBar = new System.Windows.Forms.TrackBar();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.AmbientTrackBar = new System.Windows.Forms.TrackBar();
-			this.label3 = new System.Windows.Forms.Label();
-			this.SpecularTrackBar = new System.Windows.Forms.TrackBar();
-			this.label4 = new System.Windows.Forms.Label();
-			this.ElevationMagnifyTrackBar = new System.Windows.Forms.TrackBar();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.WireRadioButton = new System.Windows.Forms.RadioButton();
-			this.MappingRadioButton = new System.Windows.Forms.RadioButton();
-			this.SmoothRadioButton = new System.Windows.Forms.RadioButton();
-			this.FlatRadioButton = new System.Windows.Forms.RadioButton();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.VisibilityNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.FogDarkRadioButton = new System.Windows.Forms.RadioButton();
-			this.FogFogRadioButton = new System.Windows.Forms.RadioButton();
-			this.FogNoRadioButton = new System.Windows.Forms.RadioButton();
-			this.LocalViewCheckBox = new System.Windows.Forms.CheckBox();
-			this.MarkerCheckBox = new System.Windows.Forms.CheckBox();
-			this.label11 = new System.Windows.Forms.Label();
-			this.label10 = new System.Windows.Forms.Label();
-			this.label9 = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.ShininessTrackBar)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.AmbientTrackBar)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.SpecularTrackBar)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.ElevationMagnifyTrackBar)).BeginInit();
-			this.groupBox1.SuspendLayout();
-			this.groupBox2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.VisibilityNumericUpDown)).BeginInit();
-			this.SuspendLayout();
+			ShininessTrackBar = new System.Windows.Forms.TrackBar();
+			label1 = new System.Windows.Forms.Label();
+			label2 = new System.Windows.Forms.Label();
+			AmbientTrackBar = new System.Windows.Forms.TrackBar();
+			label3 = new System.Windows.Forms.Label();
+			SpecularTrackBar = new System.Windows.Forms.TrackBar();
+			label4 = new System.Windows.Forms.Label();
+			ElevationMagnifyTrackBar = new System.Windows.Forms.TrackBar();
+			FogModeComboBox = new System.Windows.Forms.ComboBox();
+			VisibilityNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			LocalViewCheckBox = new System.Windows.Forms.CheckBox();
+			MarkerCheckBox = new System.Windows.Forms.CheckBox();
+			label11 = new System.Windows.Forms.Label();
+			label10 = new System.Windows.Forms.Label();
+			label9 = new System.Windows.Forms.Label();
+			label8 = new System.Windows.Forms.Label();
+			label7 = new System.Windows.Forms.Label();
+			label6 = new System.Windows.Forms.Label();
+			ShadingModeComboBox = new System.Windows.Forms.ComboBox();
+			label5 = new System.Windows.Forms.Label();
+			label12 = new System.Windows.Forms.Label();
+			PolygonModeComboBox = new System.Windows.Forms.ComboBox();
+			label13 = new System.Windows.Forms.Label();
+			((System.ComponentModel.ISupportInitialize)ShininessTrackBar).BeginInit();
+			((System.ComponentModel.ISupportInitialize)AmbientTrackBar).BeginInit();
+			((System.ComponentModel.ISupportInitialize)SpecularTrackBar).BeginInit();
+			((System.ComponentModel.ISupportInitialize)ElevationMagnifyTrackBar).BeginInit();
+			((System.ComponentModel.ISupportInitialize)VisibilityNumericUpDown).BeginInit();
+			SuspendLayout();
 			// 
 			// ShininessTrackBar
 			// 
-			this.ShininessTrackBar.LargeChange = 10;
-			this.ShininessTrackBar.Location = new System.Drawing.Point(102, 21);
-			this.ShininessTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.ShininessTrackBar.Maximum = 128;
-			this.ShininessTrackBar.Name = "ShininessTrackBar";
-			this.ShininessTrackBar.Size = new System.Drawing.Size(353, 69);
-			this.ShininessTrackBar.TabIndex = 0;
-			this.ShininessTrackBar.TickFrequency = 5;
-			this.ShininessTrackBar.Value = 128;
-			this.ShininessTrackBar.Scroll += new System.EventHandler(this.ShininessTrackBar_Scroll);
+			ShininessTrackBar.LargeChange = 10;
+			ShininessTrackBar.Location = new System.Drawing.Point(102, 21);
+			ShininessTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			ShininessTrackBar.Maximum = 128;
+			ShininessTrackBar.Name = "ShininessTrackBar";
+			ShininessTrackBar.Size = new System.Drawing.Size(353, 69);
+			ShininessTrackBar.TabIndex = 0;
+			ShininessTrackBar.TickFrequency = 5;
+			ShininessTrackBar.Value = 128;
+			ShininessTrackBar.Scroll += ShininessTrackBar_Scroll;
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(30, 23);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(76, 25);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "ハイライト";
+			label1.AutoSize = true;
+			label1.Location = new System.Drawing.Point(30, 23);
+			label1.Name = "label1";
+			label1.Size = new System.Drawing.Size(76, 25);
+			label1.TabIndex = 1;
+			label1.Text = "ハイライト";
 			// 
 			// label2
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(40, 100);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(66, 25);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "環境光";
+			label2.AutoSize = true;
+			label2.Location = new System.Drawing.Point(40, 100);
+			label2.Name = "label2";
+			label2.Size = new System.Drawing.Size(66, 25);
+			label2.TabIndex = 3;
+			label2.Text = "環境光";
 			// 
 			// AmbientTrackBar
 			// 
-			this.AmbientTrackBar.Location = new System.Drawing.Point(102, 98);
-			this.AmbientTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.AmbientTrackBar.Maximum = 100;
-			this.AmbientTrackBar.Name = "AmbientTrackBar";
-			this.AmbientTrackBar.Size = new System.Drawing.Size(353, 69);
-			this.AmbientTrackBar.TabIndex = 2;
-			this.AmbientTrackBar.TickFrequency = 5;
-			this.AmbientTrackBar.Value = 80;
-			this.AmbientTrackBar.Scroll += new System.EventHandler(this.AmbientTrackBar_Scroll);
+			AmbientTrackBar.Location = new System.Drawing.Point(102, 98);
+			AmbientTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			AmbientTrackBar.Maximum = 100;
+			AmbientTrackBar.Name = "AmbientTrackBar";
+			AmbientTrackBar.Size = new System.Drawing.Size(353, 69);
+			AmbientTrackBar.TabIndex = 2;
+			AmbientTrackBar.TickFrequency = 5;
+			AmbientTrackBar.Value = 80;
+			AmbientTrackBar.Scroll += AmbientTrackBar_Scroll;
 			// 
 			// label3
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(43, 177);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(66, 25);
-			this.label3.TabIndex = 5;
-			this.label3.Text = "鏡面光";
+			label3.AutoSize = true;
+			label3.Location = new System.Drawing.Point(43, 177);
+			label3.Name = "label3";
+			label3.Size = new System.Drawing.Size(66, 25);
+			label3.TabIndex = 5;
+			label3.Text = "鏡面光";
 			// 
 			// SpecularTrackBar
 			// 
-			this.SpecularTrackBar.LargeChange = 10;
-			this.SpecularTrackBar.Location = new System.Drawing.Point(102, 175);
-			this.SpecularTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.SpecularTrackBar.Maximum = 100;
-			this.SpecularTrackBar.Name = "SpecularTrackBar";
-			this.SpecularTrackBar.Size = new System.Drawing.Size(353, 69);
-			this.SpecularTrackBar.TabIndex = 4;
-			this.SpecularTrackBar.TickFrequency = 5;
-			this.SpecularTrackBar.Value = 100;
-			this.SpecularTrackBar.Scroll += new System.EventHandler(this.SpecularTrackBar_Scroll);
+			SpecularTrackBar.LargeChange = 10;
+			SpecularTrackBar.Location = new System.Drawing.Point(102, 175);
+			SpecularTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			SpecularTrackBar.Maximum = 100;
+			SpecularTrackBar.Name = "SpecularTrackBar";
+			SpecularTrackBar.Size = new System.Drawing.Size(353, 69);
+			SpecularTrackBar.TabIndex = 4;
+			SpecularTrackBar.TickFrequency = 5;
+			SpecularTrackBar.Value = 100;
+			SpecularTrackBar.Scroll += SpecularTrackBar_Scroll;
 			// 
 			// label4
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(25, 255);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(84, 25);
-			this.label4.TabIndex = 7;
-			this.label4.Text = "標高倍率";
+			label4.AutoSize = true;
+			label4.Location = new System.Drawing.Point(25, 255);
+			label4.Name = "label4";
+			label4.Size = new System.Drawing.Size(84, 25);
+			label4.TabIndex = 7;
+			label4.Text = "標高倍率";
 			// 
 			// ElevationMagnifyTrackBar
 			// 
-			this.ElevationMagnifyTrackBar.Location = new System.Drawing.Point(102, 252);
-			this.ElevationMagnifyTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.ElevationMagnifyTrackBar.Maximum = 5;
-			this.ElevationMagnifyTrackBar.Name = "ElevationMagnifyTrackBar";
-			this.ElevationMagnifyTrackBar.Size = new System.Drawing.Size(353, 69);
-			this.ElevationMagnifyTrackBar.TabIndex = 6;
-			this.ElevationMagnifyTrackBar.Value = 1;
-			this.ElevationMagnifyTrackBar.Scroll += new System.EventHandler(this.ElevationMagnifyTrackBar_Scroll);
+			ElevationMagnifyTrackBar.Location = new System.Drawing.Point(102, 252);
+			ElevationMagnifyTrackBar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			ElevationMagnifyTrackBar.Maximum = 5;
+			ElevationMagnifyTrackBar.Name = "ElevationMagnifyTrackBar";
+			ElevationMagnifyTrackBar.Size = new System.Drawing.Size(353, 69);
+			ElevationMagnifyTrackBar.TabIndex = 6;
+			ElevationMagnifyTrackBar.Value = 1;
+			ElevationMagnifyTrackBar.Scroll += ElevationMagnifyTrackBar_Scroll;
 			// 
-			// groupBox1
+			// FogModeComboBox
 			// 
-			this.groupBox1.Controls.Add(this.WireRadioButton);
-			this.groupBox1.Controls.Add(this.MappingRadioButton);
-			this.groupBox1.Controls.Add(this.SmoothRadioButton);
-			this.groupBox1.Controls.Add(this.FlatRadioButton);
-			this.groupBox1.Location = new System.Drawing.Point(462, 21);
-			this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.groupBox1.Size = new System.Drawing.Size(165, 218);
-			this.groupBox1.TabIndex = 8;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "ｼｪｰﾃﾞｨﾝｸﾞﾓｰﾄﾞ";
-			// 
-			// WireRadioButton
-			// 
-			this.WireRadioButton.AutoSize = true;
-			this.WireRadioButton.Location = new System.Drawing.Point(17, 38);
-			this.WireRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.WireRadioButton.Name = "WireRadioButton";
-			this.WireRadioButton.Size = new System.Drawing.Size(77, 29);
-			this.WireRadioButton.TabIndex = 3;
-			this.WireRadioButton.Text = "ワイヤ";
-			this.WireRadioButton.UseVisualStyleBackColor = true;
-			this.WireRadioButton.CheckedChanged += new System.EventHandler(this.WireRadioButton_CheckedChanged);
-			// 
-			// MappingRadioButton
-			// 
-			this.MappingRadioButton.AutoSize = true;
-			this.MappingRadioButton.Checked = true;
-			this.MappingRadioButton.Location = new System.Drawing.Point(17, 162);
-			this.MappingRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.MappingRadioButton.Name = "MappingRadioButton";
-			this.MappingRadioButton.Size = new System.Drawing.Size(103, 29);
-			this.MappingRadioButton.TabIndex = 2;
-			this.MappingRadioButton.TabStop = true;
-			this.MappingRadioButton.Text = "マッピング";
-			this.MappingRadioButton.UseVisualStyleBackColor = true;
-			this.MappingRadioButton.CheckedChanged += new System.EventHandler(this.MappingRadioButton_CheckedChanged);
-			// 
-			// SmoothRadioButton
-			// 
-			this.SmoothRadioButton.AutoSize = true;
-			this.SmoothRadioButton.Location = new System.Drawing.Point(17, 121);
-			this.SmoothRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.SmoothRadioButton.Name = "SmoothRadioButton";
-			this.SmoothRadioButton.Size = new System.Drawing.Size(91, 29);
-			this.SmoothRadioButton.TabIndex = 1;
-			this.SmoothRadioButton.Text = "スムーズ";
-			this.SmoothRadioButton.UseVisualStyleBackColor = true;
-			this.SmoothRadioButton.CheckedChanged += new System.EventHandler(this.SmoothRadioButton_CheckedChanged);
-			// 
-			// FlatRadioButton
-			// 
-			this.FlatRadioButton.AutoSize = true;
-			this.FlatRadioButton.Location = new System.Drawing.Point(17, 79);
-			this.FlatRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.FlatRadioButton.Name = "FlatRadioButton";
-			this.FlatRadioButton.Size = new System.Drawing.Size(85, 29);
-			this.FlatRadioButton.TabIndex = 0;
-			this.FlatRadioButton.Text = "フラット";
-			this.FlatRadioButton.UseVisualStyleBackColor = true;
-			this.FlatRadioButton.CheckedChanged += new System.EventHandler(this.FlatRadioButton_CheckedChanged);
-			// 
-			// groupBox2
-			// 
-			this.groupBox2.Controls.Add(this.VisibilityNumericUpDown);
-			this.groupBox2.Controls.Add(this.FogDarkRadioButton);
-			this.groupBox2.Controls.Add(this.FogFogRadioButton);
-			this.groupBox2.Controls.Add(this.FogNoRadioButton);
-			this.groupBox2.Location = new System.Drawing.Point(640, 21);
-			this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.groupBox2.Size = new System.Drawing.Size(140, 253);
-			this.groupBox2.TabIndex = 9;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "視程";
+			FogModeComboBox.FormattingEnabled = true;
+			FogModeComboBox.Items.AddRange(new System.Object[] { "無限遠", "霧", "夜暗" });
+			FogModeComboBox.Location = new System.Drawing.Point(487, 193);
+			FogModeComboBox.Name = "FogModeComboBox";
+			FogModeComboBox.Size = new System.Drawing.Size(104, 33);
+			FogModeComboBox.TabIndex = 27;
+			FogModeComboBox.SelectedIndexChanged += VisibilityComboBox_SelectedIndexChanged;
 			// 
 			// VisibilityNumericUpDown
 			// 
-			this.VisibilityNumericUpDown.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.VisibilityNumericUpDown.Location = new System.Drawing.Point(18, 183);
-			this.VisibilityNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.VisibilityNumericUpDown.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-			this.VisibilityNumericUpDown.Name = "VisibilityNumericUpDown";
-			this.VisibilityNumericUpDown.Size = new System.Drawing.Size(100, 31);
-			this.VisibilityNumericUpDown.TabIndex = 3;
-			this.VisibilityNumericUpDown.ThousandsSeparator = true;
-			this.VisibilityNumericUpDown.Value = new decimal(new int[] {
-            3000,
-            0,
-            0,
-            0});
-			this.VisibilityNumericUpDown.ValueChanged += new System.EventHandler(this.VisibilityNumericUpDown_ValueChanged);
-			// 
-			// FogDarkRadioButton
-			// 
-			this.FogDarkRadioButton.AutoSize = true;
-			this.FogDarkRadioButton.Checked = true;
-			this.FogDarkRadioButton.Location = new System.Drawing.Point(17, 121);
-			this.FogDarkRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.FogDarkRadioButton.Name = "FogDarkRadioButton";
-			this.FogDarkRadioButton.Size = new System.Drawing.Size(73, 29);
-			this.FogDarkRadioButton.TabIndex = 2;
-			this.FogDarkRadioButton.TabStop = true;
-			this.FogDarkRadioButton.Text = "夜暗";
-			this.FogDarkRadioButton.UseVisualStyleBackColor = true;
-			this.FogDarkRadioButton.CheckedChanged += new System.EventHandler(this.FogDarkRadioButton_CheckedChanged);
-			// 
-			// FogFogRadioButton
-			// 
-			this.FogFogRadioButton.AutoSize = true;
-			this.FogFogRadioButton.Location = new System.Drawing.Point(17, 79);
-			this.FogFogRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.FogFogRadioButton.Name = "FogFogRadioButton";
-			this.FogFogRadioButton.Size = new System.Drawing.Size(55, 29);
-			this.FogFogRadioButton.TabIndex = 1;
-			this.FogFogRadioButton.Text = "霧";
-			this.FogFogRadioButton.UseVisualStyleBackColor = true;
-			this.FogFogRadioButton.CheckedChanged += new System.EventHandler(this.FogFogRadioButton_CheckedChanged);
-			// 
-			// FogNoRadioButton
-			// 
-			this.FogNoRadioButton.AutoSize = true;
-			this.FogNoRadioButton.Location = new System.Drawing.Point(17, 38);
-			this.FogNoRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.FogNoRadioButton.Name = "FogNoRadioButton";
-			this.FogNoRadioButton.Size = new System.Drawing.Size(91, 29);
-			this.FogNoRadioButton.TabIndex = 0;
-			this.FogNoRadioButton.Text = "無限遠";
-			this.FogNoRadioButton.UseVisualStyleBackColor = true;
-			this.FogNoRadioButton.CheckedChanged += new System.EventHandler(this.FogNoRadioButton_CheckedChanged);
+			VisibilityNumericUpDown.Increment = new System.Decimal(new System.Int32[] { 10, 0, 0, 0 });
+			VisibilityNumericUpDown.Location = new System.Drawing.Point(597, 195);
+			VisibilityNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			VisibilityNumericUpDown.Maximum = new System.Decimal(new System.Int32[] { 100000, 0, 0, 0 });
+			VisibilityNumericUpDown.Name = "VisibilityNumericUpDown";
+			VisibilityNumericUpDown.Size = new System.Drawing.Size(88, 31);
+			VisibilityNumericUpDown.TabIndex = 3;
+			VisibilityNumericUpDown.ThousandsSeparator = true;
+			VisibilityNumericUpDown.Value = new System.Decimal(new System.Int32[] { 3000, 0, 0, 0 });
+			VisibilityNumericUpDown.ValueChanged += VisibilityNumericUpDown_ValueChanged;
 			// 
 			// LocalViewCheckBox
 			// 
-			this.LocalViewCheckBox.AutoSize = true;
-			this.LocalViewCheckBox.Location = new System.Drawing.Point(461, 254);
-			this.LocalViewCheckBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.LocalViewCheckBox.Name = "LocalViewCheckBox";
-			this.LocalViewCheckBox.Size = new System.Drawing.Size(164, 29);
-			this.LocalViewCheckBox.TabIndex = 10;
-			this.LocalViewCheckBox.Text = "鏡面光視点有効";
-			this.LocalViewCheckBox.UseVisualStyleBackColor = true;
-			this.LocalViewCheckBox.CheckedChanged += new System.EventHandler(this.LocalViewCheckBox_CheckedChanged);
+			LocalViewCheckBox.AutoSize = true;
+			LocalViewCheckBox.Location = new System.Drawing.Point(487, 247);
+			LocalViewCheckBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			LocalViewCheckBox.Name = "LocalViewCheckBox";
+			LocalViewCheckBox.Size = new System.Drawing.Size(164, 29);
+			LocalViewCheckBox.TabIndex = 10;
+			LocalViewCheckBox.Text = "鏡面光視点有効";
+			LocalViewCheckBox.UseVisualStyleBackColor = true;
+			LocalViewCheckBox.CheckedChanged += LocalViewCheckBox_CheckedChanged;
 			// 
 			// MarkerCheckBox
 			// 
-			this.MarkerCheckBox.AutoSize = true;
-			this.MarkerCheckBox.Location = new System.Drawing.Point(461, 293);
-			this.MarkerCheckBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.MarkerCheckBox.Name = "MarkerCheckBox";
-			this.MarkerCheckBox.Size = new System.Drawing.Size(89, 29);
-			this.MarkerCheckBox.TabIndex = 11;
-			this.MarkerCheckBox.Text = "マーカー";
-			this.MarkerCheckBox.UseVisualStyleBackColor = true;
-			this.MarkerCheckBox.CheckedChanged += new System.EventHandler(this.MarkerCheckBox_CheckedChanged);
+			MarkerCheckBox.AutoSize = true;
+			MarkerCheckBox.Location = new System.Drawing.Point(487, 280);
+			MarkerCheckBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			MarkerCheckBox.Name = "MarkerCheckBox";
+			MarkerCheckBox.Size = new System.Drawing.Size(89, 29);
+			MarkerCheckBox.TabIndex = 11;
+			MarkerCheckBox.Text = "マーカー";
+			MarkerCheckBox.UseVisualStyleBackColor = true;
+			MarkerCheckBox.CheckedChanged += MarkerCheckBox_CheckedChanged;
 			// 
 			// label11
 			// 
-			this.label11.AutoSize = true;
-			this.label11.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.label11.Location = new System.Drawing.Point(428, 290);
-			this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(17, 18);
-			this.label11.TabIndex = 24;
-			this.label11.Text = "5";
+			label11.AutoSize = true;
+			label11.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			label11.Location = new System.Drawing.Point(428, 290);
+			label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+			label11.Name = "label11";
+			label11.Size = new System.Drawing.Size(17, 18);
+			label11.TabIndex = 24;
+			label11.Text = "5";
 			// 
 			// label10
 			// 
-			this.label10.AutoSize = true;
-			this.label10.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.label10.Location = new System.Drawing.Point(364, 290);
-			this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(17, 18);
-			this.label10.TabIndex = 23;
-			this.label10.Text = "4";
+			label10.AutoSize = true;
+			label10.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			label10.Location = new System.Drawing.Point(364, 290);
+			label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+			label10.Name = "label10";
+			label10.Size = new System.Drawing.Size(17, 18);
+			label10.TabIndex = 23;
+			label10.Text = "4";
 			// 
 			// label9
 			// 
-			this.label9.AutoSize = true;
-			this.label9.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.label9.Location = new System.Drawing.Point(302, 290);
-			this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(17, 18);
-			this.label9.TabIndex = 22;
-			this.label9.Text = "3";
+			label9.AutoSize = true;
+			label9.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			label9.Location = new System.Drawing.Point(302, 290);
+			label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+			label9.Name = "label9";
+			label9.Size = new System.Drawing.Size(17, 18);
+			label9.TabIndex = 22;
+			label9.Text = "3";
 			// 
 			// label8
 			// 
-			this.label8.AutoSize = true;
-			this.label8.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.label8.Location = new System.Drawing.Point(241, 290);
-			this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(17, 18);
-			this.label8.TabIndex = 21;
-			this.label8.Text = "2";
+			label8.AutoSize = true;
+			label8.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			label8.Location = new System.Drawing.Point(241, 290);
+			label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+			label8.Name = "label8";
+			label8.Size = new System.Drawing.Size(17, 18);
+			label8.TabIndex = 21;
+			label8.Text = "2";
 			// 
 			// label7
 			// 
-			this.label7.AutoSize = true;
-			this.label7.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.label7.Location = new System.Drawing.Point(177, 290);
-			this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(17, 18);
-			this.label7.TabIndex = 20;
-			this.label7.Text = "1";
+			label7.AutoSize = true;
+			label7.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			label7.Location = new System.Drawing.Point(177, 290);
+			label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+			label7.Name = "label7";
+			label7.Size = new System.Drawing.Size(17, 18);
+			label7.TabIndex = 20;
+			label7.Text = "1";
 			// 
 			// label6
 			// 
-			this.label6.AutoSize = true;
-			this.label6.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.label6.Location = new System.Drawing.Point(113, 290);
-			this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(17, 18);
-			this.label6.TabIndex = 19;
-			this.label6.Text = "0";
+			label6.AutoSize = true;
+			label6.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			label6.Location = new System.Drawing.Point(113, 290);
+			label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+			label6.Name = "label6";
+			label6.Size = new System.Drawing.Size(17, 18);
+			label6.TabIndex = 19;
+			label6.Text = "0";
+			// 
+			// ShadingModeComboBox
+			// 
+			ShadingModeComboBox.FormattingEnabled = true;
+			ShadingModeComboBox.Items.AddRange(new System.Object[] { "テクスチャ", "スムーズ", "フラット", "ワイヤ" });
+			ShadingModeComboBox.Location = new System.Drawing.Point(487, 51);
+			ShadingModeComboBox.Name = "ShadingModeComboBox";
+			ShadingModeComboBox.Size = new System.Drawing.Size(198, 33);
+			ShadingModeComboBox.TabIndex = 25;
+			ShadingModeComboBox.SelectedIndexChanged += ShadingModeComboBox_SelectedIndexChanged;
+			// 
+			// label5
+			// 
+			label5.AutoSize = true;
+			label5.Location = new System.Drawing.Point(483, 23);
+			label5.Name = "label5";
+			label5.Size = new System.Drawing.Size(138, 25);
+			label5.TabIndex = 26;
+			label5.Text = "シェーディングモード";
+			// 
+			// label12
+			// 
+			label12.AutoSize = true;
+			label12.Location = new System.Drawing.Point(483, 165);
+			label12.Name = "label12";
+			label12.Size = new System.Drawing.Size(48, 25);
+			label12.TabIndex = 27;
+			label12.Text = "視程";
+			// 
+			// PolygonModeComboBox
+			// 
+			PolygonModeComboBox.FormattingEnabled = true;
+			PolygonModeComboBox.Items.AddRange(new System.Object[] { "正方形＋中心点", "正方形", "三角形" });
+			PolygonModeComboBox.Location = new System.Drawing.Point(487, 122);
+			PolygonModeComboBox.Name = "PolygonModeComboBox";
+			PolygonModeComboBox.Size = new System.Drawing.Size(198, 33);
+			PolygonModeComboBox.TabIndex = 28;
+			PolygonModeComboBox.SelectedIndexChanged += PolygonModeComboBox_SelectedIndexChanged;
+			// 
+			// label13
+			// 
+			label13.AutoSize = true;
+			label13.Location = new System.Drawing.Point(483, 94);
+			label13.Name = "label13";
+			label13.Size = new System.Drawing.Size(104, 25);
+			label13.TabIndex = 29;
+			label13.Text = "ポリゴンモード";
 			// 
 			// GeoViewerCfgForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 351);
-			this.ControlBox = false;
-			this.Controls.Add(this.label11);
-			this.Controls.Add(this.label10);
-			this.Controls.Add(this.label9);
-			this.Controls.Add(this.label8);
-			this.Controls.Add(this.label7);
-			this.Controls.Add(this.label6);
-			this.Controls.Add(this.MarkerCheckBox);
-			this.Controls.Add(this.LocalViewCheckBox);
-			this.Controls.Add(this.groupBox2);
-			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.label4);
-			this.Controls.Add(this.ElevationMagnifyTrackBar);
-			this.Controls.Add(this.label3);
-			this.Controls.Add(this.SpecularTrackBar);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.AmbientTrackBar);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.ShininessTrackBar);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.Name = "GeoViewerCfgForm";
-			this.Text = "シーン設定";
-			((System.ComponentModel.ISupportInitialize)(this.ShininessTrackBar)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.AmbientTrackBar)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.SpecularTrackBar)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.ElevationMagnifyTrackBar)).EndInit();
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.VisibilityNumericUpDown)).EndInit();
-			this.ResumeLayout(false);
-			this.PerformLayout();
-
+			AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			ClientSize = new System.Drawing.Size(713, 351);
+			ControlBox = false;
+			Controls.Add(label13);
+			Controls.Add(PolygonModeComboBox);
+			Controls.Add(VisibilityNumericUpDown);
+			Controls.Add(FogModeComboBox);
+			Controls.Add(label12);
+			Controls.Add(label5);
+			Controls.Add(ShadingModeComboBox);
+			Controls.Add(label11);
+			Controls.Add(label10);
+			Controls.Add(label9);
+			Controls.Add(label8);
+			Controls.Add(label7);
+			Controls.Add(label6);
+			Controls.Add(MarkerCheckBox);
+			Controls.Add(LocalViewCheckBox);
+			Controls.Add(label4);
+			Controls.Add(ElevationMagnifyTrackBar);
+			Controls.Add(label3);
+			Controls.Add(SpecularTrackBar);
+			Controls.Add(label2);
+			Controls.Add(AmbientTrackBar);
+			Controls.Add(label1);
+			Controls.Add(ShininessTrackBar);
+			FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			Name = "GeoViewerCfgForm";
+			Text = "シーン設定";
+			((System.ComponentModel.ISupportInitialize)ShininessTrackBar).EndInit();
+			((System.ComponentModel.ISupportInitialize)AmbientTrackBar).EndInit();
+			((System.ComponentModel.ISupportInitialize)SpecularTrackBar).EndInit();
+			((System.ComponentModel.ISupportInitialize)ElevationMagnifyTrackBar).EndInit();
+			((System.ComponentModel.ISupportInitialize)VisibilityNumericUpDown).EndInit();
+			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion
@@ -433,15 +355,7 @@
 		private System.Windows.Forms.TrackBar SpecularTrackBar;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TrackBar ElevationMagnifyTrackBar;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.RadioButton MappingRadioButton;
-		private System.Windows.Forms.RadioButton SmoothRadioButton;
-		private System.Windows.Forms.RadioButton FlatRadioButton;
-		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.NumericUpDown VisibilityNumericUpDown;
-		private System.Windows.Forms.RadioButton FogDarkRadioButton;
-		private System.Windows.Forms.RadioButton FogFogRadioButton;
-		private System.Windows.Forms.RadioButton FogNoRadioButton;
 		private System.Windows.Forms.CheckBox LocalViewCheckBox;
 		private System.Windows.Forms.CheckBox MarkerCheckBox;
 		private System.Windows.Forms.Label label11;
@@ -450,6 +364,11 @@
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.RadioButton WireRadioButton;
+		private System.Windows.Forms.ComboBox ShadingModeComboBox;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.ComboBox FogModeComboBox;
+		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.ComboBox PolygonModeComboBox;
+		private System.Windows.Forms.Label label13;
 	}
 }

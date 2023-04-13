@@ -58,8 +58,8 @@ public partial class GeoViewerMainForm : Form
 		DialogTextBox.AppendText($"\r\n");
 
 		DialogTextBox.AppendText($"polygons count from planes\r\n");
-		DialogTextBox.AppendText($"tripolygons count : {info_dictionary["tripolygons_count"]}\r\n");
-		DialogTextBox.AppendText($"texpolygons count : {info_dictionary["texpolygons_count"]}\r\n");
+		DialogTextBox.AppendText($"gnd-sea polygons count : {info_dictionary["gnd_sea_polygons_count"]}\r\n");
+		DialogTextBox.AppendText($"texture polygons count : {info_dictionary["texture_polygons_count"]}\r\n");
 		DialogTextBox.AppendText($"\r\n");
 
 		DialogTextBox.AppendText($"polygons count from GLObjects\r\n");

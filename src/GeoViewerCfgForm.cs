@@ -11,152 +11,163 @@ using static System.Convert;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
-//---------------------------------------------------------------------------
-public partial class GeoViewerCfgForm : Form
-{
-	private readonly CGeoViewer Viewer = null;
-
-	public GeoViewerCfgForm(in CGeoViewer viewer)
+	//---------------------------------------------------------------------------
+	public partial class GeoViewerCfgForm :Form
 	{
-		InitializeComponent();
+		private readonly CGeoViewer Viewer = null;
 
-		Viewer = viewer;
-
-		ShininessTrackBar.Value = ToInt32(Viewer.Shininess()	  );
-		AmbientTrackBar  .Value = ToInt32(Viewer.Ambient  () * 100);
-		SpecularTrackBar .Value = ToInt32(Viewer.Specular () * 100);
-
-		switch(Viewer.ShadingMode())
+		public GeoViewerCfgForm(in CGeoViewer viewer)
 		{
-			case DShadingMode.SHADING_FLAT   : FlatRadioButton   .Checked = true; break;
-			case DShadingMode.SHADING_SMOOTH : SmoothRadioButton .Checked = true; break;
-			case DShadingMode.SHADING_MAPPING: MappingRadioButton.Checked = true; break;
+			InitializeComponent();
+
+			Viewer = viewer;
+
+			ShininessTrackBar.Value = ToInt32(Viewer.Shininess());
+			AmbientTrackBar.Value = ToInt32(Viewer.Ambient() * 100);
+			SpecularTrackBar.Value = ToInt32(Viewer.Specular() * 100);
+
+			ShadingModeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
+			switch(Viewer.ShadingMode())
+			{
+				case DShadingMode.TEXTURE: ShadingModeComboBox.SelectedIndex = 0; break;
+				case DShadingMode.SMOOTH: ShadingModeComboBox.SelectedIndex = 1; break;
+				case DShadingMode.FLAT: ShadingModeComboBox.SelectedIndex = 2; break;
+				case DShadingMode.WIRE: ShadingModeComboBox.SelectedIndex = 3; break;
+			}
+
+			PolygonModeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
+			switch(Viewer.PolygonMode())
+			{
+				case DPolygonMode.QUAD5: PolygonModeComboBox.SelectedIndex = 0; break;
+				case DPolygonMode.QUAD4: PolygonModeComboBox.SelectedIndex = 1; break;
+				case DPolygonMode.TRIANGLE: PolygonModeComboBox.SelectedIndex = 2; break;
+			}
+
+			FogModeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
+			switch(Viewer.FogMode())
+			{
+				case DFogMode.CLEAR: FogModeComboBox.SelectedIndex = 0; break;
+				case DFogMode.FOG: FogModeComboBox.SelectedIndex = 1; break;
+				case DFogMode.DARK: FogModeComboBox.SelectedIndex = 2; break;
+			}
+
+			VisibilityNumericUpDown.Value = (decimal)(Viewer.Visibility());
 		}
 
-		switch(Viewer.FogMode())
+		// ハイライトを設定する。
+		private void ShininessTrackBar_Scroll(object sender, EventArgs e)
 		{
-			case DFogMode.FOG_NO  : FogNoRadioButton  .Checked = true; break;
-			case DFogMode.FOG_FOG : FogFogRadioButton .Checked = true; break;
-			case DFogMode.FOG_DARK: FogDarkRadioButton.Checked = true; break;
+			// [0,128]
+			Viewer?
+				.SetShininess(ShininessTrackBar.Value)
+				.DrawScene();
 		}
 
-		VisibilityNumericUpDown.Value = (decimal)(Viewer.Visibility());
-	}
+		// 環境光を設定する。
+		private void AmbientTrackBar_Scroll(object sender, EventArgs e)
+		{
+			// [0,1]
+			Viewer?
+				.SetAmbient(System.Convert.ToSingle(AmbientTrackBar.Value) / 100.0f)
+				.DrawScene();
+		}
 
-	// ハイライトを設定する。
-	private void ShininessTrackBar_Scroll(object sender, EventArgs e)
-	{
-		// [0,128]
-		Viewer?
-			.SetShininess(ShininessTrackBar.Value)
-			.DrawScene();
-	}
+		// 鏡面光を設定する。
+		private void SpecularTrackBar_Scroll(object sender, EventArgs e)
+		{
+			// [0,1]
+			Viewer?
+				.SetSpecular(Convert.ToSingle(SpecularTrackBar.Value) / 100.0f)
+				.DrawScene();
+		}
 
-	// 環境光を設定する。
-	private void AmbientTrackBar_Scroll(object sender, EventArgs e)
-	{
-		// [0,1]
-		Viewer?
-			.SetAmbient(System.Convert.ToSingle(AmbientTrackBar.Value) / 100.0f)
-			.DrawScene();
-	}
+		// 標高拡大率を設定する。
+		private void ElevationMagnifyTrackBar_Scroll(object sender, EventArgs e)
+		{
+			Viewer?
+				.MagnifyElevation(ElevationMagnifyTrackBar.Value)
+				.DrawScene();
+		}
 
-	// 鏡面光を設定する。
-	private void SpecularTrackBar_Scroll(object sender, EventArgs e)
-	{
-		// [0,1]
-		Viewer?
-			.SetSpecular(Convert.ToSingle(SpecularTrackBar.Value) / 100.0f)
-			.DrawScene();
-	}
+		//	視程を設定する。
+		private void VisibilityNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			Viewer?
+				.SetVisibility(Convert.ToInt32(VisibilityNumericUpDown.Value))
+				.DrawScene();
+		}
 
-	// 標高拡大率を設定する。
-	private void ElevationMagnifyTrackBar_Scroll(object sender, EventArgs e)
-	{
-		Viewer?
-			.MagnifyElevation(ElevationMagnifyTrackBar.Value)
-			.DrawScene();
-	}
+		// 鏡面光視点を有効／無効にする。
+		private void LocalViewCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			Viewer?
+				.SetLocalView(LocalViewCheckBox.Checked ? true : false)
+				.DrawScene();
+		}
 
-	// シェーディングモードをワイヤフレームに設定する。
-	private void WireRadioButton_CheckedChanged(Object sender, EventArgs e)
-	{
-		Viewer?
-			.SetShadingMode(DShadingMode.SHADING_WIRE)
-			.DrawScene();
-	}
+		// マーカーを表示/非表示する。
+		private void MarkerCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			Viewer?
+				.SetMarkerMode(MarkerCheckBox.Checked ? true : false)
+				.DrawScene();
+		}
 
-	// シェーディングモードをフラットシェーディングに設定する。
-	private void FlatRadioButton_CheckedChanged(object sender, EventArgs e)
-	{
-		Viewer?
-			.SetShadingMode(DShadingMode.SHADING_FLAT)
-			.DrawScene();
-	}
+		private void ShadingModeComboBox_SelectedIndexChanged(Object sender, EventArgs e)
+		{
+			switch(ShadingModeComboBox.SelectedIndex)
+			{
+				case 0:
+					Viewer?.SetShadingMode(DShadingMode.TEXTURE);
+					PolygonModeComboBox.SelectedIndex = 1; // ◆テクスチャは四角ポリゴンのみ対応
+					PolygonModeComboBox.Enabled = false;
+					break;
 
-	// シェーディングモードをスムースシェーディングに設定する。
-	private void SmoothRadioButton_CheckedChanged(object sender, EventArgs e)
-	{
-		Viewer?
-			.SetShadingMode(DShadingMode.SHADING_SMOOTH)
-			.DrawScene();
-	}
+				case 1:
+					Viewer?.SetShadingMode(DShadingMode.SMOOTH);
+					PolygonModeComboBox.Enabled = true;
+					break;
 
-	// シェーディングモードをマッピングに設定する。
-	private void MappingRadioButton_CheckedChanged(object sender, EventArgs e)
-	{
-		Viewer?
-			.SetShadingMode(DShadingMode.SHADING_MAPPING)
-			.DrawScene();
-	}
+				case 2:
+					Viewer?.SetShadingMode(DShadingMode.FLAT);
+					PolygonModeComboBox.Enabled = true;
+					break;
 
-	// 視程モードを無限遠に設定する。
-	private void FogNoRadioButton_CheckedChanged(object sender, EventArgs e)
-	{
-		Viewer?
-			.SetFogMode(DFogMode.FOG_NO)
-			.DrawScene();
-	}
+				case 3:
+					Viewer?.SetShadingMode(DShadingMode.WIRE);
+					PolygonModeComboBox.Enabled = true;
+					break;
+			}
 
-	// 視程モードを霧に設定する。
-	private void FogFogRadioButton_CheckedChanged(object sender, EventArgs e)
-	{
-		Viewer?
-			.SetFogMode(DFogMode.FOG_FOG)
-			.DrawScene();
-	}
+			Viewer?.DrawScene();
+		}
 
-	// 視程モードを夜暗に設定する。
-	private void FogDarkRadioButton_CheckedChanged(object sender, EventArgs e)
-	{
-		Viewer?
-			.SetFogMode(DFogMode.FOG_DARK)
-			.DrawScene();
-	}
+		private void PolygonModeComboBox_SelectedIndexChanged(Object sender, EventArgs e)
+		{
+			switch(PolygonModeComboBox.SelectedIndex)
+			{
+				case 0: Viewer?.SetPolygonMode(DPolygonMode.QUAD5); break;
+				case 1: Viewer?.SetPolygonMode(DPolygonMode.QUAD4); break;
+				case 2: Viewer?.SetPolygonMode(DPolygonMode.TRIANGLE); break;
+			}
 
-	//	視程を設定する。
-	private void VisibilityNumericUpDown_ValueChanged(object sender, EventArgs e)
-	{
-		Viewer?
-			.SetVisibility(Convert.ToInt32(VisibilityNumericUpDown.Value))
-			.DrawScene();
-	}
+			Viewer?.DrawScene();
+		}
 
-	// 鏡面光視点を有効／無効にする。
-	private void LocalViewCheckBox_CheckedChanged(object sender, EventArgs e)
-	{
-		Viewer?
-			.SetLocalView(LocalViewCheckBox.Checked? true: false)
-			.DrawScene();
-	}
+		private void VisibilityComboBox_SelectedIndexChanged(Object sender, EventArgs e)
+		{
+			switch(FogModeComboBox.SelectedIndex)
+			{
+				case 0: Viewer?.SetFogMode(DFogMode.CLEAR); VisibilityNumericUpDown.Enabled = false; break;
+				case 1: Viewer?.SetFogMode(DFogMode.FOG); VisibilityNumericUpDown.Enabled = true; break;
+				case 2: Viewer?.SetFogMode(DFogMode.DARK); VisibilityNumericUpDown.Enabled = true; break;
+			}
 
-	// マーカーを表示／非表示にする。
-	private void MarkerCheckBox_CheckedChanged(object sender, EventArgs e)
-	{
-		Viewer?
-			.SetMarkerMode(MarkerCheckBox.Checked? true: false)
-			.DrawScene();
+			Viewer?.DrawScene();
+		}
 	}
-}
-//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------
 }
