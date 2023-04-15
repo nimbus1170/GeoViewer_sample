@@ -19,7 +19,7 @@
 	<!-- ！注意！表示範囲が広い場合、ImageZoomLevelを大きくしすぎると、必要なテクスチャメモリが大きくなり過ぎてOpenGLの動作が停止することが
 		 ありました。変更する場合は、現在の設定値から少しずつ変更してみてください。-->
 
-	<MapCfg
+	<_MapCfg
 		Title="糸島半島"
 		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
@@ -30,7 +30,7 @@
 		<!-- フォルダ内のすべてのファイルを描画する方法 -->
 		<!-- ◆保留 -->
 		<_Drawings Folder="C:/DSF/SharedData/MapView/MapDrawing"/>
-	</MapCfg>
+	</_MapCfg>
 
 	<_MapCfg
 		Title="糸島半島～佐賀平野"
@@ -139,14 +139,14 @@
 		<End   Lg="130.68" Lt="30.47"/>
 	</_MapCfg>
 
-	<_MapCfg
+	<MapCfg
 		Title="琵琶湖（大津市）"
-		PolygonZoomLevel="14"
+		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
 		PolygonSize="400">
 		<Start Lg="135 50 00.0" Lt="34 57 00.0"/>
 		<End   Lg="135 60 00.0" Lt="35 04 00.0"/>
-	</_MapCfg>
+	</MapCfg>
 
 	<_MapCfg
 		Title="天竜川(経度帯境界付近)"

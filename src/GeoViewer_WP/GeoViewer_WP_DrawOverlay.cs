@@ -122,7 +122,7 @@ public partial class GeoViewerMainForm : Form
 
 			viewer.AddOverlay
 				("test_ol_2",
-				 DOverlayBase.OnGeoid,
+				 DOverlayBase.AboveGeoid,
 				 ToWPInt(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_s_lt)),
 				 ToWPInt(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_e_lt)),
 				 100.0, // Elevation→地表面からの高さ、Geoid→標高
