@@ -139,14 +139,14 @@
 		<End   Lg="130.68" Lt="30.47"/>
 	</_MapCfg>
 
-	<MapCfg
+	<_MapCfg
 		Title="琵琶湖（大津市）"
 		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
 		PolygonSize="400">
 		<Start Lg="135 50 00.0" Lt="34 57 00.0"/>
 		<End   Lg="135 60 00.0" Lt="35 04 00.0"/>
-	</MapCfg>
+	</_MapCfg>
 
 	<_MapCfg
 		Title="天竜川(経度帯境界付近)"
@@ -212,14 +212,14 @@
 		<End   Lg="139.40" Lt="35.70"/>
 	</_MapCfg>
 
-	<_MapCfg
+	<MapCfg
 		Title="元八王子"
 		PolygonZoomLevel="14"
 		ImageZoomLevel="18"
 		PolygonSize="10">
 		<Start Lg="139 16 10.0" Lt="35 39 30.0"/>
 		<End   Lg="139 17 10.0" Lt="35 40  0.0"/>
-	</_MapCfg>
+	</MapCfg>
 
 	<!-- 地図データ -->
 	<!-- このフォルダのgsi以下の各フォルダに必要なズームレベルのフォルダが自動作成され、必要な国土地理院タイルがダウンロードされる。-->
