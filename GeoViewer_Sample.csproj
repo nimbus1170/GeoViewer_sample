@@ -75,6 +75,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\src\cs\DSF\Profiler\ProfilerLog.cs" Link="shared_src\ProfilerLog.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="bin\Debug\net6.0-windows\GeoViewerCfg_1.xml" />
     <Content Include="bin\Debug\net6.0-windows\MapDrawing_test_1.xml" />
   </ItemGroup>

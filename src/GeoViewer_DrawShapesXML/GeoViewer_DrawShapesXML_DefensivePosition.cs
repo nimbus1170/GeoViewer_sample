@@ -2,6 +2,7 @@
 // GeoViewer_DrawShapesXML_DefensivePosition.cs
 //
 //---------------------------------------------------------------------------
+using DSF_NET_Color;
 using DSF_NET_Geography;
 using DSF_NET_Scene;
 
@@ -32,12 +33,13 @@ public partial class GeoViewerMainForm : Form
 
 			var name = dp.Name;
 
-			var color = Color.FromArgb(dp.Color);
+			var color_b = Color.FromArgb(dp.Color);
 
-			var r = color.R / 255f;
-			var g = color.G / 255f;
-			var b = color.B / 255f;
-			var a = color.A / 255f;
+			var color_f = new CColorF
+				(color_b.R / 255.0f,
+				 color_b.G / 255.0f,
+				 color_b.B / 255.0f,
+				 color_b.A / 255.0f);
 
 			var line_width = dp.LineWidth;
 
@@ -47,9 +49,9 @@ public partial class GeoViewerMainForm : Form
 			Viewer.AddShape
 				(name,
 				 new CGeoPolyline()
-					.SetColor(r, g, b, a)
+					.SetColor(color_f)
 					.SetLineWidth(line_width)
-					.AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, dp.BorderNodes)));
+					.AddNodes(MakeStickerLineStripNodesWP(dp.BorderNodes, PolygonZoomLevel)));
 		
 			//--------------------------------------------------
 			// ïîë‡ãKñÕïWé¶Çï`âÊÇ∑ÇÈÅB
@@ -61,7 +63,7 @@ public partial class GeoViewerMainForm : Form
 			Viewer.AddShape
 				(name,
 				 new CGeoLine(unit_level_line_p1, unit_level_line_p2)
-					.SetColor(r, g, b, a)
+					.SetColor(color_f)
 					.SetLineWidth(line_width));
 		}
 	}

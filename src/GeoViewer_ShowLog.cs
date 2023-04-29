@@ -6,9 +6,10 @@ using DSF_NET_Geography;
 
 using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
 
+using static DSF_CS_Profiler.CProfilerLog;
+
 using System.Windows.Forms;
 
-using static System.Convert;
 using static System.Math;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
@@ -73,26 +74,18 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		// ◆このメソッドに入る前にStopするべきでは？
-		Profiler.Stop();
+		// ◆ここに来る前にStopするべきでは？
+		StopWatch.Stop();
 
-		DialogTextBox.AppendText("  elapsed time  memory delta\r\n");
+		DialogTextBox.AppendText(MakeStopWatchLog(StopWatch));
+		DialogTextBox.AppendText($"\r\n");
 
-		var total_time = Profiler.TotalTime;
+		//--------------------------------------------------
 
-		foreach(var profile in Profiler.Profiles)
-		{
-			var laptime = profile.Value.LapTime;
+		// ◆ここに来る前にStopするべきでは？
+		MemWatch.Stop();
 
-			var laptime_percentage = ToDouble(laptime) / total_time * 100;
-
-			DialogTextBox.AppendText($"{laptime, 6:#,0}ms ({laptime_percentage, 4:0.0}%) {profile.Value.MemDelta.PhysMem / 1000.0, 9:#,###,###}KB : {profile.Key}\r\n");
-		}
-
-	//	DialogTextBox.AppendText($"total {total_time, 6:#,0}ms  {Profiler.TotalMem.PhysMem / 1000.0, 9:#,###,###}KB\r\n");
-	
-		DialogTextBox.AppendText($"{total_time, 6:#,0}ms         {Profiler.TotalMem.PhysMem / 1000.0, 9:#,###,###}KB : total\r\n");
-	
+		DialogTextBox.AppendText(MakeMemWatchLog(MemWatch));
 		DialogTextBox.AppendText($"\r\n");
 
 		//--------------------------------------------------

@@ -25,7 +25,7 @@ public partial class GeoViewerMainForm : Form
 		 in CSceneCfg scene_cfg,
 		 in CControllerParts controller_parts)
 	{
-		Profiler.Lap("Create GeoViewer_Tile");
+		StopWatch.Lap("Create GeoViewer_Tile");
 
 		//--------------------------------------------------
 		// 1 開始・終了座標について、経緯度座標をクランプしてWP座標を作成するとともに、WP座標にクランプされた経緯度座標を作成する。
@@ -135,9 +135,7 @@ public partial class GeoViewerMainForm : Form
 			img_map_data,
 			"view_tri_polygons",
 			scene_cfg,
-			controller_parts,
-			Info,
-			Profiler);
+			controller_parts);
 			
 		//--------------------------------------------------
 		// 5 シーンを描画する。
@@ -146,7 +144,7 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		Profiler.Lap("GeoViewer_Tile Created");
+		StopWatch.Lap("GeoViewer_Tile Created");
 
 		return viewer;
 	}

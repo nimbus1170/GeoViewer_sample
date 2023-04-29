@@ -13,6 +13,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
+using DSF_NET_Color;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -32,12 +33,13 @@ public partial class GeoViewerMainForm : Form
 
 			var name = mf.Name;
 
-			var color = Color.FromArgb(mf.Color);
+			var color_b = Color.FromArgb(mf.Color);
 
-			var r = color.R / 255f;
-			var g = color.G / 255f;
-			var b = color.B / 255f;
-			var a = color.A / 255f;
+			var color_f = new CColorF
+				(color_b.R / 255.0f,
+				 color_b.G / 255.0f,
+				 color_b.B / 255.0f,
+				 color_b.A / 255.0f);
 			
 			var line_width = mf.LineWidth;
 
@@ -53,9 +55,9 @@ public partial class GeoViewerMainForm : Form
 			Viewer.AddShape
 				(name,
 				 new CGeoPolyline()
-					.SetColor(r, g, b, a)
+					.SetColor(color_f)
 					.SetLineWidth(line_width)
-					.AddNodes(MakeStickerLineStripNodesWP(PolygonZoomLevel, mf.FrontEdgeNodes))
+					.AddNodes(MakeStickerLineStripNodesWP(mf.FrontEdgeNodes, PolygonZoomLevel))
 					.AddNode(mf.FrontEdgeNodes[0])); // フタをする。◆最後の線分は地面に沿わないのでは？
 
 			//--------------------------------------------------
@@ -73,7 +75,7 @@ public partial class GeoViewerMainForm : Form
 				Viewer.AddShape
 					(name,
 					 new CGeoCircle(12, type_symbol_ct, type_symbol_r)
-						.SetColor(r, g, b, a)
+						.SetColor(color_f)
 						.SetFill(true));
 			}
 
@@ -89,7 +91,7 @@ public partial class GeoViewerMainForm : Form
 				Viewer.AddShape
 					(name,
 					 new CGeoCircle(12, type_symbol_ct, type_symbol_r)
-						.SetColor(r, g, b, a)
+						.SetColor(color_f)
 						.SetFill(true));
 
 				// APのヒゲ
@@ -99,7 +101,7 @@ public partial class GeoViewerMainForm : Form
 				Viewer.AddShape
 					(name,
 					 new CGeoPolyline()
-						.SetColor(r, g, b, a)
+						.SetColor(color_f)
 						.SetLineWidth(line_width)
 						.AddNode(ap_top1)
 						.AddNode(type_symbol_ct)

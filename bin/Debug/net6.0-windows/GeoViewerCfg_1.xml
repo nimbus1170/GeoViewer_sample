@@ -19,7 +19,11 @@
 	<!-- ！注意！表示範囲が広い場合、ImageZoomLevelを大きくしすぎると、必要なテクスチャメモリが大きくなり過ぎてOpenGLの動作が停止することが
 		 ありました。変更する場合は、現在の設定値から少しずつ変更してみてください。-->
 
-	<_MapCfg
+	<ModeCfg Mode="WP"/>
+	<_ModeCfg Mode="Tile"/>
+	<_ModeCfg Mode="LgLt"/>
+
+	<MapCfg
 		Title="糸島半島"
 		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
@@ -30,7 +34,7 @@
 		<!-- フォルダ内のすべてのファイルを描画する方法 -->
 		<!-- ◆保留 -->
 		<_Drawings Folder="C:/DSF/SharedData/MapView/MapDrawing"/>
-	</_MapCfg>
+	</MapCfg>
 
 	<_MapCfg
 		Title="糸島半島～佐賀平野"
@@ -159,7 +163,7 @@
 
 	<_MapCfg
 		Title="富士山"
-		PolygonZoomLevel="11"
+		PolygonZoomLevel="13"
 		ImageZoomLevel="15"
 		PolygonSize="50">
 		<Start Lg="138.65" Lt="35.3"/>
@@ -212,14 +216,14 @@
 		<End   Lg="139.40" Lt="35.70"/>
 	</_MapCfg>
 
-	<MapCfg
+	<_MapCfg
 		Title="元八王子"
 		PolygonZoomLevel="14"
 		ImageZoomLevel="18"
 		PolygonSize="10">
 		<Start Lg="139 16 10.0" Lt="35 39 30.0"/>
 		<End   Lg="139 17 10.0" Lt="35 40  0.0"/>
-	</MapCfg>
+	</_MapCfg>
 
 	<!-- 地図データ -->
 	<!-- このフォルダのgsi以下の各フォルダに必要なズームレベルのフォルダが自動作成され、必要な国土地理院タイルがダウンロードされる。-->

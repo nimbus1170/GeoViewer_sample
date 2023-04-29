@@ -30,7 +30,7 @@ public partial class GeoViewerMainForm : Form
 		 in CSceneCfg scene_cfg,
 		 in CControllerParts controller_parts)
 	{
-		Profiler.Lap("Create GeoViewer_LgLt");
+		StopWatch.Lap("Create GeoViewer_LgLt");
 
 		//--------------------------------------------------
 		// 1 開始・終了座標をクランプする。
@@ -95,9 +95,7 @@ public partial class GeoViewerMainForm : Form
 			 img_map_data,
 			 "view_tri_polygons", //"display_progress";
 			 scene_cfg,
-			 controller_parts,
-			 Info,
-			 Profiler);
+			 controller_parts);
 			
 		//--------------------------------------------------
 		// 6 シーンを描画する。
@@ -106,7 +104,7 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		Profiler.Lap("GeoViewer_LgLt Created");
+		StopWatch.Lap("GeoViewer_LgLt Created");
 
 		return viewer;
 	}

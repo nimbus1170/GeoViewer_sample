@@ -20,7 +20,9 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
-	string  Title;
+	string Mode;
+
+	string Title;
 
 	int PolygonSize;
 
@@ -56,6 +58,11 @@ public partial class GeoViewerMainForm : Form
 		cfg_doc.Load(cfg_file_name);
 
 		var geo_viewer_cfg = cfg_doc.SelectSingleNode("GeoViewerCfg");
+
+		//--------------------------------------------------
+		// ÉÇÅ[Éh
+
+		Mode = geo_viewer_cfg.SelectSingleNode("ModeCfg").Attributes["Mode"].InnerText;
 
 		//--------------------------------------------------
 		// å¬ï ÇÃínàÊê›íË

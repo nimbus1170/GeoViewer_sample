@@ -44,8 +44,9 @@ public partial class GeoViewerMainForm : Form
 	// 　→WPはLgLtを保持(継承)しても良いのでは？
 	Bitmap MapImage = null;
 	
-	readonly CInfoMap  Info		= new ();
-	readonly CProfiler Profiler	= new ();
+	readonly CInfoMap	Info	  = new ();
+	readonly CStopWatch	StopWatch = new ();
+	readonly CMemWatch	MemWatch  = new ();
 
 	readonly List<string> cmd_history = new ();
 
@@ -159,63 +160,57 @@ public partial class GeoViewerMainForm : Form
 				 3000f); // 視程(m)
 
 			//--------------------------------------------------
-			// 6 モードを選択する。
-			// ◆開発途上のプロトタイプ的な機能
-
-			// ◆どれか一つ選んで実行する。
-			var mode =
-				"WP";
-				//"Tile";
-				//"LgLt";
-
-			//--------------------------------------------------
-			// 7 ビューアフォームを作成する。
+			// 6 ビューアフォームを作成する。
 
 			// ◆viewer_form.Viewerはnullであり、後で設定する。
 			GeoViewerForm viewer_form = 
-				(mode == "WP"  )? new GeoViewerForm_WP  (){ Text = Title, Visible = true }:
-				(mode == "Tile")? new GeoViewerForm_Tile(){ Text = Title, Visible = true }:
-				(mode == "LgLt")? new GeoViewerForm_LgLt(){ Text = Title, Visible = true }: null;
+				(Mode == "WP"  )? new GeoViewerForm_WP  (){ Text = Title, Visible = true }:
+				(Mode == "Tile")? new GeoViewerForm_Tile(){ Text = Title, Visible = true }:
+				(Mode == "LgLt")? new GeoViewerForm_LgLt(){ Text = Title, Visible = true }: null;
 
 			//--------------------------------------------------
-			// 8 ビューアを作成する。
+			// 7 ビューアを作成する。
+
+			MemWatch.Lap("before CreateGeoViewer");
 
 			// ◆3項演算子ではvarは使えない。
 			CGeoViewer viewer = 
-				(mode == "WP"  )? CreateGeoViewer_WP  (viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
-				(mode == "Tile")? CreateGeoViewer_Tile(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
-				(mode == "LgLt")? CreateGeoViewer_LgLt(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts): null;
+				(Mode == "WP"  )? CreateGeoViewer_WP  (viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
+				(Mode == "Tile")? CreateGeoViewer_Tile(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
+				(Mode == "LgLt")? CreateGeoViewer_LgLt(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts): null;
+
+			MemWatch.Lap("after CreateGeoViewer");
 
 			//--------------------------------------------------
-			// 9 ビューアフォーム、コントローラフォーム及びメインフォームにビューアを設定する。
+			// 8 ビューアフォーム、コントローラフォーム及びメインフォームにビューアを設定する。
 
 			viewer_form	   .Viewer =
 			controller_form.Viewer =
 							Viewer = viewer;
 
 			//--------------------------------------------------
-			// 10 表示設定フォームを作成する。
+			// 9 表示設定フォームを作成する。
 
 		/*	var cfg_form =*/ new GeoViewerCfgForm(Viewer){ Text = Title, Visible = true };
 
 			//--------------------------------------------------
-			// 11.1 図形を描画する。
+			// 10.1 図形を描画する。
 
 			DrawShapes();
 
 			//--------------------------------------------------
-			// 11.2 図形をXMLファイルから読み込み表示する。
+			// 10.2 図形をXMLファイルから読み込み表示する。
 			// ◆StickerLineはWP単位なのでGeoViewer_LgLtでは正しく表示されない。
 
 			// XMLから読めない場合はString型でも""ではなくnullが入る。
 			if(DrawingFileName != null) DrawShapesXML();
 
 			//--------------------------------------------------
-			// 12 オーバレイを描画する。
+			// 11 オーバレイを描画する。
 
 			// ◆ダウンキャストはしたくない。viewerを別々にできないので、仮想関数で作れ。
 			// 　→そもそもWPとLgLtで別になるものか？
-			switch(mode)
+			switch(Mode)
 			{
 				case "WP"  :
 				case "Tile": DrawOverlayGeoViewer_WP  ((CGeoViewer_WP  )viewer); break;

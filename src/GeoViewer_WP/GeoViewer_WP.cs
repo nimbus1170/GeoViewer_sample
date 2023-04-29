@@ -25,8 +25,6 @@ public partial class GeoViewerMainForm : Form
 		 in CSceneCfg scene_cfg,
 		 in CControllerParts controller_parts)
 	{
-		Profiler.Lap("Create GeoViewer_WP");
-
 		//--------------------------------------------------
 		// 1 タイルをダウンロードする。
 		// ◆GeoViewer_Tileと比較して、正しいか？
@@ -108,9 +106,7 @@ public partial class GeoViewerMainForm : Form
 			 img_map_data,
 			 "view_tri_polygons",
 			 scene_cfg,
-			 controller_parts,
-			 Info,
-			 Profiler);
+			 controller_parts);
 
 		//--------------------------------------------------
 		// 6 シーンを描画する。
@@ -118,8 +114,6 @@ public partial class GeoViewerMainForm : Form
 		viewer.CreateScene();
 
 		//--------------------------------------------------
-
-		Profiler.Lap("GeoViewer_WP Created");
 
 		return viewer;
 	}

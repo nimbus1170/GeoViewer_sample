@@ -2,6 +2,7 @@
 // GeoViewer_DrawShapes.cs
 //
 //---------------------------------------------------------------------------
+using DSF_NET_Color;
 using DSF_NET_Geography;
 using DSF_NET_Geometry;
 using DSF_NET_Scene;
@@ -14,6 +15,7 @@ using System.Windows.Forms;
 using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
 using static DSF_NET_Geography.Convert_LgLt_UTM;
 using static DSF_NET_Geography.Convert_MGRS_UTM;
+using static DSF_NET_TacticalDrawing.Observer;
 using static DSF_NET_TacticalDrawing.StickerShape;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
@@ -90,7 +92,7 @@ public partial class GeoViewerMainForm : Form
 		Viewer.AddShape
 			("circle_1",
 			 new CGeoCircle(12, symbol_1_p, 1000)	// 頂点数12
-				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
+				.SetColor(new CColorF(1.0f, 0.0f, 0.0f, 0.5f))
 				.SetLineWidth(5.0f)
 				.SetFill(false));
 
@@ -100,7 +102,7 @@ public partial class GeoViewerMainForm : Form
 		Viewer.AddShape
 			("fan_1",
 			 new CGeoFan(10, symbol_2_p, 1000, new CMil(5600), new CMil(800))	// 分割数10
-				.SetColor(1.0f, 1.0f, 0.0f, 0.5f)
+				.SetColor(new CColorF(1.0f, 1.0f, 0.0f, 0.5f))
 				.SetFill(true));
 
 		//--------------------------------------------------
@@ -118,7 +120,7 @@ public partial class GeoViewerMainForm : Form
 		Viewer.AddShape
 			("parabola_1",
 			 new CGeoParabola(10, symbol_1_p, symbol_2_p, new CMil(1200.0)) // 分割数10、射角1200ミル
-				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
+				.SetColor(new CColorF(1.0f, 0.0f, 0.0f, 0.5f))
 				.SetLineWidth(2.0f));
 
 		//--------------------------------------------------
@@ -127,7 +129,7 @@ public partial class GeoViewerMainForm : Form
 		Viewer.AddShape
 			("lines_1",
 			 new CGeoPolyline()
-				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
+				.SetColor(new CColorF(1.0f, 0.0f, 0.0f, 0.5f))
 				.SetLineWidth(2.0f)
 				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07100, 14000, new CAltitude(50))))
 				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07200, 14100, new CAltitude(50))))
@@ -136,42 +138,75 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 		// 地表面に沿う線分
+		// ●通視判定を確認する。
 		// ◆動作を確認出来たらDLLに括り出したい。
 		// ◆四角ポリゴンが鞍形のように中が盛り上がっていると線分が隠れる場合がある。三角ポリゴンなら隠れないようにできそうだが。
 		// ◆他の図形にも適用したいが、べた書きするか？
 
 		// 糸島
-	//	var sticker_line_s = symbol_1_p;
-	//	var sticker_line_e = symbol_2_p;
-		var sticker_line_s = ToLgLt(ToUTM(52, 'S', "FC", 07000, 14000, new CAltitude(50)));
-		var sticker_line_e = ToLgLt(ToUTM(52, 'S', "FC", 08500, 16000, new CAltitude(50)));
+		var gnd_op  = ToLgLt(ToUTM(52, 'S', "FC", 07000, 14000));
+		var gnd_obj = ToLgLt(ToUTM(52, 'S', "FC", 08500, 16000));
 
 		// 富士山
-	//	var sticker_line_s_pos = ToLgLt(ToUTM(54, 'S', "TE", 88000, 10000, new CAltitude(50)));
-	//	var sticker_line_e_pos = ToLgLt(ToUTM(54, 'S', "TE", 96000, 18000, new CAltitude(50)));
+	//	var gnd_op  = ToLgLt(ToUTM(54, 'S', "TE", 88000, 10000));
+	//	var gnd_obj = ToLgLt(ToUTM(54, 'S', "TE", 96000, 18000));
 
-		// ◆WPの要素であるPolygonZoomLevelが出てきている。標高データがタイルなので仕方ないか。標高地図データを指定するようにできないか？
-		var nodes = MakeStickerLineStripNodesWP(PolygonZoomLevel, sticker_line_s, sticker_line_e);
+		var op  = new CLgLt(gnd_op ).SetAltitude(10, DAltitudeBase.AGL);
+		var obj = new CLgLt(gnd_obj).SetAltitude(10, DAltitudeBase.AGL);
+
+		Viewer.AddShape
+			("observe_line",
+			 new CGeoPolyline()
+				.SetColor(new CColorF(0.0f, 0.0f, 1.0f, 0.5f))
+				.SetLineWidth(5.0f)
+				.AddNode(op )
+				.AddNode(obj));
+
+		var op_p  = ToGeoCentricCoord(op );
+		var obj_p = ToGeoCentricCoord(obj);
+
+		var dx_op_obj = obj_p.X - op_p.X;
+		var dy_op_obj = obj_p.Y - op_p.Y;
+		var dz_op_obj = obj_p.Z - op_p.Z;
+
+		// ◆標高データがタイル(WP)なのでズームレベルを指定するようにしているが、標高データを指定するようにできないか？
+		var gnd_nodes = MakeStickerLineStripNodesWP(gnd_op, gnd_obj, PolygonZoomLevel);
 		
 		var sticker_line = new CGeoPolyline()
-			.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
+			.SetColor(new CColorF(1.0f, 0.0f, 0.0f, 0.5f))
 			.SetLineWidth(2.0f);
 
 		// ●内容を後で設定してもOK。参照だからか。
-		Viewer.AddShape("lines_2", sticker_line);
+		Viewer.AddShape("lines_3", sticker_line);
 
-		foreach(var node in nodes)
+		var color_r = new CColorF(1.0f, 0.0f, 0.0f, 0.5f);
+		var color_b = new CColorF(0.0f, 0.0f, 1.0f, 0.5f);
+
+		foreach(var gnd_node in gnd_nodes)
 		{
-			sticker_line.AddNode(node.Value);
+			var gnd_node_alt_AE = gnd_node.Value.GetAltitude(DAltitudeBase.AE);
+
+			var los_node_p = new CCoord
+				(op_p.X + dx_op_obj * gnd_node.Key,
+				 op_p.Y + dy_op_obj * gnd_node.Key,
+				 op_p.Z + dz_op_obj * gnd_node.Key);
+
+			var los_node_alt_AE = ToLgLt(los_node_p).GetAltitude(DAltitudeBase.AE);
+
+			var sticker_node = new CLgLt(gnd_node.Value).SetAltitude(50.0, DAltitudeBase.AGL);
+
+			sticker_line.AddNode(sticker_node);
 
 			// 確認のため●を描画する。
 			Viewer.AddShape
 				("",
-				 new CGeoCircle(8, node.Value, 10)
+				 new CGeoCircle(8, sticker_node, 10)
 					.SetLineWidth(2.0f)
-					.SetColor(1.0f, 0.0f, 0.0f, 0.5f)
+					.SetColor((los_node_alt_AE > gnd_node_alt_AE)? color_b: color_r)
 					.SetFill(true));
 		}
+
+		var is_visible = IsObserve(PolygonZoomLevel, op, obj);
 	}
 }
 //---------------------------------------------------------------------------
