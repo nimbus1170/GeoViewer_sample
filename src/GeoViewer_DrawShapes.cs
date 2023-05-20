@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
 using static DSF_NET_Geography.Convert_LgLt_UTM;
 using static DSF_NET_Geography.Convert_MGRS_UTM;
-using static DSF_NET_TacticalDrawing.Observer;
+using static DSF_NET_TacticalDrawing.GeoObserver;
 using static DSF_NET_TacticalDrawing.StickerShape;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
@@ -170,7 +170,7 @@ public partial class GeoViewerMainForm : Form
 		var dz_op_obj = obj_p.Z - op_p.Z;
 
 		// ◆標高データがタイル(WP)なのでズームレベルを指定するようにしているが、標高データを指定するようにできないか？
-		var gnd_nodes = MakeStickerLineStripNodesWP(gnd_op, gnd_obj, PolygonZoomLevel);
+		var gnd_nodes = MakeGridCrossPointsWP(gnd_op, gnd_obj, PolygonZoomLevel);
 		
 		var sticker_line = new CGeoPolyline()
 			.SetColor(new CColorF(1.0f, 0.0f, 0.0f, 0.5f))

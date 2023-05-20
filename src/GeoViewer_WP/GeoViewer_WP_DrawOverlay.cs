@@ -7,17 +7,22 @@ using DSF_NET_Color;
 using DSF_NET_Geography;
 using DSF_NET_Scene;
 
+using static DSF_NET_Geography.CEllipsoid;
+
+using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
 using static DSF_NET_Geography.Convert_LgLt_WP;
 using static DSF_NET_Geography.Convert_LgLt_WPInt;
+using static DSF_NET_Geography.GeoObserver;
+using static DSF_NET_Geometry.CCoord;
 using static DSF_NET_Geometry.CDMS;
-using static DSF_NET_TacticalDrawing.Observer;
-using static DSF_NET_Scene.Observer;
+using static DSF_NET_TacticalDrawing.GeoObserver;
 
 using System.Drawing;
 using System.Runtime.Versioning;
 using System.Windows.Forms;
 
 using static System.Convert;
+using System;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -64,7 +69,7 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 3 部分的にテクスチャオーバレイを重ねてみる。
 		// ◆オーバレイが範囲外にあると当然エラーになるが、ならない場合もある。
-		if(true)
+		if(Title == "糸島半島")
 		{
 			// オーバレイのサイズの基準(小さい辺をこのサイズにする。)
 			int ol_size = 1000;
@@ -125,8 +130,33 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 		// 視界図
-		if(true)
+		if(false)
+	//	if(Title == "糸島半島")
 		{ 
+			//--------------------------------------------------
+			// 以下、テスト
+
+			var lglt0 = new CLgLt(new CLg(139.0), new CLt(36));
+			var lglt1 = new CLgLt(new CLg(140.0), new CLt(37));
+			var lglt2 = new CLgLt(new CLg(140.0), new CLt(35));
+			var lglt3 = new CLgLt(new CLg(138.0), new CLt(35));
+			var lglt4 = new CLgLt(new CLg(138.0), new CLt(37));
+
+			// 方位角
+			var az1 = Azimuth(lglt0, lglt1).DecimalDeg;
+			var az2 = Azimuth(lglt0, lglt2).DecimalDeg;
+			var az3 = Azimuth(lglt0, lglt3).DecimalDeg;
+			var az4 = Azimuth(lglt0, lglt4).DecimalDeg;
+
+			// 測地線長(大圏距離)
+			var a1 = GeodesicLength(lglt1, lglt2);
+
+			// 直線距離
+			var a2 = Distance3D(ToGeoCentricCoord(lglt1), ToGeoCentricCoord(lglt2));
+
+			// テストここまで。
+			//--------------------------------------------------
+
 			// OP位置：糸島半島の宮地岳西側
 			var op_lglt = new CLgLt(new CLg(130.18127), new CLt(33.54134), new CAltitude(10));
 
@@ -138,64 +168,81 @@ public partial class GeoViewerMainForm : Form
 					.SetFill(true));
 
 			// 監視範囲：OPから西方向へ
-			var ol_s_lg = new CLg(130.15); var ol_s_lt = new CLt(33.53);
-			var ol_e_lg = new CLg(130.18); var ol_e_lt = new CLt(33.55);
+			var obj_s_lg = new CLg(130.15); var obj_s_lt = new CLt(33.53);
+			var obj_e_lg = new CLg(130.18); var obj_e_lt = new CLt(33.55);
 
+StopWatch.Lap("before IsObserve in C++");
+				var ol_1 = COverlay_WP.MakeVisibilityOverlay(op_lglt, new CLgLt(obj_s_lg, obj_s_lt), new CLgLt(obj_e_lg, obj_e_lt), PolygonZoomLevel, 10.0);
+StopWatch.Lap("after  IsObserve in C++");
+
+StopWatch.Lap("before IsObserveMP in C++");
+			var ol_2 = COverlay_WP.MakeVisibilityOverlayMP(op_lglt, new CLgLt(obj_s_lg, obj_s_lt), new CLgLt(obj_e_lg, obj_e_lt), PolygonZoomLevel, 10.0);
+StopWatch.Lap("after  IsObserveMP in C++");
+/*
 			// ◆WP座標は南北逆転
-			var observe_wp_sx = ToWPIntX(PolygonZoomLevel, ol_s_lg);
-			var observe_wp_sy = ToWPIntY(PolygonZoomLevel, ol_e_lt);
-			var observe_wp_ex = ToWPIntX(PolygonZoomLevel, ol_e_lg);
-			var observe_wp_ey = ToWPIntY(PolygonZoomLevel, ol_s_lt);
+			var obj_sx_wpi = ToWPIntX(PolygonZoomLevel, obj_s_lg);
+			var obj_sy_wpi = ToWPIntY(PolygonZoomLevel, obj_e_lt);
+			var obj_ex_wpi = ToWPIntX(PolygonZoomLevel, obj_e_lg);
+			var obj_ey_wpi = ToWPIntY(PolygonZoomLevel, obj_s_lt);
 
-			// オーバレイのサイズ
-			// ◆取り合えずWP間隔を100分割
-			int ol_w = (observe_wp_ex.Value - observe_wp_sx.Value) * 100;
-			int ol_h = (observe_wp_ey.Value - observe_wp_sy.Value) * 100;
+			// オーバレイのサイズ(密度)
+			// ◆取り敢えずWP間隔を100分割してwprと称する。
+			int ol_w_wpr = (obj_ex_wpi.Value - obj_sx_wpi.Value) * 100;
+			int ol_h_wpr = (obj_ey_wpi.Value - obj_sy_wpi.Value) * 100;
 
-			var ol = viewer.MakeOverlay
-				(new CWPInt(observe_wp_sx, observe_wp_sy),
-				 new CWPInt(observe_wp_ex, observe_wp_ey),
-				 ol_w, ol_h);
+			var ol_3 = viewer.MakeOverlay
+				(new CWPInt(obj_sx_wpi, obj_sy_wpi),
+					new CWPInt(obj_ex_wpi, obj_ey_wpi),
+					ol_w_wpr, ol_h_wpr);
 
-			var g = ol.GetGraphics();
+			var g = ol_3.GetGraphics();
 
-			g.DrawRectangle(new Pen(Color.Red, 10.0f), 0, 0, ol_w, ol_h);
+			g.DrawRectangle(new Pen(Color.Red, 10.0f), 0, 0, ol_w_wpr, ol_h_wpr);
 
 			var red_brush = new SolidBrush(Color.Red);
 
-			var dot_size   = 50;
-			var dot_size_2 = dot_size / 2;
+			// ◆このドットサイズはほとんど意味がないが、ドットサイズに厳密には意味はないものとして、取り敢えずこれでやる。
+			var dot_size_wpr   = 50;
+			var dot_size_2_wpr = dot_size_wpr / 2;
 
-			for(var obj_y = 0; obj_y <= ol_h; obj_y += dot_size)
-				for(var obj_x = 0; obj_x <= ol_w; obj_x += dot_size)
+			var obj_wp = new CWP
+				(new CWPX(PolygonZoomLevel, 0.0				),
+				 new CWPY(PolygonZoomLevel, obj_sy_wpi.Value));
+	
+			var dd = (double)(dot_size_wpr) / 100.0;
+
+			for(var obj_y_wp = 0; obj_y_wp <= ol_h_wpr; obj_y_wp += dot_size_wpr)
+			{
+				obj_wp.X.Value = obj_sx_wpi.Value;
+		
+				for(var obj_x_wp = 0; obj_x_wp <= ol_w_wpr; obj_x_wp += dot_size_wpr)
 				{
-					var obj_wp_x_value = observe_wp_sx.Value + ((double)obj_x) / 100.0;
-					var obj_wp_y_value = observe_wp_sy.Value + ((double)obj_y) / 100.0;
+					var obj_lglt = ToLgLt(obj_wp).SetAltitude(10.0, DAltitudeBase.AGL);
 
-					var obj_lglt = ToLgLt(new CWP(new CWPX(PolygonZoomLevel, obj_wp_x_value), new CWPY(PolygonZoomLevel, obj_wp_y_value)));
-
-					obj_lglt.SetAltitude(10, DAltitudeBase.AGL);
-
-					StopWatch.Lap("before IsObserve");
-
-				//	var is_observe = IsObserve(PolygonZoomLevel, op_lglt, obj_lglt);
-					var is_observe = IsObserve(op_lglt, obj_lglt, PolygonZoomLevel);
-				
-					StopWatch.Lap("after IsObserve");
-
-				//	if(!IsObserve(PolygonZoomLevel, op_lglt, obj_lglt))
-					if(!is_observe)
-						g.FillRectangle(red_brush, obj_x - dot_size_2, obj_y - dot_size_2, dot_size, dot_size);
+				//	if(!IsObserve(PolygonZoomLevel, op_lglt, obj_lglt)) // C# 版
+					if(!IsObserve(op_lglt, obj_lglt, PolygonZoomLevel)) // C++版
+						g.FillRectangle(red_brush, obj_x_wp - dot_size_2_wpr, obj_y_wp - dot_size_2_wpr, dot_size_wpr, dot_size_wpr);
+					
+					obj_wp.X += dd;
 				}
 
-			g.Dispose();
-		
+				obj_wp.Y += dd;
+			}
+
+StopWatch.Lap("after  IsObserve in C#");
+*/
 			// ◆オフセットやアルファ値は動的に変更することを予期してCOverlayのメンバにしない。
-			viewer.AddOverlay
-				("test_ol",
-				 ol,
-				 10.0, // 地表面からの高さ
-				 0.5f); // 透明度
+			// ●                 地表面からの高さ↓   ↓透明度
+			viewer.AddOverlay("test_ol_1", ol_1, 10.0, 0.3f);
+			viewer.AddOverlay("test_ol_2", ol_2, 20.0, 0.3f);
+		//	viewer.AddOverlay("test_ol_3", ol_3, 30.0, 0.3f);
+
+			// 距離
+		//	var ol_w_m = (int)GeodesicLength(new CLgLt(obj_s_lg, obj_s_lt), new CLgLt(obj_e_lg, obj_s_lt));
+		//	var ol_h_m = (int)GeodesicLength(new CLgLt(obj_s_lg, obj_s_lt), new CLgLt(obj_s_lg, obj_e_lt));
+
+		//	var dot_size_w_m = dot_size_wpr * ol_w_m / ol_w_wpr;
+		//	var dot_size_h_m = dot_size_wpr * ol_h_m / ol_h_wpr;
 		}
 
 		//--------------------------------------------------

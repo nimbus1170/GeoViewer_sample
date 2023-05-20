@@ -45,22 +45,22 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		var info_dictionary = Info.ToDictionary();
+		var log = Log.ToDictionary();
 
-		var vert_nx = info_dictionary["VertexNX"];
-		var vert_ny = info_dictionary["VertexNY"];
+		var vert_nx = log["VertexNX"];
+		var vert_ny = log["VertexNY"];
 
 		DialogTextBox.AppendText($"          頂点数 : {vert_nx} x {vert_ny}\r\n");
 		DialogTextBox.AppendText($"      ポリゴン数 : {(vert_nx - 1) * (vert_ny - 1) * 2}\r\n");
-		DialogTextBox.AppendText($"テクスチャサイズ : {info_dictionary["TexW"]}pix x {info_dictionary["TexH"]}pix\r\n");
-		DialogTextBox.AppendText($"  テクスチャ枚数 : {info_dictionary["TexN"]}\r\n");
+		DialogTextBox.AppendText($"テクスチャサイズ : {log["TexW"]}pix x {log["TexH"]}pix\r\n");
+		DialogTextBox.AppendText($"  テクスチャ枚数 : {log["TexN"]}\r\n");
 		DialogTextBox.AppendText($"  表示地域サイズ : {plane_size_EW}m x {plane_size_NS}m\r\n");
 		DialogTextBox.AppendText($"  ポリゴンサイズ : {plane_size_EW / (vert_nx - 1)}m x {plane_size_NS / (vert_ny - 1)}m\r\n");
 		DialogTextBox.AppendText($"\r\n");
 
 		DialogTextBox.AppendText($"polygons count from planes\r\n");
-		DialogTextBox.AppendText($"gnd-sea polygons count : {info_dictionary["gnd_sea_polygons_count"]}\r\n");
-		DialogTextBox.AppendText($"texture polygons count : {info_dictionary["texture_polygons_count"]}\r\n");
+		DialogTextBox.AppendText($"gnd-sea polygons : {log["gnd_sea_polygons_count"]}\r\n");
+		DialogTextBox.AppendText($"texture polygons : {log["texture_polygons_count"]}\r\n");
 		DialogTextBox.AppendText($"\r\n");
 
 		DialogTextBox.AppendText($"polygons count from GLObjects\r\n");

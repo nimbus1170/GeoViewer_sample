@@ -3,10 +3,8 @@
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Color;
-using DSF_NET_Geography;
 using DSF_NET_Scene;
 
-using static DSF_NET_TacticalDrawing.CDefensivePosition;
 using static DSF_NET_TacticalDrawing.StickerShape;
 using static DSF_NET_TacticalDrawing.XMLReader;
 
@@ -51,7 +49,7 @@ public partial class GeoViewerMainForm : Form
 				 new CGeoPolyline()
 					.SetColor(color_f)
 					.SetLineWidth(line_width)
-					.AddNodes(MakeStickerLineStripNodesWP(dp.BorderNodes, PolygonZoomLevel)));
+					.AddNodes(MakeGridCrossPointsWP(dp.BorderNodes, PolygonZoomLevel)));
 		
 			//--------------------------------------------------
 			// ïîë‡ãKñÕïWé¶Çï`âÊÇ∑ÇÈÅB

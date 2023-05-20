@@ -2,10 +2,8 @@
 // GeoViewer_DrawShapesXML_MineField.cs
 //
 //---------------------------------------------------------------------------
-using DSF_NET_Geography;
 using DSF_NET_Scene;
 
-using static DSF_NET_TacticalDrawing.CMineField;
 using static DSF_NET_TacticalDrawing.StickerShape;
 using static DSF_NET_TacticalDrawing.XMLReader;
 
@@ -57,7 +55,7 @@ public partial class GeoViewerMainForm : Form
 				 new CGeoPolyline()
 					.SetColor(color_f)
 					.SetLineWidth(line_width)
-					.AddNodes(MakeStickerLineStripNodesWP(mf.FrontEdgeNodes, PolygonZoomLevel))
+					.AddNodes(MakeGridCrossPointsWP(mf.FrontEdgeNodes, PolygonZoomLevel))
 					.AddNode(mf.FrontEdgeNodes[0])); // フタをする。◆最後の線分は地面に沿わないのでは？
 
 			//--------------------------------------------------

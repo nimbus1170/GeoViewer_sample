@@ -4,35 +4,6 @@
         "NET_DLL_Scene"
     </assembly>
     <members>
-        <member name="M:DSF_NET_Geography.CElevationMapData_GSI_DEM_PNG.#ctor(System.String!System.Runtime.CompilerServices.IsConst,DSF_NET_Geography.CTile!System.Runtime.CompilerServices.IsConst,DSF_NET_Geography.CTile!System.Runtime.CompilerServices.IsConst)">
-            <summary>標高地図データクラス(GSI_DEM_PNG形式)</summary>
-            <param name="gsi_dem5a_png_fldname">標高タイルのフォルダ名(ズームレベルを除く。)</param>
-        </member>
-        <member name="M:DSF_NET_Geography.CElevationMapData_GSI_DEM_PNG.#ctor(System.String!System.Runtime.CompilerServices.IsConst,System.Int32!System.Runtime.CompilerServices.IsConst,DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst,DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst)">
-            <summary>標高地図データクラス(GSI_DEM_PNG形式)</summary>
-            <param name="gsi_dem5a_png_fldname">標高タイルのフォルダ名(ズームレベルを除く。)</param>
-        </member>
-        <member name="T:DSF_NET_Geography.CElevationMapData_GSI_DEM_PNG">
-            <summary>標高地図データクラス(GSI_DEM_PNG形式)</summary>
-        </member>
-        <member name="M:DSF_NET_Geography.CElevationMapData_WP.Elevation(DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst)">
-            <summary>標高を取得する。</summary>
-        </member>
-        <member name="M:DSF_NET_Geography.CElevationMapData_WP.IsInside(DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst)">
-            <summary>範囲の内外を判定する。</summary>
-        </member>
-        <member name="T:DSF_NET_Geography.CElevationMapData_WP">
-            <summary>標高地図データクラス(ワールドピクセル座標)</summary>
-        </member>
-        <member name="M:DSF_NET_Geography.CElevationMapData_LgLt.Elevation(DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst)">
-            <summary>標高を取得する。</summary>
-        </member>
-        <member name="M:DSF_NET_Geography.CElevationMapData_LgLt.IsInside(DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst)">
-            <summary>範囲の内外を判定する。</summary>
-        </member>
-        <member name="T:DSF_NET_Geography.CElevationMapData_LgLt">
-            <summary>標高地図データクラス(経緯度)</summary>
-        </member>
         <member name="M:DSF_NET_Geometry.CLine.IsCross3D(DSF_NET_Geometry.CLine!System.Runtime.CompilerServices.IsConst,DSF_NET_Geometry.CLine!System.Runtime.CompilerServices.IsConst,System.Double@,System.Double@)">
             <summary>
 ２直線が交差するか否かを判定する。(3D)
@@ -71,6 +42,35 @@
         </member>
         <member name="T:DSF_NET_Geometry.CLine">
             <summary>線分クラス</summary>
+        </member>
+        <member name="M:DSF_NET_Geography.CElevationMapData_GSI_DEM_PNG.#ctor(System.String!System.Runtime.CompilerServices.IsConst,DSF_NET_Geography.CTile!System.Runtime.CompilerServices.IsConst,DSF_NET_Geography.CTile!System.Runtime.CompilerServices.IsConst)">
+            <summary>標高地図データクラス(GSI_DEM_PNG形式)</summary>
+            <param name="gsi_dem5a_png_fldname">標高タイルのフォルダ名(ズームレベルを除く。)</param>
+        </member>
+        <member name="M:DSF_NET_Geography.CElevationMapData_GSI_DEM_PNG.#ctor(System.String!System.Runtime.CompilerServices.IsConst,System.Int32!System.Runtime.CompilerServices.IsConst,DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst,DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst)">
+            <summary>標高地図データクラス(GSI_DEM_PNG形式)</summary>
+            <param name="gsi_dem5a_png_fldname">標高タイルのフォルダ名(ズームレベルを除く。)</param>
+        </member>
+        <member name="T:DSF_NET_Geography.CElevationMapData_GSI_DEM_PNG">
+            <summary>標高地図データクラス(GSI_DEM_PNG形式)</summary>
+        </member>
+        <member name="M:DSF_NET_Geography.CElevationMapData_WP.Elevation(DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst)">
+            <summary>標高を取得する。</summary>
+        </member>
+        <member name="M:DSF_NET_Geography.CElevationMapData_WP.IsInside(DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst)">
+            <summary>範囲の内外を判定する。</summary>
+        </member>
+        <member name="T:DSF_NET_Geography.CElevationMapData_WP">
+            <summary>標高地図データクラス(ワールドピクセル座標)</summary>
+        </member>
+        <member name="M:DSF_NET_Geography.CElevationMapData_LgLt.Elevation(DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst)">
+            <summary>標高を取得する。</summary>
+        </member>
+        <member name="M:DSF_NET_Geography.CElevationMapData_LgLt.IsInside(DSF_NET_Geography.CLgLt!System.Runtime.CompilerServices.IsConst)">
+            <summary>範囲の内外を判定する。</summary>
+        </member>
+        <member name="T:DSF_NET_Geography.CElevationMapData_LgLt">
+            <summary>標高地図データクラス(経緯度)</summary>
         </member>
         <member name="T:_SETJMP_FLOAT128">
 @ref core

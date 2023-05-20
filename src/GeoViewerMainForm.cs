@@ -44,7 +44,7 @@ public partial class GeoViewerMainForm : Form
 	// 　→WPはLgLtを保持(継承)しても良いのでは？
 	Bitmap MapImage = null;
 	
-	readonly CInfoMap	Info	  = new ();
+	readonly CLog		Log		  = new ();
 	readonly CStopWatch	StopWatch = new ();
 	readonly CMemWatch	MemWatch  = new ();
 
@@ -142,7 +142,9 @@ public partial class GeoViewerMainForm : Form
 			// ◆例外ではなくジオイドを無視するようにしろ。
 		//	if(!(File.Exists(gsi_geoid_model_file))) throw new Exception("geoid model file not found");
 
+StopWatch.Lap("before GSIGeoidMaopData");
 			var geoid_map_data = new CGSIGeoidMapData(GSIGeoidModelFile);
+StopWatch.Lap("after  GSIGeoidMaopData");
 
 			// 高度クラスにジオイドデータを設定することにより、座標オブジェクトにジオイド高が自動設定される。
 			CAltitude.SetGeoidMapData(geoid_map_data);
@@ -171,7 +173,7 @@ public partial class GeoViewerMainForm : Form
 			//--------------------------------------------------
 			// 7 ビューアを作成する。
 
-			MemWatch.Lap("before CreateGeoViewer");
+MemWatch.Lap("before CreateGeoViewer");
 
 			// ◆3項演算子ではvarは使えない。
 			CGeoViewer viewer = 
@@ -179,7 +181,7 @@ public partial class GeoViewerMainForm : Form
 				(Mode == "Tile")? CreateGeoViewer_Tile(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
 				(Mode == "LgLt")? CreateGeoViewer_LgLt(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts): null;
 
-			MemWatch.Lap("after CreateGeoViewer");
+MemWatch.Lap("after CreateGeoViewer");
 
 			//--------------------------------------------------
 			// 8 ビューアフォーム、コントローラフォーム及びメインフォームにビューアを設定する。
