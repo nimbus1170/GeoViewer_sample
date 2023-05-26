@@ -43,6 +43,7 @@ public partial class GeoViewerMainForm : Form
 	// ◆CImageMapDataで保持したいが、WPとLgLtで別なので、GeoViewerForm=WPとかで保持するか。
 	// 　→WPはLgLtを保持(継承)しても良いのでは？
 	Bitmap MapImage = null;
+	Bitmap MapPhoto = null;
 	
 	readonly CLog		Log		  = new ();
 	readonly CStopWatch	StopWatch = new ();
@@ -156,7 +157,7 @@ StopWatch.Lap("after  GSIGeoidMaopData");
 				(0.6f, // 環境光反射係数 [0,1]
 				 0.5f, // 鏡面反射係数   [0,1]
 				 64,   // ハイライト     [0,128]
-				 DShadingMode.TEXTURE,
+				 DShadingMode.TEXTURE_IMAGE,
 				 DPolygonMode.QUAD4,
 				 DFogMode.CLEAR,
 				 3000f); // 視程(m)

@@ -96,6 +96,7 @@ public partial class GeoViewerMainForm : Form
 
 	// ◆タイルで範囲を与えるとズレる。タイルはそのタイルの始点を指してないか？標高との整合もWPの方が正しいようだ。
 		MapImage = GSIImageTile.MakeMapImageFromGSITiles(GSIImageTileFolder, GSIImageTileExt, img_s_tile/*tile*/, img_e_tile/*tile*/);
+		MapPhoto = GSIImageTile.MakeMapImageFromGSITiles(GSIPhotoTileFolder, GSIPhotoTileExt, img_s_tile/*tile*/, img_e_tile/*tile*/);
 
 		//--------------------------------------------------
 		// 3.3 グリッドを描画する。
@@ -105,12 +106,10 @@ public partial class GeoViewerMainForm : Form
 		{ 
 			DrawLgLtGrid(MapImage, StartLgLt, EndLgLt, GridFontSize);
 			DrawUTMGrid (MapImage, StartLgLt, EndLgLt, GridFontSize);
+
+			DrawLgLtGrid(MapPhoto, StartLgLt, EndLgLt, GridFontSize);
+			DrawUTMGrid (MapPhoto, StartLgLt, EndLgLt, GridFontSize);
 		}
-
-		//--------------------------------------------------
-		// 3.4 地図画像データを作成する。
-
-		var img_map_data = new CImageMapData_WP(MapImage, img_s_tile, img_e_tile);
 
 		// ◆テスト
 		{
@@ -132,7 +131,6 @@ public partial class GeoViewerMainForm : Form
 			e_tile,
 			ev_map_data,
 			geoid_map_data,
-			img_map_data,
 			"view_tri_polygons",
 			scene_cfg,
 			controller_parts);
@@ -140,7 +138,12 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 5 シーンを描画する。
 
-		viewer.CreateScene();
+		var image_map_data = new CImageMapData_WP(MapImage, img_s_tile, img_e_tile);
+		var photo_map_data = new CImageMapData_WP(MapPhoto, img_s_tile, img_e_tile);
+
+		viewer.CreateScene
+			(image_map_data,
+			 photo_map_data);
 
 		//--------------------------------------------------
 

@@ -39,6 +39,9 @@ public partial class GeoViewerMainForm : Form
 	string GSIImageTileFolder;
 	string GSIImageTileExt;
 	
+	string GSIPhotoTileFolder;
+	string GSIPhotoTileExt;
+	
 	string GSIElevationTileFolder;
 
 	string GSIGeoidModelFile;
@@ -89,6 +92,9 @@ public partial class GeoViewerMainForm : Form
 
 		GSIImageTileFolder = geo_viewer_cfg.SelectSingleNode("GSIImageTiles").Attributes["Folder"].InnerText;
 		GSIImageTileExt	   = geo_viewer_cfg.SelectSingleNode("GSIImageTiles").Attributes["Ext"   ].InnerText;
+
+		GSIPhotoTileFolder = geo_viewer_cfg.SelectSingleNode("GSIPhotoTiles").Attributes["Folder"].InnerText;
+		GSIPhotoTileExt	   = geo_viewer_cfg.SelectSingleNode("GSIPhotoTiles").Attributes["Ext"   ].InnerText;
 
 		GSIElevationTileFolder = geo_viewer_cfg.SelectSingleNode("GSIElevationTiles").Attributes["Folder"].InnerText;
 

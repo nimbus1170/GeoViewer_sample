@@ -172,7 +172,7 @@ public partial class GeoViewerMainForm : Form
 			var obj_e_lg = new CLg(130.18); var obj_e_lt = new CLt(33.55);
 
 StopWatch.Lap("before IsObserve in C++");
-				var ol_1 = COverlay_WP.MakeVisibilityOverlay(op_lglt, new CLgLt(obj_s_lg, obj_s_lt), new CLgLt(obj_e_lg, obj_e_lt), PolygonZoomLevel, 10.0);
+			var ol_1 = COverlay_WP.MakeVisibilityOverlay(op_lglt, new CLgLt(obj_s_lg, obj_s_lt), new CLgLt(obj_e_lg, obj_e_lt), PolygonZoomLevel, 10.0);
 StopWatch.Lap("after  IsObserve in C++");
 
 StopWatch.Lap("before IsObserveMP in C++");

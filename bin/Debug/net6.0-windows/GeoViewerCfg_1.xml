@@ -23,7 +23,7 @@
 	<_ModeCfg Mode="Tile"/>
 	<_ModeCfg Mode="LgLt"/>
 
-	<MapCfg
+	<_MapCfg
 		Title="糸島半島"
 		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
@@ -34,7 +34,7 @@
 		<!-- フォルダ内のすべてのファイルを描画する方法 -->
 		<!-- ◆保留 -->
 		<_Drawings Folder="C:/DSF/SharedData/MapView/MapDrawing"/>
-	</MapCfg>
+	</_MapCfg>
 
 	<_MapCfg
 		Title="糸島半島～佐賀平野"
@@ -172,12 +172,21 @@
 
 	<_MapCfg
 		Title="伊豆山"
-		PolygonZoomLevel="13"
+		PolygonZoomLevel="14"
 		ImageZoomLevel="18"
 		PolygonSize="200">
 		<Start Lg="139 04  0.0" Lt="35 06 30.0"/>
 		<End   Lg="139 06  0.0" Lt="35 07 30.0"/>
 	</_MapCfg>
+
+	<MapCfg
+		Title="熱海"
+		PolygonZoomLevel="13"
+		ImageZoomLevel="18"
+		PolygonSize="200">
+		<Start Lg="139 03  0.0" Lt="35 05  0.0"/>
+		<End   Lg="139 06  0.0" Lt="35 08  0.0"/>
+	</MapCfg>
 
 	<_MapCfg
 		Title="伊豆大島"
@@ -238,8 +247,8 @@
 	<GSIImageTiles Folder="./gsi/std" Ext="png"/>
 
 	<!-- 衛星画像タイル -->
-	<_GSIImageTiles Folder="C:/DSF/MapData/gsi/seamlessphoto" Ext="jpg"/>
-	<_GSIImageTiles Folder="./gsi/seamlessphoto" Ext="jpg"/>
+	<_GSIPhotoTiles Folder="C:/DSF/MapData/gsi/seamlessphoto" Ext="jpg"/>
+	<GSIPhotoTiles Folder="./gsi/seamlessphoto" Ext="jpg"/>
 
 	<!-- 標高タイル -->
 	<_GSIElevationTiles Folder="C:/DSF/MapData/gsi/dem_png"/>

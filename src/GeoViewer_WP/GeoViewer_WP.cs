@@ -67,6 +67,7 @@ public partial class GeoViewerMainForm : Form
 		// 4.1 地図画像を作成する。
 
 		MapImage = GSIImageTile.MakeMapImageFromGSITiles(GSIImageTileFolder, GSIImageTileExt, img_s_wp, img_e_wp);
+		MapPhoto = GSIImageTile.MakeMapImageFromGSITiles(GSIPhotoTileFolder, GSIPhotoTileExt, img_s_wp, img_e_wp);
 
 		//--------------------------------------------------
 		// 4.2 グリッドを描画する。
@@ -76,13 +77,10 @@ public partial class GeoViewerMainForm : Form
 		{
 			DrawLgLtGrid(MapImage, StartLgLt, EndLgLt, GridFontSize);
 			DrawUTMGrid (MapImage, StartLgLt, EndLgLt, GridFontSize);
+
+			DrawLgLtGrid(MapPhoto, StartLgLt, EndLgLt, GridFontSize);
+			DrawUTMGrid (MapPhoto, StartLgLt, EndLgLt, GridFontSize);
 		}
-
-		//--------------------------------------------------
-		// 4.3 画像地図データを作成する。
-
-		// ◆こっちを共有するようにしたいが、WPとLgLtで別
-		var img_map_data = new CImageMapData_WP(MapImage, img_s_wp, img_e_wp);
 
 		// ◆テスト
 		{
@@ -103,7 +101,6 @@ public partial class GeoViewerMainForm : Form
 			 EndWP,
 			 ev_map_data,
 			 geoid_map_data,
-			 img_map_data,
 			 "view_tri_polygons",
 			 scene_cfg,
 			 controller_parts);
@@ -111,7 +108,12 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 6 シーンを描画する。
 
-		viewer.CreateScene();
+		var image_map_data = new CImageMapData_WP(MapImage, img_s_wp, img_e_wp);
+		var photo_map_data = new CImageMapData_WP(MapPhoto, img_s_wp, img_e_wp);
+
+		viewer.CreateScene
+			(image_map_data,
+			 photo_map_data);
 
 		//--------------------------------------------------
 

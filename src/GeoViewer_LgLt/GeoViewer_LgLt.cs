@@ -64,6 +64,7 @@ public partial class GeoViewerMainForm : Form
 		// 4.1 地図画像を作成する。
 
 		MapImage = GSIImageTile.MakeMapImageFromGSITiles(GSIImageTileFolder, GSIImageTileExt, ImageZoomLevel, StartLgLt, EndLgLt);
+		MapPhoto = GSIImageTile.MakeMapImageFromGSITiles(GSIPhotoTileFolder, GSIPhotoTileExt, ImageZoomLevel, StartLgLt, EndLgLt);
 
 		//--------------------------------------------------
 		// 4.2 グリッドを描画する。
@@ -74,11 +75,6 @@ public partial class GeoViewerMainForm : Form
 			DrawLgLtGrid(MapImage, StartLgLt, EndLgLt, GridFontSize);
 			DrawUTMGrid (MapImage, StartLgLt, EndLgLt, GridFontSize);
 		}
-
-		//--------------------------------------------------
-		// 4.3 画像地図データを作成する。
-
-		var img_map_data = new CImageMapData_LgLt(MapImage, StartLgLt, EndLgLt);
 
 		//--------------------------------------------------
 		// 5 ビューアを作成する。
@@ -92,7 +88,6 @@ public partial class GeoViewerMainForm : Form
 			 PolygonSize, // 経緯度でおおよそm単位
 			 ev_map_data,
 			 geoid_map_data,
-			 img_map_data,
 			 "view_tri_polygons", //"display_progress";
 			 scene_cfg,
 			 controller_parts);
@@ -100,7 +95,12 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 6 シーンを描画する。
 
-		viewer.CreateScene();
+		var image_map_data = new CImageMapData_LgLt(MapImage, StartLgLt, EndLgLt);
+		var photo_map_data = new CImageMapData_LgLt(MapPhoto, StartLgLt, EndLgLt);
+
+		viewer.CreateScene
+			(image_map_data,
+			 photo_map_data);
 
 		//--------------------------------------------------
 
