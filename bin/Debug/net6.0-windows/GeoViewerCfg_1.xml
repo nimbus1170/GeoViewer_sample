@@ -163,7 +163,7 @@
 
 	<_MapCfg
 		Title="富士山"
-		PolygonZoomLevel="13"
+		PolygonZoomLevel="14"
 		ImageZoomLevel="15"
 		PolygonSize="50">
 		<Start Lg="138.65" Lt="35.3"/>
@@ -182,7 +182,7 @@
 	<MapCfg
 		Title="熱海"
 		PolygonZoomLevel="13"
-		ImageZoomLevel="18"
+		ImageZoomLevel="16"
 		PolygonSize="200">
 		<Start Lg="139 03  0.0" Lt="35 05  0.0"/>
 		<End   Lg="139 06  0.0" Lt="35 08  0.0"/>

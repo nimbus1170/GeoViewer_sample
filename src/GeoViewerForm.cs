@@ -11,7 +11,6 @@ using static DSF_NET_Geography.Convert_LgLt_UTM;
 using static DSF_NET_Geography.Convert_MGRS_UTM;
 
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
@@ -28,7 +27,7 @@ namespace GeoViewer_sample
 
 			// マウスホイールの回転で近づく・遠ざかるプロシージャを追加する。
 			// コーディングでの追加が必要
-			PictureBox.MouseWheel += new System.Windows.Forms.MouseEventHandler(PictureBox_MouseWheel);
+			PictureBox.MouseWheel += new MouseEventHandler(PictureBox_MouseWheel);
 		}
 
 		private void PictureBox_Resize(object sender, EventArgs e)
@@ -57,9 +56,8 @@ namespace GeoViewer_sample
 
 		private void PictureBox_MouseMove(object sender, MouseEventArgs e)
 		{
-			if(Viewer == null) return;
+			Viewer?.MouseMove(e).DrawScene();
 
-			Viewer.MouseMove(e);
 			ShowObjInfo();
 		}
 
@@ -70,18 +68,36 @@ namespace GeoViewer_sample
 
 		private void PictureBox_MouseWheel(object sender, MouseEventArgs e)
 		{
-			Viewer?.DistFB(-e.Delta * SystemInformation.MouseWheelScrollLines / 60); // ◆移動量は目分量	
+			Viewer?
+				.DistFB(-e.Delta * SystemInformation.MouseWheelScrollLines / 60) // ◆移動量は目分量	
+				.DrawScene();
 		}
 
 		private void PlaneViewerForm_LgLt_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if(Viewer == null) return;
 
-			if(e.KeyChar == 'w')
-				Viewer.MoveFB(10);
-			else if(e.KeyChar == 's')
-				Viewer.MoveFB(-10);
+			switch(e.KeyChar)
+			{ 
+				case 'w': Viewer.MoveFB( 10); break;
+				case 's': Viewer.MoveFB(-10); break;
+				case 'a': Viewer.MoveRL( 10); break;
+				case 'd': Viewer.MoveRL(-10); break;
+			}
 
+			Viewer.DrawScene();
+
+/*			Viewer?
+				.MoveFB
+					((e.KeyChar == 'w')?  10:
+					 (e.KeyChar == 's')? -10:
+										   0) // ◆ムダ
+				.MoveRL					   
+					((e.KeyChar == 'a')?  10:
+					 (e.KeyChar == 'd')? -10:
+										   0)
+				.DrawScene();
+*/
 			ShowObjInfo();
 		}
 
@@ -91,11 +107,13 @@ namespace GeoViewer_sample
 
 			switch(e.KeyCode)
 			{
-				case Keys.Up: Viewer.LookUD(10); break;
-				case Keys.Down: Viewer.LookUD(-10); break;
+				case Keys.Up   : Viewer.LookUD( 10); break;
+				case Keys.Down : Viewer.LookUD(-10); break;
 				case Keys.Right: Viewer.TurnRL(-10); break;
-				case Keys.Left: Viewer.TurnRL(10); break;
+				case Keys.Left : Viewer.TurnRL( 10); break;
 			}
+
+			Viewer.DrawScene();
 		}
 
 		private void MarkerToolStripMenuItem_Click(Object sender, EventArgs e)
@@ -107,7 +125,7 @@ namespace GeoViewer_sample
 			item.Checked = !(item.Checked);
 
 			Viewer
-				.SetMarkerMode(item.Checked ? true : false)
+				.SetMarkerMode(item.Checked)
 				.DrawScene();
 		}
 

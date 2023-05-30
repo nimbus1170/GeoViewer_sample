@@ -28,478 +28,477 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.ObjYLabel = new System.Windows.Forms.Label();
-			this.AngleTextBox = new System.Windows.Forms.TextBox();
-			this.MinObjYLabel = new System.Windows.Forms.Label();
-			this.MaxObjYLabel = new System.Windows.Forms.Label();
-			this.MaxObjXLabel = new System.Windows.Forms.Label();
-			this.MinObjXLabel = new System.Windows.Forms.Label();
-			this.ObjYScrollBarLabel = new System.Windows.Forms.Label();
-			this.ObjYScrollBar = new System.Windows.Forms.VScrollBar();
-			this.ObjXScrollBarLabel = new System.Windows.Forms.Label();
-			this.ObjXScrollBar = new System.Windows.Forms.HScrollBar();
-			this.AngleScrollBar = new System.Windows.Forms.VScrollBar();
-			this.label4 = new System.Windows.Forms.Label();
-			this.DirScrollBar = new System.Windows.Forms.HScrollBar();
-			this.label3 = new System.Windows.Forms.Label();
-			this.DirTextBox = new System.Windows.Forms.TextBox();
-			this.DistanceScrollBar = new System.Windows.Forms.HScrollBar();
-			this.label2 = new System.Windows.Forms.Label();
-			this.DistanceTextBox = new System.Windows.Forms.TextBox();
-			this.ObjXLabel = new System.Windows.Forms.Label();
-			this.ObjYTextBox = new System.Windows.Forms.TextBox();
-			this.ObjXTextBox = new System.Windows.Forms.TextBox();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.ObserverYLabel = new System.Windows.Forms.Label();
-			this.Height0Button = new System.Windows.Forms.Button();
-			this.ObserverAltitudeTextBox = new System.Windows.Forms.TextBox();
-			this.MinObserverYLabel = new System.Windows.Forms.Label();
-			this.MaxObserverYLabel = new System.Windows.Forms.Label();
-			this.MaxObserverXLabel = new System.Windows.Forms.Label();
-			this.MinObserverXLabel = new System.Windows.Forms.Label();
-			this.ObserverYScrollBarLabel = new System.Windows.Forms.Label();
-			this.ObserverYScrollBar = new System.Windows.Forms.VScrollBar();
-			this.ObserverXScrollBarLabel = new System.Windows.Forms.Label();
-			this.ObserverXScrollBar = new System.Windows.Forms.HScrollBar();
-			this.ObserverAltitudeScrollBar = new System.Windows.Forms.VScrollBar();
-			this.label14 = new System.Windows.Forms.Label();
-			this.ObserverXLabel = new System.Windows.Forms.Label();
-			this.ObserverYTextBox = new System.Windows.Forms.TextBox();
-			this.ObserverXTextBox = new System.Windows.Forms.TextBox();
-			this.groupBox1.SuspendLayout();
-			this.groupBox2.SuspendLayout();
-			this.SuspendLayout();
+			groupBox1 = new System.Windows.Forms.GroupBox();
+			ObjYLabel = new System.Windows.Forms.Label();
+			AngleTextBox = new System.Windows.Forms.TextBox();
+			MinObjYLabel = new System.Windows.Forms.Label();
+			MaxObjYLabel = new System.Windows.Forms.Label();
+			MaxObjXLabel = new System.Windows.Forms.Label();
+			MinObjXLabel = new System.Windows.Forms.Label();
+			ObjYScrollBarLabel = new System.Windows.Forms.Label();
+			ObjYScrollBar = new System.Windows.Forms.VScrollBar();
+			ObjXScrollBarLabel = new System.Windows.Forms.Label();
+			ObjXScrollBar = new System.Windows.Forms.HScrollBar();
+			AngleScrollBar = new System.Windows.Forms.VScrollBar();
+			label4 = new System.Windows.Forms.Label();
+			DirScrollBar = new System.Windows.Forms.HScrollBar();
+			label3 = new System.Windows.Forms.Label();
+			DirTextBox = new System.Windows.Forms.TextBox();
+			DistanceScrollBar = new System.Windows.Forms.HScrollBar();
+			label2 = new System.Windows.Forms.Label();
+			DistanceTextBox = new System.Windows.Forms.TextBox();
+			ObjXLabel = new System.Windows.Forms.Label();
+			ObjYTextBox = new System.Windows.Forms.TextBox();
+			ObjXTextBox = new System.Windows.Forms.TextBox();
+			groupBox2 = new System.Windows.Forms.GroupBox();
+			ObserverYLabel = new System.Windows.Forms.Label();
+			Height0Button = new System.Windows.Forms.Button();
+			ObserverAltitudeTextBox = new System.Windows.Forms.TextBox();
+			MinObserverYLabel = new System.Windows.Forms.Label();
+			MaxObserverYLabel = new System.Windows.Forms.Label();
+			MaxObserverXLabel = new System.Windows.Forms.Label();
+			MinObserverXLabel = new System.Windows.Forms.Label();
+			ObserverYScrollBarLabel = new System.Windows.Forms.Label();
+			ObserverYScrollBar = new System.Windows.Forms.VScrollBar();
+			ObserverXScrollBarLabel = new System.Windows.Forms.Label();
+			ObserverXScrollBar = new System.Windows.Forms.HScrollBar();
+			ObserverAltitudeScrollBar = new System.Windows.Forms.VScrollBar();
+			label14 = new System.Windows.Forms.Label();
+			ObserverXLabel = new System.Windows.Forms.Label();
+			ObserverYTextBox = new System.Windows.Forms.TextBox();
+			ObserverXTextBox = new System.Windows.Forms.TextBox();
+			groupBox1.SuspendLayout();
+			groupBox2.SuspendLayout();
+			SuspendLayout();
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Controls.Add(this.ObjYLabel);
-			this.groupBox1.Controls.Add(this.AngleTextBox);
-			this.groupBox1.Controls.Add(this.MinObjYLabel);
-			this.groupBox1.Controls.Add(this.MaxObjYLabel);
-			this.groupBox1.Controls.Add(this.MaxObjXLabel);
-			this.groupBox1.Controls.Add(this.MinObjXLabel);
-			this.groupBox1.Controls.Add(this.ObjYScrollBarLabel);
-			this.groupBox1.Controls.Add(this.ObjYScrollBar);
-			this.groupBox1.Controls.Add(this.ObjXScrollBarLabel);
-			this.groupBox1.Controls.Add(this.ObjXScrollBar);
-			this.groupBox1.Controls.Add(this.AngleScrollBar);
-			this.groupBox1.Controls.Add(this.label4);
-			this.groupBox1.Controls.Add(this.DirScrollBar);
-			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Controls.Add(this.DirTextBox);
-			this.groupBox1.Controls.Add(this.DistanceScrollBar);
-			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Controls.Add(this.DistanceTextBox);
-			this.groupBox1.Controls.Add(this.ObjXLabel);
-			this.groupBox1.Controls.Add(this.ObjYTextBox);
-			this.groupBox1.Controls.Add(this.ObjXTextBox);
-			this.groupBox1.Location = new System.Drawing.Point(15, 21);
-			this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.groupBox1.Size = new System.Drawing.Size(403, 471);
-			this.groupBox1.TabIndex = 0;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "注視点";
+			groupBox1.Controls.Add(ObjYLabel);
+			groupBox1.Controls.Add(AngleTextBox);
+			groupBox1.Controls.Add(MinObjYLabel);
+			groupBox1.Controls.Add(MaxObjYLabel);
+			groupBox1.Controls.Add(MaxObjXLabel);
+			groupBox1.Controls.Add(MinObjXLabel);
+			groupBox1.Controls.Add(ObjYScrollBarLabel);
+			groupBox1.Controls.Add(ObjYScrollBar);
+			groupBox1.Controls.Add(ObjXScrollBarLabel);
+			groupBox1.Controls.Add(ObjXScrollBar);
+			groupBox1.Controls.Add(AngleScrollBar);
+			groupBox1.Controls.Add(label4);
+			groupBox1.Controls.Add(DirScrollBar);
+			groupBox1.Controls.Add(label3);
+			groupBox1.Controls.Add(DirTextBox);
+			groupBox1.Controls.Add(DistanceScrollBar);
+			groupBox1.Controls.Add(label2);
+			groupBox1.Controls.Add(DistanceTextBox);
+			groupBox1.Controls.Add(ObjXLabel);
+			groupBox1.Controls.Add(ObjYTextBox);
+			groupBox1.Controls.Add(ObjXTextBox);
+			groupBox1.Location = new System.Drawing.Point(15, 21);
+			groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			groupBox1.Name = "groupBox1";
+			groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			groupBox1.Size = new System.Drawing.Size(403, 471);
+			groupBox1.TabIndex = 0;
+			groupBox1.TabStop = false;
+			groupBox1.Text = "注視点";
 			// 
 			// ObjYLabel
 			// 
-			this.ObjYLabel.Location = new System.Drawing.Point(27, 83);
-			this.ObjYLabel.Name = "ObjYLabel";
-			this.ObjYLabel.Size = new System.Drawing.Size(48, 25);
-			this.ObjYLabel.TabIndex = 21;
-			this.ObjYLabel.Text = "緯度";
-			this.ObjYLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			ObjYLabel.Location = new System.Drawing.Point(27, 83);
+			ObjYLabel.Name = "ObjYLabel";
+			ObjYLabel.Size = new System.Drawing.Size(48, 25);
+			ObjYLabel.TabIndex = 21;
+			ObjYLabel.Text = "緯度";
+			ObjYLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// AngleTextBox
 			// 
-			this.AngleTextBox.Location = new System.Drawing.Point(200, 110);
-			this.AngleTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.AngleTextBox.Name = "AngleTextBox";
-			this.AngleTextBox.Size = new System.Drawing.Size(61, 31);
-			this.AngleTextBox.TabIndex = 20;
-			this.AngleTextBox.Text = "-000";
+			AngleTextBox.Location = new System.Drawing.Point(200, 110);
+			AngleTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			AngleTextBox.Name = "AngleTextBox";
+			AngleTextBox.Size = new System.Drawing.Size(61, 31);
+			AngleTextBox.TabIndex = 20;
+			AngleTextBox.Text = "-000";
 			// 
 			// MinObjYLabel
 			// 
-			this.MinObjYLabel.AutoSize = true;
-			this.MinObjYLabel.Location = new System.Drawing.Point(313, 367);
-			this.MinObjYLabel.Name = "MinObjYLabel";
-			this.MinObjYLabel.Size = new System.Drawing.Size(86, 25);
-			this.MinObjYLabel.TabIndex = 19;
-			this.MinObjYLabel.Text = "33.00000";
+			MinObjYLabel.AutoSize = true;
+			MinObjYLabel.Location = new System.Drawing.Point(313, 367);
+			MinObjYLabel.Name = "MinObjYLabel";
+			MinObjYLabel.Size = new System.Drawing.Size(86, 25);
+			MinObjYLabel.TabIndex = 19;
+			MinObjYLabel.Text = "33.00000";
 			// 
 			// MaxObjYLabel
 			// 
-			this.MaxObjYLabel.AutoSize = true;
-			this.MaxObjYLabel.Location = new System.Drawing.Point(313, 100);
-			this.MaxObjYLabel.Name = "MaxObjYLabel";
-			this.MaxObjYLabel.Size = new System.Drawing.Size(86, 25);
-			this.MaxObjYLabel.TabIndex = 18;
-			this.MaxObjYLabel.Text = "33.00000";
+			MaxObjYLabel.AutoSize = true;
+			MaxObjYLabel.Location = new System.Drawing.Point(313, 100);
+			MaxObjYLabel.Name = "MaxObjYLabel";
+			MaxObjYLabel.Size = new System.Drawing.Size(86, 25);
+			MaxObjYLabel.TabIndex = 18;
+			MaxObjYLabel.Text = "33.00000";
 			// 
 			// MaxObjXLabel
 			// 
-			this.MaxObjXLabel.AutoSize = true;
-			this.MaxObjXLabel.Location = new System.Drawing.Point(217, 423);
-			this.MaxObjXLabel.Name = "MaxObjXLabel";
-			this.MaxObjXLabel.Size = new System.Drawing.Size(96, 25);
-			this.MaxObjXLabel.TabIndex = 17;
-			this.MaxObjXLabel.Text = "130.00000";
+			MaxObjXLabel.AutoSize = true;
+			MaxObjXLabel.Location = new System.Drawing.Point(217, 423);
+			MaxObjXLabel.Name = "MaxObjXLabel";
+			MaxObjXLabel.Size = new System.Drawing.Size(96, 25);
+			MaxObjXLabel.TabIndex = 17;
+			MaxObjXLabel.Text = "130.00000";
 			// 
 			// MinObjXLabel
 			// 
-			this.MinObjXLabel.AutoSize = true;
-			this.MinObjXLabel.Location = new System.Drawing.Point(77, 423);
-			this.MinObjXLabel.Name = "MinObjXLabel";
-			this.MinObjXLabel.Size = new System.Drawing.Size(96, 25);
-			this.MinObjXLabel.TabIndex = 16;
-			this.MinObjXLabel.Text = "130.00000";
+			MinObjXLabel.AutoSize = true;
+			MinObjXLabel.Location = new System.Drawing.Point(77, 423);
+			MinObjXLabel.Name = "MinObjXLabel";
+			MinObjXLabel.Size = new System.Drawing.Size(96, 25);
+			MinObjXLabel.TabIndex = 16;
+			MinObjXLabel.Text = "130.00000";
 			// 
 			// ObjYScrollBarLabel
 			// 
-			this.ObjYScrollBarLabel.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.ObjYScrollBarLabel.Location = new System.Drawing.Point(313, 56);
-			this.ObjYScrollBarLabel.Name = "ObjYScrollBarLabel";
-			this.ObjYScrollBarLabel.Size = new System.Drawing.Size(48, 25);
-			this.ObjYScrollBarLabel.TabIndex = 14;
-			this.ObjYScrollBarLabel.Text = "南北";
-			this.ObjYScrollBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			ObjYScrollBarLabel.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			ObjYScrollBarLabel.Location = new System.Drawing.Point(313, 56);
+			ObjYScrollBarLabel.Name = "ObjYScrollBarLabel";
+			ObjYScrollBarLabel.Size = new System.Drawing.Size(48, 25);
+			ObjYScrollBarLabel.TabIndex = 14;
+			ObjYScrollBarLabel.Text = "南北";
+			ObjYScrollBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// ObjYScrollBar
 			// 
-			this.ObjYScrollBar.Location = new System.Drawing.Point(317, 138);
-			this.ObjYScrollBar.Maximum = 80000;
-			this.ObjYScrollBar.Name = "ObjYScrollBar";
-			this.ObjYScrollBar.Size = new System.Drawing.Size(20, 208);
-			this.ObjYScrollBar.TabIndex = 13;
-			this.ObjYScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.ObjYScrollBar_Scroll);
+			ObjYScrollBar.Location = new System.Drawing.Point(317, 138);
+			ObjYScrollBar.Maximum = 80000;
+			ObjYScrollBar.Name = "ObjYScrollBar";
+			ObjYScrollBar.Size = new System.Drawing.Size(20, 208);
+			ObjYScrollBar.TabIndex = 13;
+			ObjYScrollBar.Scroll += ObjYScrollBar_Scroll;
 			// 
 			// ObjXScrollBarLabel
 			// 
-			this.ObjXScrollBarLabel.Location = new System.Drawing.Point(27, 381);
-			this.ObjXScrollBarLabel.Name = "ObjXScrollBarLabel";
-			this.ObjXScrollBarLabel.Size = new System.Drawing.Size(48, 25);
-			this.ObjXScrollBarLabel.TabIndex = 12;
-			this.ObjXScrollBarLabel.Text = "東西";
-			this.ObjXScrollBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			ObjXScrollBarLabel.Location = new System.Drawing.Point(27, 381);
+			ObjXScrollBarLabel.Name = "ObjXScrollBarLabel";
+			ObjXScrollBarLabel.Size = new System.Drawing.Size(48, 25);
+			ObjXScrollBarLabel.TabIndex = 12;
+			ObjXScrollBarLabel.Text = "東西";
+			ObjXScrollBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// ObjXScrollBar
 			// 
-			this.ObjXScrollBar.Location = new System.Drawing.Point(80, 375);
-			this.ObjXScrollBar.Maximum = 80000;
-			this.ObjXScrollBar.Name = "ObjXScrollBar";
-			this.ObjXScrollBar.Size = new System.Drawing.Size(217, 20);
-			this.ObjXScrollBar.TabIndex = 11;
-			this.ObjXScrollBar.Value = 80000;
-			this.ObjXScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.ObjXScrollBar_Scroll);
+			ObjXScrollBar.Location = new System.Drawing.Point(80, 375);
+			ObjXScrollBar.Maximum = 80000;
+			ObjXScrollBar.Name = "ObjXScrollBar";
+			ObjXScrollBar.Size = new System.Drawing.Size(217, 20);
+			ObjXScrollBar.TabIndex = 11;
+			ObjXScrollBar.Value = 80000;
+			ObjXScrollBar.Scroll += ObjXScrollBar_Scroll;
 			// 
 			// AngleScrollBar
 			// 
-			this.AngleScrollBar.Location = new System.Drawing.Point(267, 79);
-			this.AngleScrollBar.Maximum = 90;
-			this.AngleScrollBar.Name = "AngleScrollBar";
-			this.AngleScrollBar.Size = new System.Drawing.Size(20, 208);
-			this.AngleScrollBar.TabIndex = 10;
-			this.AngleScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.AngleScrollBar_Scroll);
+			AngleScrollBar.Location = new System.Drawing.Point(267, 79);
+			AngleScrollBar.Maximum = 90;
+			AngleScrollBar.Name = "AngleScrollBar";
+			AngleScrollBar.Size = new System.Drawing.Size(20, 208);
+			AngleScrollBar.TabIndex = 10;
+			AngleScrollBar.Scroll += AngleScrollBar_Scroll;
 			// 
 			// label4
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.label4.Location = new System.Drawing.Point(217, 79);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(44, 18);
-			this.label4.TabIndex = 9;
-			this.label4.Text = "角度";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			label4.AutoSize = true;
+			label4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			label4.Location = new System.Drawing.Point(217, 79);
+			label4.Name = "label4";
+			label4.Size = new System.Drawing.Size(44, 18);
+			label4.TabIndex = 9;
+			label4.Text = "俯角";
+			label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// DirScrollBar
 			// 
-			this.DirScrollBar.Location = new System.Drawing.Point(30, 296);
-			this.DirScrollBar.Maximum = 180;
-			this.DirScrollBar.Minimum = -180;
-			this.DirScrollBar.Name = "DirScrollBar";
-			this.DirScrollBar.Size = new System.Drawing.Size(217, 20);
-			this.DirScrollBar.TabIndex = 8;
-			this.DirScrollBar.Value = 180;
-			this.DirScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.DirScrollBar_Scroll);
+			DirScrollBar.Location = new System.Drawing.Point(30, 296);
+			DirScrollBar.Maximum = 180;
+			DirScrollBar.Minimum = -180;
+			DirScrollBar.Name = "DirScrollBar";
+			DirScrollBar.Size = new System.Drawing.Size(217, 20);
+			DirScrollBar.TabIndex = 8;
+			DirScrollBar.Value = 180;
+			DirScrollBar.Scroll += DirScrollBar_Scroll;
 			// 
 			// label3
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(27, 256);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(48, 25);
-			this.label3.TabIndex = 7;
-			this.label3.Text = "方向";
+			label3.AutoSize = true;
+			label3.Location = new System.Drawing.Point(9, 255);
+			label3.Name = "label3";
+			label3.Size = new System.Drawing.Size(66, 25);
+			label3.TabIndex = 7;
+			label3.Text = "方位角";
 			// 
 			// DirTextBox
 			// 
-			this.DirTextBox.Location = new System.Drawing.Point(80, 252);
-			this.DirTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.DirTextBox.Name = "DirTextBox";
-			this.DirTextBox.Size = new System.Drawing.Size(61, 31);
-			this.DirTextBox.TabIndex = 6;
-			this.DirTextBox.Text = "-000";
+			DirTextBox.Location = new System.Drawing.Point(80, 252);
+			DirTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			DirTextBox.Name = "DirTextBox";
+			DirTextBox.Size = new System.Drawing.Size(61, 31);
+			DirTextBox.TabIndex = 6;
+			DirTextBox.Text = "-000";
 			// 
 			// DistanceScrollBar
 			// 
-			this.DistanceScrollBar.Location = new System.Drawing.Point(30, 183);
-			this.DistanceScrollBar.Maximum = 80000;
-			this.DistanceScrollBar.Name = "DistanceScrollBar";
-			this.DistanceScrollBar.Size = new System.Drawing.Size(217, 20);
-			this.DistanceScrollBar.TabIndex = 5;
-			this.DistanceScrollBar.Value = 80000;
-			this.DistanceScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.DistanceScrollBar_Scroll);
+			DistanceScrollBar.Location = new System.Drawing.Point(30, 183);
+			DistanceScrollBar.Maximum = 80000;
+			DistanceScrollBar.Name = "DistanceScrollBar";
+			DistanceScrollBar.Size = new System.Drawing.Size(217, 20);
+			DistanceScrollBar.TabIndex = 5;
+			DistanceScrollBar.Value = 80000;
+			DistanceScrollBar.Scroll += DistanceScrollBar_Scroll;
 			// 
 			// label2
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(27, 148);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(48, 25);
-			this.label2.TabIndex = 4;
-			this.label2.Text = "距離";
+			label2.AutoSize = true;
+			label2.Location = new System.Drawing.Point(27, 148);
+			label2.Name = "label2";
+			label2.Size = new System.Drawing.Size(48, 25);
+			label2.TabIndex = 4;
+			label2.Text = "距離";
 			// 
 			// DistanceTextBox
 			// 
-			this.DistanceTextBox.Location = new System.Drawing.Point(80, 142);
-			this.DistanceTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.DistanceTextBox.Name = "DistanceTextBox";
-			this.DistanceTextBox.Size = new System.Drawing.Size(61, 31);
-			this.DistanceTextBox.TabIndex = 3;
-			this.DistanceTextBox.Text = "00000";
+			DistanceTextBox.Location = new System.Drawing.Point(80, 142);
+			DistanceTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			DistanceTextBox.Name = "DistanceTextBox";
+			DistanceTextBox.Size = new System.Drawing.Size(61, 31);
+			DistanceTextBox.TabIndex = 3;
+			DistanceTextBox.Text = "00000";
 			// 
 			// ObjXLabel
 			// 
-			this.ObjXLabel.Location = new System.Drawing.Point(27, 35);
-			this.ObjXLabel.Name = "ObjXLabel";
-			this.ObjXLabel.Size = new System.Drawing.Size(48, 25);
-			this.ObjXLabel.TabIndex = 2;
-			this.ObjXLabel.Text = "経度";
-			this.ObjXLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			ObjXLabel.Location = new System.Drawing.Point(27, 35);
+			ObjXLabel.Name = "ObjXLabel";
+			ObjXLabel.Size = new System.Drawing.Size(48, 25);
+			ObjXLabel.TabIndex = 2;
+			ObjXLabel.Text = "経度";
+			ObjXLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// ObjYTextBox
 			// 
-			this.ObjYTextBox.Location = new System.Drawing.Point(80, 77);
-			this.ObjYTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.ObjYTextBox.Name = "ObjYTextBox";
-			this.ObjYTextBox.Size = new System.Drawing.Size(96, 31);
-			this.ObjYTextBox.TabIndex = 1;
-			this.ObjYTextBox.Text = "33.00000";
-			this.ObjYTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			ObjYTextBox.Location = new System.Drawing.Point(80, 77);
+			ObjYTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			ObjYTextBox.Name = "ObjYTextBox";
+			ObjYTextBox.Size = new System.Drawing.Size(96, 31);
+			ObjYTextBox.TabIndex = 1;
+			ObjYTextBox.Text = "33.00000";
+			ObjYTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// ObjXTextBox
 			// 
-			this.ObjXTextBox.Location = new System.Drawing.Point(80, 29);
-			this.ObjXTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.ObjXTextBox.Name = "ObjXTextBox";
-			this.ObjXTextBox.Size = new System.Drawing.Size(96, 31);
-			this.ObjXTextBox.TabIndex = 0;
-			this.ObjXTextBox.Text = "130.00000";
-			this.ObjXTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			ObjXTextBox.Location = new System.Drawing.Point(80, 29);
+			ObjXTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			ObjXTextBox.Name = "ObjXTextBox";
+			ObjXTextBox.Size = new System.Drawing.Size(96, 31);
+			ObjXTextBox.TabIndex = 0;
+			ObjXTextBox.Text = "130.00000";
+			ObjXTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.Controls.Add(this.ObserverYLabel);
-			this.groupBox2.Controls.Add(this.Height0Button);
-			this.groupBox2.Controls.Add(this.ObserverAltitudeTextBox);
-			this.groupBox2.Controls.Add(this.MinObserverYLabel);
-			this.groupBox2.Controls.Add(this.MaxObserverYLabel);
-			this.groupBox2.Controls.Add(this.MaxObserverXLabel);
-			this.groupBox2.Controls.Add(this.MinObserverXLabel);
-			this.groupBox2.Controls.Add(this.ObserverYScrollBarLabel);
-			this.groupBox2.Controls.Add(this.ObserverYScrollBar);
-			this.groupBox2.Controls.Add(this.ObserverXScrollBarLabel);
-			this.groupBox2.Controls.Add(this.ObserverXScrollBar);
-			this.groupBox2.Controls.Add(this.ObserverAltitudeScrollBar);
-			this.groupBox2.Controls.Add(this.label14);
-			this.groupBox2.Controls.Add(this.ObserverXLabel);
-			this.groupBox2.Controls.Add(this.ObserverYTextBox);
-			this.groupBox2.Controls.Add(this.ObserverXTextBox);
-			this.groupBox2.Location = new System.Drawing.Point(453, 21);
-			this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.groupBox2.Size = new System.Drawing.Size(410, 471);
-			this.groupBox2.TabIndex = 1;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "観測者";
+			groupBox2.Controls.Add(ObserverYLabel);
+			groupBox2.Controls.Add(Height0Button);
+			groupBox2.Controls.Add(ObserverAltitudeTextBox);
+			groupBox2.Controls.Add(MinObserverYLabel);
+			groupBox2.Controls.Add(MaxObserverYLabel);
+			groupBox2.Controls.Add(MaxObserverXLabel);
+			groupBox2.Controls.Add(MinObserverXLabel);
+			groupBox2.Controls.Add(ObserverYScrollBarLabel);
+			groupBox2.Controls.Add(ObserverYScrollBar);
+			groupBox2.Controls.Add(ObserverXScrollBarLabel);
+			groupBox2.Controls.Add(ObserverXScrollBar);
+			groupBox2.Controls.Add(ObserverAltitudeScrollBar);
+			groupBox2.Controls.Add(label14);
+			groupBox2.Controls.Add(ObserverXLabel);
+			groupBox2.Controls.Add(ObserverYTextBox);
+			groupBox2.Controls.Add(ObserverXTextBox);
+			groupBox2.Location = new System.Drawing.Point(453, 21);
+			groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			groupBox2.Name = "groupBox2";
+			groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			groupBox2.Size = new System.Drawing.Size(410, 471);
+			groupBox2.TabIndex = 1;
+			groupBox2.TabStop = false;
+			groupBox2.Text = "観測者";
 			// 
 			// ObserverYLabel
 			// 
-			this.ObserverYLabel.Location = new System.Drawing.Point(28, 83);
-			this.ObserverYLabel.Name = "ObserverYLabel";
-			this.ObserverYLabel.Size = new System.Drawing.Size(48, 25);
-			this.ObserverYLabel.TabIndex = 33;
-			this.ObserverYLabel.Text = "緯度";
-			this.ObserverYLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			ObserverYLabel.Location = new System.Drawing.Point(28, 83);
+			ObserverYLabel.Name = "ObserverYLabel";
+			ObserverYLabel.Size = new System.Drawing.Size(48, 25);
+			ObserverYLabel.TabIndex = 33;
+			ObserverYLabel.Text = "緯度";
+			ObserverYLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// Height0Button
 			// 
-			this.Height0Button.Location = new System.Drawing.Point(240, 308);
-			this.Height0Button.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.Height0Button.Name = "Height0Button";
-			this.Height0Button.Size = new System.Drawing.Size(55, 38);
-			this.Height0Button.TabIndex = 32;
-			this.Height0Button.Text = "0m";
-			this.Height0Button.UseVisualStyleBackColor = true;
-			this.Height0Button.Click += new System.EventHandler(this.Height0Button_Click);
+			Height0Button.Location = new System.Drawing.Point(240, 308);
+			Height0Button.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			Height0Button.Name = "Height0Button";
+			Height0Button.Size = new System.Drawing.Size(55, 38);
+			Height0Button.TabIndex = 32;
+			Height0Button.Text = "0m";
+			Height0Button.UseVisualStyleBackColor = true;
+			Height0Button.Click += Height0Button_Click;
 			// 
 			// ObserverAltitudeTextBox
 			// 
-			this.ObserverAltitudeTextBox.Location = new System.Drawing.Point(188, 169);
-			this.ObserverAltitudeTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.ObserverAltitudeTextBox.Name = "ObserverAltitudeTextBox";
-			this.ObserverAltitudeTextBox.Size = new System.Drawing.Size(61, 31);
-			this.ObserverAltitudeTextBox.TabIndex = 31;
-			this.ObserverAltitudeTextBox.Text = "80000";
+			ObserverAltitudeTextBox.Location = new System.Drawing.Point(188, 169);
+			ObserverAltitudeTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			ObserverAltitudeTextBox.Name = "ObserverAltitudeTextBox";
+			ObserverAltitudeTextBox.Size = new System.Drawing.Size(61, 31);
+			ObserverAltitudeTextBox.TabIndex = 31;
+			ObserverAltitudeTextBox.Text = "80000";
 			// 
 			// MinObserverYLabel
 			// 
-			this.MinObserverYLabel.AutoSize = true;
-			this.MinObserverYLabel.Location = new System.Drawing.Point(318, 367);
-			this.MinObserverYLabel.Name = "MinObserverYLabel";
-			this.MinObserverYLabel.Size = new System.Drawing.Size(86, 25);
-			this.MinObserverYLabel.TabIndex = 30;
-			this.MinObserverYLabel.Text = "33.00000";
+			MinObserverYLabel.AutoSize = true;
+			MinObserverYLabel.Location = new System.Drawing.Point(318, 367);
+			MinObserverYLabel.Name = "MinObserverYLabel";
+			MinObserverYLabel.Size = new System.Drawing.Size(86, 25);
+			MinObserverYLabel.TabIndex = 30;
+			MinObserverYLabel.Text = "33.00000";
 			// 
 			// MaxObserverYLabel
 			// 
-			this.MaxObserverYLabel.AutoSize = true;
-			this.MaxObserverYLabel.Location = new System.Drawing.Point(310, 100);
-			this.MaxObserverYLabel.Name = "MaxObserverYLabel";
-			this.MaxObserverYLabel.Size = new System.Drawing.Size(86, 25);
-			this.MaxObserverYLabel.TabIndex = 29;
-			this.MaxObserverYLabel.Text = "33.00000";
+			MaxObserverYLabel.AutoSize = true;
+			MaxObserverYLabel.Location = new System.Drawing.Point(310, 100);
+			MaxObserverYLabel.Name = "MaxObserverYLabel";
+			MaxObserverYLabel.Size = new System.Drawing.Size(86, 25);
+			MaxObserverYLabel.TabIndex = 29;
+			MaxObserverYLabel.Text = "33.00000";
 			// 
 			// MaxObserverXLabel
 			// 
-			this.MaxObserverXLabel.AutoSize = true;
-			this.MaxObserverXLabel.Location = new System.Drawing.Point(215, 427);
-			this.MaxObserverXLabel.Name = "MaxObserverXLabel";
-			this.MaxObserverXLabel.Size = new System.Drawing.Size(96, 25);
-			this.MaxObserverXLabel.TabIndex = 28;
-			this.MaxObserverXLabel.Text = "130.00000";
+			MaxObserverXLabel.AutoSize = true;
+			MaxObserverXLabel.Location = new System.Drawing.Point(215, 427);
+			MaxObserverXLabel.Name = "MaxObserverXLabel";
+			MaxObserverXLabel.Size = new System.Drawing.Size(96, 25);
+			MaxObserverXLabel.TabIndex = 28;
+			MaxObserverXLabel.Text = "130.00000";
 			// 
 			// MinObserverXLabel
 			// 
-			this.MinObserverXLabel.AutoSize = true;
-			this.MinObserverXLabel.Location = new System.Drawing.Point(75, 427);
-			this.MinObserverXLabel.Name = "MinObserverXLabel";
-			this.MinObserverXLabel.Size = new System.Drawing.Size(96, 25);
-			this.MinObserverXLabel.TabIndex = 27;
-			this.MinObserverXLabel.Text = "130.00000";
+			MinObserverXLabel.AutoSize = true;
+			MinObserverXLabel.Location = new System.Drawing.Point(75, 427);
+			MinObserverXLabel.Name = "MinObserverXLabel";
+			MinObserverXLabel.Size = new System.Drawing.Size(96, 25);
+			MinObserverXLabel.TabIndex = 27;
+			MinObserverXLabel.Text = "130.00000";
 			// 
 			// ObserverYScrollBarLabel
 			// 
-			this.ObserverYScrollBarLabel.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.ObserverYScrollBarLabel.Location = new System.Drawing.Point(308, 60);
-			this.ObserverYScrollBarLabel.Name = "ObserverYScrollBarLabel";
-			this.ObserverYScrollBarLabel.Size = new System.Drawing.Size(48, 25);
-			this.ObserverYScrollBarLabel.TabIndex = 26;
-			this.ObserverYScrollBarLabel.Text = "南北";
-			this.ObserverYScrollBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			ObserverYScrollBarLabel.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			ObserverYScrollBarLabel.Location = new System.Drawing.Point(308, 60);
+			ObserverYScrollBarLabel.Name = "ObserverYScrollBarLabel";
+			ObserverYScrollBarLabel.Size = new System.Drawing.Size(48, 25);
+			ObserverYScrollBarLabel.TabIndex = 26;
+			ObserverYScrollBarLabel.Text = "南北";
+			ObserverYScrollBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// ObserverYScrollBar
 			// 
-			this.ObserverYScrollBar.Location = new System.Drawing.Point(313, 138);
-			this.ObserverYScrollBar.Maximum = 80000;
-			this.ObserverYScrollBar.Name = "ObserverYScrollBar";
-			this.ObserverYScrollBar.Size = new System.Drawing.Size(20, 208);
-			this.ObserverYScrollBar.TabIndex = 25;
-			this.ObserverYScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.ObserverYScrollBar_Scroll);
+			ObserverYScrollBar.Location = new System.Drawing.Point(313, 138);
+			ObserverYScrollBar.Maximum = 80000;
+			ObserverYScrollBar.Name = "ObserverYScrollBar";
+			ObserverYScrollBar.Size = new System.Drawing.Size(20, 208);
+			ObserverYScrollBar.TabIndex = 25;
+			ObserverYScrollBar.Scroll += ObserverYScrollBar_Scroll;
 			// 
 			// ObserverXScrollBarLabel
 			// 
-			this.ObserverXScrollBarLabel.Location = new System.Drawing.Point(28, 381);
-			this.ObserverXScrollBarLabel.Name = "ObserverXScrollBarLabel";
-			this.ObserverXScrollBarLabel.Size = new System.Drawing.Size(48, 25);
-			this.ObserverXScrollBarLabel.TabIndex = 24;
-			this.ObserverXScrollBarLabel.Text = "東西";
-			this.ObserverXScrollBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			ObserverXScrollBarLabel.Location = new System.Drawing.Point(28, 381);
+			ObserverXScrollBarLabel.Name = "ObserverXScrollBarLabel";
+			ObserverXScrollBarLabel.Size = new System.Drawing.Size(48, 25);
+			ObserverXScrollBarLabel.TabIndex = 24;
+			ObserverXScrollBarLabel.Text = "東西";
+			ObserverXScrollBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// ObserverXScrollBar
 			// 
-			this.ObserverXScrollBar.Location = new System.Drawing.Point(78, 375);
-			this.ObserverXScrollBar.Maximum = 80000;
-			this.ObserverXScrollBar.Name = "ObserverXScrollBar";
-			this.ObserverXScrollBar.Size = new System.Drawing.Size(217, 20);
-			this.ObserverXScrollBar.TabIndex = 23;
-			this.ObserverXScrollBar.Value = 80000;
-			this.ObserverXScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.ObserverXScrollBar_Scroll);
+			ObserverXScrollBar.Location = new System.Drawing.Point(78, 375);
+			ObserverXScrollBar.Maximum = 80000;
+			ObserverXScrollBar.Name = "ObserverXScrollBar";
+			ObserverXScrollBar.Size = new System.Drawing.Size(217, 20);
+			ObserverXScrollBar.TabIndex = 23;
+			ObserverXScrollBar.Value = 80000;
+			ObserverXScrollBar.Scroll += ObserverXScrollBar_Scroll;
 			// 
 			// ObserverAltitudeScrollBar
 			// 
-			this.ObserverAltitudeScrollBar.Location = new System.Drawing.Point(258, 96);
-			this.ObserverAltitudeScrollBar.Maximum = 90;
-			this.ObserverAltitudeScrollBar.Name = "ObserverAltitudeScrollBar";
-			this.ObserverAltitudeScrollBar.Size = new System.Drawing.Size(20, 208);
-			this.ObserverAltitudeScrollBar.TabIndex = 22;
-			this.ObserverAltitudeScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.ObserverAltitudeScrollBar_Scroll);
+			ObserverAltitudeScrollBar.Location = new System.Drawing.Point(258, 96);
+			ObserverAltitudeScrollBar.Maximum = 90;
+			ObserverAltitudeScrollBar.Name = "ObserverAltitudeScrollBar";
+			ObserverAltitudeScrollBar.Size = new System.Drawing.Size(20, 208);
+			ObserverAltitudeScrollBar.TabIndex = 22;
+			ObserverAltitudeScrollBar.Scroll += ObserverAltitudeScrollBar_Scroll;
 			// 
 			// label14
 			// 
-			this.label14.AutoSize = true;
-			this.label14.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.label14.Location = new System.Drawing.Point(187, 138);
-			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(62, 18);
-			this.label14.TabIndex = 21;
-			this.label14.Text = "地上高";
-			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			label14.AutoSize = true;
+			label14.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			label14.Location = new System.Drawing.Point(187, 138);
+			label14.Name = "label14";
+			label14.Size = new System.Drawing.Size(62, 18);
+			label14.TabIndex = 21;
+			label14.Text = "地上高";
+			label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// ObserverXLabel
 			// 
-			this.ObserverXLabel.Location = new System.Drawing.Point(28, 35);
-			this.ObserverXLabel.Name = "ObserverXLabel";
-			this.ObserverXLabel.Size = new System.Drawing.Size(48, 25);
-			this.ObserverXLabel.TabIndex = 5;
-			this.ObserverXLabel.Text = "経度";
-			this.ObserverXLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			ObserverXLabel.Location = new System.Drawing.Point(28, 35);
+			ObserverXLabel.Name = "ObserverXLabel";
+			ObserverXLabel.Size = new System.Drawing.Size(48, 25);
+			ObserverXLabel.TabIndex = 5;
+			ObserverXLabel.Text = "経度";
+			ObserverXLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// ObserverYTextBox
 			// 
-			this.ObserverYTextBox.Location = new System.Drawing.Point(83, 77);
-			this.ObserverYTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.ObserverYTextBox.Name = "ObserverYTextBox";
-			this.ObserverYTextBox.Size = new System.Drawing.Size(96, 31);
-			this.ObserverYTextBox.TabIndex = 4;
-			this.ObserverYTextBox.Text = "33.00000";
-			this.ObserverYTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			ObserverYTextBox.Location = new System.Drawing.Point(83, 77);
+			ObserverYTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			ObserverYTextBox.Name = "ObserverYTextBox";
+			ObserverYTextBox.Size = new System.Drawing.Size(96, 31);
+			ObserverYTextBox.TabIndex = 4;
+			ObserverYTextBox.Text = "33.00000";
+			ObserverYTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// ObserverXTextBox
 			// 
-			this.ObserverXTextBox.Location = new System.Drawing.Point(83, 29);
-			this.ObserverXTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.ObserverXTextBox.Name = "ObserverXTextBox";
-			this.ObserverXTextBox.Size = new System.Drawing.Size(96, 31);
-			this.ObserverXTextBox.TabIndex = 3;
-			this.ObserverXTextBox.Text = "130.00000";
-			this.ObserverXTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			ObserverXTextBox.Location = new System.Drawing.Point(83, 29);
+			ObserverXTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			ObserverXTextBox.Name = "ObserverXTextBox";
+			ObserverXTextBox.Size = new System.Drawing.Size(96, 31);
+			ObserverXTextBox.TabIndex = 3;
+			ObserverXTextBox.Text = "130.00000";
+			ObserverXTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// GeoViewerControllerForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(882, 512);
-			this.ControlBox = false;
-			this.Controls.Add(this.groupBox2);
-			this.Controls.Add(this.groupBox1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "GeoViewerControllerForm";
-			this.Text = "コントローラ";
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
-			this.ResumeLayout(false);
-
+			AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			ClientSize = new System.Drawing.Size(882, 512);
+			ControlBox = false;
+			Controls.Add(groupBox2);
+			Controls.Add(groupBox1);
+			FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			MaximizeBox = false;
+			MinimizeBox = false;
+			Name = "GeoViewerControllerForm";
+			Text = "コントローラ";
+			groupBox1.ResumeLayout(false);
+			groupBox1.PerformLayout();
+			groupBox2.ResumeLayout(false);
+			groupBox2.PerformLayout();
+			ResumeLayout(false);
 		}
 
 		#endregion
@@ -535,13 +534,13 @@
 		internal System.Windows.Forms.TextBox ObserverXTextBox;
 		internal System.Windows.Forms.Label MaxObserverXLabel;
 		internal System.Windows.Forms.Label MinObserverXLabel;
-        protected System.Windows.Forms.Label ObjXLabel;
-        protected System.Windows.Forms.Label ObjYLabel;
-        protected System.Windows.Forms.Label ObjYScrollBarLabel;
-        protected System.Windows.Forms.Label ObjXScrollBarLabel;
-        protected System.Windows.Forms.Label ObserverXLabel;
-        protected System.Windows.Forms.Label ObserverYLabel;
-        protected System.Windows.Forms.Label ObserverYScrollBarLabel;
-        protected System.Windows.Forms.Label ObserverXScrollBarLabel;
-    }
+		protected System.Windows.Forms.Label ObjXLabel;
+		protected System.Windows.Forms.Label ObjYLabel;
+		protected System.Windows.Forms.Label ObjYScrollBarLabel;
+		protected System.Windows.Forms.Label ObjXScrollBarLabel;
+		protected System.Windows.Forms.Label ObserverXLabel;
+		protected System.Windows.Forms.Label ObserverYLabel;
+		protected System.Windows.Forms.Label ObserverYScrollBarLabel;
+		protected System.Windows.Forms.Label ObserverXScrollBarLabel;
+	}
 }

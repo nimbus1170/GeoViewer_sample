@@ -249,7 +249,7 @@ MemWatch.Lap("after CreateGeoViewer");
 
 			tb.AppendText("\r\n");
 
-			var cmd_line = tb.Lines[^2].Substring(1);
+			var cmd_line = tb.Lines[^2][1..];
 
 			if(cmd_line != "")
 			{

@@ -72,7 +72,7 @@ namespace GeoViewer_sample
         {
             // [0,1]
             Viewer?
-                .SetAmbient(System.Convert.ToSingle(AmbientTrackBar.Value) / 100.0f)
+                .SetAmbient(ToSingle(AmbientTrackBar.Value) / 100.0f)
                 .DrawScene();
         }
 
@@ -81,7 +81,7 @@ namespace GeoViewer_sample
         {
             // [0,1]
             Viewer?
-                .SetSpecular(Convert.ToSingle(SpecularTrackBar.Value) / 100.0f)
+                .SetSpecular(ToSingle(SpecularTrackBar.Value) / 100.0f)
                 .DrawScene();
         }
 
@@ -97,7 +97,7 @@ namespace GeoViewer_sample
         private void VisibilityNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
             Viewer?
-                .SetVisibility(Convert.ToInt32(VisibilityNumericUpDown.Value))
+                .SetVisibility(ToInt32(VisibilityNumericUpDown.Value))
                 .DrawScene();
         }
 
@@ -105,7 +105,7 @@ namespace GeoViewer_sample
         private void LocalViewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             Viewer?
-                .SetLocalView(LocalViewCheckBox.Checked ? true : false)
+                .SetLocalView(LocalViewCheckBox.Checked)
                 .DrawScene();
         }
 
@@ -113,7 +113,7 @@ namespace GeoViewer_sample
         private void MarkerCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             Viewer?
-                .SetMarkerMode(MarkerCheckBox.Checked ? true : false)
+                .SetMarkerMode(MarkerCheckBox.Checked)
                 .DrawScene();
         }
 

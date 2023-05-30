@@ -77,12 +77,12 @@ public partial class GeoViewerMainForm : Form
 			int ol_h = (MapImage.Width  > MapImage.Height)? ol_size: (ol_size * MapImage.Height / MapImage.Width ); 
 
 			// 可也山
-		//	var ol_s_lg = new CLg(ToDecimalDeg(130,  9, 0.0)); var ol_s_lt = new CLt(ToDecimalDeg(33, 34, 0.0));
-		//	var ol_e_lg = new CLg(ToDecimalDeg(130, 10, 0.0)); var ol_e_lt = new CLt(ToDecimalDeg(33, 35, 0.0));
+			var ol_s_lg = new CLg(ToDecimalDeg(130,  9, 0.0)); var ol_s_lt = new CLt(ToDecimalDeg(33, 34, 0.0));
+			var ol_e_lg = new CLg(ToDecimalDeg(130, 10, 0.0)); var ol_e_lt = new CLt(ToDecimalDeg(33, 35, 0.0));
 
 			// 香椎沖
-			var ol_s_lg = new CLg(ToDecimalDeg(130, 24, 0.0)); var ol_s_lt = new CLt(ToDecimalDeg(33, 42, 0.0));
-			var ol_e_lg = new CLg(ToDecimalDeg(130, 25, 0.0)); var ol_e_lt = new CLt(ToDecimalDeg(33, 43, 0.0));
+		//	var ol_s_lg = new CLg(ToDecimalDeg(130, 24, 0.0)); var ol_s_lt = new CLt(ToDecimalDeg(33, 42, 0.0));
+		//	var ol_e_lg = new CLg(ToDecimalDeg(130, 25, 0.0)); var ol_e_lt = new CLt(ToDecimalDeg(33, 43, 0.0));
 
 			// ◆オーバレイの範囲は南北逆転
 			var ol = viewer.MakeOverlay
@@ -110,9 +110,43 @@ public partial class GeoViewerMainForm : Form
 		}
 
 		//--------------------------------------------------
+		// 3.1 部分的にテクスチャオーバレイを重ねてみる。
+		// ◆オーバレイが範囲外にあると当然エラーになるが、ならない場合もある。
+		if(Title == "伊豆山")
+		{
+			// オーバレイのサイズの基準(小さい辺をこのサイズにする。)
+			int ol_size = 1000;
+			int ol_w = (MapImage.Height > MapImage.Width )? ol_size: (ol_size * MapImage.Width  / MapImage.Height);
+			int ol_h = (MapImage.Width  > MapImage.Height)? ol_size: (ol_size * MapImage.Height / MapImage.Width ); 
+
+			var ol_s_lg = new CLg(139.0682); var ol_s_lt = new CLt(35.1093);
+			var ol_e_lg = new CLg(139.0917); var ol_e_lt = new CLt(35.1226);
+
+			// ◆オーバレイの範囲は南北逆転
+			var ol = viewer.MakeOverlay
+				(ToWPInt(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_e_lt)),
+				 ToWPInt(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_s_lt)),
+				 ol_w, ol_h);
+
+			var g = ol.GetGraphics();
+
+			// 伊豆山土石流災害
+			// ◆この画像は経緯度に対して斜めになっている。アフィン変換で補正できないか？
+			g.DrawImage(Image.FromFile("2021_July_6,_Japan_Standard_Time_morning_09_o'clock_48_minutes_shooting._Aerial_photograph_of_Atami_debris_flow_disaster.jpg"), 0, 0, ol_w, ol_h);
+
+			g.Dispose();
+		
+			// ◆オフセットやアルファ値は動的に変更することを予期してCOverlayのメンバにしない。
+			viewer.AddOverlay
+				("test_ol",
+				 ol,
+				 10.0, // 地表面からの高さ
+				 0.8f); // 透明度
+		}
+
+		//--------------------------------------------------
 		// 4 部分的に三角ポリゴンオーバレイを重ねてみる。
-		// ●琵琶湖の水止めたろかシミュレーション
-		// ◆単なる単色オーバレイに意味があるか分からないが、取り敢えず。
+		// ●琵琶湖の水止めたろかシミュレーション(浸水シミュレーション)
 		if(Title == "琵琶湖（大津市）")
 		{
 			// ◆範囲を外側境界に近づけるとインデックスがオーバーする。
@@ -126,6 +160,9 @@ public partial class GeoViewerMainForm : Form
 				 DOverlayAltitudeOffsetBase.AMSL, // AGL:地表面からの高度、AMSL:海面からの高度()
 				 100.0,
 				 new CColorF(0.1f, 0.1f, 0.8f, 0.5f)); // RGBA
+
+			// ◆離れるとオーバレイ表面がまだらになる。デプスバッファのビット数が足りてないことが考えられるが、ChoosePixelFormatでは24ビット以外に設定できない。
+			// 　マシンで使用可能な(最も近い)ビット数が24ビットと考えられるが、単純に24ビット(2^24=16,777,216)だと16km離れると1mの誤差が出てしまう。(実際はより近くてもまだらになっている。)
 		}
 
 		//--------------------------------------------------
