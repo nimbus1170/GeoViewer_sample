@@ -165,11 +165,21 @@ StopWatch.Lap("after  GSIGeoidMaopData");
 			//--------------------------------------------------
 			// 6 ビューアフォームを作成する。
 
+			var	map_src_logo = $" - 国土地理院 " + 
+				(((12 <= ImageZoomLevel) && (ImageZoomLevel <=18))? $"電子国土基本図":
+				 (( 9 <= ImageZoomLevel) && (ImageZoomLevel <=11))? $"小縮尺地図(100万分1)":
+				 (( 5 <= ImageZoomLevel) && (ImageZoomLevel <= 8))? $"小縮尺地図(500万分1)":"") +
+				$"・" + 
+				(((14 <= ImageZoomLevel) && (ImageZoomLevel <=18))? $"全国最新写真":
+				 (( 9 <= ImageZoomLevel) && (ImageZoomLevel <=13))? $"全国ランドサットモザイク画像":
+				 (( 2 <= ImageZoomLevel) && (ImageZoomLevel <= 8))? $"世界衛星モザイク画像":"") +
+				$"(ZL{ImageZoomLevel})及び標高タイル(DEM10B PNG形式)(ZL14)";
+
 			// ◆viewer_form.Viewerはnullであり、後で設定する。
 			GeoViewerForm viewer_form = 
-				(Mode == "WP"  )? new GeoViewerForm_WP  (){ Text = Title, Visible = true }:
-				(Mode == "Tile")? new GeoViewerForm_Tile(){ Text = Title, Visible = true }:
-				(Mode == "LgLt")? new GeoViewerForm_LgLt(){ Text = Title, Visible = true }: null;
+				(Mode == "WP"  )? new GeoViewerForm_WP  (){ Text = Title + map_src_logo, Visible = true }:
+				(Mode == "Tile")? new GeoViewerForm_Tile(){ Text = Title + map_src_logo, Visible = true }:
+				(Mode == "LgLt")? new GeoViewerForm_LgLt(){ Text = Title + map_src_logo, Visible = true }: null;
 
 			//--------------------------------------------------
 			// 7 ビューアを作成する。

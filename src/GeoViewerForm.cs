@@ -148,7 +148,7 @@ namespace GeoViewer_sample
 				$"北緯  {ct_lt_dms.Deg:00}度{ct_lt_dms.Min:00}分{ct_lt_dms.Sec:00.000}秒 ( {ct_lt_deg:00.00000}度)\n" +
 				$"UTM  {ct_utm.LgBand:00}{((ct_utm.Hemi == DHemi.N) ? "n" : "s")}   {ct_utm.EW:00000} {ct_utm.NS:00000}\n" +
 				$"MGRS {ct_utm.LgBand:00}{GetLtBand(ToLgLt(ct_utm).Lt):0} {GetMGRS_ID(ct_utm):00} {GetMGRS_EW(ct_utm):00000}   {GetMGRS_NS(ct_utm):00000}\n" +
-				$"標高 {ct.GetAltitude(DAltitudeBase.AMSL):0.0}m　ｼﾞｵｲﾄﾞ高 {ct.GetAltitude(DAltitudeBase.AE) - ct.GetAltitude(DAltitudeBase.AMSL):0.000}m\n" +
+				$"標高 {ct.GetAltitude(DAltitudeBase.AMSL):0.0}m　ジオイド高 {ct.GetAltitude(DAltitudeBase.AE) - ct.GetAltitude(DAltitudeBase.AMSL):0.000}m\n" +
 				$"地心直交座標 X:{(int)x:#,0}m Y:{(int)y:#,0}m Z:{(int)z:#,0}m";
 		}
 	}
