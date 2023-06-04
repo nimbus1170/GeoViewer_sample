@@ -198,6 +198,15 @@
 	</_MapCfg>
 
 	<_MapCfg
+		Title="伊豆半島"
+		PolygonZoomLevel="11"
+		ImageZoomLevel="11"
+		PolygonSize="400">
+		<Start Lg="138 40 00.0" Lt="34 40 00.0"/>
+		<End   Lg="139 20 00.0" Lt="35 20 00.0"/>
+	</_MapCfg>
+
+	<_MapCfg
 		Title="硫黄島"
 		PolygonZoomLevel="13"
 		ImageZoomLevel="16"

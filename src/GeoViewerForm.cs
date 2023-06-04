@@ -78,7 +78,7 @@ namespace GeoViewer_sample
 			if(Viewer == null) return;
 
 			switch(e.KeyChar)
-			{ 
+			{
 				case 'w': Viewer.MoveFB( 10); break;
 				case 's': Viewer.MoveFB(-10); break;
 				case 'a': Viewer.MoveRL( 10); break;
@@ -87,17 +87,17 @@ namespace GeoViewer_sample
 
 			Viewer.DrawScene();
 
-/*			Viewer?
-				.MoveFB
-					((e.KeyChar == 'w')?  10:
-					 (e.KeyChar == 's')? -10:
-										   0) // ◆ムダ
-				.MoveRL					   
-					((e.KeyChar == 'a')?  10:
-					 (e.KeyChar == 'd')? -10:
-										   0)
-				.DrawScene();
-*/
+			/*			Viewer?
+							.MoveFB
+								((e.KeyChar == 'w')?  10:
+								 (e.KeyChar == 's')? -10:
+													   0) // ◆ムダ
+							.MoveRL					   
+								((e.KeyChar == 'a')?  10:
+								 (e.KeyChar == 'd')? -10:
+													   0)
+							.DrawScene();
+			*/
 			ShowObjInfo();
 		}
 
@@ -150,6 +150,11 @@ namespace GeoViewer_sample
 				$"MGRS {ct_utm.LgBand:00}{GetLtBand(ToLgLt(ct_utm).Lt):0} {GetMGRS_ID(ct_utm):00} {GetMGRS_EW(ct_utm):00000}   {GetMGRS_NS(ct_utm):00000}\n" +
 				$"標高 {ct.GetAltitude(DAltitudeBase.AMSL):0.0}m　ジオイド高 {ct.GetAltitude(DAltitudeBase.AE) - ct.GetAltitude(DAltitudeBase.AMSL):0.000}m\n" +
 				$"地心直交座標 X:{(int)x:#,0}m Y:{(int)y:#,0}m Z:{(int)z:#,0}m";
+		}
+
+		public void ShowMapSrcLabel(in string map_src)
+		{
+			MapSrcLabel.Text = map_src;
 		}
 	}
 	//---------------------------------------------------------------------------

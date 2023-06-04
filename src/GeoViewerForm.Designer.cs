@@ -33,6 +33,7 @@
 			ObjInfoLabel = new System.Windows.Forms.Label();
 			contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(components);
 			okToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			MapSrcLabel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)PictureBox).BeginInit();
 			contextMenuStrip1.SuspendLayout();
 			SuspendLayout();
@@ -68,14 +69,24 @@
 			contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
 			contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { okToolStripMenuItem });
 			contextMenuStrip1.Name = "contextMenuStrip1";
-			contextMenuStrip1.Size = new System.Drawing.Size(241, 69);
+			contextMenuStrip1.Size = new System.Drawing.Size(136, 36);
 			// 
 			// okToolStripMenuItem
 			// 
 			okToolStripMenuItem.Name = "okToolStripMenuItem";
-			okToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+			okToolStripMenuItem.Size = new System.Drawing.Size(135, 32);
 			okToolStripMenuItem.Text = "マーカー";
 			okToolStripMenuItem.Click += MarkerToolStripMenuItem_Click;
+			// 
+			// MapSrcLabel
+			// 
+			MapSrcLabel.AutoSize = true;
+			MapSrcLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			MapSrcLabel.Location = new System.Drawing.Point(0, 687);
+			MapSrcLabel.Name = "MapSrcLabel";
+			MapSrcLabel.Size = new System.Drawing.Size(113, 25);
+			MapSrcLabel.TabIndex = 2;
+			MapSrcLabel.Text = "MapSrcLabel";
 			// 
 			// GeoViewerForm
 			// 
@@ -83,6 +94,7 @@
 			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			ClientSize = new System.Drawing.Size(1002, 712);
 			ControlBox = false;
+			Controls.Add(MapSrcLabel);
 			Controls.Add(ObjInfoLabel);
 			Controls.Add(PictureBox);
 			Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -102,5 +114,6 @@
 		protected System.Windows.Forms.Label ObjInfoLabel;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem okToolStripMenuItem;
+		public System.Windows.Forms.Label MapSrcLabel;
 	}
 }

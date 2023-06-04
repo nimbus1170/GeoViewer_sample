@@ -82,17 +82,17 @@ public partial class GeoViewerMainForm : Form
 		var tile_ex = e_tile.X.Value;
 		var tile_ey = e_tile.Y.Value;
 
-		var zoom_level = s_tile.ZoomLevel;
+		var zl = s_tile.ZoomLevel;
 
 		// 地図画像タイルを取得する。
 		for(var tile_y = tile_sy; tile_y <= tile_ey; tile_y++)
 			for(var tile_x = tile_sx; tile_x <= tile_ex; tile_x++)
-				DownloadGSITile(DTileType.IMAGE, zoom_level, tile_x, tile_y, save_fld);
+				DownloadGSITile(DTileType.IMAGE, zl, tile_x, tile_y, save_fld);
 
 		// 衛星画像タイルを取得する。
 		for(var tile_y = tile_sy; tile_y <= tile_ey; tile_y++)
 			for(var tile_x = tile_sx; tile_x <= tile_ex; tile_x++)
-				DownloadGSITile(DTileType.PHOTO, zoom_level, tile_x, tile_y, save_fld);
+				DownloadGSITile(DTileType.PHOTO, zl, tile_x, tile_y, save_fld);
 	}
 		
 	// 標高タイルを取得する。
@@ -107,21 +107,21 @@ public partial class GeoViewerMainForm : Form
 		var tile_ex = e_tile.X.Value;
 		var tile_ey = e_tile.Y.Value;
 
-		var zoom_level = s_tile.ZoomLevel;
+		var zl = s_tile.ZoomLevel;
 
 		for(var tile_y = tile_sy; tile_y <= tile_ey; tile_y++)
 			for(var tile_x = tile_sx; tile_x <= tile_ex; tile_x++)
-				DownloadGSITile(DTileType.DEM_PNG, zoom_level, tile_x, tile_y, save_fld);
+				DownloadGSITile(DTileType.DEM_PNG, zl, tile_x, tile_y, save_fld);
 	}
 
 	private void DownloadGSITile
 		(in DTileType tile_type,
-		 in int zoom_level,
+		 in int zl,
 		 in int tile_x,
 		 in int tile_y,
 		 in string save_fld)
 	{
-		switch(DownloadTile(tile_type, zoom_level, tile_x, tile_y, save_fld))
+		switch(DownloadTile(tile_type, zl, tile_x, tile_y, save_fld))
 		{
 			case DDownloadResult.Downloaded:
 //				Console.WriteLine(save_path + " : Downloaded");

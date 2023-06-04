@@ -140,7 +140,7 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 
 		// ◆キーはグリッド間隔(分)
-		// ◆XMLで設定すべきか。
+		// ◆XMLで設定すべきか。地図画像の縮尺(ズームレベル)にもよる。MapViewerはそうなっているいるのでは？
 		var lglt_grid_elements = new Dictionary<Int32, CMapGridElement>()
 			{
 				{ 5, new CMapGridElement(new Pen(Color.Black, 2.0f)				      , new Font("ＭＳ ゴシック", font_size_pix, GraphicsUnit.Pixel), Brushes.Black)},
@@ -157,12 +157,12 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// フォントサイズ(ピクセル)
 		// ◆X方向の計算のみで良いか？
-		var font_size_pix = font_size_m * PixelPerKmX(s_lglt, e_lglt, map_img.Width) / 1000;
+		var font_size_pix = (float)font_size_m * PixelPerKmX(s_lglt, e_lglt, map_img.Width) / 1000;
 
 		//--------------------------------------------------
 
 		// ◆キーはグリッド間隔(km)
-		// ◆XMLで設定すべきか。
+		// ◆XMLで設定すべきか。地図画像の縮尺(ズームレベル)にもよる。MapViewerはそうなっているいるのでは？
 		var utm_grid_elements = new Dictionary<Int32, CMapGridElement>()
 		{
 			{ 1, new CMapGridElement(new Pen(Color.Maroon, 2.0f), new Font("ＭＳ ゴシック", font_size_pix, GraphicsUnit.Pixel), Brushes.Maroon)}

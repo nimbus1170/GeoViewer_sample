@@ -11,9 +11,6 @@ namespace GeoViewer_sample
 		[STAThread]
 		static void Main(string[] args)
 		{
-			// ◆普通に実行しても例外は確認できないが、デバッグ時には確認できる。
- 			if(args.Length < 1) throw new Exception("arguments number not enough.");
-
 			Application.EnableVisualStyles();
 			Application.SetHighDpiMode(HighDpiMode.SystemAware);
 			Application.SetCompatibleTextRenderingDefault(false);
