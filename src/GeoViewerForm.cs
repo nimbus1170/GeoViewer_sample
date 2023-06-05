@@ -16,7 +16,7 @@ using System.Windows.Forms;
 namespace GeoViewer_sample
 {
 	//---------------------------------------------------------------------------
-	public abstract partial class GeoViewerForm :Form
+	public abstract partial class GeoViewerForm : Form
 	{
 		// ◆関係フォームの依存関係(作成順)のためコンストラクタで指定できないのでreadonlyやprivateにできない。
 		public CGeoViewer Viewer = null;
@@ -42,7 +42,7 @@ namespace GeoViewer_sample
 
 		private void PictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
-			switch(e.Button)
+			switch (e.Button)
 			{
 				case MouseButtons.Middle:
 					contextMenuStrip1.Show(Left + e.X, Top + e.Y);
@@ -75,13 +75,13 @@ namespace GeoViewer_sample
 
 		private void PlaneViewerForm_LgLt_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			if(Viewer == null) return;
+			if (Viewer == null) return;
 
-			switch(e.KeyChar)
+			switch (e.KeyChar)
 			{
-				case 'w': Viewer.MoveFB( 10); break;
+				case 'w': Viewer.MoveFB(10); break;
 				case 's': Viewer.MoveFB(-10); break;
-				case 'a': Viewer.MoveRL( 10); break;
+				case 'a': Viewer.MoveRL(10); break;
 				case 'd': Viewer.MoveRL(-10); break;
 			}
 
@@ -103,14 +103,14 @@ namespace GeoViewer_sample
 
 		private void PlaneViewerForm_LgLt_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
 		{
-			if(Viewer == null) return;
+			if (Viewer == null) return;
 
-			switch(e.KeyCode)
+			switch (e.KeyCode)
 			{
-				case Keys.Up   : Viewer.LookUD( 10); break;
-				case Keys.Down : Viewer.LookUD(-10); break;
+				case Keys.Up: Viewer.LookUD(10); break;
+				case Keys.Down: Viewer.LookUD(-10); break;
 				case Keys.Right: Viewer.TurnRL(-10); break;
-				case Keys.Left : Viewer.TurnRL( 10); break;
+				case Keys.Left: Viewer.TurnRL(10); break;
 			}
 
 			Viewer.DrawScene();
@@ -118,7 +118,7 @@ namespace GeoViewer_sample
 
 		private void MarkerToolStripMenuItem_Click(Object sender, EventArgs e)
 		{
-			if(Viewer == null) return;
+			if (Viewer == null) return;
 
 			var item = (ToolStripMenuItem)sender;
 

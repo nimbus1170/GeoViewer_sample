@@ -21,6 +21,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <PlatformTarget>x64</PlatformTarget>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutputPath>bin\x64\Debug\</OutputPath>
@@ -53,6 +54,9 @@
       <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_MapGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DSF_NET_ProfilerLog">
+      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_ProfilerLog.dll</HintPath>
+    </Reference>
     <Reference Include="DSF_NET_Scene">
       <HintPath>..\..\..\..\lib\Debug\clr\DSF_NET_Scene.dll</HintPath>
       <Private>True</Private>
@@ -73,9 +77,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\..\..\src\cs\DSF\Profiler\ProfilerLog.cs" Link="shared_src\ProfilerLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\net6.0-windows\GeoViewerCfg.xml" />
