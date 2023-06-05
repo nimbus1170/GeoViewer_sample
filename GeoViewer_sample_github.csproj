@@ -51,6 +51,9 @@
     <Reference Include="DSF_NET_MapGrid">
       <HintPath>bin\Debug\net6.0-windows\DSF_NET_MapGrid.dll</HintPath>
     </Reference>
+    <Reference Include="DSF_NET_ProfilerLog">
+      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_ProfilerLog.dll</HintPath>
+    </Reference>
     <Reference Include="DSF_NET_Scene">
       <HintPath>bin\Debug\net6.0-windows\DSF_NET_Scene.dll</HintPath>
     </Reference>
