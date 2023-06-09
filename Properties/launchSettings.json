@@ -2,7 +2,6 @@
   "profiles": {
     "GeoViewer_Sample": {
       "commandName": "Project",
-      "commandLineArgs": "\r\n",
       "nativeDebugging": true
     }
   }

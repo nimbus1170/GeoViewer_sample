@@ -74,7 +74,7 @@ public partial class GeoViewerMainForm : Form
 
 		Title =	map_cfg.Attributes["Title"].InnerText;
 
-		PolygonSize = ToInt32(map_cfg.Attributes["PolygonSize"	].InnerText);
+		PolygonSize = ToInt32(map_cfg.Attributes["PolygonSize"].InnerText);
 
 		PolygonZoomLevel = ToInt32(map_cfg.Attributes["PolygonZoomLevel"].InnerText);
 		ImageZoomLevel	 = ToInt32(map_cfg.Attributes["ImageZoomLevel"  ].InnerText);
@@ -107,6 +107,21 @@ public partial class GeoViewerMainForm : Form
 		GridOverlayCfg = grid_cfg.SelectSingleNode("GridOverlay");
 
 		DrawingFileName = map_cfg.SelectSingleNode("Drawings")?.Attributes["File"]?.InnerText;
+	}
+
+	void ReadCfgFromParam(in string param)
+	{
+		// ÅüparamsÇÕó\ñÒåÍ	
+		string[] prms = param.Split(" ");
+
+		// ÅüÇ∆ÇËÇ†Ç¶Ç∏ÅB
+		Title = "DENKOKU-ROBO2"; 
+
+		StartLgLt_0.Set(new CLg(ToDouble(prms[0])), new CLt(ToDouble(prms[1])));
+		EndLgLt_0  .Set(new CLg(ToDouble(prms[2])), new CLt(ToDouble(prms[3])));
+
+		PolygonZoomLevel = ToInt32(prms[4]);
+		ImageZoomLevel	 = ToInt32(prms[5]);
 	}
 }
 //---------------------------------------------------------------------------

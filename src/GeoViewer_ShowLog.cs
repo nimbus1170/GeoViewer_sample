@@ -50,25 +50,25 @@ public partial class GeoViewerMainForm : Form
 		var vert_nx = log["VertexNX"];
 		var vert_ny = log["VertexNY"];
 
-		DialogTextBox.AppendText($"          頂点数 : {vert_nx} x {vert_ny}\r\n");
-		DialogTextBox.AppendText($"      ポリゴン数 : {(vert_nx - 1) * (vert_ny - 1) * 2}\r\n");
-		DialogTextBox.AppendText($"テクスチャサイズ : {log["TexW"]}pix x {log["TexH"]}pix\r\n");
-		DialogTextBox.AppendText($"  テクスチャ枚数 : {log["TexN"]}\r\n");
-		DialogTextBox.AppendText($"  表示地域サイズ : {plane_size_EW}m x {plane_size_NS}m\r\n");
-		DialogTextBox.AppendText($"  ポリゴンサイズ : {plane_size_EW / (vert_nx - 1)}m x {plane_size_NS / (vert_ny - 1)}m\r\n");
+		DialogTextBox.AppendText($"              頂点数 : {vert_nx:#,0} x {vert_ny:#,0}\r\n");
+		DialogTextBox.AppendText($"          ポリゴン数 : {(vert_nx - 1) * (vert_ny - 1) * 2:#,0}\r\n");
+		DialogTextBox.AppendText($"    テクスチャサイズ : {log["TexW"]}px x {log["TexH"]}px\r\n");
+		DialogTextBox.AppendText($"      テクスチャ枚数 : {log["TexN"]}\r\n");
+		DialogTextBox.AppendText($"      表示地域サイズ : {plane_size_EW:#,0}m x {plane_size_NS:#,0}m\r\n");
+		DialogTextBox.AppendText($"      ポリゴンサイズ : {plane_size_EW / (vert_nx - 1)}m x {plane_size_NS / (vert_ny - 1)}m\r\n");
+		DialogTextBox.AppendText($"    画像ズームレベル : {ImageZoomLevel}\r\n");
+		DialogTextBox.AppendText($"ポリゴンズームレベル : {PolygonZoomLevel}\r\n");
 		DialogTextBox.AppendText($"\r\n");
-
 		DialogTextBox.AppendText($"polygons count from planes\r\n");
-		DialogTextBox.AppendText($"gnd-sea polygons : {log["gnd_sea_polygons_count"]}\r\n");
-		DialogTextBox.AppendText($"texture polygons : {log["texture_polygons_count"]}\r\n");
+		DialogTextBox.AppendText($"gnd-sea polygons : {log["gnd_sea_polygons_count"]:#,0}\r\n");
+		DialogTextBox.AppendText($"texture polygons : {log["texture_polygons_count"]:#,0}\r\n");
 		DialogTextBox.AppendText($"\r\n");
-
 		DialogTextBox.AppendText($"polygons count from GLObjects\r\n");
 
 		var gl_objs_count = Viewer.GLObjectCount();	
 
 		foreach(var gl_objs_count_i in gl_objs_count)
-			DialogTextBox.AppendText($"{gl_objs_count_i.Key, -12} : {gl_objs_count_i.Value}\r\n");
+			DialogTextBox.AppendText($"{gl_objs_count_i.Key, -12} : {gl_objs_count_i.Value:#,0}\r\n");
 
 		DialogTextBox.AppendText($"\r\n");
 

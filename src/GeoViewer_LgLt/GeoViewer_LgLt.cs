@@ -135,7 +135,7 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// フォントサイズ(ピクセル)
 		// ◆X方向の計算のみで良いか？
-		var font_size_pix = font_size_m * PixelPerKmX(s_lglt, e_lglt, map_img.Width) / 1000;
+		var font_size_px = font_size_m * PixelPerKmX(s_lglt, e_lglt, map_img.Width) / 1000;
 
 		//--------------------------------------------------
 
@@ -143,7 +143,7 @@ public partial class GeoViewerMainForm : Form
 		// ◆XMLで設定すべきか。地図画像の縮尺(ズームレベル)にもよる。MapViewerはそうなっているいるのでは？
 		var lglt_grid_elements = new Dictionary<Int32, CMapGridElement>()
 			{
-				{ 5, new CMapGridElement(new Pen(Color.Black, 2.0f)				      , new Font("ＭＳ ゴシック", font_size_pix, GraphicsUnit.Pixel), Brushes.Black)},
+				{ 5, new CMapGridElement(new Pen(Color.Black, 2.0f)				      , new Font("ＭＳ ゴシック", font_size_px, GraphicsUnit.Pixel), Brushes.Black)},
 				{ 1, new CMapGridElement(new Pen(Color.Black, 2.0f){ DashStyle = Dot }, null														, null		   )}
 			};
 
@@ -157,7 +157,7 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// フォントサイズ(ピクセル)
 		// ◆X方向の計算のみで良いか？
-		var font_size_pix = (float)font_size_m * PixelPerKmX(s_lglt, e_lglt, map_img.Width) / 1000;
+		var font_size_px = (float)font_size_m * PixelPerKmX(s_lglt, e_lglt, map_img.Width) / 1000;
 
 		//--------------------------------------------------
 
@@ -165,7 +165,7 @@ public partial class GeoViewerMainForm : Form
 		// ◆XMLで設定すべきか。地図画像の縮尺(ズームレベル)にもよる。MapViewerはそうなっているいるのでは？
 		var utm_grid_elements = new Dictionary<Int32, CMapGridElement>()
 		{
-			{ 1, new CMapGridElement(new Pen(Color.Maroon, 2.0f), new Font("ＭＳ ゴシック", font_size_pix, GraphicsUnit.Pixel), Brushes.Maroon)}
+			{ 1, new CMapGridElement(new Pen(Color.Maroon, 2.0f), new Font("ＭＳ ゴシック", font_size_px, GraphicsUnit.Pixel), Brushes.Maroon)}
 		};
 
 		// グリッドを描画する。
@@ -173,14 +173,14 @@ public partial class GeoViewerMainForm : Form
 	}
 
 	/// <summary>2座標間の東西方向のピクセル数から1Kmのピクセル数を返す。</summary>
-	static Int32 PixelPerKmX(in CLgLt s_lglt, in CLgLt e_lglt, in int pix_w)
+	static Int32 PixelPerKmX(in CLgLt s_lglt, in CLgLt e_lglt, in int px_w)
 	{
 		var s_coord = ToGeoCentricCoord(new CLgLt(s_lglt.Lg, s_lglt.Lt));
 		var e_coord = ToGeoCentricCoord(new CLgLt(e_lglt.Lg, s_lglt.Lt)); // ◆経度方向の長さなので緯度は同じ。
 
 		var d = CCoord.Distance3D(s_coord, e_coord);
 
-		return (Int32)(pix_w * 1000 / d);
+		return (Int32)(px_w * 1000 / d);
 	}
 }
 //---------------------------------------------------------------------------

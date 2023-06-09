@@ -23,7 +23,7 @@ public partial class GeoViewerMainForm : Form
 	// ◆関係フォームの依存関係(作成順)のためコンストラクタで指定できないのでreadonlyやprivateにできない。
 	public CGeoViewer Viewer = null;
 
-	readonly string CfgFileName;
+//	readonly string CfgFileName = "";
 
 	// ◆GeoViewerMainFormに開始・終了座標等のGeoViewerの特性を持たせるべきか？それぞれのGeoViewerに持たせるべきでは？
 
@@ -57,7 +57,33 @@ public partial class GeoViewerMainForm : Form
 	{
 		InitializeComponent();
 
-		CfgFileName = (args.Length == 0)? "GeoViewerCfg.xml": args[0];
+		if(args.Length == 0)
+		{
+			ReadCfgFromFile("GeoViewerCfg.xml");
+		}
+		else
+		{
+			if(args.Length != 2) throw new Exception("parameter count must be 2");
+
+			switch(args[0])
+			{
+				case "-cfgfile":
+					ReadCfgFromFile(args[1]);
+					break;
+
+				case "-cfgparam":
+
+					// ◆フォルダ等の設定があるのでいったん読み込んで必要個所を書き換える。
+					ReadCfgFromFile("GeoViewerCfg.xml");
+
+					ReadCfgFromParam(args[1]);
+
+					break;
+
+				default:
+					throw new Exception("unknown param");
+			}
+		}
 	}
 
 	[SupportedOSPlatform("windows")] // Windows固有API(Graphics)が使用されていることを宣言する。
@@ -85,7 +111,7 @@ public partial class GeoViewerMainForm : Form
 			// 座標範囲s_lglt～e_lgltに含まれるタイルを連結表示する。
 			// ●１個タイルの頂点数は256x256なので、PolygonZoomLevelでポリゴンサイズが決まる。
 
-			ReadCfgFromFile(CfgFileName);
+		//	ReadCfgFromFile(CfgFileName);
 
 			//--------------------------------------------------
 			// 2 タイトルを設定する。← 1
@@ -185,7 +211,9 @@ StopWatch.Lap("after  GSIGeoidMaopData");
 				 int zl when (zl <=  8) => $"世界衛星モザイク画像",
 				 int zl when (zl <= 13) => $"全国ランドサットモザイク画像",
 				 int zl when (zl <= 18) => $"全国最新写真",
-				 _ => "-"} + $"(ZL{ImageZoomLevel})・標高タイル(DEM10B-PNG形式)(ZL14)・日本のジオイド2011(Ver.2.1)";
+				 _ => "-"} + $"(ZL{ImageZoomLevel})・" +
+				 $"標高タイル(DEM10B-PNG形式)(ZL14)・" + // ◆標高タイルはZL14であり、ポリゴンサイズではない。
+				 $"日本のジオイド2011(Ver.2.1)";
 
 			//--------------------------------------------------
 			// 7 ビューアを作成する。
@@ -235,10 +263,16 @@ MemWatch.Lap("after CreateGeoViewer");
 				case "Tile": DrawOverlayGeoViewer_WP  ((CGeoViewer_WP  )viewer); break;
 				case "LgLt": DrawOverlayGeoViewer_LgLt((CGeoViewer_LgLt)viewer); break;
 			}
-		
+
 			//--------------------------------------------------
+			// 12 シーンを(改めて)表示する。
+			// ◆ビューアを前面に表示したいが、できない。
 
 			ShowLog();
+
+			viewer_form.Activate();
+//			viewer_form.TopMost = true;
+//			viewer_form.TopMost = false;
 		}
 		catch(System.Xml.XPath.XPathException ex)
 		{

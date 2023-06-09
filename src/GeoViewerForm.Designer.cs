@@ -60,9 +60,9 @@
 			ObjInfoLabel.Location = new System.Drawing.Point(20, 19);
 			ObjInfoLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			ObjInfoLabel.Name = "ObjInfoLabel";
-			ObjInfoLabel.Size = new System.Drawing.Size(116, 18);
+			ObjInfoLabel.Size = new System.Drawing.Size(80, 18);
 			ObjInfoLabel.TabIndex = 1;
-			ObjInfoLabel.Text = "ObjInfoLabel";
+			ObjInfoLabel.Text = "ロード中";
 			// 
 			// contextMenuStrip1
 			// 
