@@ -7,8 +7,6 @@ using DSF_NET_Color;
 using DSF_NET_Geography;
 using DSF_NET_Scene;
 
-using static DSF_NET_Geography.CEllipsoid;
-
 using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
 using static DSF_NET_Geography.Convert_LgLt_WP;
 using static DSF_NET_Geography.Convert_LgLt_WPInt;
@@ -17,9 +15,7 @@ using static DSF_NET_Geometry.CCoord;
 using static DSF_NET_Geometry.CDMS;
 using static DSF_NET_TacticalDrawing.GeoObserver;
 
-using System.Drawing;
 using System.Runtime.Versioning;
-using System.Windows.Forms;
 
 using static System.Convert;
 using System;
@@ -30,7 +26,7 @@ namespace GeoViewer_sample
 public partial class GeoViewerMainForm : Form
 {
 	[SupportedOSPlatform("windows")]
-	void DrawOverlayGeoViewer_WP(in CGeoViewer_WP viewer)
+	void DrawOverlayOnGeoViewer_WP(in CGeoViewer_WP viewer)
 	{
 		//--------------------------------------------------
 		// 1 ’n}‚ğ”¼“§–¾‚É‚µ‚Äd‚Ë‚Ä‚İ‚éB
@@ -166,7 +162,7 @@ public partial class GeoViewerMainForm : Form
 		}
 
 		//--------------------------------------------------
-		// ‹ŠE}
+		// 5 ‹ŠE}‚ğ•\¦‚·‚éB
 		if(false)
 	//	if(Title == "…“‡”¼“‡")
 		{ 

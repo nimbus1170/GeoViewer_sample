@@ -20,7 +20,7 @@ namespace GeoViewer_sample
 public partial class GeoViewerMainForm : Form
 {
 	[SupportedOSPlatform("windows")]
-	void DrawOverlayGeoViewer_LgLt(in CGeoViewer_LgLt viewer)
+	void DrawOverlayOnGeoViewer_LgLt(in CGeoViewer_LgLt viewer)
 	{
 		//--------------------------------------------------
 		// 1 ’n}‚ğ”¼“§–¾‚É‚µ‚Äd‚Ë‚Ä‚İ‚éB

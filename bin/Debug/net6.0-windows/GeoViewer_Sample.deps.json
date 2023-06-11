@@ -13,8 +13,9 @@
           "DSF_NET_GSITileDownloader": "1.0.0.0",
           "DSF_NET_MapGrid": "1.0.0.0",
           "DSF_NET_ProfilerLog": "1.0.0.0",
-          "DSF_NET_Scene": "1.0.8556.22551",
-          "DSF_NET_TacticalDrawing": "1.0.0.0"
+          "DSF_NET_Scene": "1.0.8562.28707",
+          "DSF_NET_TacticalDrawing": "1.0.0.0",
+          "NET_DLL_LASzip": "0.0.0.0"
         },
         "runtime": {
           "GeoViewer_Sample.dll": {}
@@ -735,10 +736,10 @@
           }
         }
       },
-      "DSF_NET_Scene/1.0.8556.22551": {
+      "DSF_NET_Scene/1.0.8562.28707": {
         "runtime": {
           "DSF_NET_Scene.dll": {
-            "assemblyVersion": "1.0.8556.22551",
+            "assemblyVersion": "1.0.8562.28707",
             "fileVersion": "0.0.0.0"
           }
         }
@@ -748,6 +749,14 @@
           "DSF_NET_TacticalDrawing.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "NET_DLL_LASzip/0.0.0.0": {
+        "runtime": {
+          "NET_DLL_LASzip.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
           }
         }
       }
@@ -1180,12 +1189,17 @@
       "serviceable": false,
       "sha512": ""
     },
-    "DSF_NET_Scene/1.0.8556.22551": {
+    "DSF_NET_Scene/1.0.8562.28707": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "DSF_NET_TacticalDrawing/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NET_DLL_LASzip/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

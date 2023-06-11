@@ -260,12 +260,17 @@ MemWatch.Lap("after CreateGeoViewer");
 			switch(Mode)
 			{
 				case "WP"  :
-				case "Tile": DrawOverlayGeoViewer_WP  ((CGeoViewer_WP  )viewer); break;
-				case "LgLt": DrawOverlayGeoViewer_LgLt((CGeoViewer_LgLt)viewer); break;
+				case "Tile": DrawOverlayOnGeoViewer_WP  ((CGeoViewer_WP  )viewer); break;
+				case "LgLt": DrawOverlayOnGeoViewer_LgLt((CGeoViewer_LgLt)viewer); break;
 			}
 
 			//--------------------------------------------------
-			// 12 シーンを(改めて)表示する。
+			// 12 点群(LASデータ)を表示する
+
+			DrawLAS();
+
+			//--------------------------------------------------
+			// 13 シーンを(改めて)表示する。
 			// ◆ビューアを前面に表示したいが、できない。
 
 			ShowLog();

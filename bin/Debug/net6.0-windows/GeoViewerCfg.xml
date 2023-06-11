@@ -179,14 +179,14 @@
 		<End   Lg="139 06  0.0" Lt="35 07 30.0"/>
 	</_MapCfg>
 
-	<MapCfg
+	<_MapCfg
 		Title="熱海"
 		PolygonZoomLevel="13"
 		ImageZoomLevel="16"
 		PolygonSize="200">
 		<Start Lg="139 03  0.0" Lt="35 05  0.0"/>
 		<End   Lg="139 06  0.0" Lt="35 08  0.0"/>
-	</MapCfg>
+	</_MapCfg>
 
 	<_MapCfg
 		Title="伊豆大島"
@@ -242,6 +242,15 @@
 		<Start Lg="139 16 10.0" Lt="35 39 30.0"/>
 		<End   Lg="139 17 10.0" Lt="35 40  0.0"/>
 	</_MapCfg>
+
+	<MapCfg
+		Title="久慈(LASデータテスト)"
+		PolygonZoomLevel="14"
+		ImageZoomLevel="16"
+		PolygonSize="200">
+		<Start Lg="141.745" Lt="40.21"/>
+		<End   Lg="141.755" Lt="40.22"/>
+	</MapCfg>
 
 	<!-- 地図データ -->
 	<!-- このフォルダのgsi以下の各フォルダに必要なズームレベルのフォルダが自動作成され、必要な国土地理院タイルがダウンロードされる。-->
