@@ -11,6 +11,8 @@ using static DSF_CS_Profiler.CProfilerLog;
 using System.Windows.Forms;
 
 using static System.Math;
+using DSF_NET_Scene;
+using System.Drawing;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -59,37 +61,62 @@ public partial class GeoViewerMainForm : Form
 		DialogTextBox.AppendText($"    画像ズームレベル : {ImageZoomLevel}\r\n");
 		DialogTextBox.AppendText($"ポリゴンズームレベル : {PolygonZoomLevel}\r\n");
 		DialogTextBox.AppendText($"\r\n");
-		DialogTextBox.AppendText($"polygons count from planes\r\n");
-		DialogTextBox.AppendText($"gnd-sea polygons : {log["gnd_sea_polygons_count"]:#,0}\r\n");
-		DialogTextBox.AppendText($"texture polygons : {log["texture_polygons_count"]:#,0}\r\n");
-		DialogTextBox.AppendText($"\r\n");
-		DialogTextBox.AppendText($"polygons count from GLObjects\r\n");
 
-		var gl_objs_count = Viewer.GLObjectCount();	
-
-		foreach(var gl_objs_count_i in gl_objs_count)
-			DialogTextBox.AppendText($"{gl_objs_count_i.Key, -12} : {gl_objs_count_i.Value:#,0}\r\n");
-
-		DialogTextBox.AppendText($"\r\n");
-
-		//--------------------------------------------------
-
+		// 表示の有無にかかわらずストップする。
 		// ◆ここに来る前にStopするべきでは？
 		StopWatch.Stop();
+		MemWatch .Stop();
 
-		DialogTextBox.AppendText(MakeStopWatchLog(StopWatch));
-		DialogTextBox.AppendText($"\r\n");
+		if(ToShowDebugInfo)
+		{
+			DialogTextBox.AppendText($"polygons count from planes\r\n");
+			DialogTextBox.AppendText($"gnd-sea polygons : {log["gnd_sea_polygons_count"]:#,0}\r\n");
+			DialogTextBox.AppendText($"texture polygons : {log["texture_polygons_count"]:#,0}\r\n");
+			DialogTextBox.AppendText($"\r\n");
+			DialogTextBox.AppendText($"polygons count from GLObjects\r\n");
+
+			var gl_objs_count = Viewer.GLObjectCount();	
+
+			foreach(var gl_objs_count_i in gl_objs_count)
+				DialogTextBox.AppendText($"{gl_objs_count_i.Key, -12} : {gl_objs_count_i.Value:#,0}\r\n");
+
+			DialogTextBox.AppendText($"\r\n");
+
+			DialogTextBox.AppendText(MakeStopWatchLog(StopWatch) + $"\r\n");
+			DialogTextBox.AppendText(MakeMemWatchLog (MemWatch ) + $"\r\n");
+		}
 
 		//--------------------------------------------------
 
-		// ◆ここに来る前にStopするべきでは？
-		MemWatch.Stop();
+		if(LASzipData != null)
+		{ 
+			var laszip_header = LASzipData.Header;
 
-		DialogTextBox.AppendText(MakeMemWatchLog(MemWatch));
-		DialogTextBox.AppendText($"\r\n");
+			DialogTextBox.AppendText($"[LASデータ]\r\n");
+			DialogTextBox.AppendText($"        バージョン : {laszip_header.version_major}.{laszip_header.version_minor}\r\n");
+			DialogTextBox.AppendText($"      フォーマット : {laszip_header.point_data_format}\r\n");
+			DialogTextBox.AppendText($"        ポイント数 : {(int)laszip_header.number_of_point_records:#,0}\r\n");
+
+			var laszip_points = LASzipData.Points;
+
+			var is_color_exists = false;
+			var is_class_exists = false;
+			
+			foreach(var pt in laszip_points)
+			{
+				if((pt.R != 0) || (pt.G != 0) || (pt.B != 0)) is_color_exists = true;
+
+				if(pt.classification != 0) is_class_exists = true;
+			}
+
+			DialogTextBox.AppendText($"    色付きポイント : {(is_color_exists? "あり":"なし")}\r\n");
+			DialogTextBox.AppendText($"クラス付きポイント : {(is_class_exists? "あり":"なし")}\r\n");
+
+			DialogTextBox.AppendText($"\r\n");
+
+		}
 
 		//--------------------------------------------------
-
 		// ◆プロンプトをこのように忘れず表示しなくてはならないのか？
 		DialogTextBox.AppendText(">");
 	}

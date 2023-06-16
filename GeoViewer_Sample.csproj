@@ -51,23 +51,22 @@
       <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_GSITileDownloader.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DSF_NET_LASzip">
+      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_LASzip.dll</HintPath>
+    </Reference>
     <Reference Include="DSF_NET_MapGrid">
       <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_MapGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DSF_NET_ProfilerLog">
-      <HintPath>bin\Debug\net6.0-windows\DSF_NET_ProfilerLog.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_ProfilerLog.dll</HintPath>
     </Reference>
     <Reference Include="DSF_NET_Scene">
-      <HintPath>..\..\..\..\lib\Debug\clr\DSF_NET_Scene.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_Scene.dll</HintPath>
     </Reference>
     <Reference Include="DSF_NET_TacticalDrawing">
       <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_TacticalDrawing.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="NET_DLL_LASzip">
-      <HintPath>..\..\..\..\lib\Debug\net6.0\NET_DLL_LASzip.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

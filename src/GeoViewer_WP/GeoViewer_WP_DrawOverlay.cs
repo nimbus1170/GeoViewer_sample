@@ -14,11 +14,12 @@ using static DSF_NET_Geography.GeoObserver;
 using static DSF_NET_Geometry.CCoord;
 using static DSF_NET_Geometry.CDMS;
 using static DSF_NET_TacticalDrawing.GeoObserver;
+using static DSF_NET_Scene.DOverlayAltitudeOffsetBase;
 
+using System;
 using System.Runtime.Versioning;
 
 using static System.Convert;
-using System;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -108,9 +109,9 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 3.1 部分的にテクスチャオーバレイを重ねてみる。
 		// ◆オーバレイが範囲外にあると当然エラーになるが、ならない場合もある。
-		if(Title == "伊豆山")
+		if(Title == "伊豆山土石流")
 		{
-			// オーバレイのサイズの基準(小さい辺をこのサイズにする。)
+			// オーバレイのサイズの基準(短辺のサイズ)
 			int ol_size = 1000;
 			int ol_w = (MapImage.Height > MapImage.Width )? ol_size: (ol_size * MapImage.Width  / MapImage.Height);
 			int ol_h = (MapImage.Width  > MapImage.Height)? ol_size: (ol_size * MapImage.Height / MapImage.Width ); 
@@ -128,6 +129,7 @@ public partial class GeoViewerMainForm : Form
 
 			// 伊豆山土石流災害
 			// ◆この画像は経緯度に対して斜めになっている。アフィン変換で補正できないか？
+			// →◆もう、経緯度で直交(？)していないプレーン(レイヤー)を作るか。
 			g.DrawImage(Image.FromFile("2021_July_6,_Japan_Standard_Time_morning_09_o'clock_48_minutes_shooting._Aerial_photograph_of_Atami_debris_flow_disaster.jpg"), 0, 0, ol_w, ol_h);
 
 			g.Dispose();
@@ -142,8 +144,8 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 		// 4 部分的に三角ポリゴンオーバレイを重ねてみる。
-		// ●琵琶湖の水止めたろかシミュレーション(浸水シミュレーション)
-		if(Title == "琵琶湖（大津市）")
+		// ●「琵琶湖の水止めたろか」シミュレーション(浸水シミュレーション)
+		if(Title == "琵琶湖の水止めたろか")
 		{
 			// ◆範囲を外側境界に近づけるとインデックスがオーバーする。
 			var ol_s_lglt = new CLgLt(new CLg(ToDecimalDeg(135, 53, 0.0)), new CLt(ToDecimalDeg(34, 57, 30.0)));
@@ -153,18 +155,19 @@ public partial class GeoViewerMainForm : Form
 				("琵琶湖の水面",
 				 ToWPInt(PolygonZoomLevel, ol_s_lglt),
 				 ToWPInt(PolygonZoomLevel, ol_e_lglt),
-				 DOverlayAltitudeOffsetBase.AMSL, // AGL:地表面からの高度、AMSL:海面からの高度()
-				 100.0,
+				 AMSL,  // AMSL:海面(ジオイド面)に対するレイヤー(各頂点は海抜高度が一定)、AGL:地表面に対するレイヤー(各頂点は対地高度が一定)
+				 100.0, // 高さ方向のオフセット(m)…琵琶湖の水面がこの海抜高度になった。
 				 new CColorF(0.1f, 0.1f, 0.8f, 0.5f)); // RGBA
 
-			// ◆離れるとオーバレイ表面がまだらになる。デプスバッファのビット数が足りてないことが考えられるが、ChoosePixelFormatでは24ビット以外に設定できない。
-			// 　マシンで使用可能な(最も近い)ビット数が24ビットと考えられるが、単純に24ビット(2^24=16,777,216)だと16km離れると1mの誤差が出てしまう。(実際はより近くてもまだらになっている。)
+			// ◆離れると地表面に近いオーバレイ表面がまだらになる。デプスバッファのビット数(深度)が足りてないことが考えられるが、ChoosePixelFormatでは24bit以外に設定できない。
+			// 　マシンで使用可能なデプスバッファ深度が24bitと考えられるが、単純に24bit(2^24=16,777,216)だと16km離れると1mの誤差が出てしまう。(実際はより近くてもまだらになっている。)
+			// →◆近平面を大きく(視点から遠く)すると緩和された。要勉強
 		}
 
 		//--------------------------------------------------
 		// 5 視界図を表示する。
-		if(false)
 	//	if(Title == "糸島半島")
+		if(false)
 		{ 
 			//--------------------------------------------------
 			// 以下、テスト

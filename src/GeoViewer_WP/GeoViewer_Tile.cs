@@ -129,6 +129,7 @@ public partial class GeoViewerMainForm : Form
 			(picture_box,
 			s_tile,
 			e_tile,
+			NearPlane,
 			ev_map_data,
 			geoid_map_data,
 			"view_tri_polygons",

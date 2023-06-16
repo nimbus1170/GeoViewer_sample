@@ -23,8 +23,8 @@ namespace GeoViewer_sample
             Viewer = viewer;
 
             ShininessTrackBar.Value = ToInt32(Viewer.Shininess());
-            AmbientTrackBar.Value = ToInt32(Viewer.Ambient() * 100);
-            SpecularTrackBar.Value = ToInt32(Viewer.Specular() * 100);
+            AmbientTrackBar  .Value = ToInt32(Viewer.Ambient  () * 100);
+            SpecularTrackBar .Value = ToInt32(Viewer.Specular () * 100);
 
             ShadingModeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 

@@ -99,6 +99,7 @@ public partial class GeoViewerMainForm : Form
 			(picture_box,
 			 StartWP,
 			 EndWP,
+			 NearPlane,
 			 ev_map_data,
 			 geoid_map_data,
 			 "view_tri_polygons",

@@ -3,11 +3,12 @@
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
+using DSF_NET_Geometry;
 using DSF_NET_Scene;
 using DSF_NET_Profiler;
 using DSF_NET_Utility;
 
-using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.Versioning;
@@ -57,32 +58,70 @@ public partial class GeoViewerMainForm : Form
 	{
 		InitializeComponent();
 
-		if(args.Length == 0)
+		try
 		{
-			ReadCfgFromFile("GeoViewerCfg.xml");
-		}
-		else
-		{
-			if(args.Length != 2) throw new Exception("parameter count must be 2");
+			// argsがここで渡されるので、これらの処理はForm_Loadではなくここで実施する。
 
-			switch(args[0])
-			{
-				case "-cfgfile":
-					ReadCfgFromFile(args[1]);
+			switch(args.Length)
+			{ 
+				case 0:
+					ReadCfgFromFile("GeoViewerCfg.xml");
 					break;
 
-				case "-cfgparam":
+				case 1:
+					// ◆ファイル名とみなす。
+					var fname = args[0];
 
-					// ◆フォルダ等の設定があるのでいったん読み込んで必要個所を書き換える。
-					ReadCfgFromFile("GeoViewerCfg.xml");
+					switch(Path.GetExtension(fname))
+					{
+						case ".xml":
+							ReadCfgFromFile(fname);
+							break;
 
-					ReadCfgFromParam(args[1]);
+/*						case ".las":
+							// ◆他フォルダのlasファイルをドラッグ・ドロップするとカレントディレクトリがそこに移ってしまうので、GeoViewerCfg.xmlやgsiフォルダが読めない。バッチファイルとかでもできない。
+							ReadCfgFromFile("GeoViewerCfg.xml");
+							ReadLASFromFile(fname);
+							break;
+*/
+						default:
+							throw new Exception("unknown file ext (" + fname +")");
+					}
+
+					break;
+
+				case 2:
+
+					switch(args[0])
+					{
+						case "-cfgparam":
+							// ◆フォルダ等の設定があるので一旦読み込んで必要個所を書き換える。
+							ReadCfgFromFile("GeoViewerCfg.xml");
+							ReadCfgFromParam(args[1]);
+							break;
+
+						default:
+							throw new Exception("unknown parameter");
+					}
 
 					break;
 
 				default:
-					throw new Exception("unknown param");
+					throw new Exception("unknown parameter");
 			}
+		}
+		catch(System.Xml.XPath.XPathException ex)
+		{
+			DialogTextBox.AppendText("XPath Error : " + ex.Message + "\r\n");
+		}
+		catch(NullReferenceException ex)
+		{
+			DialogTextBox.AppendText("Error : " + ex.Message + "\r\n");
+		}
+		catch(Exception ex)
+		{
+		//	DialogTextBox.AppendText("Error : " + ex.StackTrace + "\r\n");
+			DialogTextBox.AppendText("Error : " + ex.Message + "\r\n");
 		}
 	}
 
@@ -97,7 +136,6 @@ public partial class GeoViewerMainForm : Form
 			//--------------------------------------------------
 			// 1 設定
 
-			//--------------------------------------------------
 			// ◆設定をハードコードする場合
 			{/*
 				var title = "糸島半島";
@@ -106,12 +144,8 @@ public partial class GeoViewerMainForm : Form
 				var polygon_size = 400; // ◆1000にすると玄界島の右下に穴が開く。
 			*/}
 
-			//--------------------------------------------------
 			// 設定を設定ファイルで与える場合
-			// 座標範囲s_lglt～e_lgltに含まれるタイルを連結表示する。
-			// ●１個タイルの頂点数は256x256なので、PolygonZoomLevelでポリゴンサイズが決まる。
-
-		//	ReadCfgFromFile(CfgFileName);
+			// 本フォームのコンストラクタで実施
 
 			//--------------------------------------------------
 			// 2 タイトルを設定する。← 1
@@ -193,9 +227,9 @@ StopWatch.Lap("after  GSIGeoidMaopData");
 
 			// ◆viewer_form.Viewerはnullであり、後で設定する。
 			GeoViewerForm viewer_form = 
-				(Mode == "WP"  )? new GeoViewerForm_WP  (){ Text = Title, Visible = true }:
-				(Mode == "Tile")? new GeoViewerForm_Tile(){ Text = Title, Visible = true }:
-				(Mode == "LgLt")? new GeoViewerForm_LgLt(){ Text = Title, Visible = true }: null;
+				(PlaneMode == "WP"  )? new GeoViewerForm_WP  (){ Text = Title, Visible = true }:
+				(PlaneMode == "Tile")? new GeoViewerForm_Tile(){ Text = Title, Visible = true }:
+				(PlaneMode == "LgLt")? new GeoViewerForm_LgLt(){ Text = Title, Visible = true }: null;
 
 			// ●https://maps.gsi.go.jp/development/ichiran.html
 			viewer_form.MapSrcLabel.Text = 
@@ -222,9 +256,9 @@ MemWatch.Lap("before CreateGeoViewer");
 
 			// ◆3項演算子ではvarは使えない。
 			CGeoViewer viewer = 
-				(Mode == "WP"  )? CreateGeoViewer_WP  (viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
-				(Mode == "Tile")? CreateGeoViewer_Tile(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
-				(Mode == "LgLt")? CreateGeoViewer_LgLt(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts): null;
+				(PlaneMode == "WP"  )? CreateGeoViewer_WP  (viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
+				(PlaneMode == "Tile")? CreateGeoViewer_Tile(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
+				(PlaneMode == "LgLt")? CreateGeoViewer_LgLt(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts): null;
 
 MemWatch.Lap("after CreateGeoViewer");
 
@@ -257,7 +291,7 @@ MemWatch.Lap("after CreateGeoViewer");
 
 			// ◆ダウンキャストはしたくない。viewerを別々にできないので、仮想関数で作れ。
 			// 　→そもそもWPとLgLtで別になるものか？
-			switch(Mode)
+			switch(PlaneMode)
 			{
 				case "WP"  :
 				case "Tile": DrawOverlayOnGeoViewer_WP  ((CGeoViewer_WP  )viewer); break;
@@ -265,7 +299,7 @@ MemWatch.Lap("after CreateGeoViewer");
 			}
 
 			//--------------------------------------------------
-			// 12 点群(LASデータ)を表示する
+			// 12 点群(LASデータ)を表示する。
 
 			DrawLAS();
 

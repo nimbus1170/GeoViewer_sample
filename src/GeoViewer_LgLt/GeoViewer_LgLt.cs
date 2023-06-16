@@ -86,6 +86,7 @@ public partial class GeoViewerMainForm : Form
 			 StartLgLt,
 			 EndLgLt,
 			 PolygonSize, // 経緯度でおおよそm単位
+			 NearPlane,
 			 ev_map_data,
 			 geoid_map_data,
 			 "view_tri_polygons", //"display_progress";

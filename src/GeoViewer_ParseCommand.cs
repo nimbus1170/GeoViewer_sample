@@ -80,7 +80,7 @@ public partial class GeoViewerMainForm : Form
 				var gl_objs_count = Viewer.GLObjectCount();	
 
 				foreach(var gl_objs_count_i in gl_objs_count)
-					ret	+= $"{gl_objs_count_i.Key, -12} : {gl_objs_count_i.Value}\r\n";
+					ret	+= $"{gl_objs_count_i.Key, -12} : {gl_objs_count_i.Value:#,0}\r\n";
 	
 				break;
 
