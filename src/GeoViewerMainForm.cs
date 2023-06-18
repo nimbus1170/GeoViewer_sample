@@ -58,6 +58,12 @@ public partial class GeoViewerMainForm : Form
 	{
 		InitializeComponent();
 
+
+
+		var ellipsoid = Convert_LgLt_XY.Ellipsoid;
+
+
+
 		try
 		{
 			// argsがここで渡されるので、これらの処理はForm_Loadではなくここで実施する。
@@ -203,9 +209,9 @@ public partial class GeoViewerMainForm : Form
 			// ◆例外ではなくジオイドを無視するようにしろ。
 		//	if(!(File.Exists(gsi_geoid_model_file))) throw new Exception("geoid model file not found");
 
-StopWatch.Lap("before GSIGeoidMaopData");
+StopWatch.Lap("before GSIGeoidMapData");
 			var geoid_map_data = new CGSIGeoidMapData(GSIGeoidModelFile);
-StopWatch.Lap("after  GSIGeoidMaopData");
+StopWatch.Lap("after  GSIGeoidMapData");
 
 			// 高度クラスにジオイドデータを設定することにより、座標オブジェクトにジオイド高が自動設定される。
 			CAltitude.SetGeoidMapData(geoid_map_data);
@@ -225,40 +231,38 @@ StopWatch.Lap("after  GSIGeoidMaopData");
 			//--------------------------------------------------
 			// 6 ビューアフォームを作成する。
 
-			// ◆viewer_form.Viewerはnullであり、後で設定する。
 			GeoViewerForm viewer_form = 
 				(PlaneMode == "WP"  )? new GeoViewerForm_WP  (){ Text = Title, Visible = true }:
 				(PlaneMode == "Tile")? new GeoViewerForm_Tile(){ Text = Title, Visible = true }:
-				(PlaneMode == "LgLt")? new GeoViewerForm_LgLt(){ Text = Title, Visible = true }: null;
+				(PlaneMode == "LgLt")? new GeoViewerForm_LgLt(){ Text = Title, Visible = true }:
+									   throw new Exception("unknown plane mode");
 
 			// ●https://maps.gsi.go.jp/development/ichiran.html
 			viewer_form.MapSrcLabel.Text = 
-				$"国土地理院 " +
-				ImageZoomLevel switch // 地図画像
-				{int zl when (zl <=  4) => $"-",
-				 int zl when (zl <=  8) => $"小縮尺地図(500万分1)",
-				 int zl when (zl <= 11) => $"小縮尺地図(100万分1)",
-				 int zl when (zl <= 18) => $"電子国土基本図",
-				 _ => "-"} + $"(ZL{ImageZoomLevel})・" +
-				ImageZoomLevel switch // 衛星画像
-				{int zl when (zl <=  1) => $"-",
-				 int zl when (zl <=  8) => $"世界衛星モザイク画像",
-				 int zl when (zl <= 13) => $"全国ランドサットモザイク画像",
-				 int zl when (zl <= 18) => $"全国最新写真",
-				 _ => "-"} + $"(ZL{ImageZoomLevel})・" +
-				 $"標高タイル(DEM10B-PNG形式)(ZL14)・" + // ◆標高タイルはZL14であり、ポリゴンサイズではない。
-				 $"日本のジオイド2011(Ver.2.1)";
+				"国土地理院 " +
+					((ImageZoomLevel <=  4)? "-": // 地図画像
+					 (ImageZoomLevel <=  8)? "小縮尺地図(500万分1)":
+					 (ImageZoomLevel <= 11)? "小縮尺地図(100万分1)":
+					 (ImageZoomLevel <= 18)? "電子国土基本図":
+											 "-") + "及び" +
+					((ImageZoomLevel <=  1)? "-": // 衛星画像
+					 (ImageZoomLevel <=  8)? "世界衛星モザイク画像":
+					 (ImageZoomLevel <= 13)? "全国ランドサットモザイク画像":
+					 (ImageZoomLevel <= 18)? "全国最新写真":
+											 "-") + $"(ZL{ImageZoomLevel})・" +
+				"標高タイル(DEM10B-PNG形式)(ZL14)・" + // ◆標高タイルはZL14であり、ポリゴンサイズではない。
+				"日本のジオイド2011(Ver.2.1)";
 
 			//--------------------------------------------------
 			// 7 ビューアを作成する。
 
 MemWatch.Lap("before CreateGeoViewer");
 
-			// ◆3項演算子ではvarは使えない。
 			CGeoViewer viewer = 
 				(PlaneMode == "WP"  )? CreateGeoViewer_WP  (viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
 				(PlaneMode == "Tile")? CreateGeoViewer_Tile(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
-				(PlaneMode == "LgLt")? CreateGeoViewer_LgLt(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts): null;
+				(PlaneMode == "LgLt")? CreateGeoViewer_LgLt(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
+									   throw new Exception("unknown plane mode");
 
 MemWatch.Lap("after CreateGeoViewer");
 

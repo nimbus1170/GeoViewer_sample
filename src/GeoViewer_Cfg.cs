@@ -215,6 +215,29 @@ public partial class GeoViewerMainForm : Form
 
 		var vlrs_data = laszip_header.vlrs_data; //ここにファイル情報が入っている。
 
+		// ◆とりあえずこうするが、HStringとかで切り分けろ。
+		if(vlrs_data.StartsWith("GEOGCS"))
+		{
+			// 経緯度
+
+			// ◆とりあえず
+			var lg_s_value = laszip_header.min_x - LASMargin;
+			var lg_e_value = laszip_header.max_x + LASMargin;
+			var lt_s_value = laszip_header.min_y - LASMargin;
+			var lt_e_value = laszip_header.max_y + LASMargin;
+
+			StartLgLt_0 = new CLgLt(new CLg(lg_s_value), new CLt(lt_s_value));
+			EndLgLt_0   = new CLgLt(new CLg(lg_e_value), new CLt(lt_e_value));
+		}
+		else if(vlrs_data.StartsWith("PROJCS"))
+		{
+			// 平面直角座標
+
+			var origin_s = vlrs_data.Substring(8);
+
+		}
+		else
+			throw new Exception("unknown vlrs_data");
 /*
 BLの場合
 "GEOGCS[
@@ -222,7 +245,7 @@ BLの場合
 	DATUM[
 		\"D_WGS_1984\",
 		SPHEROID[
-			\"WGS_1984",
+			\"WGS_1984\",
 			6378137.0,
 			298.257223563
 		],
@@ -261,16 +284,6 @@ XYの場合
 
 
 
-
-
-		// ◆とりあえず
-		var lg_s_value = laszip_header.min_x - LASMargin;
-		var lg_e_value = laszip_header.max_x + LASMargin;
-		var lt_s_value = laszip_header.min_y - LASMargin;
-		var lt_e_value = laszip_header.max_y + LASMargin;
-
-		StartLgLt_0 = new CLgLt(new CLg(lg_s_value), new CLt(lt_s_value));
-		EndLgLt_0   = new CLgLt(new CLg(lg_e_value), new CLt(lt_e_value));
 	}
 }
 //---------------------------------------------------------------------------

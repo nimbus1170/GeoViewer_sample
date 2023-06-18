@@ -8,17 +8,15 @@ using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
 
 using static DSF_CS_Profiler.CProfilerLog;
 
-using System.Windows.Forms;
-
 using static System.Math;
-using DSF_NET_Scene;
-using System.Drawing;
+using System.Runtime.Versioning;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
+	[SupportedOSPlatform("windows")]
 	private void ShowLog()
 	{
 		//--------------------------------------------------
@@ -113,7 +111,6 @@ public partial class GeoViewerMainForm : Form
 			DialogTextBox.AppendText($"クラス付きポイント : {(is_class_exists? "あり":"なし")}\r\n");
 
 			DialogTextBox.AppendText($"\r\n");
-
 		}
 
 		//--------------------------------------------------
