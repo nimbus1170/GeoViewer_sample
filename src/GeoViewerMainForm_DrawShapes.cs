@@ -7,14 +7,13 @@ using DSF_NET_Geography;
 using DSF_NET_Geometry;
 using DSF_NET_Scene;
 
-using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.Versioning; // for SupportedOSPlatform
-using System.Windows.Forms;
 
 using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
 using static DSF_NET_Geography.Convert_LgLt_UTM;
 using static DSF_NET_Geography.Convert_MGRS_UTM;
+using static DSF_NET_Geography.DAltitudeBase;
 using static DSF_NET_TacticalDrawing.GeoObserver;
 using static DSF_NET_TacticalDrawing.StickerShape;
 //---------------------------------------------------------------------------
@@ -29,7 +28,7 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// シンボル１
 
-		var symbol_1_p = ToLgLt(ToUTM(52, 'S', "FC", 09800, 11950, new CAltitude(10)));
+		var symbol_1_p = ToLgLt(ToUTM(52, 'S', "FC", 09800, 11950, new CAltitude(AGL, 10)));
 
 		Viewer.AddShape
 			("symbol_1",
@@ -47,7 +46,7 @@ public partial class GeoViewerMainForm : Form
 		
 		Viewer.AddShape
 			("text_1",
-			 new CGeoString("Kayasan", ToLgLt(ToUTM(52, 'S', "FC", 07760, 15320, new CAltitude(50))))
+			 new CGeoString("Kayasan", ToLgLt(ToUTM(52, 'S', "FC", 07760, 15320, new CAltitude(AGL, 50))))
 				.SetColor(1.0f, 0.0f, 0.0f, 0.5f)); // ◆色が設定できない。
 
 		//--------------------------------------------------
@@ -77,7 +76,7 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// シンボル２
 
-		var symbol_2_p = ToLgLt(ToUTM(52, 'S', "FC", 20000, 20000, new CAltitude(2500)));
+		var symbol_2_p = ToLgLt(ToUTM(52, 'S', "FC", 20000, 20000, new CAltitude(AGL, 2500)));
 
 		Viewer.AddShape
 			("symbol_2",
@@ -131,10 +130,10 @@ public partial class GeoViewerMainForm : Form
 			 new CGeoPolyline()
 				.SetColor(new CColorF(1.0f, 0.0f, 0.0f, 0.5f))
 				.SetLineWidth(2.0f)
-				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07100, 14000, new CAltitude(50))))
-				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07200, 14100, new CAltitude(50))))
-				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07300, 14000, new CAltitude(50))))
-				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07400, 14100, new CAltitude(50)))));
+				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07100, 14000, new CAltitude(AGL, 50))))
+				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07200, 14100, new CAltitude(AGL, 50))))
+				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07300, 14000, new CAltitude(AGL, 50))))
+				.AddNode(ToLgLt(ToUTM(52, 'S', "FC", 07400, 14100, new CAltitude(AGL, 50)))));
 
 		//--------------------------------------------------
 		// 地表面に沿う線分
@@ -151,8 +150,8 @@ public partial class GeoViewerMainForm : Form
 	//	var gnd_op  = ToLgLt(ToUTM(54, 'S', "TE", 88000, 10000));
 	//	var gnd_obj = ToLgLt(ToUTM(54, 'S', "TE", 96000, 18000));
 
-		var op  = new CLgLt(gnd_op ).SetAltitude(10, DAltitudeBase.AGL);
-		var obj = new CLgLt(gnd_obj).SetAltitude(10, DAltitudeBase.AGL);
+		var op  = new CLgLt(gnd_op ).SetAltitude(AGL, 10);
+		var obj = new CLgLt(gnd_obj).SetAltitude(AGL, 10);
 
 		Viewer.AddShape
 			("observe_line",
@@ -184,16 +183,16 @@ public partial class GeoViewerMainForm : Form
 
 		foreach(var gnd_node in gnd_nodes)
 		{
-			var gnd_node_alt_AE = gnd_node.Value.GetAltitude(DAltitudeBase.AE);
+			var gnd_node_alt_AE = gnd_node.Value.AltitudeAE();
 
 			var los_node_p = new CCoord
 				(op_p.X + dx_op_obj * gnd_node.Key,
 				 op_p.Y + dy_op_obj * gnd_node.Key,
 				 op_p.Z + dz_op_obj * gnd_node.Key);
 
-			var los_node_alt_AE = ToLgLt(los_node_p).GetAltitude(DAltitudeBase.AE);
+			var los_node_alt_AE = ToLgLt(los_node_p).AltitudeAE();
 
-			var sticker_node = new CLgLt(gnd_node.Value).SetAltitude(50.0, DAltitudeBase.AGL);
+			var sticker_node = new CLgLt(gnd_node.Value).SetAltitude(AGL, 50.0);
 
 			sticker_line.AddNode(sticker_node);
 

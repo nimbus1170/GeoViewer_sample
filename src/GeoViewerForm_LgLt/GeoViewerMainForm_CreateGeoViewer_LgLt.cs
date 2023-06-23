@@ -1,5 +1,5 @@
 ﻿//
-// GeoViewer_LgLt.cs
+// GeoViewerMainForm_CreateGeoViewer_LgLt.cs
 // 地形ビューア(経緯度)
 //
 //---------------------------------------------------------------------------
@@ -9,12 +9,9 @@ using DSF_NET_Map;
 using DSF_NET_Scene;
 
 using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
+using static DSF_NET_Geography.DAltitudeBase;
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Runtime.Versioning;
-using System.Windows.Forms;
 
 using static System.Drawing.Drawing2D.DashStyle;
 //---------------------------------------------------------------------------
@@ -117,7 +114,7 @@ public partial class GeoViewerMainForm : Form
 		double dst_e_lg = (double)((int)(src_e_lglt.Lg.DecimalDeg * 100000.0			   ) / polygon_size * polygon_size) / 100000.0;
 		double dst_e_lt = (double)((int)(src_e_lglt.Lt.DecimalDeg * 100000.0			   ) / polygon_size * polygon_size) / 100000.0;
 
-		return new Tuple<CLgLt, CLgLt>(new CLgLt(new CLg(dst_s_lg), new CLt(dst_s_lt)), new CLgLt(new CLg(dst_e_lg), new CLt(dst_e_lt)));
+		return new Tuple<CLgLt, CLgLt>(new CLgLt(new CLg(dst_s_lg), new CLt(dst_s_lt), AGL), new CLgLt(new CLg(dst_e_lg), new CLt(dst_e_lt), AGL));
 	}
 
 	static Tuple<CLgLt, CLgLt> ExtendToPolygonSize(in CLgLt src_s_lglt, in CLgLt src_e_lglt, in int polygon_size)
@@ -127,7 +124,7 @@ public partial class GeoViewerMainForm : Form
 		double dst_e_lg = (double)((int)(src_e_lglt.Lg.DecimalDeg * 100000.0 + polygon_size) / polygon_size * polygon_size) / 100000.0;
 		double dst_e_lt = (double)((int)(src_e_lglt.Lt.DecimalDeg * 100000.0 + polygon_size) / polygon_size * polygon_size) / 100000.0;
 
-		return new Tuple<CLgLt, CLgLt>(new CLgLt(new CLg(dst_s_lg), new CLt(dst_s_lt)), new CLgLt(new CLg(dst_e_lg), new CLt(dst_e_lt)));
+		return new Tuple<CLgLt, CLgLt>(new CLgLt(new CLg(dst_s_lg), new CLt(dst_s_lt), AGL), new CLgLt(new CLg(dst_e_lg), new CLt(dst_e_lt), AGL));
 	}
 
 	[SupportedOSPlatform("windows")] // Windows固有API(Graphics)が使用されていることを宣言する。
@@ -176,8 +173,8 @@ public partial class GeoViewerMainForm : Form
 	/// <summary>2座標間の東西方向のピクセル数から1Kmのピクセル数を返す。</summary>
 	static Int32 PixelPerKmX(in CLgLt s_lglt, in CLgLt e_lglt, in int px_w)
 	{
-		var s_coord = ToGeoCentricCoord(new CLgLt(s_lglt.Lg, s_lglt.Lt));
-		var e_coord = ToGeoCentricCoord(new CLgLt(e_lglt.Lg, s_lglt.Lt)); // ◆経度方向の長さなので緯度は同じ。
+		var s_coord = ToGeoCentricCoord(new CLgLt(s_lglt.Lg, s_lglt.Lt, AGL));
+		var e_coord = ToGeoCentricCoord(new CLgLt(e_lglt.Lg, s_lglt.Lt, AGL)); // ◆経度方向の長さなので緯度は同じ。
 
 		var d = CCoord.Distance3D(s_coord, e_coord);
 

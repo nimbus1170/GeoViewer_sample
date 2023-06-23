@@ -14,7 +14,7 @@
           "DSF_NET_LASzip": "0.0.0.0",
           "DSF_NET_MapGrid": "1.0.0.0",
           "DSF_NET_ProfilerLog": "1.0.0.0",
-          "DSF_NET_Scene": "1.0.8568.33045",
+          "DSF_NET_Scene": "1.0.8574.26517",
           "DSF_NET_TacticalDrawing": "1.0.0.0"
         },
         "runtime": {
@@ -744,10 +744,10 @@
           }
         }
       },
-      "DSF_NET_Scene/1.0.8568.33045": {
+      "DSF_NET_Scene/1.0.8574.26517": {
         "runtime": {
           "DSF_NET_Scene.dll": {
-            "assemblyVersion": "1.0.8568.33045",
+            "assemblyVersion": "1.0.8574.26517",
             "fileVersion": "0.0.0.0"
           }
         }
@@ -1194,7 +1194,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "DSF_NET_Scene/1.0.8568.33045": {
+    "DSF_NET_Scene/1.0.8574.26517": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

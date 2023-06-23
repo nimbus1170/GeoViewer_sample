@@ -1,5 +1,5 @@
 //
-// GeoViewer_WP.cs
+// GeoViewerMainForm_DrawOverlayOnGeoViewer_WP.cs
 // 地形ビューア(ワールドピクセル) - オーバレイ描画
 //
 //---------------------------------------------------------------------------
@@ -83,12 +83,12 @@ public partial class GeoViewerMainForm : Form
 
 			// ◆オーバレイの範囲は南北逆転
 			var ol = viewer.MakeOverlay
-				(ToWPInt(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_e_lt)),
-				 ToWPInt(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_s_lt)),
+				(ToWPInt(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_e_lt, DAltitudeBase.AGL)),
+				 ToWPInt(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_s_lt, DAltitudeBase.AGL)),
 				 ol_w, ol_h);
 
-			var p_from = ol.ToPointOnOverlay(ToWP(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_s_lt)));
-			var p_to   = ol.ToPointOnOverlay(ToWP(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_e_lt)));
+			var p_from = ol.ToPointOnOverlay(ToWP(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_s_lt, DAltitudeBase.AGL)));
+			var p_to   = ol.ToPointOnOverlay(ToWP(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_e_lt, DAltitudeBase.AGL)));
 
 			var g = ol.GetGraphics();
 
@@ -121,8 +121,8 @@ public partial class GeoViewerMainForm : Form
 
 			// ◆オーバレイの範囲は南北逆転
 			var ol = viewer.MakeOverlay
-				(ToWPInt(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_e_lt)),
-				 ToWPInt(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_s_lt)),
+				(ToWPInt(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_e_lt, DAltitudeBase.AGL)),
+				 ToWPInt(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_s_lt, DAltitudeBase.AGL)),
 				 ol_w, ol_h);
 
 			var g = ol.GetGraphics();
@@ -148,8 +148,8 @@ public partial class GeoViewerMainForm : Form
 		if(Title == "琵琶湖の水止めたろか")
 		{
 			// ◆範囲を外側境界に近づけるとインデックスがオーバーする。
-			var ol_s_lglt = new CLgLt(new CLg(ToDecimalDeg(135, 53, 0.0)), new CLt(ToDecimalDeg(34, 57, 30.0)));
-			var ol_e_lglt = new CLgLt(new CLg(ToDecimalDeg(135, 55, 0.0)), new CLt(ToDecimalDeg(34, 59, 30.0)));
+			var ol_s_lglt = new CLgLt(new CLg(ToDecimalDeg(135, 53, 0.0)), new CLt(ToDecimalDeg(34, 57, 30.0)), DAltitudeBase.AGL);
+			var ol_e_lglt = new CLgLt(new CLg(ToDecimalDeg(135, 55, 0.0)), new CLt(ToDecimalDeg(34, 59, 30.0)), DAltitudeBase.AGL);
 
 			viewer.AddOverlay
 				("琵琶湖の水面",
@@ -172,11 +172,11 @@ public partial class GeoViewerMainForm : Form
 			//--------------------------------------------------
 			// 以下、テスト
 
-			var lglt0 = new CLgLt(new CLg(139.0), new CLt(36));
-			var lglt1 = new CLgLt(new CLg(140.0), new CLt(37));
-			var lglt2 = new CLgLt(new CLg(140.0), new CLt(35));
-			var lglt3 = new CLgLt(new CLg(138.0), new CLt(35));
-			var lglt4 = new CLgLt(new CLg(138.0), new CLt(37));
+			var lglt0 = new CLgLt(new CLg(139.0), new CLt(36), DAltitudeBase.AGL);
+			var lglt1 = new CLgLt(new CLg(140.0), new CLt(37), DAltitudeBase.AGL);
+			var lglt2 = new CLgLt(new CLg(140.0), new CLt(35), DAltitudeBase.AGL);
+			var lglt3 = new CLgLt(new CLg(138.0), new CLt(35), DAltitudeBase.AGL);
+			var lglt4 = new CLgLt(new CLg(138.0), new CLt(37), DAltitudeBase.AGL);
 
 			// 方位角
 			var az1 = Azimuth(lglt0, lglt1).DecimalDeg;
@@ -194,7 +194,7 @@ public partial class GeoViewerMainForm : Form
 			//--------------------------------------------------
 
 			// OP位置：糸島半島の宮地岳西側
-			var op_lglt = new CLgLt(new CLg(130.18127), new CLt(33.54134), new CAltitude(10));
+			var op_lglt = new CLgLt(new CLg(130.18127), new CLt(33.54134), new CAltitude(DAltitudeBase.AGL, 10));
 
 			Viewer.AddShape
 				("",
@@ -208,11 +208,11 @@ public partial class GeoViewerMainForm : Form
 			var obj_e_lg = new CLg(130.18); var obj_e_lt = new CLt(33.55);
 
 StopWatch.Lap("before IsObserve in C++");
-			var ol_1 = COverlay_WP.MakeVisibilityOverlay(op_lglt, new CLgLt(obj_s_lg, obj_s_lt), new CLgLt(obj_e_lg, obj_e_lt), PolygonZoomLevel, 10.0);
+			var ol_1 = COverlay_WP.MakeVisibilityOverlay(op_lglt, new CLgLt(obj_s_lg, obj_s_lt, DAltitudeBase.AGL), new CLgLt(obj_e_lg, obj_e_lt, DAltitudeBase.AGL), PolygonZoomLevel, 10.0);
 StopWatch.Lap("after  IsObserve in C++");
 
 StopWatch.Lap("before IsObserveMP in C++");
-			var ol_2 = COverlay_WP.MakeVisibilityOverlayMP(op_lglt, new CLgLt(obj_s_lg, obj_s_lt), new CLgLt(obj_e_lg, obj_e_lt), PolygonZoomLevel, 10.0);
+			var ol_2 = COverlay_WP.MakeVisibilityOverlayMP(op_lglt, new CLgLt(obj_s_lg, obj_s_lt, DAltitudeBase.AGL), new CLgLt(obj_e_lg, obj_e_lt, DAltitudeBase.AGL), PolygonZoomLevel, 10.0);
 StopWatch.Lap("after  IsObserveMP in C++");
 /*
 			// ◆WP座標は南北逆転

@@ -1,5 +1,5 @@
 ﻿//
-// GeoViewer_WP.cs
+// GeoVieweMainFormr_CreateGeoViewer_WP.cs
 // 地形ビューア(ワールドピクセル)
 //
 //---------------------------------------------------------------------------
@@ -8,10 +8,10 @@ using DSF_NET_Scene;
 
 using static DSF_NET_Geography.Convert_LgLt_WP;
 using static DSF_NET_Geography.Convert_LgLt_WPInt;
+using static DSF_NET_Geography.DAltitudeBase;
 using static DSF_NET_Geography.XMapTile;
 
 using System.Runtime.Versioning;
-using System.Windows.Forms;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -40,8 +40,8 @@ public partial class GeoViewerMainForm : Form
 		EndWP	= new CWPInt(ToWPIntX(PolygonZoomLevel, EndLgLt_0  .Lg), ToWPIntY(PolygonZoomLevel, StartLgLt_0.Lt));
 
 		// ◆南北は逆転している。WPの南北逆転を一律に変換できないか？範囲クラスにするべきか。
-		StartLgLt = new CLgLt(ToLg(StartWP.X), ToLt(EndWP  .Y));
-		EndLgLt	  = new CLgLt(ToLg(EndWP  .X), ToLt(StartWP.Y));
+		StartLgLt = new CLgLt(ToLg(StartWP.X), ToLt(EndWP  .Y), AGL);
+		EndLgLt	  = new CLgLt(ToLg(EndWP  .X), ToLt(StartWP.Y), AGL);
 
 		//--------------------------------------------------
 		// 3 標高地図データを作成する。

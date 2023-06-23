@@ -24,23 +24,27 @@
 	<_ToSelectMapCfgFile/>
 
 	<!-- LASデータを表示する。-->
-	<!-- Margin : LASデータを含む表示範囲(LASデータの範囲の東西南北のマージン、十進経緯度) -->
+	<!-- DefaultOrigin	  : LASデータに原点に関する情報が含まれていない場合の原点(系番号) -->
+	<!-- Margin			  : LASデータを含む表示範囲(LASデータの範囲の東西南北のマージン、十進経緯度) -->
+	<!-- CheckLASDataOnly : LASデータを表示せずに、その情報のみを表示する。-->
 	<ToSelectLASFile
+		DefaultOrigin="12"
 		Margin="0.005"
+		_ToCheckLASDataOnly="true"
 		PolygonZoomLevel="14"
-		ImageZoomLevel="18"
+		ImageZoomLevel="16"
 		NearPlane="10"/>
 
-	<_ToShowDebugInfo/>
+	<ToShowDebugInfo/>
 
 	<!-- プレーンモード -->
 	<PlaneMode Mode="WP"/>
 	<_PlaneMode Mode="Tile"/>
 	<_PlaneMode Mode="LgLt"/>
 
-	<_MapCfg
+	<MapCfg
 		Title="糸島半島"
-		PolygonZoomLevel="14"
+		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
 		PolygonSize="200"
 		NearPlane="100"> <!-- m -->
@@ -50,7 +54,7 @@
 		<!-- フォルダ内のすべてのファイルを描画する方法 -->
 		<!-- ◆保留 -->
 		<_Drawings Folder="C:/DSF/SharedData/MapView/MapDrawing"/>
-	</_MapCfg>
+	</MapCfg>
 
 	<_MapCfg
 		Title="糸島半島～佐賀平野"
@@ -213,7 +217,7 @@
 		<End   Lg="139 06  0.0" Lt="35 07 30.0"/>
 	</_MapCfg>
 
-	<MapCfg
+	<_MapCfg
 		Title="熱海"
 		PolygonZoomLevel="13"
 		ImageZoomLevel="16"
@@ -221,7 +225,7 @@
 		NearPlane="100">
 		<Start Lg="139 03  0.0" Lt="35 05  0.0"/>
 		<End   Lg="139 06  0.0" Lt="35 08  0.0"/>
-	</MapCfg>
+	</_MapCfg>
 
 	<_MapCfg
 		Title="伊豆大島"

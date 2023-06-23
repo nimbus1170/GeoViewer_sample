@@ -7,9 +7,6 @@ using DSF_NET_Scene;
 using static DSF_NET_TacticalDrawing.StickerShape;
 using static DSF_NET_TacticalDrawing.XMLReader;
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using System.Xml;
 using DSF_NET_Color;
 //---------------------------------------------------------------------------

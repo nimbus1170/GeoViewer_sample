@@ -5,6 +5,7 @@
 using DSF_NET_Geography;
 
 using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
+using static DSF_NET_Geography.DAltitudeBase;
 
 using static DSF_CS_Profiler.CProfilerLog;
 
@@ -23,8 +24,8 @@ public partial class GeoViewerMainForm : Form
 		// プレーンサイズを計算する。
 
 		var lglt_00 = StartLgLt;
-		var lglt_10 = new CLgLt(EndLgLt  .Lg, StartLgLt.Lt);
-		var lglt_01 = new CLgLt(StartLgLt.Lg, EndLgLt  .Lt);
+		var lglt_10 = new CLgLt(EndLgLt  .Lg, StartLgLt.Lt, AGL);
+		var lglt_01 = new CLgLt(StartLgLt.Lg, EndLgLt  .Lt, AGL);
 
 		var coord_00 = ToGeoCentricCoord(lglt_00);
 		var coord_10 = ToGeoCentricCoord(lglt_10);
@@ -86,32 +87,7 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		if(LASzipData != null)
-		{ 
-			var laszip_header = LASzipData.Header;
-
-			DialogTextBox.AppendText($"[LASデータ]\r\n");
-			DialogTextBox.AppendText($"        バージョン : {laszip_header.version_major}.{laszip_header.version_minor}\r\n");
-			DialogTextBox.AppendText($"      フォーマット : {laszip_header.point_data_format}\r\n");
-			DialogTextBox.AppendText($"        ポイント数 : {(int)laszip_header.number_of_point_records:#,0}\r\n");
-
-			var laszip_points = LASzipData.Points;
-
-			var is_color_exists = false;
-			var is_class_exists = false;
-			
-			foreach(var pt in laszip_points)
-			{
-				if((pt.R != 0) || (pt.G != 0) || (pt.B != 0)) is_color_exists = true;
-
-				if(pt.classification != 0) is_class_exists = true;
-			}
-
-			DialogTextBox.AppendText($"    色付きポイント : {(is_color_exists? "あり":"なし")}\r\n");
-			DialogTextBox.AppendText($"クラス付きポイント : {(is_class_exists? "あり":"なし")}\r\n");
-
-			DialogTextBox.AppendText($"\r\n");
-		}
+		ShowLASLog();
 
 		//--------------------------------------------------
 		// ◆プロンプトをこのように忘れず表示しなくてはならないのか？

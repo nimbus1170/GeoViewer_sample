@@ -1,5 +1,5 @@
 //
-// GeoViewer_DrawShapesXML_DefensivePosition.cs
+// GeoViewerMainForm_DrawShapesXML_DefensivePosition.cs
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Color;
@@ -8,9 +8,6 @@ using DSF_NET_Scene;
 using static DSF_NET_TacticalDrawing.StickerShape;
 using static DSF_NET_TacticalDrawing.XMLReader;
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using System.Xml;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample

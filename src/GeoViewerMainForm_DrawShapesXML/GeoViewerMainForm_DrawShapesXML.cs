@@ -2,7 +2,6 @@
 // GeoViewer_DrawShapesXML.cs
 //
 //---------------------------------------------------------------------------
-using System.Windows.Forms;
 using System.Xml;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample

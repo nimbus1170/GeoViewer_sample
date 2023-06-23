@@ -8,10 +8,10 @@ using DSF_NET_Scene;
 
 using static DSF_NET_Geography.Convert_LgLt_WP;
 using static DSF_NET_Geography.Convert_LgLt_WPInt;
+using static DSF_NET_Geography.DAltitudeBase;
 using static DSF_NET_Geography.XMapTile;
 
 using System.Runtime.Versioning;
-using System.Windows.Forms;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -43,8 +43,8 @@ public partial class GeoViewerMainForm : Form
 		EndWP	= new CWPInt(GetEndWPIntX  (e_tile.X), GetEndWPIntY  (e_tile.Y));
 
 		// タイルにクランプされた経緯度座標
-		StartLgLt = new CLgLt(ToLg(StartWP.X), ToLt(EndWP  .Y));
-		EndLgLt	  = new CLgLt(ToLg(EndWP  .X), ToLt(StartWP.Y));
+		StartLgLt = new CLgLt(ToLg(StartWP.X), ToLt(EndWP  .Y), AGL);
+		EndLgLt	  = new CLgLt(ToLg(EndWP  .X), ToLt(StartWP.Y), AGL);
 
 		//--------------------------------------------------
 		// 2 標高データを作成する。

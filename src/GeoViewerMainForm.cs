@@ -8,11 +8,7 @@ using DSF_NET_Scene;
 using DSF_NET_Profiler;
 using DSF_NET_Utility;
 
-using System.IO;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Runtime.Versioning;
-using System.Windows.Forms;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -58,14 +54,29 @@ public partial class GeoViewerMainForm : Form
 	{
 		InitializeComponent();
 
-
-
-		var ellipsoid = Convert_LgLt_XY.Ellipsoid;
-
-
-
 		try
 		{
+			//--------------------------------------------------
+			// ◆テスト
+
+/*			var ellipsoid = Convert_LgLt_XY.Ellipsoid;
+
+			Convert_LgLt_XY.Origin = Convert_LgLt_XY.XYOrigin_XII;
+
+			var origin = Convert_LgLt_XY.Origin;
+
+			// ◆ここで例外が出る。
+			var lglt = Convert_LgLt_XY.ToLgLt(new CCoord(1000.0, 2000.0));
+
+			var lg_dms = new CDMS(lglt.Lg.DecimalDeg);
+			var lt_dms = new CDMS(lglt.Lt.DecimalDeg);
+
+			Convert_LgLt_XY.Origin = Convert_LgLt_XY.XYOrigin_IX;
+
+			var xy = Convert_LgLt_XY.ToXY(new CLgLt(new CLg(140.08), new CLt(36.10)));
+*/
+			//--------------------------------------------------
+
 			// argsがここで渡されるので、これらの処理はForm_Loadではなくここで実施する。
 
 			switch(args.Length)
@@ -210,7 +221,8 @@ public partial class GeoViewerMainForm : Form
 		//	if(!(File.Exists(gsi_geoid_model_file))) throw new Exception("geoid model file not found");
 
 StopWatch.Lap("before GSIGeoidMapData");
-			var geoid_map_data = new CGSIGeoidMapData(GSIGeoidModelFile);
+//			var geoid_map_data = new CGSIGeoidMapData(GSIGeoidModelFile);
+			var geoid_map_data = new CGeoidMapData_Dummy(30);
 StopWatch.Lap("after  GSIGeoidMapData");
 
 			// 高度クラスにジオイドデータを設定することにより、座標オブジェクトにジオイド高が自動設定される。
@@ -264,7 +276,7 @@ MemWatch.Lap("before CreateGeoViewer");
 				(PlaneMode == "LgLt")? CreateGeoViewer_LgLt(viewer_form.PictureBox, geoid_map_data, scene_cfg, controller_parts):
 									   throw new Exception("unknown plane mode");
 
-MemWatch.Lap("after CreateGeoViewer");
+MemWatch.Lap("after  CreateGeoViewer");
 
 			//--------------------------------------------------
 			// 8 ビューアフォーム、コントローラフォーム及びメインフォームにビューアを設定する。

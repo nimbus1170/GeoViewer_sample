@@ -1,10 +1,8 @@
 //
-// GeoViewer_DownloadGSITiles.cs
+// GeoViewerMainForm_DownloadGSITiles.cs
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
-using DSF_NET_Geometry;
-//using DSF_NET_Map;
 
 using static DSF_NET_TacticalDrawing.XMLReader;
 

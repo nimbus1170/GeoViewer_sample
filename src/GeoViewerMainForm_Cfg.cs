@@ -1,13 +1,12 @@
 //
-// GeoViewer_Cfg.cs
-// 地形ビューアの設定ファイルの内容
+// GeoViewerMainForm_Cfg.cs
+// 地形ビューア - 設定ファイル
 //
 // ◆本来は別にする必要はないかもしれないが、現状はLgLtとWPとTileに分かれており、同じものを書いているので纏める。
 // ◆XMLやハードコード等のバリエーションがあるので依存しないように別にする。
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
-
 using System.Xml;
 
 using static DSF_NET_TacticalDrawing.XMLReader;
@@ -38,8 +37,9 @@ public partial class GeoViewerMainForm : Form
 	string MapDataFolder;
 
 	// ◆国土地理院データ固定
-
+	int	   DefaultOrigin;
 	double LASMargin;
+	bool   ToCheckLASDataOnly = false;
 
 	// ◆国土地理院データ固定
 
@@ -135,7 +135,11 @@ public partial class GeoViewerMainForm : Form
 		{
 			// LASViewダイアログ
 
+			DefaultOrigin = ToInt32(lasview_cfg.Attributes["DefaultOrigin"].InnerText);
+
 			LASMargin = ToDouble(lasview_cfg.Attributes["Margin"].InnerText);
+
+			ToCheckLASDataOnly = (lasview_cfg.Attributes["ToCheckLASDataOnly"]?.InnerText == "true")? true: false;
 
 			PolygonZoomLevel = ToInt32(lasview_cfg.Attributes["PolygonZoomLevel"].InnerText);
 			ImageZoomLevel	 = ToInt32(lasview_cfg.Attributes["ImageZoomLevel"  ].InnerText);
@@ -201,89 +205,6 @@ public partial class GeoViewerMainForm : Form
 
 		PolygonZoomLevel = ToInt32(prms[4]);
 		ImageZoomLevel	 = ToInt32(prms[5]);
-	}
-
-	CLASzip LASzipData = null;
-
-	void ReadLASFromFile(in string las_fname)
-	{
-		Title = las_fname; 
-
-		LASzipData = new CLASzip(las_fname);
-
-		var laszip_header = LASzipData.Header;
-
-		var vlrs_data = laszip_header.vlrs_data; //ここにファイル情報が入っている。
-
-		// ◆とりあえずこうするが、HStringとかで切り分けろ。
-		if(vlrs_data.StartsWith("GEOGCS"))
-		{
-			// 経緯度
-
-			// ◆とりあえず
-			var lg_s_value = laszip_header.min_x - LASMargin;
-			var lg_e_value = laszip_header.max_x + LASMargin;
-			var lt_s_value = laszip_header.min_y - LASMargin;
-			var lt_e_value = laszip_header.max_y + LASMargin;
-
-			StartLgLt_0 = new CLgLt(new CLg(lg_s_value), new CLt(lt_s_value));
-			EndLgLt_0   = new CLgLt(new CLg(lg_e_value), new CLt(lt_e_value));
-		}
-		else if(vlrs_data.StartsWith("PROJCS"))
-		{
-			// 平面直角座標
-
-			var origin_s = vlrs_data.Substring(8);
-
-		}
-		else
-			throw new Exception("unknown vlrs_data");
-/*
-BLの場合
-"GEOGCS[
-	\"GCS_WGS_1984\",
-	DATUM[
-		\"D_WGS_1984\",
-		SPHEROID[
-			\"WGS_1984\",
-			6378137.0,
-			298.257223563
-		],
-		TOWGS84[0,0,0,0,0,0,0]
-	],
-	PRIMEM[\"Greenwich\",0.0],
-	UNIT[\"Degree\",0.0174532925199433]
-]"
-
-XYの場合
-"PROJCS[
-	\"JGD2011_Japan_Zone_9\",
-	GEOGCS[
-		\"GCS_JGD_2011\",
-		DATUM[
-			\"D_JGD_2011\",
-			SPHEROID[
-				\"GRS_1980\",
-				6378137.0,
-				298.257222101
-			],
-			TOWGS84[0,0,0,0,0,0,0]
-		],
-		PRIMEM[\"Greenwich\",0.0],
-		UNIT[\"Degree\",0.0174532925199433]
-	],
-	PROJECTION[\"Transverse_Mercator\"],
-	PARAMETER[\"False_Easting\",0.0],
-	PARAMETER[\"False_Northing\",0.0],
-	PARAMETER[\"Central_Meridian\",139.833333333333],
-	PARAMETER[\"Scale_Factor\",0.9999],
-	PARAMETER[\"Latitude_Of_Origin\",36],
-	UNIT[\"Meter\",1.0]
-]"
-*/
-
-
-
 	}
 }
 //---------------------------------------------------------------------------
