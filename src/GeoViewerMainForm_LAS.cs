@@ -174,27 +174,6 @@ vlrs_dataがない場合もある。
 		float intensity;
 
 		//--------------------------------------------------
-		// 強度で色分けするため、強度の範囲を求める。
-		// ◆LASデータでは強度の基準は決まっていないので、最大値・最小値からその範囲を求める。
-
-		ushort min_intensity = ushort.MaxValue;
-		ushort max_intensity = ushort.MinValue;
-
-		foreach(var pt in laszip_points)
-		{
-			if(pt.intensity < min_intensity) min_intensity = pt.intensity;
-			if(pt.intensity > max_intensity) max_intensity = pt.intensity;
-		}
-
-		float intensity_range = max_intensity - min_intensity;  
-
-		bool has_intensity = (intensity_range > 0.0f)? true: false;
-
-		//--------------------------------------------------
-
-		var pt_color = new CColorF{ A = 1.0f }; // A:透明度(アルファ値)
-
-		var dst_pts = new CGeoPoints(4.0f);
 
 		var vlrs_data = laszip_header.vlrs_data; //ここにファイル情報が入っている。
 
@@ -205,45 +184,80 @@ StopWatch.Lap("before SetLASPoints");
 		{
 			// 経緯度
 
-			var pt_lglt = new CLgLt();
-
-			foreach(var pt in laszip_points)
+			if(false)
 			{
-				//--------------------------------------------------
-
-				x = x_offset + pt.X * x_scale_factor;
-				y = y_offset + pt.Y * y_scale_factor;
-				z = z_offset + pt.Z * z_scale_factor;
-
-				pt_lglt.SetLg(x).SetLt(y).SetAltitude(AMSL, z);
+				// C#の方で各点を作成する。
+				// C#の方で色等を処理する場合はこちら
+				// ◆必要性はあるので高速化は必要
 
 				//--------------------------------------------------
+				// 強度で色分けするため、強度の範囲を求める。
+				// ◆LASデータでは強度の基準は決まっていないので、最大値・最小値からその範囲を求める。
 
-				intensity = (has_intensity)? ((pt.intensity - min_intensity) / intensity_range): 1.0f;
+				ushort min_intensity = ushort.MaxValue;
+				ushort max_intensity = ushort.MinValue;
 
-				r = pt.R;
-				g = pt.G;
-				b = pt.B;
-
-				if((r != 0) || (g != 0) || (b != 0))
+				foreach(var pt in laszip_points)
 				{
-					// 色付き
-					pt_color.R = r / 255.0f * intensity;
-					pt_color.G = g / 255.0f * intensity;
-					pt_color.B = b / 255.0f * intensity;
-				}
-				else
-				{
-					// 色なし
-					pt_color.R =
-					pt_color.G =
-					pt_color.B = intensity;
+					if(pt.intensity < min_intensity) min_intensity = pt.intensity;
+					if(pt.intensity > max_intensity) max_intensity = pt.intensity;
 				}
 
+				float intensity_range = max_intensity - min_intensity;  
+
+				bool has_intensity = (intensity_range > 0.0f)? true: false;
+
 				//--------------------------------------------------
 
-				dst_pts.AddPoint(pt_lglt, pt_color);
+				var dst_pts = new CGeoPoints(4.0f);
+
+				var pt_lglt = new CLgLt();
+
+				var pt_color = new CColorF{ A = 1.0f }; // A:透明度(アルファ値)
+
+				foreach(var pt in laszip_points)
+				{
+					//--------------------------------------------------
+
+					x = x_offset + pt.X * x_scale_factor;
+					y = y_offset + pt.Y * y_scale_factor;
+					z = z_offset + pt.Z * z_scale_factor;
+
+					pt_lglt.SetLg(x).SetLt(y).SetAltitude(AMSL, z);
+
+					//--------------------------------------------------
+
+					intensity = (has_intensity)? ((pt.intensity - min_intensity) / intensity_range): 1.0f;
+
+					r = pt.R;
+					g = pt.G;
+					b = pt.B;
+
+					if((r != 0) || (g != 0) || (b != 0))
+					{
+						// 色付き
+						pt_color.R = r / 255.0f * intensity;
+						pt_color.G = g / 255.0f * intensity;
+						pt_color.B = b / 255.0f * intensity;
+					}
+					else
+					{
+						// 色なし
+						pt_color.R =
+						pt_color.G =
+						pt_color.B = intensity;
+					}
+
+					//--------------------------------------------------
+
+					dst_pts.AddPoint(pt_lglt, pt_color);
+				}
+
+				Viewer.AddShape("laspoints", dst_pts);
 			}
+			else
+				// DLL内で各点を作成する。
+				Viewer.AddShape("laspoints", LASzipData.MakeGeoPointsBL().SetPointSize(4.0f));
 		}
 		else
 		{
@@ -253,61 +267,91 @@ StopWatch.Lap("before SetLASPoints");
 			
 			Convert_LgLt_XY.Origin = origin_lglt;
 
-			var pt_xy = new CCoord();
-
-			var pt_lglt = new CLgLt(new CLg(), new CLt(), AMSL);
-
-			foreach(var pt in laszip_points)
+			if(true)
 			{
+				// C#の方で各点を作成する。
+				// C#の方で色等を処理する場合はこちら
+				// ◆必要性はあるので高速化は必要
+
+				//--------------------------------------------------
+				// 強度で色分けするため、強度の範囲を求める。
+				// ◆LASデータでは強度の基準は決まっていないので、最大値・最小値からその範囲を求める。
+
+				ushort min_intensity = ushort.MaxValue;
+				ushort max_intensity = ushort.MinValue;
+
+				foreach(var pt in laszip_points)
+				{
+					if(pt.intensity < min_intensity) min_intensity = pt.intensity;
+					if(pt.intensity > max_intensity) max_intensity = pt.intensity;
+				}
+
+				float intensity_range = max_intensity - min_intensity;  
+
+				bool has_intensity = (intensity_range > 0.0f)? true: false;
+
 				//--------------------------------------------------
 
-				x = x_offset + pt.X * x_scale_factor;
-				y = y_offset + pt.Y * y_scale_factor;
-				z = z_offset + pt.Z * z_scale_factor;
+				var dst_pts = new CGeoPoints(4.0f);
+
+				var pt_xy = new CCoord();
+
+			//	var pt_lglt = new CLgLt(new CLg(), new CLt(), AMSL);
+
+				var pt_color = new CColorF{ A = 1.0f }; // A:透明度(アルファ値)
+
+				foreach(var pt in laszip_points)
+				{
+					//--------------------------------------------------
+
+					x = x_offset + pt.X * x_scale_factor;
+					y = y_offset + pt.Y * y_scale_factor;
+					z = z_offset + pt.Z * z_scale_factor;
 
 //StopWatch.Lap("(C#)before XYToLgLt");
-				// ◆ここに時間がかかっている。
-				// ◆LASデータはXが東西のようだ。
-			//	var pt_lglt = Convert_LgLt_XY.ToLgLt(pt_xy.Set(y, x), AMSL).SetAltitude(AMSL, z);
-				// ◆渡すようにすると速い？遅い？
-				// ◆ストップウォッチで時間喰ってる。
-				Convert_LgLt_XY.ToLgLt(pt_xy.Set(y, x), ref pt_lglt).SetAltitude(AMSL, z);
+					// ◆ここに時間がかかっている。
+					// ◆LASデータはXが東西のようだ。
+					var pt_lglt = Convert_LgLt_XY.ToLgLt(pt_xy.Set(y, x), AMSL).SetAltitude(AMSL, z);
+					// ◆渡すようにすると速い？遅い？
+					// ◆ストップウォッチで時間喰ってる。
+				//	Convert_LgLt_XY.ToLgLt(pt_xy.Set(y, x), ref pt_lglt).SetAltitude(AMSL, z);
 //StopWatch.Lap("(C#)after  XYToLgLt");
 
-				//--------------------------------------------------
+					//--------------------------------------------------
 
-				intensity = (has_intensity)? ((pt.intensity - min_intensity) / intensity_range): 1.0f;
+					intensity = (has_intensity)? ((pt.intensity - min_intensity) / intensity_range): 1.0f;
 
-				r = pt.R;
-				g = pt.G;
-				b = pt.B;
+					r = pt.R;
+					g = pt.G;
+					b = pt.B;
 
-				if((r != 0) || (g != 0) || (b != 0))
-				{
-					// 色付き
-					pt_color.R = r / 255.0f * intensity;
-					pt_color.G = g / 255.0f * intensity;
-					pt_color.B = b / 255.0f * intensity;
+					if((r != 0) || (g != 0) || (b != 0))
+					{
+						// 色付き
+						pt_color.R = r / 255.0f * intensity;
+						pt_color.G = g / 255.0f * intensity;
+						pt_color.B = b / 255.0f * intensity;
+					}
+					else
+					{
+						// 色なし
+						pt_color.R =
+						pt_color.G =
+						pt_color.B = intensity;
+					}
+
+					//--------------------------------------------------
+
+					dst_pts.AddPoint(pt_lglt, pt_color);
 				}
-				else
-				{
-					// 色なし
-					pt_color.R =
-					pt_color.G =
-					pt_color.B = intensity;
-				}
 
-				//--------------------------------------------------
-
-				dst_pts.AddPoint(pt_lglt, pt_color);
+				Viewer.AddShape("laspoints", dst_pts);
 			}
+			else
+				Viewer.AddShape("laspoints", LASzipData.MakeGeoPointsXY().SetPointSize(4.0f));
 		}
 
 StopWatch.Lap("after  SetLASPoints");
-
-		Viewer.AddShape("laspoints", dst_pts);
-
-StopWatch.Lap("after  AddLASPoints");
 
 		//--------------------------------------------------
 

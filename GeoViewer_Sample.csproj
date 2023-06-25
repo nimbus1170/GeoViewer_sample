@@ -51,9 +51,6 @@
       <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_GSITileDownloader.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DSF_NET_LASzip">
-      <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_LASzip.dll</HintPath>
-    </Reference>
     <Reference Include="DSF_NET_MapGrid">
       <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_MapGrid.dll</HintPath>
       <Private>True</Private>
