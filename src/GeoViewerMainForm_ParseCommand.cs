@@ -2,11 +2,16 @@
 // PlanViewerMainForm_ParseCommand.cs
 //
 //---------------------------------------------------------------------------
+using System.Runtime.Versioning;
+//---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
+	int LAS_n = 0;
+
+	[SupportedOSPlatform("windows")]
 	private string ParseCommand(in string cmd_line)
 	{
 		if(Viewer == null) return "no viewer";
@@ -49,7 +54,7 @@ public partial class GeoViewerMainForm : Form
 				
 				break;
 
-			case "showoverlays":
+			case "showlayers":
 	
 				if(options.Length == 0)
 					Viewer.ShowOverlays();
@@ -61,7 +66,7 @@ public partial class GeoViewerMainForm : Form
 				
 				break;
 
-			case "hideoverlays":
+			case "hidelayers":
 
 				if(options.Length == 0)
 					Viewer.HideOverlays();
@@ -71,15 +76,6 @@ public partial class GeoViewerMainForm : Form
 
 				Viewer.DrawScene();
 				
-				break;
-
-			case "countobj":
-
-				var gl_objs_count = Viewer.GLObjectCount();	
-
-				foreach(var gl_objs_count_i in gl_objs_count)
-					ret	+= $"{gl_objs_count_i.Key, -12} : {gl_objs_count_i.Value:#,0}\r\n";
-	
 				break;
 
 			case "reloadshapes":
@@ -94,7 +90,28 @@ public partial class GeoViewerMainForm : Form
 
 				break;
 
+			case "loadlas":
+				LoadLAS();
+				break;
+
+			case "countobj":
+
+				var gl_objs_count = Viewer.GLObjectCount();	
+
+				foreach(var gl_objs_count_i in gl_objs_count)
+					ret	+= $"{gl_objs_count_i.Key, -12} : {gl_objs_count_i.Value:#,0}\r\n";
+	
+				break;
+
 			case "help":
+				DialogTextBox.AppendText
+					("showshapes 図形名 … 図形を表示する。図形名を省略するとすべて表示する。\r\n" + 
+					 "hideshapes 図形名 … 図形を非表示にする。図形名を省略するとすべて非表示にする。\r\n" +
+					 "showlayers レイヤー名 … レイヤーを表示する。レイヤー名を省略するとすべて表示する。\r\n" +
+					 "hidelayers レイヤー名 … レイヤーを非表示にする。レイヤー名を省略するとすべて非表示にする。\r\n" +
+					 "loadlas … LASファイル読み込みダイアログを表示する。\r\n" +
+					 "countobj … OpenGLオブジェクトの数を表示する。\r\n" +
+					 "help … ヘルプを表示する。\r\n");
 				break;
 
 			default:

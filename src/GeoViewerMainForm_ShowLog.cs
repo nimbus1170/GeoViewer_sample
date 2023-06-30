@@ -86,8 +86,8 @@ public partial class GeoViewerMainForm : Form
 		}
 
 		//--------------------------------------------------
-
-		ShowLASLog();
+		
+		if(LASzipData != null) ShowLASLog("las" + LAS_n, LASzipData, ReadLASMsg);
 
 		//--------------------------------------------------
 		// ◆プロンプトをこのように忘れず表示しなくてはならないのか？

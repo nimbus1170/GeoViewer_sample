@@ -12,6 +12,9 @@ using System.Runtime.Versioning;
 
 using static DSF_CS_Profiler.CProfilerLog;
 using static DSF_NET_Geography.DAltitudeBase;
+
+using static System.Convert;
+using System.Reflection.Metadata.Ecma335;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
@@ -20,58 +23,62 @@ public partial class GeoViewerMainForm : Form
 {
 	CLASzip LASzipData = null;
 
-	void ReadLASFromFile(in string las_fname)
+	string ReadLASMsg = "";
+
+	//-----------------------------------------------------------------------
+
+	[SupportedOSPlatform("windows")]
+	void LoadLAS()
 	{
-		Title = las_fname; 
+		OpenFileDialog of_dialog = new ()
+			{ Title  = "LASファイルを開く",
+			  Filter = "LASファイル(*.las;*.csv;*.txt)|*.las;*.csv;*.txt",
+			  Multiselect = true };
 
-		LASzipData = new CLASzip(las_fname);
+		if(of_dialog.ShowDialog() == DialogResult.Cancel)
+//			Application.Exit(); // ◆終了しない。
+			Close();
 
-		var laszip_header = LASzipData.Header;
+		var las_fnames = of_dialog.FileNames;
 
-		var vlrs_data = laszip_header.vlrs_data; //ここにファイル情報が入っている。
+		of_dialog.Dispose();
 
-		// ◆とりあえずこうするが、HStringとかで切り分けろ。
-		if(vlrs_data.StartsWith("GEOGCS"))
+StopWatch.Start();
+MemWatch .Lap("before ReadLASFromFiles");
+		foreach(var las_fname in las_fnames)
 		{
-			// 経緯度
+			DialogTextBox.AppendText($"loading {las_fname}\r\n");
 
-			// ◆とりあえず
-			var lg_s_value = laszip_header.min_x - LASMargin;
-			var lg_e_value = laszip_header.max_x + LASMargin;
-			var lt_s_value = laszip_header.min_y - LASMargin;
-			var lt_e_value = laszip_header.max_y + LASMargin;
+			var (laszip_data, read_las_msg) = ReadLASFromFile(las_fname);
 
-			StartLgLt_0 = new CLgLt(new CLg(lg_s_value), new CLt(lt_s_value), AGL);
-			EndLgLt_0   = new CLgLt(new CLg(lg_e_value), new CLt(lt_e_value), AGL);
+StopWatch.Lap("after  ReadLASFromFile");
+MemWatch .Lap("after  ReadLASFromFile");
+
+			if(laszip_data != null)
+			{
+				DrawLAS("las" + (++LAS_n), laszip_data);
+
+				ShowLASLog("las" + LAS_n, laszip_data, read_las_msg);
+			}
+			else
+				DialogTextBox.AppendText($"reading LAS error : {read_las_msg}\r\n");
+
 		}
-		else
+StopWatch.Stop();
+MemWatch .Stop();
+
+		if(ToShowDebugInfo)
 		{
-			// 平面直角座標
-
-			var origin_lglt = ReadLASOrigin(vlrs_data);
-
-			Convert_LgLt_XY.Origin = origin_lglt;
-
-			// ◆LASデータはXが東西のようだ。
-			var min_xy = new CCoord(laszip_header.min_y, laszip_header.min_x);
-			var max_xy = new CCoord(laszip_header.max_y, laszip_header.max_x);
-
-			var min_lglt = Convert_LgLt_XY.ToLgLt(min_xy, AGL);
-			var max_lglt = Convert_LgLt_XY.ToLgLt(max_xy, AGL);
-
-			var lg_s_value = min_lglt.Lg.DecimalDeg - LASMargin;
-			var lg_e_value = max_lglt.Lg.DecimalDeg + LASMargin;
-			var lt_s_value = min_lglt.Lt.DecimalDeg - LASMargin;
-			var lt_e_value = max_lglt.Lt.DecimalDeg + LASMargin;
-
-			StartLgLt_0 = new CLgLt(new CLg(lg_s_value), new CLt(lt_s_value), AGL);
-			EndLgLt_0   = new CLgLt(new CLg(lg_e_value), new CLt(lt_e_value), AGL);
+			DialogTextBox.AppendText(MakeStopWatchLog(StopWatch) + $"\r\n");
+			DialogTextBox.AppendText(MakeMemWatchLog (MemWatch ) + $"\r\n");
 		}
 	}
 
+	//-----------------------------------------------------------------------
+
 	CXYOrigin ReadLASOrigin(in string vlrs_data)
 	{
-		CXYOrigin origin = null;
+		CXYOrigin origin;
 
 		if(vlrs_data.StartsWith("PROJCS"))
 		{
@@ -89,7 +96,7 @@ public partial class GeoViewerMainForm : Form
 
 			origin = new CXYOrigin("", new CLgLt(new CLg(origin_cm), new CLt(origin_lt), AGL));
 		}
-		else if((1 <= DefaultOrigin) &&(DefaultOrigin <= 19))
+		else if((1 <= DefaultOrigin) && (DefaultOrigin <= 19))
 		{ 
 			origin = Convert_LgLt_XY.Origins[DefaultOrigin];
 		}
@@ -98,6 +105,8 @@ public partial class GeoViewerMainForm : Form
 
 		return origin;
 /*
+vlrs_dataの例
+
 BLの場合
 "GEOGCS[
 	\"GCS_WGS_1984\",
@@ -144,16 +153,238 @@ vlrs_dataがない場合もある。
 */
 	}
 
-	[SupportedOSPlatform("windows")]
-	void DrawLAS()
-	{
-		if(LASzipData == null) return;
+	//-----------------------------------------------------------------------
 
-		if(ToCheckLASDataOnly) return;
+	(CLASzip laszip_data, string msg) ReadLASFromFile(in string las_fname)
+	{
+		CLASzip laszip_data;
+
+		//--------------------------------------------------
+		// ローカルな設定をファイルから読み込む。
+		// ◆最初に読み込みを試行し、原点定義等が存在していればそれでDefaultOrigin等を上書きする。
+
+		var las_origin_fname = Path.GetDirectoryName(las_fname) + "\\GeoViewerCfg.local.xml";
+
+		if(File.Exists(las_origin_fname)) ReadCfgFromFile(las_origin_fname);
 
 		//--------------------------------------------------
 
-		var laszip_data = LASzipData;
+		var las_file_ext = Path.GetExtension(las_fname).ToLower();
+
+		//--------------------------------------------------
+		// LASファイルの場合
+
+		if(las_file_ext == ".las")
+		{
+			laszip_data = new CLASzip(las_fname);
+
+			var laszip_header = laszip_data.Header;
+
+			var vlrs_data = laszip_header.vlrs_data; //ここにファイル情報が入っている。
+
+			// ◆とりあえずこうするが、HStringとかで切り分けろ。
+			if(vlrs_data.StartsWith("GEOGCS"))
+			{
+				// 経緯度
+
+				StartLgLt_0 = new CLgLt(new CLg(laszip_header.min_x - LASMargin), new CLt(laszip_header.min_y - LASMargin), AGL);
+				EndLgLt_0   = new CLgLt(new CLg(laszip_header.max_x + LASMargin), new CLt(laszip_header.max_y + LASMargin), AGL);
+			}
+			else
+			{
+				// 平面直角座標
+
+				Convert_LgLt_XY.Origin = ReadLASOrigin(vlrs_data);
+
+				// ◆LASデータはXが東西のようだ。
+				var min_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(laszip_header.min_y, laszip_header.min_x), AGL);
+				var max_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(laszip_header.max_y, laszip_header.max_x), AGL);
+
+				StartLgLt_0 = new CLgLt(new CLg(min_lglt.Lg.DecimalDeg - LASMargin), new CLt(min_lglt.Lt.DecimalDeg - LASMargin), AGL);
+				EndLgLt_0   = new CLgLt(new CLg(max_lglt.Lg.DecimalDeg + LASMargin), new CLt(max_lglt.Lt.DecimalDeg + LASMargin), AGL);
+			}
+
+			return (laszip_data, "");
+		}
+
+		//--------------------------------------------------
+		// テキストファイルの場合
+
+		Convert_LgLt_XY.Origin = Convert_LgLt_XY.Origins[DefaultOrigin];
+
+		if((DefaultOrigin < 1) || (19 < DefaultOrigin)) throw new Exception("DefaultOrigin not defined");
+
+		laszip_data = new CLASzip();
+
+		//--------------------------------------------------
+		// フォーマット定義からフォーマットを特定する。
+		// ◆何とかならんか？
+
+		string[] row_format = TXTFormat.Split(' ');
+
+		// ◆当初は無効値として999を入れておいて、定義されていなかったらデフォルト値を設定する。
+		var row_i_X = 999;
+		var row_i_Y = 999;
+		var row_i_Z = 999;
+		var row_i_R = 999;
+		var row_i_G = 999;
+		var row_i_B = 999;
+		var row_i_INTENSITY = 999;
+		var row_i_CLASS = 999;
+
+		double x_scale_factor = 1.0;
+		double y_scale_factor = 1.0;
+		double z_scale_factor = 1.0;
+
+		for(var row_i = 0; row_i < row_format.Length; ++row_i)
+		{
+			var row_format_elems = row_format[row_i].Split(".");
+
+			switch(row_format_elems[0])
+			{
+				case "X": row_i_X = row_i; x_scale_factor = 1.0 / Math.Pow(10, ToDouble(row_format_elems[1])); break;
+				case "Y": row_i_Y = row_i; y_scale_factor = 1.0 / Math.Pow(10, ToDouble(row_format_elems[1])); break;
+				case "Z": row_i_Z = row_i; z_scale_factor = 1.0 / Math.Pow(10, ToDouble(row_format_elems[1])); break;
+				case "R": row_i_R = row_i; break;
+				case "G": row_i_G = row_i; break;
+				case "B": row_i_B = row_i; break;
+				case "INTENSITY": row_i_INTENSITY = row_i; break;
+				case "CLASS": row_i_CLASS = row_i; break;
+			}
+		}
+
+		if((row_i_X == 999) || (row_i_Y == 999) || (row_i_Z == 999)) return (null, "フォーマット定義が不足しています。");
+
+		//--------------------------------------------------
+
+		var sr = new StreamReader(las_fname);
+
+		// タイトル行を読み飛ばす。
+		if(TXTTitleLine == "true") sr.ReadLine();
+
+		double min_intensity = double.MaxValue;
+		double max_intensity = double.MinValue;
+
+		bool has_negative_intensity = false;
+
+		while(!sr.EndOfStream)
+		{
+			string[] values = sr.ReadLine().Split(',');
+
+			double _intensity = 0.0;
+
+			if(row_i_INTENSITY != 999)
+			{ 
+				_intensity = ToDouble(values[row_i_INTENSITY]);
+
+				if(_intensity < min_intensity) min_intensity = _intensity; 
+				if(_intensity > max_intensity) max_intensity = _intensity; 
+			
+				// ◆受光強度に負値が入っていたのがあったので、便宜的に符合を反転させる。(R57のデータで負数かつ小数になっている。)
+				// →◆正負両方入っていたらどうする？
+				if(_intensity < 0)
+				{
+					_intensity = -_intensity;
+					has_negative_intensity = true;
+				}
+			}
+
+			var laszip_pt = new CLASzipPoint
+				{ X = ToInt32(ToDouble(values[row_i_X]) / x_scale_factor),
+				　Y = ToInt32(ToDouble(values[row_i_Y]) / y_scale_factor),
+				  Z = ToInt32(ToDouble(values[row_i_Z]) / z_scale_factor),
+				  intensity = (UInt16)_intensity, 
+				  classification = (row_i_CLASS == 999)? (Byte)0: ToByte(values[row_i_CLASS]),
+				  R = (row_i_R == 999)? (UInt16)32767: (UInt16)(ToUInt16(values[row_i_R]) * (UInt16)256),
+				  G = (row_i_G == 999)? (UInt16)32767: (UInt16)(ToUInt16(values[row_i_G]) * (UInt16)256),
+				  B = (row_i_B == 999)? (UInt16)32767: (UInt16)(ToUInt16(values[row_i_B]) * (UInt16)256) };
+ 
+			laszip_data.Points.Add(laszip_pt);
+		}
+
+		string msg = "";
+
+		if(row_i_R == 999) msg += "色情報がなかったため32767(灰色)で設定\r\n";
+		
+		if(row_i_INTENSITY != 999)
+		{
+			msg += $"受光強度(輝度) : {min_intensity} ～ {max_intensity}";
+			msg += (has_negative_intensity)? " (負値のものは符号を反転)\r\n": "\r\n";
+		}
+
+		//--------------------------------------------------
+
+		// ◆同名の変数が下位スコープ内にあるためブロックに入れる。
+		{ 
+			var min_x_int = Int32.MaxValue;
+			var max_x_int = Int32.MinValue;
+			var min_y_int = Int32.MaxValue;
+			var max_y_int = Int32.MinValue;
+			var min_z_int = Int32.MaxValue;
+			var max_z_int = Int32.MinValue;
+
+			foreach(var laszip_pt in laszip_data.Points)
+			{
+				if(laszip_pt.X < min_x_int) min_x_int = laszip_pt.X;
+				if(laszip_pt.X > max_x_int) max_x_int = laszip_pt.X;
+				if(laszip_pt.Y < min_y_int) min_y_int = laszip_pt.Y;
+				if(laszip_pt.Y > max_y_int) max_y_int = laszip_pt.Y;
+				if(laszip_pt.Z < min_z_int) min_z_int = laszip_pt.Z;
+				if(laszip_pt.Z > max_z_int) max_z_int = laszip_pt.Z;
+			}
+
+			var min_x = min_x_int * x_scale_factor;
+			var min_y = min_y_int * y_scale_factor;
+			var min_z = min_z_int * z_scale_factor;
+			var max_x = max_x_int * x_scale_factor;
+			var max_y = max_y_int * y_scale_factor;
+			var max_z = max_z_int * z_scale_factor;
+
+			// ◆LASデータはXが東西のようだ。
+			var min_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(min_y, min_x), AGL);
+			var max_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(max_y, max_x), AGL);
+
+			var lg_s_value = min_lglt.Lg.DecimalDeg - LASMargin;
+			var lg_e_value = max_lglt.Lg.DecimalDeg + LASMargin;
+			var lt_s_value = min_lglt.Lt.DecimalDeg - LASMargin;
+			var lt_e_value = max_lglt.Lt.DecimalDeg + LASMargin;
+
+			StartLgLt_0 = new CLgLt(new CLg(lg_s_value), new CLt(lt_s_value), AGL);
+			EndLgLt_0   = new CLgLt(new CLg(lg_e_value), new CLt(lt_e_value), AGL);
+
+			//--------------------------------------------------
+
+			laszip_data.Header = new CLASzipHeader
+				{ version_major = 0,
+				  version_minor = 0,
+				  point_data_format = 0,
+				  number_of_point_records = laszip_data.Points.Count,
+				  x_scale_factor = x_scale_factor,
+				  y_scale_factor = y_scale_factor,
+				  z_scale_factor = z_scale_factor,
+				  x_offset = 0.0f,
+				  y_offset = 0.0f,
+				  z_offset = 0.0f,
+				  max_x = max_x,
+				  min_x = min_x,
+				  max_y = max_y,
+				  min_y = min_y,
+				  max_z = max_z,
+				  min_z = min_z,
+				  vlrs_data = "" };
+		}
+
+		//--------------------------------------------------
+
+		return (laszip_data, msg);
+	}
+
+	//-----------------------------------------------------------------------
+
+	[SupportedOSPlatform("windows")]
+	void DrawLAS(in string name, in CLASzip laszip_data)
+	{
+		if(ToCheckLASDataOnly) return;
 
 		var laszip_header = laszip_data.Header;
 
@@ -173,11 +404,7 @@ vlrs_dataがない場合もある。
 
 		float intensity;
 
-		//--------------------------------------------------
-
 		var vlrs_data = laszip_header.vlrs_data; //ここにファイル情報が入っている。
-
-StopWatch.Lap("before SetLASPoints");
 
 		// ◆とりあえずこうするが、HStringとかで切り分けろ。
 		if(vlrs_data.StartsWith("GEOGCS"))
@@ -186,8 +413,8 @@ StopWatch.Lap("before SetLASPoints");
 
 			if(false)
 			{
-				// C#の方で各点を作成する。
-				// C#の方で色等を処理する場合はこちら
+				// C#で各点を作成する。
+				// C#で色等を処理する場合はこちら
 				// ◆必要性はあるので高速化は必要
 
 				//--------------------------------------------------
@@ -209,7 +436,7 @@ StopWatch.Lap("before SetLASPoints");
 
 				//--------------------------------------------------
 
-				var dst_pts = new CGeoPoints(4.0f);
+				var dst_pts = new CGeoPoints(PointSize);
 
 				var pt_lglt = new CLgLt();
 
@@ -236,9 +463,9 @@ StopWatch.Lap("before SetLASPoints");
 					if((r != 0) || (g != 0) || (b != 0))
 					{
 						// 色付き
-						pt_color.R = r / 255.0f * intensity;
-						pt_color.G = g / 255.0f * intensity;
-						pt_color.B = b / 255.0f * intensity;
+						pt_color.R = r / 65535.0f * intensity;
+						pt_color.G = g / 65535.0f * intensity;
+						pt_color.B = b / 65535.0f * intensity;
 					}
 					else
 					{
@@ -253,26 +480,23 @@ StopWatch.Lap("before SetLASPoints");
 					dst_pts.AddPoint(pt_lglt, pt_color);
 				}
 
-				Viewer.AddShape("laspoints", dst_pts);
+				Viewer.AddShape(name, dst_pts);
 			}
 			else
 				// DLL内で各点を作成する。
-				Viewer.AddShape("laspoints", LASzipData.MakeGeoPointsBL().SetPointSize(4.0f));
+				// C#で処理はできないが高速
+				Viewer.AddShape(name, laszip_data.MakeGeoPointsBL(PointSize));
 		}
 		else
 		{
 			// 平面直角座標
 
-			var origin_lglt = ReadLASOrigin(vlrs_data);
-			
-			Convert_LgLt_XY.Origin = origin_lglt;
+			Convert_LgLt_XY.Origin = ReadLASOrigin(vlrs_data);
 
-			if(true)
+			if(false)
 			{
-				// C#の方で各点を作成する。
-				// C#の方で色等を処理する場合はこちら
-				// ◆必要性はあるので高速化は必要
-				// ◆こっちの方が速い？
+				// C#で各点を作成する。
+				// C#で色等を処理する場合はこちら
 
 				//--------------------------------------------------
 				// 強度で色分けするため、強度の範囲を求める。
@@ -293,7 +517,7 @@ StopWatch.Lap("before SetLASPoints");
 
 				//--------------------------------------------------
 
-				var dst_pts = new CGeoPoints(4.0f);
+				var dst_pts = new CGeoPoints(PointSize);
 
 				var pt_xy = new CCoord();
 
@@ -329,9 +553,9 @@ StopWatch.Lap("before SetLASPoints");
 					if((r != 0) || (g != 0) || (b != 0))
 					{
 						// 色付き
-						pt_color.R = r / 255.0f * intensity;
-						pt_color.G = g / 255.0f * intensity;
-						pt_color.B = b / 255.0f * intensity;
+						pt_color.R = r / 65535.0f * intensity;
+						pt_color.G = g / 65535.0f * intensity;
+						pt_color.B = b / 65535.0f * intensity;
 					}
 					else
 					{
@@ -346,32 +570,36 @@ StopWatch.Lap("before SetLASPoints");
 					dst_pts.AddPoint(pt_lglt, pt_color);
 				}
 
-				Viewer.AddShape("laspoints", dst_pts);
+				Viewer.AddShape(name, dst_pts);
 			}
 			else
-				Viewer.AddShape("laspoints", LASzipData.MakeGeoPointsXY().SetPointSize(4.0f));
+				// DLL内で各点を作成する。
+				// C#で処理はできないが高速
+				Viewer.AddShape(name, laszip_data.MakeGeoPointsXY(PointSize));
 		}
 
-StopWatch.Lap("after  SetLASPoints");
-
-		//--------------------------------------------------
+StopWatch.Lap("after  MakeLASPoints");
+MemWatch .Lap("after  MakeLASPoints");
 
 		Viewer.DrawScene();
+
+StopWatch.Lap("after  DrawScene");
+MemWatch .Lap("after  DrawScene");
 	}
 
+	//-----------------------------------------------------------------------
+
 	[SupportedOSPlatform("windows")]
-	private void ShowLASLog()
+	private void ShowLASLog(in string las_name, in CLASzip laszip_data, in string msg)
 	{
-		if(LASzipData == null) return;
+		var laszip_header = laszip_data.Header;
 
-		var laszip_header = LASzipData.Header;
-
-		DialogTextBox.AppendText($"[LASデータ]\r\n");
+		DialogTextBox.AppendText($"[{las_name}]\r\n");
 		DialogTextBox.AppendText($"        バージョン : {laszip_header.version_major}.{laszip_header.version_minor}\r\n");
 		DialogTextBox.AppendText($"      フォーマット : {laszip_header.point_data_format}\r\n");
 		DialogTextBox.AppendText($"        ポイント数 : {(int)laszip_header.number_of_point_records:#,0}\r\n");
 
-		var laszip_points = LASzipData.Points;
+		var laszip_points = laszip_data.Points;
 
 		var has_intensity = false;
 		var has_color = false;
@@ -388,8 +616,12 @@ StopWatch.Lap("after  SetLASPoints");
 		DialogTextBox.AppendText($"    色付きポイント : {(has_color?	 "あり":"なし")}\r\n");
 		DialogTextBox.AppendText($"クラス付きポイント : {(has_class?	 "あり":"なし")}\r\n");
 
+		if(msg != "") DialogTextBox.AppendText(msg);
+
 		DialogTextBox.AppendText($"\r\n");
 	}
+
+	//-----------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------
 }

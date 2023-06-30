@@ -142,7 +142,7 @@ public partial class GeoViewerMainForm : Form
 		}
 	}
 
-	[SupportedOSPlatform("windows")] // Windows固有API(Graphics)が使用されていることを宣言する。
+	[SupportedOSPlatform("windows")]
 	private void Form1_Load(object sender, EventArgs e)
 	{
 		// ◆Form_Loadだと、このフォームは最後まで表示されない
@@ -220,10 +220,8 @@ public partial class GeoViewerMainForm : Form
 			// ◆例外ではなくジオイドを無視するようにしろ。
 		//	if(!(File.Exists(gsi_geoid_model_file))) throw new Exception("geoid model file not found");
 
-StopWatch.Lap("before GSIGeoidMapData");
-//			var geoid_map_data = new CGSIGeoidMapData(GSIGeoidModelFile);
-			var geoid_map_data = new CGeoidMapData_Dummy(30);
-StopWatch.Lap("after  GSIGeoidMapData");
+			var geoid_map_data = new CGSIGeoidMapData(GSIGeoidModelFile);
+//			var geoid_map_data = new CGeoidMapData_Dummy(30);
 
 			// 高度クラスにジオイドデータを設定することにより、座標オブジェクトにジオイド高が自動設定される。
 			CAltitude.SetGeoidMapData(geoid_map_data);
@@ -317,7 +315,12 @@ MemWatch.Lap("after  CreateGeoViewer");
 			//--------------------------------------------------
 			// 12 点群(LASデータ)を表示する。
 
-			DrawLAS();
+			if(LASzipData != null)
+			{
+MemWatch.Lap("before DrawLAS");
+				DrawLAS("las" + (++LAS_n), LASzipData);
+MemWatch.Lap("after  DrawLASr");
+			}
 
 			//--------------------------------------------------
 			// 13 シーンを(改めて)表示する。

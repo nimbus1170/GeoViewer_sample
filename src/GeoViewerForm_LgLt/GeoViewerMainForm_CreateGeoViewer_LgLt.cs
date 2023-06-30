@@ -127,7 +127,7 @@ public partial class GeoViewerMainForm : Form
 		return new Tuple<CLgLt, CLgLt>(new CLgLt(new CLg(dst_s_lg), new CLt(dst_s_lt), AGL), new CLgLt(new CLg(dst_e_lg), new CLt(dst_e_lt), AGL));
 	}
 
-	[SupportedOSPlatform("windows")] // Windows固有API(Graphics)が使用されていることを宣言する。
+	[SupportedOSPlatform("windows")]
 	static void DrawLgLtGrid(in Bitmap map_img, in CLgLt s_lglt, in CLgLt e_lglt, in int font_size_m)
 	{
 		//--------------------------------------------------
@@ -149,7 +149,7 @@ public partial class GeoViewerMainForm : Form
 		CLgLtGrid.DrawLgLtGrid(map_img, s_lglt, e_lglt, lglt_grid_elements);
 	}
 
-	[SupportedOSPlatform("windows")] // Windows固有API(Graphics)が使用されていることを宣言する。
+	[SupportedOSPlatform("windows")]
 	static void DrawUTMGrid(in Bitmap map_img, in CLgLt s_lglt, in CLgLt e_lglt, in int font_size_m)
 	{
 		//--------------------------------------------------

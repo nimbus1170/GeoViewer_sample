@@ -38,6 +38,9 @@ public partial class GeoViewerMainForm : Form
 
 	// ◆国土地理院データ固定
 	int	   DefaultOrigin;
+	string TXTTitleLine;
+	string TXTFormat;
+	int	   PointSize;
 	double LASMargin;
 	bool   ToCheckLASDataOnly = false;
 
@@ -61,7 +64,8 @@ public partial class GeoViewerMainForm : Form
 
 	void ReadCfgFromFile(in string cfg_fname)
 	{
-		// ▼設定未定義については例外が出るので、設定誤りに対しては詳細なメッセージを表示するようにしたい。
+		// ◆個別の設定ファイルを読み込んで必要な設定を上書きするためにも使用するため、定義がなくてもエラーにはしない。
+		// →◆設定漏れをチェックする必要あり。
 
 		var cfg_doc = new XmlDocument();
 
@@ -77,8 +81,10 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		if(geoviewer_cfg.SelectSingleNode("PlaneMode") != null)
-			PlaneMode = geoviewer_cfg.SelectSingleNode("PlaneMode").Attributes["Mode"].InnerText;
+		var plane_mode_cfg = geoviewer_cfg.SelectSingleNode("PlaneMode");
+
+		if(plane_mode_cfg != null)
+			PlaneMode = plane_mode_cfg.Attributes["Mode"].InnerText;
 
 		//--------------------------------------------------
 		// 地域設定
@@ -106,23 +112,42 @@ public partial class GeoViewerMainForm : Form
 		{
 			// 地域設定をこのファイルから読む。
 
-			var map_cfg = geoviewer_cfg.SelectSingleNode("MapCfg")?? throw new Exception("tag MapCfg not found (" + cfg_fname + ")");
+			var map_cfg = geoviewer_cfg.SelectSingleNode("MapCfg"); // ?? throw new Exception("tag MapCfg not found (" + cfg_fname + ")");
 
-			Title =	map_cfg.Attributes["Title"].InnerText;
+			if(map_cfg != null)
+			{
+				Title =	map_cfg.Attributes["Title"].InnerText;
 
-			PolygonSize = ToInt32(map_cfg.Attributes["PolygonSize"].InnerText);
+				PolygonSize = ToInt32(map_cfg.Attributes["PolygonSize"].InnerText);
 
-			PolygonZoomLevel = ToInt32(map_cfg.Attributes["PolygonZoomLevel"].InnerText);
-			ImageZoomLevel	 = ToInt32(map_cfg.Attributes["ImageZoomLevel"  ].InnerText);
+				PolygonZoomLevel = ToInt32(map_cfg.Attributes["PolygonZoomLevel"].InnerText);
+				ImageZoomLevel	 = ToInt32(map_cfg.Attributes["ImageZoomLevel"  ].InnerText);
 
-			NearPlane = ToDouble(map_cfg.Attributes["NearPlane"].InnerText);
+				NearPlane = ToDouble(map_cfg.Attributes["NearPlane"].InnerText);
 
-			// クランプ前の開始・終了経緯度座標
-			// ◆プレーンをWP単位にクランプするので、クランプ前のものを使用しないようにする。
-			StartLgLt_0	= ReadLgLt(map_cfg.SelectSingleNode("Start"));
-			EndLgLt_0	= ReadLgLt(map_cfg.SelectSingleNode("End"  ));
+				// クランプ前の開始・終了経緯度座標
+				// ◆プレーンをWP単位にクランプするので、クランプ前のものを使用しないようにする。
+				StartLgLt_0	= ReadLgLt(map_cfg.SelectSingleNode("Start"));
+				EndLgLt_0	= ReadLgLt(map_cfg.SelectSingleNode("End"  ));
 
-			DrawingFileName = map_cfg.SelectSingleNode("Drawings")?.Attributes["File"]?.InnerText;
+				DrawingFileName = map_cfg.SelectSingleNode("Drawings")?.Attributes["File"]?.InnerText;
+			}
+		}
+
+		//--------------------------------------------------
+		// LAS設定を読む。
+		// ◆LASファイルを後から読み込む場合にも必要。
+
+		var las_cfg = geoviewer_cfg.SelectSingleNode("LASCfg");
+
+		if(las_cfg != null)
+		{
+			DefaultOrigin = ToInt32(las_cfg.Attributes["DefaultOrigin"].InnerText);
+			PointSize	  = ToInt32(las_cfg.Attributes["PointSize"	  ].InnerText);
+
+			// ◆必須ではない。
+			if(las_cfg.Attributes["TXTTitleLine" ] != null) TXTTitleLine = las_cfg.Attributes["TXTTitleLine" ].InnerText;
+			if(las_cfg.Attributes["TXTFormat"	 ] != null)	TXTFormat	 = las_cfg.Attributes["TXTFormat"	 ].InnerText;
 		}
 
 		//--------------------------------------------------
@@ -133,9 +158,7 @@ public partial class GeoViewerMainForm : Form
 		
 		if(lasview_cfg != null)
 		{
-			// LASViewダイアログ
-
-			DefaultOrigin = ToInt32(lasview_cfg.Attributes["DefaultOrigin"].InnerText);
+			// ファイル選択ダイアログを表示してLASファイルを選択する。
 
 			LASMargin = ToDouble(lasview_cfg.Attributes["Margin"].InnerText);
 
@@ -148,15 +171,23 @@ public partial class GeoViewerMainForm : Form
 
 			OpenFileDialog of_dialog = new ()
 				{ Title  = "LASファイルを開く",
-				  Filter = "LASファイル(*.las)|*.las" };
+				  Filter = "LASファイル(*.las;*.csv;*.txt)|*.las;*.csv;*.txt" };
 
 			if(of_dialog.ShowDialog() == DialogResult.Cancel)
 //				Application.Exit(); // ◆終了しない。
 				Close();
 
-			ReadLASFromFile(of_dialog.FileName);
+			var las_fname = of_dialog.FileName;
 
 			of_dialog.Dispose();
+
+			Title = las_fname; 
+
+StopWatch.Lap("before ReadLASFromFiles");
+MemWatch .Lap("before ReadLASFromFiles");
+			(LASzipData, ReadLASMsg) = ReadLASFromFile(las_fname);
+StopWatch.Lap("after  ReadLASFromFile");
+MemWatch .Lap("after  ReadLASFromFile");
 		}
 		
 		//--------------------------------------------------

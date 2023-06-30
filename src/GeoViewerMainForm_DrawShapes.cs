@@ -22,7 +22,7 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
-	[SupportedOSPlatform("windows")] // Windows固有API(Graphics)が使用されていることを宣言する。
+	[SupportedOSPlatform("windows")]
 	void DrawShapes()
 	{
 		//--------------------------------------------------

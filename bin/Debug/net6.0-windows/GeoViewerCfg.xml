@@ -24,16 +24,25 @@
 	<_ToSelectMapCfgFile/>
 
 	<!-- LASデータを表示する。-->
-	<!-- DefaultOrigin	  : LASデータに原点に関する情報が含まれていない場合の原点(系番号) -->
 	<!-- Margin			  : LASデータを含む表示範囲(LASデータの範囲の東西南北のマージン、十進経緯度) -->
 	<!-- CheckLASDataOnly : LASデータを表示せずに、その情報のみを表示する。-->
 	<ToSelectLASFile
-		DefaultOrigin="12"
 		Margin="0.005"
 		_ToCheckLASDataOnly="true"
 		PolygonZoomLevel="14"
-		ImageZoomLevel="16"
+		ImageZoomLevel="15"
 		NearPlane="10"/>
+
+	<!-- LAS設定　-->
+	<!-- DefaultOrigin : LASデータに原点に関する情報が含まれていない場合の原点(系番号) -->
+	<!-- PointrSize    : 点のサイズ -->
+	<!-- TXTTitleLine  : 1行目がタイトル行か否か（テキストデータの場合）-->
+	<!-- TXTFormat     : 行のフォーマット（テキストデータの場合）-->
+	<LASCfg
+		DefaultOrigin="12"
+		PointSize="10"
+		TXTTitleLine="false"
+		TXTFormat="ID X.2 Y.2 Z.2"/> <!-- ID X座標(小数点以下2桁) Y座標(〃) Z座標(〃) -->
 
 	<ToShowDebugInfo/>
 
@@ -42,7 +51,7 @@
 	<_PlaneMode Mode="Tile"/>
 	<_PlaneMode Mode="LgLt"/>
 
-	<MapCfg
+	<_MapCfg
 		Title="糸島半島"
 		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
@@ -54,7 +63,7 @@
 		<!-- フォルダ内のすべてのファイルを描画する方法 -->
 		<!-- ◆保留 -->
 		<_Drawings Folder="C:/DSF/SharedData/MapView/MapDrawing"/>
-	</MapCfg>
+	</_MapCfg>
 
 	<_MapCfg
 		Title="糸島半島～佐賀平野"
@@ -287,6 +296,16 @@
 		<Start Lg="139 16 10.0" Lt="35 39 30.0"/>
 		<End   Lg="139 17 10.0" Lt="35 40  0.0"/>
 	</_MapCfg>
+
+	<MapCfg
+		Title="礼文島"
+		PolygonZoomLevel="11"
+		ImageZoomLevel="15"
+		PolygonSize="10"
+		NearPlane="100">
+		<Start Lg="140.95" Lt="45.27"/>
+		<End   Lg="141.08" Lt="45.48"/>
+	</MapCfg>
 
 	<!-- 地図データ設定 -->
 	<MapDataCfg>
