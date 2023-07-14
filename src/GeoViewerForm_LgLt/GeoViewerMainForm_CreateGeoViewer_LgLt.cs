@@ -67,7 +67,7 @@ public partial class GeoViewerMainForm : Form
 		// 4.2 グリッドを描画する。
 
 		// グリッドオーバレイを作成するようになっていなければ地図に描画する。
-		if(GridOverlayCfg == null)
+		if(ToDrawGrid && (GridOverlayCfg == null))
 		{
 			DrawLgLtGrid(MapImage, StartLgLt, EndLgLt, GridFontSize);
 			DrawUTMGrid (MapImage, StartLgLt, EndLgLt, GridFontSize);

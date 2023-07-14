@@ -36,7 +36,7 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 2 グリッドをオーバレイに描画する。
 
-		if(GridOverlayCfg != null)
+		if(ToDrawGrid && (GridOverlayCfg != null))
 		{
 			// オーバレイのサイズの基準(小さい辺をこのサイズにする。)
 			var ol_size = ToInt32(GridOverlayCfg.Attributes["Size"].InnerText);

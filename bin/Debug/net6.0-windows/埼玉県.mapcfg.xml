@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" standalone="yes"?>
+
+<GeoViewerCfg>
+
+	<!-- MapCfg : 表示範囲 -->
+
+	<!-- Title            : ウインドウに表示するタイトル -->
+	<!-- PolygonZoomLevel : このズームレベルのピクセル間隔をポリゴンサイズにする。WPまたはTileモードで使用する。-->
+	<!-- ImageZoomLevel   : 表示する画像(テクスチャ)に使用する画像タイルのズームレベル -->
+	<!-- PolygonSize      : ポリゴンサイズ。LgLtモードで使用する。-->
+	<!-- NearPlane        : 近平面までの距離。この値を大きくすると(なぜか)オブジェクト間の前後判定の精度が向上する。-->
+	<!-- Start            : 表示範囲の南西隅 -->
+	<!-- End              : 表示範囲の北東隅 -->
+
+	<!-- PolygonZoomLevel属性及びImageZoomLevel属性は、ポリゴンサイズ及びテクスチャイメージのピクセルサイズを指定するものであり(最大18)、
+		 この値(ズームレベル)が大きいほど、ポリゴンサイズが細かくなり、画像が精細になりますが、ダウンロードされる画像タイル数が増え、
+		 処理に時間とメモリを必要とするようになります。ズームレベルについては https://maps.gsi.go.jp/development/siyou.html をご覧ください。-->
+
+	<!-- ！注意！表示範囲が広い場合、ImageZoomLevelを大きくしすぎると、必要なテクスチャメモリが大きくなり過ぎてOpenGLの動作が停止することが
+		 ありました。変更する場合は、現在の設定値から少しずつ変更してみてください。-->
+
+	<MapCfg
+		Title="埼玉県"
+		PolygonZoomLevel="8"
+		ImageZoomLevel="12"
+		PolygonSize="400"
+		NearPlane="1000">
+		<Start Lg="138.7" Lt="35.7"/>
+		<End   Lg="140.0" Lt="36.3"/>
+	</MapCfg>
+
+</GeoViewerCfg>

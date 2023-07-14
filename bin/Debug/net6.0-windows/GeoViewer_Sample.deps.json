@@ -10,10 +10,11 @@
         "dependencies": {
           "Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers": "0.3.326103",
           "Microsoft.Windows.Compatibility": "6.0.0",
+          "SharpKml.Core": "6.0.0",
           "DSF_NET_GSITileDownloader": "1.0.0.0",
           "DSF_NET_MapGrid": "1.0.0.0",
           "DSF_NET_ProfilerLog": "1.0.0.0",
-          "DSF_NET_Scene": "1.0.8576.23478",
+          "DSF_NET_Scene": "1.0.8594.30367",
           "DSF_NET_TacticalDrawing": "1.0.0.0"
         },
         "runtime": {
@@ -174,6 +175,14 @@
             "rid": "win-x86",
             "assetType": "native",
             "fileVersion": "4.6.25512.1"
+          }
+        }
+      },
+      "SharpKml.Core/6.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/SharpKml.Core.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.0.0"
           }
         }
       },
@@ -735,10 +744,10 @@
           }
         }
       },
-      "DSF_NET_Scene/1.0.8576.23478": {
+      "DSF_NET_Scene/1.0.8594.30367": {
         "runtime": {
           "DSF_NET_Scene.dll": {
-            "assemblyVersion": "1.0.8576.23478",
+            "assemblyVersion": "1.0.8594.30367",
             "fileVersion": "0.0.0.0"
           }
         }
@@ -877,6 +886,13 @@
       "sha512": "sha512-YhEdSQUsTx+C8m8Bw7ar5/VesXvCFMItyZF7G1AUY+OM0VPZUOeAVpJ4Wl6fydBGUYZxojTDR3I6Bj/+BPkJNA==",
       "path": "runtime.win-x86.runtime.native.system.data.sqlclient.sni/4.4.0",
       "hashPath": "runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512"
+    },
+    "SharpKml.Core/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-m9up57OM1BwNhgeXuh8O/W3EoOH4FnvWEiWFnD++hyvW2NKgKeZ0G0tL5Bat3OmljbeUuJwoKN3NkvOsNsawmw==",
+      "path": "sharpkml.core/6.0.0",
+      "hashPath": "sharpkml.core.6.0.0.nupkg.sha512"
     },
     "System.CodeDom/6.0.0": {
       "type": "package",
@@ -1180,7 +1196,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "DSF_NET_Scene/1.0.8576.23478": {
+    "DSF_NET_Scene/1.0.8594.30367": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

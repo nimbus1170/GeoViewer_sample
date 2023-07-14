@@ -16,7 +16,7 @@ public partial class GeoViewerForm_Tile : GeoViewerForm
 		if(Viewer == null) return;
 
 		// ◆ダウンキャストはしたくないので、CGeoViewer.Centerを仮想関数で作れ。
-		ShowObjInfoImpl(ToLgLt(((CGeoViewer_WP)Viewer).Center));
+		ShowObjInfoImpl(ToLgLt(((CGeoViewer_WP)Viewer).Center), ToLgLt(((CGeoViewer_WP)Viewer).Observer));
 	}
 }
 //---------------------------------------------------------------------------

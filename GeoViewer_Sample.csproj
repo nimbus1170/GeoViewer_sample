@@ -40,6 +40,9 @@
     <None Remove="bin\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="src\WKT.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="upgrade-assistant.clef" />
     <None Remove="src\GeoViewerCfg_1.xml" />
     <None Remove="src\MapDrawing_test_1.xml" />
@@ -78,6 +81,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\src\cs\DSF\Geography\WKT.cs" Link="src\DSF\Geography\WKT.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="bin\Debug\net6.0-windows\GeoViewerCfg.xml" />
     <Content Include="bin\Debug\net6.0-windows\MapDrawing_test_1.xml" />
   </ItemGroup>
@@ -86,6 +92,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
+    <PackageReference Include="SharpKml.Core" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
@@ -99,5 +106,8 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\DSF\Geography\" />
   </ItemGroup>
 </Project>

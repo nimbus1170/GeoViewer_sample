@@ -87,11 +87,23 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 		
-		if(LASzipData != null) ShowLASLog("las" + LAS_n, LASzipData, ReadLASMsg);
+		if(LASzipData != null) ShowLASLog("las" + ShapesN, LASzipData, ReadLASMsg);
+
+		// ◆なぜかプロンプトを受け付けなくなったが、表示量を削減したら大丈夫だった。単に表示量が多いから？
+		if(ShapeFile != null) ShowShapefileLog("shp" + ShapesN, ShapeFile, ReadShapefileMsg);
 
 		//--------------------------------------------------
+
+		// ◆うまくプロンプトまでスクロールしない。
+//		Activate();
+//		TopMost = true;
+
+//		DialogTextBox.Focus();
+
 		// ◆プロンプトをこのように忘れず表示しなくてはならないのか？
 		DialogTextBox.AppendText(">");
+
+//		DialogTextBox.ScrollToCaret();
 	}
 }
 //---------------------------------------------------------------------------

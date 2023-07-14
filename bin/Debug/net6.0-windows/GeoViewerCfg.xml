@@ -2,7 +2,60 @@
 
 <GeoViewerCfg>
 
-	<!-- MapCfg : 表示範囲 -->
+	<!-- 地域、点群又は図形をダイアログから選択する。(ファイル選択モード) -->
+	<!-- いずれも定義されていなければ、本設定ファイル内の地域設定を読み込む。-->
+	<_ToSelectMapCfgFile/>
+	<_ToSelectLASFile/>
+	<ToSelectShapeFile/>
+
+	<!-- LAS設定　-->
+	<!-- DefaultOrigin : LASデータに座標系原点に関する情報が含まれていない場合の座標系原点(系番号) -->
+	<!-- PointrSize    : 点のサイズ -->
+	<!-- TXTTitleLine  : 1行目がタイトル行か否か（テキストデータの場合）-->
+	<!-- TXTFormat     : 行のフォーマット（テキストデータの場合）-->
+	<LASCfg
+		DefaultOrigin="12"
+		PointSize="10"
+		TXTTitleLine="false"
+		TXTFormat="ID X.2 Y.2 Z.2"/> <!-- ID X座標(小数点以下2桁) Y座標(〃) Z座標(〃) -->
+
+	<!-- 図形設定(兼LASデータ設定) -->
+	<!-- Margin			    : 図形データ・LASデータを含む表示範囲の東西南北のマージン(十進経緯度) -->
+	<!-- ToCheckLASDataOnly : 図形データ・LASデータを表示せずに、その情報のみを表示する。-->
+
+	<!-- ToDrawShapeAsTIN   : 図形をTINに変換して表示する。(実験的) -->
+	<!-- ToDrawShapeAsLayer : 図形をレイヤーとして表示する。-->
+	<!-- 上記のいずれも指定しなければポリゴンで表示する。-->
+
+	<!-- PolygonZoomLevel属性及びImageZoomLevel属性は、ポリゴンサイズ及びテクスチャイメージのピクセルサイズを指定するものであり(最大18)、
+		 この値(ズームレベル)が大きいほど、ポリゴンサイズが細かくなり、画像が精細になりますが、ダウンロードされる画像タイル数が増え、
+		 処理に時間とメモリを必要とするようになります。ズームレベルについては https://maps.gsi.go.jp/development/siyou.html をご覧ください。-->
+
+	<ShapeCfg
+		Margin="0.005"
+		PolygonZoomLevel="10"
+		ImageZoomLevel="12"
+		NearPlane="500"
+		_ToCheckDataOnly="true"
+		_ToDrawShapeAsTIN="true"
+		_ToDrawShapeAsLayer="true"/>
+
+	<!-- グリッド -->
+	<!-- コメントアウトするとグリッド非表示 -->
+	<_Grid FontSize="50"><!-- m -->
+		<!-- GridOverlay要素を定義するとオーバレイでグリッドを描画する。-->
+		<_GridOverlay Size="8000" Offset="50"/>
+	</_Grid>
+
+	<!-- デバッグ情報の表示の有無 -->
+	<ToShowDebugInfo/>
+
+	<!-- プレーンモード -->
+	<PlaneMode Mode="WP"/>
+	<_PlaneMode Mode="Tile"/>
+	<_PlaneMode Mode="LgLt"/>
+
+	<!-- 地域設定 -->
 	<!-- 複数の地域を定義し、アンダーバー(_)でコメントアウトして表示対象を切り替えています。-->
 
 	<!-- Title            : ウインドウに表示するタイトル -->
@@ -13,43 +66,28 @@
 	<!-- Start            : 表示範囲の南西隅 -->
 	<!-- End              : 表示範囲の北東隅 -->
 
-	<!-- PolygonZoomLevel属性及びImageZoomLevel属性は、ポリゴンサイズ及びテクスチャイメージのピクセルサイズを指定するものであり(最大18)、
-		 この値(ズームレベル)が大きいほど、ポリゴンサイズが細かくなり、画像が精細になりますが、ダウンロードされる画像タイル数が増え、
-		 処理に時間とメモリを必要とするようになります。ズームレベルについては https://maps.gsi.go.jp/development/siyou.html をご覧ください。-->
-
 	<!-- ！注意！表示範囲が広い場合、ImageZoomLevelを大きくしすぎると、必要なテクスチャメモリが大きくなり過ぎてOpenGLの動作が停止することが
 		 ありました。変更する場合は、現在の設定値から少しずつ変更してみてください。-->
 
-	<!-- 地図設定をダイアログから選択する。-->
-	<_ToSelectMapCfgFile/>
+	<MapCfg
+		Title="埼玉県"
+		PolygonZoomLevel="8"
+		ImageZoomLevel="12"
+		PolygonSize="400"
+		NearPlane="1000">
+		<Start Lg="138.7" Lt="35.7"/>
+		<End   Lg="140.0" Lt="36.3"/>
+	</MapCfg>
 
-	<!-- LASデータを表示する。-->
-	<!-- Margin			  : LASデータを含む表示範囲(LASデータの範囲の東西南北のマージン、十進経緯度) -->
-	<!-- CheckLASDataOnly : LASデータを表示せずに、その情報のみを表示する。-->
-	<ToSelectLASFile
-		Margin="0.005"
-		_ToCheckLASDataOnly="true"
-		PolygonZoomLevel="14"
+	<_MapCfg
+		Title="東京湾"
+		PolygonZoomLevel="10"
 		ImageZoomLevel="15"
-		NearPlane="10"/>
-
-	<!-- LAS設定　-->
-	<!-- DefaultOrigin : LASデータに原点に関する情報が含まれていない場合の原点(系番号) -->
-	<!-- PointrSize    : 点のサイズ -->
-	<!-- TXTTitleLine  : 1行目がタイトル行か否か（テキストデータの場合）-->
-	<!-- TXTFormat     : 行のフォーマット（テキストデータの場合）-->
-	<LASCfg
-		DefaultOrigin="12"
-		PointSize="10"
-		TXTTitleLine="false"
-		TXTFormat="ID X.2 Y.2 Z.2"/> <!-- ID X座標(小数点以下2桁) Y座標(〃) Z座標(〃) -->
-
-	<ToShowDebugInfo/>
-
-	<!-- プレーンモード -->
-	<PlaneMode Mode="WP"/>
-	<_PlaneMode Mode="Tile"/>
-	<_PlaneMode Mode="LgLt"/>
+		PolygonSize="400"
+		NearPlane="100">
+		<Start Lg="139.73" Lt="35.55"/>
+		<End   Lg="139.94" Lt="35.68"/>
+	</_MapCfg>
 
 	<_MapCfg
 		Title="糸島半島"
@@ -297,7 +335,7 @@
 		<End   Lg="139 17 10.0" Lt="35 40  0.0"/>
 	</_MapCfg>
 
-	<MapCfg
+	<_MapCfg
 		Title="礼文島"
 		PolygonZoomLevel="11"
 		ImageZoomLevel="15"
@@ -305,7 +343,7 @@
 		NearPlane="100">
 		<Start Lg="140.95" Lt="45.27"/>
 		<End   Lg="141.08" Lt="45.48"/>
-	</MapCfg>
+	</_MapCfg>
 
 	<!-- 地図データ設定 -->
 	<MapDataCfg>
@@ -315,7 +353,6 @@
 		<_MapData Folder="C:/DSF/MapData"/>
 		<MapData Folder="."/>
 
-		<!-- ◆テクスチャに地図画像と衛星画像のいずれかを<GSIImageTiles>のコメントアウトで切り替える。-->
 		<!-- ◆gsiより下のフォルダは自動作成されるため、gsi以下のフォルダ名は変更しないこと。-->
 
 		<!-- 地図画像タイル -->
@@ -335,11 +372,5 @@
 		<GSIGeoidModel File="./gsi/gsigeo2011_ver2_1_asc/program/gsigeo2011_ver2_1.bin"/>
 
 	</MapDataCfg>
-
-			<!-- グリッド -->
-	<Grid FontSize="50"><!-- m -->
-		<!-- GridOverlay要素を定義するとオーバレイでグリッドを描画する。-->
-		<_GridOverlay Size="8000" Offset="50"/>
-	</Grid>
 
 </GeoViewerCfg>

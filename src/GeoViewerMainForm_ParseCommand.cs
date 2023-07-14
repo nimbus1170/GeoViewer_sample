@@ -9,7 +9,7 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
-	int LAS_n = 0;
+	int ShapesN = 0;
 
 	[SupportedOSPlatform("windows")]
 	private string ParseCommand(in string cmd_line)
@@ -94,6 +94,10 @@ public partial class GeoViewerMainForm : Form
 				LoadLAS();
 				break;
 
+			case "loadshp":
+				LoadShape();
+				break;
+
 			case "countobj":
 
 				var gl_objs_count = Viewer.GLObjectCount();	
@@ -110,6 +114,7 @@ public partial class GeoViewerMainForm : Form
 					 "showlayers レイヤー名 … レイヤーを表示する。レイヤー名を省略するとすべて表示する。\r\n" +
 					 "hidelayers レイヤー名 … レイヤーを非表示にする。レイヤー名を省略するとすべて非表示にする。\r\n" +
 					 "loadlas … LASファイル読み込みダイアログを表示する。\r\n" +
+					 "loadshp … 図形ファイル読み込みダイアログを表示する。\r\n" +
 					 "countobj … OpenGLオブジェクトの数を表示する。\r\n" +
 					 "help … ヘルプを表示する。\r\n");
 				break;

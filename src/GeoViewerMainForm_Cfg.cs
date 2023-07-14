@@ -36,14 +36,20 @@ public partial class GeoViewerMainForm : Form
 
 	string MapDataFolder;
 
+	// 平面直角座標
 	// ◆国土地理院データ固定
-	int	   DefaultOrigin;
+	int	DefaultOrigin;
+
+	// 点群
+	// ◆国土地理院データ固定
 	string TXTTitleLine;
 	string TXTFormat;
 	int	   PointSize;
-	double LASMargin;
-	bool   ToCheckLASDataOnly = false;
 
+	// 点群・図形共通
+	bool   ToCheckDataOnly = false;
+	double LgLtMargin;
+	
 	// ◆国土地理院データ固定
 
 	string GSIImageTileFolder;
@@ -55,6 +61,8 @@ public partial class GeoViewerMainForm : Form
 	string GSIElevationTileFolder;
 
 	string GSIGeoidModelFile;
+
+	bool ToDrawGrid = false;
 
 	int GridFontSize;
 
@@ -76,6 +84,54 @@ public partial class GeoViewerMainForm : Form
 		var geoviewer_cfg = cfg_doc.SelectSingleNode("GeoViewerCfg")?? throw new Exception("tag GeoViewerCfg not found (" + cfg_fname + ")");
 
 		//--------------------------------------------------
+		// LAS設定
+		// ◆LASファイルを後から読み込む場合にも必要。
+
+		var las_cfg = geoviewer_cfg.SelectSingleNode("LASCfg");
+
+		if(las_cfg != null)
+		{
+			DefaultOrigin = ToInt32(las_cfg.Attributes["DefaultOrigin"].InnerText);
+			PointSize	  = ToInt32(las_cfg.Attributes["PointSize"	  ].InnerText);
+
+			// ◆必須ではない。
+			if(las_cfg.Attributes["TXTTitleLine" ] != null) TXTTitleLine = las_cfg.Attributes["TXTTitleLine" ].InnerText;
+			if(las_cfg.Attributes["TXTFormat"	 ] != null)	TXTFormat	 = las_cfg.Attributes["TXTFormat"	 ].InnerText;
+		}
+
+		//--------------------------------------------------
+		// 図形設定
+
+		var shape_cfg = geoviewer_cfg.SelectSingleNode("ShapeCfg");
+
+		if(shape_cfg != null)
+		{
+			LgLtMargin = ToDouble(shape_cfg.Attributes["Margin"].InnerText);
+
+			PolygonZoomLevel = ToInt32(shape_cfg.Attributes["PolygonZoomLevel"].InnerText);
+			ImageZoomLevel	 = ToInt32(shape_cfg.Attributes["ImageZoomLevel"  ].InnerText);
+
+			NearPlane = ToDouble(shape_cfg.Attributes["NearPlane"].InnerText);
+
+			ToCheckDataOnly	= (shape_cfg.Attributes["ToCheckDataOnly"]?.InnerText == "true")? true: false;
+
+			ToDrawShapeAsTIN   = (shape_cfg.Attributes["ToDrawShapeAsTIN"  ]?.InnerText == "true")? true: false;
+			ToDrawShapeAsLayer = (shape_cfg.Attributes["ToDrawShapeAsLayer"]?.InnerText == "true")? true: false;
+		}
+		
+		//--------------------------------------------------
+		// グリッド設定
+
+		var grid_cfg = geoviewer_cfg.SelectSingleNode("Grid");
+
+		if(grid_cfg != null)
+		{
+			ToDrawGrid = true;		
+			GridFontSize = ToInt32(grid_cfg.Attributes["FontSize"].InnerText);
+			GridOverlayCfg = grid_cfg.SelectSingleNode("GridOverlay");
+		}
+		
+		//--------------------------------------------------
 
 		ToShowDebugInfo = (geoviewer_cfg.SelectSingleNode("ToShowDebugInfo") != null)? true: false;;
 
@@ -87,24 +143,92 @@ public partial class GeoViewerMainForm : Form
 			PlaneMode = plane_mode_cfg.Attributes["Mode"].InnerText;
 
 		//--------------------------------------------------
-		// 地域設定
+		// 地図データ設定
+		// ◆XML読み込みの成否は、個々にnull判定するのではなく、取り敢えず例外を出させる。
+
+		var map_data_cfg = geoviewer_cfg.SelectSingleNode("MapDataCfg");
+
+		if(map_data_cfg != null) 
+		{
+			MapDataFolder = map_data_cfg.SelectSingleNode("MapData").Attributes["Folder"].InnerText;
+
+			GSIImageTileFolder = map_data_cfg.SelectSingleNode("GSIImageTiles").Attributes["Folder"].InnerText;
+			GSIImageTileExt	   = map_data_cfg.SelectSingleNode("GSIImageTiles").Attributes["Ext"   ].InnerText;
+
+			GSIPhotoTileFolder = map_data_cfg.SelectSingleNode("GSIPhotoTiles").Attributes["Folder"].InnerText;
+			GSIPhotoTileExt	   = map_data_cfg.SelectSingleNode("GSIPhotoTiles").Attributes["Ext"   ].InnerText;
+
+			GSIElevationTileFolder = map_data_cfg.SelectSingleNode("GSIElevationTiles").Attributes["Folder"].InnerText;
+
+			GSIGeoidModelFile = map_data_cfg.SelectSingleNode("GSIGeoidModel").Attributes["File"].InnerText;
+		}
+
+		//--------------------------------------------------
+		// ファイル選択モード
+		// ◆地図データ設定等は、この前に完了しておく必要がある。
 
 		var to_select_map_cfg = geoviewer_cfg.SelectSingleNode("ToSelectMapCfgFile");
+		var to_select_las	  = geoviewer_cfg.SelectSingleNode("ToSelectLASFile");
+		var to_select_shape	  = geoviewer_cfg.SelectSingleNode("ToSelectShapeFile");
 
-		if(to_select_map_cfg != null)
+		if((to_select_map_cfg != null) ||
+		   (to_select_las	  != null) ||
+		   (to_select_shape	  != null))
 		{
-			// 地域設定を別ファイルから読む。
+			// ファイル選択モード
 
 			OpenFileDialog of_dialog = new ()
-				{ Title  = "地域設定ファイルを開く",
-				  Filter = "地域設定ファイル(*.mapcfg.xml)|*.mapcfg.xml" };
+				{ Title  = "ファイルを開く",
+				  Filter = "地域設定ファイル(*.mapcfg.xml)|*.mapcfg.xml|" + 
+						   "点群ファイル(*.las;*.csv;*.txt)|*.las;*.csv;*.txt|" +
+						   "図形ファイル(*.shp)|*.shp",
+				  FilterIndex =
+					(to_select_map_cfg != null)? 1:
+					(to_select_las	   != null)? 2:
+					(to_select_shape   != null)? 3: 1 }; // ◆無かったら1か？
 
+			// ◆ファイル選択モードでファイルを選択しなかったら終了する。
 			if(of_dialog.ShowDialog() == DialogResult.Cancel)
 //				Application.Exit(); // ◆終了しない。
 				Close();
 
-			// ◆再起呼び出しだが大丈夫か？
-			ReadCfgFromFile(of_dialog.FileName);
+			var fname = of_dialog.FileName;
+
+			switch(of_dialog.FilterIndex)
+			{
+				case 1: // 地域設定
+				{
+					// ◆再起呼び出しだが大丈夫か？
+					ReadCfgFromFile(fname);
+					break;
+				}
+
+				case 2: // 点群ファイル
+				{
+					Title = fname; 
+
+StopWatch.Lap("before ReadLASFromFiles");
+MemWatch .Lap("before ReadLASFromFiles");
+					(LASzipData, ReadLASMsg) = ReadLASFromFile(fname);
+StopWatch.Lap("after  ReadLASFromFile");
+MemWatch .Lap("after  ReadLASFromFile");
+
+					break;
+				}
+
+				case 3: // 図形ファイル
+				{
+					Title = fname;
+
+StopWatch.Lap("before ReadShapefileFromFiles");
+MemWatch .Lap("before ReadShapefileFromFiles");
+					(ShapeFile, ReadShapefileMsg) = ReadShapefileFromFile(fname);
+StopWatch.Lap("after  ReadShapefileFromFile");
+MemWatch .Lap("after  ReadShapefileFromFile");
+
+					break;
+				}
+			}
 
 			of_dialog.Dispose();
 		}
@@ -114,6 +238,7 @@ public partial class GeoViewerMainForm : Form
 
 			var map_cfg = geoviewer_cfg.SelectSingleNode("MapCfg"); // ?? throw new Exception("tag MapCfg not found (" + cfg_fname + ")");
 
+			// ◆ファイル選択モードもあるので、定義されていなくても間違いではない？
 			if(map_cfg != null)
 			{
 				Title =	map_cfg.Attributes["Title"].InnerText;
@@ -132,94 +257,6 @@ public partial class GeoViewerMainForm : Form
 
 				DrawingFileName = map_cfg.SelectSingleNode("Drawings")?.Attributes["File"]?.InnerText;
 			}
-		}
-
-		//--------------------------------------------------
-		// LAS設定を読む。
-		// ◆LASファイルを後から読み込む場合にも必要。
-
-		var las_cfg = geoviewer_cfg.SelectSingleNode("LASCfg");
-
-		if(las_cfg != null)
-		{
-			DefaultOrigin = ToInt32(las_cfg.Attributes["DefaultOrigin"].InnerText);
-			PointSize	  = ToInt32(las_cfg.Attributes["PointSize"	  ].InnerText);
-
-			// ◆必須ではない。
-			if(las_cfg.Attributes["TXTTitleLine" ] != null) TXTTitleLine = las_cfg.Attributes["TXTTitleLine" ].InnerText;
-			if(las_cfg.Attributes["TXTFormat"	 ] != null)	TXTFormat	 = las_cfg.Attributes["TXTFormat"	 ].InnerText;
-		}
-
-		//--------------------------------------------------
-		// LASファイルを読む。
-		// ◆ダブって設定されたらどうする？
-
-		var lasview_cfg = geoviewer_cfg.SelectSingleNode("ToSelectLASFile");
-		
-		if(lasview_cfg != null)
-		{
-			// ファイル選択ダイアログを表示してLASファイルを選択する。
-
-			LASMargin = ToDouble(lasview_cfg.Attributes["Margin"].InnerText);
-
-			ToCheckLASDataOnly = (lasview_cfg.Attributes["ToCheckLASDataOnly"]?.InnerText == "true")? true: false;
-
-			PolygonZoomLevel = ToInt32(lasview_cfg.Attributes["PolygonZoomLevel"].InnerText);
-			ImageZoomLevel	 = ToInt32(lasview_cfg.Attributes["ImageZoomLevel"  ].InnerText);
-
-			NearPlane = ToDouble(lasview_cfg.Attributes["NearPlane"].InnerText);
-
-			OpenFileDialog of_dialog = new ()
-				{ Title  = "LASファイルを開く",
-				  Filter = "LASファイル(*.las;*.csv;*.txt)|*.las;*.csv;*.txt" };
-
-			if(of_dialog.ShowDialog() == DialogResult.Cancel)
-//				Application.Exit(); // ◆終了しない。
-				Close();
-
-			var las_fname = of_dialog.FileName;
-
-			of_dialog.Dispose();
-
-			Title = las_fname; 
-
-StopWatch.Lap("before ReadLASFromFiles");
-MemWatch .Lap("before ReadLASFromFiles");
-			(LASzipData, ReadLASMsg) = ReadLASFromFile(las_fname);
-StopWatch.Lap("after  ReadLASFromFile");
-MemWatch .Lap("after  ReadLASFromFile");
-		}
-		
-		//--------------------------------------------------
-		// 地図データ設定
-		// ◆XML読み込みの成否は、個々にNULL判定するのではなく、取り敢えず例外を出させる。
-
-		var map_data_cfg = geoviewer_cfg.SelectSingleNode("MapDataCfg");
-
-		if(map_data_cfg != null)
-		{
-			MapDataFolder = map_data_cfg.SelectSingleNode("MapData").Attributes["Folder"].InnerText;
-
-			GSIImageTileFolder = map_data_cfg.SelectSingleNode("GSIImageTiles").Attributes["Folder"].InnerText;
-			GSIImageTileExt	   = map_data_cfg.SelectSingleNode("GSIImageTiles").Attributes["Ext"   ].InnerText;
-
-			GSIPhotoTileFolder = map_data_cfg.SelectSingleNode("GSIPhotoTiles").Attributes["Folder"].InnerText;
-			GSIPhotoTileExt	   = map_data_cfg.SelectSingleNode("GSIPhotoTiles").Attributes["Ext"   ].InnerText;
-
-			GSIElevationTileFolder = map_data_cfg.SelectSingleNode("GSIElevationTiles").Attributes["Folder"].InnerText;
-
-			GSIGeoidModelFile = map_data_cfg.SelectSingleNode("GSIGeoidModel").Attributes["File"].InnerText;
-		}
-
-		//--------------------------------------------------
-		// グリッド設定
-
-		var grid_cfg = geoviewer_cfg.SelectSingleNode("Grid");
-
-		if(grid_cfg != null)
-		{
-			GridFontSize = ToInt32(grid_cfg.Attributes["FontSize"].InnerText);
-			GridOverlayCfg = grid_cfg.SelectSingleNode("GridOverlay");
 		}
 	}
 

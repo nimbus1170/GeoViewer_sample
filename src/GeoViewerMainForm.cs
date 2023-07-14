@@ -1,5 +1,6 @@
 ﻿//
-// PlanViewerMainForm.cs
+// GeoViewerMainForm.cs
+// メインフォーム(ダイアログ)
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
@@ -7,6 +8,7 @@ using DSF_NET_Geometry;
 using DSF_NET_Scene;
 using DSF_NET_Profiler;
 using DSF_NET_Utility;
+using DSF_NET_String;
 
 using System.Runtime.Versioning;
 //---------------------------------------------------------------------------
@@ -313,17 +315,30 @@ MemWatch.Lap("after  CreateGeoViewer");
 			}
 
 			//--------------------------------------------------
-			// 12 点群(LASデータ)を表示する。
+			// 12 点群を表示する。
 
 			if(LASzipData != null)
 			{
 MemWatch.Lap("before DrawLAS");
-				DrawLAS("las" + (++LAS_n), LASzipData);
+				DrawLAS("las" + (++ShapesN), LASzipData);
 MemWatch.Lap("after  DrawLASr");
 			}
 
 			//--------------------------------------------------
-			// 13 シーンを(改めて)表示する。
+			// 13 図形を表示する。
+
+			if(ShapeFile != null)
+			{
+				var shp_name = "shp" + (++ShapesN);
+
+StopWatch.Lap("before DrawShapefile");
+				DrawShapefile(shp_name, ShapeFile);
+StopWatch.Lap("after  DrawShapefile");
+
+			}
+
+			//--------------------------------------------------
+			// 14 シーンを(改めて)表示する。
 			// ◆ビューアを前面に表示したいが、できない。
 
 			ShowLog();
@@ -347,6 +362,7 @@ MemWatch.Lap("after  DrawLASr");
 		}
 	}
 
+	[SupportedOSPlatform("windows")]
 	private void InputTextBox_KeyPress(Object sender, KeyPressEventArgs e)
 	{
 		// プロンプト(>)の後で改行しないよう、Enterを打ち消してプロンプトに置き換える。
@@ -359,7 +375,7 @@ MemWatch.Lap("after  DrawLASr");
 
 			var cmd_line = tb.Lines[^2][1..];
 
-			if(cmd_line != "")
+			if(!string.IsNullOrEmpty(cmd_line))
 			{
 				if((cmd_history.Count == 0) || (cmd_history[^1] != cmd_line))
 					cmd_history.Add(cmd_line);
@@ -369,7 +385,7 @@ MemWatch.Lap("after  DrawLASr");
 				var ret = ParseCommand(cmd_line);
 
 				// ◆複数行の文字列が返ることもあるので改行も含めておく。
-				if(ret != "") tb.AppendText(ret);
+				if(!string.IsNullOrEmpty(ret)) tb.AppendText(ret);
 			}
 
 			// ◆プロンプト(>)の後で改行しないようEnterを打ち消してプロンプトに置き換える。
