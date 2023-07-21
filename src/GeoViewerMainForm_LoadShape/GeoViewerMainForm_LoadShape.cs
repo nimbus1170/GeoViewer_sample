@@ -20,7 +20,7 @@ public partial class GeoViewerMainForm : Form
 	{
 		OpenFileDialog of_dialog = new ()
 			{ Title  = "図形ファイルを開く",
-			  Filter = "図形ファイル(*.shp;*.geojson;*.json)|*.shp;*.geojson;*.json",
+			  Filter = "図形ファイル(*.shp;*.geojson;*.json;*.kml)|*.shp;*.geojson;*.json;*.kml",
 			  Multiselect = true };
 
 		if(of_dialog.ShowDialog() == DialogResult.Cancel) return;
@@ -37,38 +37,53 @@ MemWatch .Lap("before load shapes");
 		{
 			DialogTextBox.AppendText($"loading {shape_fname}\r\n");
 
-			switch(Path.GetExtension(shape_fname))
+			// ◆取り敢えず、未対応の図形は例外で返す。
+			try
 			{
-				case ".shp":
+				switch(Path.GetExtension(shape_fname))
 				{
-					var (shp_file, read_shp_msg) = ReadShapefileFromFile(shape_fname);
-
-					if(shp_file != null)
+					case ".shp":
 					{
-						var shp_name = "shp" + (++ShapesN);
+						var (shp_file, read_shp_msg) = ReadShapefileFromFile(shape_fname);
 
-						DrawShapefile(shp_name, shp_file);
+						if(shp_file != null)
+						{
+							var shp_name = "shp" + (++ShapesN);
 
-						ShowShapefileLog(shp_name, shp_file, read_shp_msg);
+							DrawShapefile(shp_name, shp_file);
+
+							ShowShapefileLog(shp_name, shp_file, read_shp_msg);
+						}
+						else
+							DialogTextBox.AppendText($"reading SHP error : {read_shp_msg}\r\n");
+
+						break;
 					}
-					else
-						DialogTextBox.AppendText($"reading SHP error : {read_shp_msg}\r\n");
-
-					break;
-				}
 				
-				case ".geojson":
-				case ".json":
-				{
-					ReadDrawGeoJSONFromFile(shape_fname);
-					break;
-				}
+					case ".geojson":
+					case ".json":
+					{
+						ReadDrawGeoJSONFromFile(shape_fname);
+						break;
+					}
 
-				default:
-					DialogTextBox.AppendText($"unknown shape file type : {shape_fname}\r\n");
-					break;
+					case ".kml":
+					{
+						ReadDrawKMLFromFile(shape_fname);
+						break;
+					}
+
+					default:
+						DialogTextBox.AppendText($"unknown shape file type : {shape_fname}\r\n");
+						break;
 					
+				}
 			}
+			catch(Exception ex)
+			{
+				DialogTextBox.AppendText(ex.Message + "\r\n");
+			}
+
 		}
 
 StopWatch.Lap("after  load shapes");

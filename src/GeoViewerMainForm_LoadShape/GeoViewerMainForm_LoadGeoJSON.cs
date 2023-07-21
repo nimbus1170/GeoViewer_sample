@@ -53,6 +53,7 @@ public partial class GeoViewerMainForm : Form
 				case "name":
 				case "crs": // 座標参照系情報(Coordinate Reference System)
 					// ◆取り敢えず読み飛ばす。
+					// →◆平面直角座標系(に関する情報)もあるのでは？
 					break;
 
 				case "features":
@@ -78,24 +79,24 @@ public partial class GeoViewerMainForm : Form
 								{
 									if(feature_elem.Value.ValueKind != JsonValueKind.Object) throw new Exception("geometry must be Object");
 			
-									string geometry_type = "";
+									string geom_type = "";
 
-									foreach(var geometry_elem in feature_elem.Value.EnumerateObject())
+									foreach(var geom_elem in feature_elem.Value.EnumerateObject())
 									{
-										switch(geometry_elem.Name)
+										switch(geom_elem.Name)
 										{
 											case "type":
-												geometry_type = geometry_elem.Value.ToString();
+												geom_type = geom_elem.Value.ToString();
 												break;
 
 											case "coordinates":
 											{
-												if(geometry_elem.Value.ValueKind != JsonValueKind.Array) throw new Exception("geometry coordinates must be Array");
+												if(geom_elem.Value.ValueKind != JsonValueKind.Array) throw new Exception("geometry coordinates must be Array");
 
 												// ◆coordinatesより後で定義されていても問題ないように、一旦データに入れるか。
-												if(string.IsNullOrEmpty(geometry_type)) throw new Exception("geometry type must be defined prior to the coordinates definition");
+												if(string.IsNullOrEmpty(geom_type)) throw new Exception("geometry type must be defined prior to the coordinates definition");
 
-												switch(geometry_type)
+												switch(geom_type)
 												{
 													case "Point":
 													{ 
@@ -108,7 +109,7 @@ public partial class GeoViewerMainForm : Form
 														var pt_color = new CColorF{ R = 1.0f, G = 0.0f, B = 0.0f, A = 1.0f };
 
 														// ◆一つしかないが、反復子を使うしかないのか？。
-														foreach(var coord_elem in geometry_elem.Value.EnumerateArray())
+														foreach(var coord_elem in geom_elem.Value.EnumerateArray())
 														{
 															// ◆高度は取り敢えず。
 															pts.AddPoint(pt_lglt.SetLg(coord_elem[0].GetDouble()).SetLt(coord_elem[1].GetDouble()).SetAltitude(AGL, 100), pt_color);
@@ -131,7 +132,7 @@ public partial class GeoViewerMainForm : Form
 
 														var pt_lglt = new CLgLt();
 
-														foreach(var coord_elem in geometry_elem.Value.EnumerateArray())
+														foreach(var coord_elem in geom_elem.Value.EnumerateArray())
 														{
 															// ◆高度は取り敢えず。
 															polyline.AddNode(pt_lglt.SetLg(coord_elem[0].GetDouble()).SetLt(coord_elem[1].GetDouble()).SetAltitude(AGL, 100));
@@ -155,7 +156,7 @@ public partial class GeoViewerMainForm : Form
 
 														var color = new CColorF(1.0f, 0.0f, 0.0f, 1.0f);
 
-														foreach(var coord_elem in geometry_elem.Value.EnumerateArray())
+														foreach(var coord_elem in geom_elem.Value.EnumerateArray())
 														{
 															var polyline = new CGeoPolyline()
 																.SetColor(color)
