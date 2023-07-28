@@ -77,6 +77,7 @@ public partial class GeoViewerMainForm : Form
 
 			var xy = Convert_LgLt_XY.ToXY(new CLgLt(new CLg(140.08), new CLt(36.10)));
 */
+
 			//--------------------------------------------------
 
 			// argsがここで渡されるので、これらの処理はForm_Loadではなくここで実施する。
@@ -160,7 +161,7 @@ public partial class GeoViewerMainForm : Form
 				var title = "糸島半島";
 				var s_lglt = new CLgLt(new CLg(130.1), new CLt(33.5));
 				var e_lglt = new CLgLt(new CLg(130.3), new CLt(33.7));
-				var polygon_size = 400; // ◆1000にすると玄界島の右下に穴が開く。
+				var mesh_size = 400; // ◆1000にすると玄界島の右下に穴が開く。
 			*/}
 
 			// 設定を設定ファイルで与える場合
@@ -236,7 +237,7 @@ public partial class GeoViewerMainForm : Form
 				 0.5f, // 鏡面反射係数   [0,1]
 				 64,   // ハイライト     [0,128]
 				 DShadingMode.TEXTURE_IMAGE,
-				 DPolygonMode.QUAD4,
+				 DMeshMode.QUAD4,
 				 DFogMode.CLEAR,
 				 3000f); // 視程(m)
 
@@ -262,7 +263,7 @@ public partial class GeoViewerMainForm : Form
 					 (ImageZoomLevel <= 13)? "全国ランドサットモザイク画像":
 					 (ImageZoomLevel <= 18)? "全国最新写真":
 											 "-") + $"(ZL{ImageZoomLevel})・" +
-				"標高タイル(DEM10B-PNG形式)(ZL14)・" + // ◆標高タイルはZL14であり、ポリゴンサイズではない。
+				"標高タイル(DEM10B-PNG形式)(ZL14)・" + // ◆標高タイルはZL14であり、メッシュサイズではない。
 				"日本のジオイド2011(Ver.2.1)";
 
 			//--------------------------------------------------

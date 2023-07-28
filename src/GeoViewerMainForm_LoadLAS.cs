@@ -177,7 +177,20 @@ vlrs_dataがない場合もある。
 
 			var laszip_header = laszip_data.Header;
 
-			var vlrs_data = laszip_header.vlrs_data; //ここにファイル情報が入っている。
+			if(ReadStart != -1) // ReadEndが-1なら最後まで読む。
+			{
+				if(ReadStep == -1)
+					laszip_data.ReadPoints(ReadStart, ReadEnd);
+				else
+					laszip_data.ReadPoints(ReadStart, ReadEnd, ReadStep);
+			}
+			else if(ReadStep == -1)
+				laszip_data.ReadPoints();
+//				laszip_data.ReadPointsRange(0.001); ◆うまくいかない。
+			else
+				laszip_data.ReadPoints(ReadStep);
+
+			var vlrs_data = laszip_header.vlrs_data;
 
 			// ◆WKTで読め。
 			if(vlrs_data.StartsWith("GEOGCS"))

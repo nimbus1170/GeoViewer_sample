@@ -139,7 +139,7 @@ public partial class GeoViewerMainForm : Form
 		// 地表面に沿う線分
 		// ●通視判定を確認する。
 		// ◆動作を確認出来たらDLLに括り出したい。
-		// ◆四角ポリゴンが鞍形のように中が盛り上がっていると線分が隠れる場合がある。三角ポリゴンなら隠れないようにできそうだが。
+		// ◆四角メッシュが鞍形のように中が盛り上がっていると線分が隠れる場合がある。三角メッシュなら隠れないようにできそうだが。
 		// ◆他の図形にも適用したいが、べた書きするか？
 
 		// 糸島
@@ -169,7 +169,7 @@ public partial class GeoViewerMainForm : Form
 		var dz_op_obj = obj_p.Z - op_p.Z;
 
 		// ◆標高データがタイル(WP)なのでズームレベルを指定するようにしているが、標高データを指定するようにできないか？
-		var gnd_nodes = MakeGridCrossPointsWP(gnd_op, gnd_obj, PolygonZoomLevel);
+		var gnd_nodes = MakeGridCrossPointsWP(gnd_op, gnd_obj, MeshZoomLevel);
 		
 		var sticker_line = new CGeoPolyline()
 			.SetColor(new CColorF(1.0f, 0.0f, 0.0f, 0.5f))
@@ -205,7 +205,7 @@ public partial class GeoViewerMainForm : Form
 					.SetFill(true));
 		}
 
-		var is_visible = IsObserve(PolygonZoomLevel, op, obj);
+		var is_visible = IsObserve(MeshZoomLevel, op, obj);
 	}
 }
 //---------------------------------------------------------------------------

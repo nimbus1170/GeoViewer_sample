@@ -59,7 +59,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="DSF_NET_ProfilerLog">
-      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_ProfilerLog.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_ProfilerLog.dll</HintPath>
     </Reference>
     <Reference Include="DSF_NET_Scene">
       <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_Scene.dll</HintPath>

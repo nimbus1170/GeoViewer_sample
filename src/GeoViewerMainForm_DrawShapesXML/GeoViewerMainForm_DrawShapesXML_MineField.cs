@@ -52,7 +52,7 @@ public partial class GeoViewerMainForm : Form
 				 new CGeoPolyline()
 					.SetColor(color_f)
 					.SetLineWidth(line_width)
-					.AddNodes(MakeGridCrossPointsWP(mf.FrontEdgeNodes, PolygonZoomLevel))
+					.AddNodes(MakeGridCrossPointsWP(mf.FrontEdgeNodes, MeshZoomLevel))
 					.AddNode(mf.FrontEdgeNodes[0])); // フタをする。◆最後の線分は地面に沿わないのでは？
 
 			//--------------------------------------------------

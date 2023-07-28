@@ -34,7 +34,7 @@ public partial class GeoViewerMainForm : Form
 
 		// ◆ここでクランプする。
 		// 　ライブラリ内でクランプすると丁寧な気がするが、地図画像その他を各所でクランプするより、最初に与える座標範囲をクランプした方が良いと判断する。
-		(StartLgLt, EndLgLt) = ClampToPolygonSize(StartLgLt_0, EndLgLt_0, PolygonSize);
+		(StartLgLt, EndLgLt) = ClampToMeshSize(StartLgLt_0, EndLgLt_0, MeshSize);
 
 		//--------------------------------------------------
 		// 2 タイルをダウンロードする。
@@ -82,11 +82,11 @@ public partial class GeoViewerMainForm : Form
 			(picture_box,
 			 StartLgLt,
 			 EndLgLt,
-			 PolygonSize, // 経緯度でおおよそm単位
+			 MeshSize, // 経緯度でおおよそm単位
 			 NearPlane,
 			 ev_map_data,
 			 geoid_map_data,
-			 "view_tri_polygons", //"display_progress";
+			 "view_tri_mesh", //"display_progress";
 			 scene_cfg,
 			 controller_parts);
 			
@@ -107,22 +107,22 @@ public partial class GeoViewerMainForm : Form
 		return viewer;
 	}
 
-	static Tuple<CLgLt, CLgLt> ClampToPolygonSize(in CLgLt src_s_lglt, in CLgLt src_e_lglt, in int polygon_size)
+	static Tuple<CLgLt, CLgLt> ClampToMeshSize(in CLgLt src_s_lglt, in CLgLt src_e_lglt, in int mesh_size)
 	{
-		double dst_s_lg = (double)((int)(src_s_lglt.Lg.DecimalDeg * 100000.0 + polygon_size) / polygon_size * polygon_size) / 100000.0;
-		double dst_s_lt = (double)((int)(src_s_lglt.Lt.DecimalDeg * 100000.0 + polygon_size) / polygon_size * polygon_size) / 100000.0;
-		double dst_e_lg = (double)((int)(src_e_lglt.Lg.DecimalDeg * 100000.0			   ) / polygon_size * polygon_size) / 100000.0;
-		double dst_e_lt = (double)((int)(src_e_lglt.Lt.DecimalDeg * 100000.0			   ) / polygon_size * polygon_size) / 100000.0;
+		double dst_s_lg = (double)((int)(src_s_lglt.Lg.DecimalDeg * 100000.0 + mesh_size) / mesh_size * mesh_size) / 100000.0;
+		double dst_s_lt = (double)((int)(src_s_lglt.Lt.DecimalDeg * 100000.0 + mesh_size) / mesh_size * mesh_size) / 100000.0;
+		double dst_e_lg = (double)((int)(src_e_lglt.Lg.DecimalDeg * 100000.0			) / mesh_size * mesh_size) / 100000.0;
+		double dst_e_lt = (double)((int)(src_e_lglt.Lt.DecimalDeg * 100000.0			) / mesh_size * mesh_size) / 100000.0;
 
 		return new Tuple<CLgLt, CLgLt>(new CLgLt(new CLg(dst_s_lg), new CLt(dst_s_lt), AGL), new CLgLt(new CLg(dst_e_lg), new CLt(dst_e_lt), AGL));
 	}
 
-	static Tuple<CLgLt, CLgLt> ExtendToPolygonSize(in CLgLt src_s_lglt, in CLgLt src_e_lglt, in int polygon_size)
+	static Tuple<CLgLt, CLgLt> ExtendToMeshSize(in CLgLt src_s_lglt, in CLgLt src_e_lglt, in int mesh_size)
 	{
-		double dst_s_lg = (double)((int)(src_s_lglt.Lg.DecimalDeg * 100000.0			   ) / polygon_size * polygon_size) / 100000.0;
-		double dst_s_lt = (double)((int)(src_s_lglt.Lt.DecimalDeg * 100000.0			   ) / polygon_size * polygon_size) / 100000.0;
-		double dst_e_lg = (double)((int)(src_e_lglt.Lg.DecimalDeg * 100000.0 + polygon_size) / polygon_size * polygon_size) / 100000.0;
-		double dst_e_lt = (double)((int)(src_e_lglt.Lt.DecimalDeg * 100000.0 + polygon_size) / polygon_size * polygon_size) / 100000.0;
+		double dst_s_lg = (double)((int)(src_s_lglt.Lg.DecimalDeg * 100000.0			) / mesh_size * mesh_size) / 100000.0;
+		double dst_s_lt = (double)((int)(src_s_lglt.Lt.DecimalDeg * 100000.0			) / mesh_size * mesh_size) / 100000.0;
+		double dst_e_lg = (double)((int)(src_e_lglt.Lg.DecimalDeg * 100000.0 + mesh_size) / mesh_size * mesh_size) / 100000.0;
+		double dst_e_lt = (double)((int)(src_e_lglt.Lt.DecimalDeg * 100000.0 + mesh_size) / mesh_size * mesh_size) / 100000.0;
 
 		return new Tuple<CLgLt, CLgLt>(new CLgLt(new CLg(dst_s_lg), new CLt(dst_s_lt), AGL), new CLgLt(new CLg(dst_e_lg), new CLt(dst_e_lt), AGL));
 	}

@@ -36,8 +36,8 @@ public partial class GeoViewerMainForm : Form
 		// 2 開始・終了座標について、経緯度座標をクランプしてWP座標を作成するとともに、WP座標にクランプされた経緯度座標を作成する。
 
 		// ◆緯度方向を逆転させる。緯度方向の逆転を一般化するには範囲にする必要があるか。
-		StartWP	= new CWPInt(ToWPIntX(PolygonZoomLevel, StartLgLt_0.Lg), ToWPIntY(PolygonZoomLevel, EndLgLt_0  .Lt));
-		EndWP	= new CWPInt(ToWPIntX(PolygonZoomLevel, EndLgLt_0  .Lg), ToWPIntY(PolygonZoomLevel, StartLgLt_0.Lt));
+		StartWP	= new CWPInt(ToWPIntX(MeshZoomLevel, StartLgLt_0.Lg), ToWPIntY(MeshZoomLevel, EndLgLt_0  .Lt));
+		EndWP	= new CWPInt(ToWPIntX(MeshZoomLevel, EndLgLt_0  .Lg), ToWPIntY(MeshZoomLevel, StartLgLt_0.Lt));
 
 		// ◆南北は逆転している。WPの南北逆転を一律に変換できないか？範囲クラスにするべきか。
 		StartLgLt = new CLgLt(ToLg(StartWP.X), ToLt(EndWP  .Y), AGL);
@@ -102,7 +102,7 @@ public partial class GeoViewerMainForm : Form
 			 NearPlane,
 			 ev_map_data,
 			 geoid_map_data,
-			 "view_tri_polygons",
+			 "view_tri_mesh",
 			 scene_cfg,
 			 controller_parts);
 

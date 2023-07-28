@@ -24,10 +24,10 @@ public partial class GeoViewerMainForm : Form
 
 	string Title;
 
-	int PolygonZoomLevel;
+	int MeshZoomLevel;
 	int ImageZoomLevel;
 
-	int PolygonSize;
+	int MeshSize;
 
 	double NearPlane;
 
@@ -42,9 +42,13 @@ public partial class GeoViewerMainForm : Form
 
 	// ì_åQ
 	// Åüçëìyínóùâ@ÉfÅ[É^å≈íË
+	string LASFile   = "";
+	Int64  ReadStart = -1;
+	Int64  ReadEnd	 = -1;
+	Int64  ReadStep	 = -1;
+	int	   PointSize;
 	string TXTTitleLine;
 	string TXTFormat;
-	int	   PointSize;
 
 	// ì_åQÅEê}å`ã§í 
 	bool   ToCheckDataOnly = false;
@@ -95,6 +99,12 @@ public partial class GeoViewerMainForm : Form
 			PointSize	  = ToInt32(las_cfg.Attributes["PointSize"	  ].InnerText);
 
 			// ÅüïKê{Ç≈ÇÕÇ»Ç¢ÅB
+			if(las_cfg.Attributes["LASFile"	 ] != null) LASFile =			las_cfg.Attributes["LASFile"  ].InnerText;
+			if(las_cfg.Attributes["ReadStart"] != null) ReadStart = ToInt64(las_cfg.Attributes["ReadStart"].InnerText); 
+			if(las_cfg.Attributes["ReadEnd"  ] != null) ReadEnd	  = ToInt64(las_cfg.Attributes["ReadEnd"  ].InnerText);
+			if(las_cfg.Attributes["ReadStep" ] != null) ReadStep  = ToInt64(las_cfg.Attributes["ReadStep" ].InnerText);  
+
+			// ÅüïKê{Ç≈ÇÕÇ»Ç¢ÅB
 			if(las_cfg.Attributes["TXTTitleLine" ] != null) TXTTitleLine = las_cfg.Attributes["TXTTitleLine" ].InnerText;
 			if(las_cfg.Attributes["TXTFormat"	 ] != null)	TXTFormat	 = las_cfg.Attributes["TXTFormat"	 ].InnerText;
 		}
@@ -108,8 +118,8 @@ public partial class GeoViewerMainForm : Form
 		{
 			LgLtMargin = ToDouble(shape_cfg.Attributes["Margin"].InnerText);
 
-			PolygonZoomLevel = ToInt32(shape_cfg.Attributes["PolygonZoomLevel"].InnerText);
-			ImageZoomLevel	 = ToInt32(shape_cfg.Attributes["ImageZoomLevel"  ].InnerText);
+			MeshZoomLevel  = ToInt32(shape_cfg.Attributes["MeshZoomLevel" ].InnerText);
+			ImageZoomLevel = ToInt32(shape_cfg.Attributes["ImageZoomLevel"].InnerText);
 
 			NearPlane = ToDouble(shape_cfg.Attributes["NearPlane"].InnerText);
 
@@ -243,10 +253,12 @@ MemWatch .Lap("after  ReadShapefileFromFile");
 			{
 				Title =	map_cfg.Attributes["Title"].InnerText;
 
-				PolygonSize = ToInt32(map_cfg.Attributes["PolygonSize"].InnerText);
+				MeshSize = ToInt32(map_cfg.Attributes["MeshSize"].InnerText);
 
-				PolygonZoomLevel = ToInt32(map_cfg.Attributes["PolygonZoomLevel"].InnerText);
-				ImageZoomLevel	 = ToInt32(map_cfg.Attributes["ImageZoomLevel"  ].InnerText);
+				MeshZoomLevel  = ToInt32(map_cfg.Attributes["MeshZoomLevel" ].InnerText);
+				ImageZoomLevel = ToInt32(map_cfg.Attributes["ImageZoomLevel"].InnerText);
+
+				if(PlaneMode == "Tile") ImageZoomLevel = MeshZoomLevel;
 
 				NearPlane = ToDouble(map_cfg.Attributes["NearPlane"].InnerText);
 
@@ -271,7 +283,7 @@ MemWatch .Lap("after  ReadShapefileFromFile");
 		StartLgLt_0.Set(new CLg(ToDouble(prms[0])), new CLt(ToDouble(prms[1])));
 		EndLgLt_0  .Set(new CLg(ToDouble(prms[2])), new CLt(ToDouble(prms[3])));
 
-		PolygonZoomLevel = ToInt32(prms[4]);
+		MeshZoomLevel = ToInt32(prms[4]);
 		ImageZoomLevel	 = ToInt32(prms[5]);
 	}
 }

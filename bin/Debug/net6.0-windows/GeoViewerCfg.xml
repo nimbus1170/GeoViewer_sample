@@ -5,37 +5,42 @@
 	<!-- 地域、点群又は図形をダイアログから選択する。(ファイル選択モード) -->
 	<!-- いずれも定義されていなければ、本設定ファイル内の地域設定を読み込む。-->
 	<_ToSelectMapCfgFile/>
-	<_ToSelectLASFile/>
+	<ToSelectLASFile/>
 	<_ToSelectShapeFile/>
 
-	<!-- LAS設定　-->
+	<!-- LAS設定 -->
+	<!-- LASFile       : 点群データファイル (これが定義されていれば読み込み・表示する。絶対パス。) -->
+	<!-- PtStart       : 点群を読む開始位置 -->
+	<!-- PtEnd         :           終了位置 -->
+	<!-- PtStep        :           間隔 -->
 	<!-- DefaultOrigin : LASデータに座標系原点に関する情報が含まれていない場合の座標系原点(系番号) -->
 	<!-- PointrSize    : 点のサイズ -->
 	<!-- TXTTitleLine  : 1行目がタイトル行か否か（テキストデータの場合）-->
 	<!-- TXTFormat     : 行のフォーマット（テキストデータの場合）-->
 	<LASCfg
-		DefaultOrigin="12"
-		PointSize="10"
+		_LASFile="C:\DSF\dev\data\LAS\森林LAS\PointCloud.las"
+		ReadStart="1000000000"
+		ReadEnd  ="1020000000"
+		_ReadStep="25"
+		DefaultOrigin="2"
+		PointSize="5"
 		TXTTitleLine="false"
 		TXTFormat="ID X.2 Y.2 Z.2"/> <!-- ID X座標(小数点以下2桁) Y座標(〃) Z座標(〃) -->
 
 	<!-- 図形設定(兼LASデータ設定) -->
 	<!-- Margin			    : 図形データ・LASデータを含む表示範囲の東西南北のマージン(十進経緯度) -->
-	<!-- ToCheckLASDataOnly : 図形データ・LASデータを表示せずに、その情報のみを表示する。-->
-
+	<!-- ToCheckDataOnly    : 図形データ・LASデータを表示せずに、その情報のみを表示する。-->
 	<!-- ToDrawShapeAsTIN   : 図形をTINに変換して表示する。(実験的) -->
 	<!-- ToDrawShapeAsLayer : 図形をレイヤーとして表示する。-->
 	<!-- 上記のいずれも指定しなければポリゴンで表示する。-->
-
-	<!-- PolygonZoomLevel属性及びImageZoomLevel属性は、ポリゴンサイズ及びテクスチャイメージのピクセルサイズを指定するものであり(最大18)、
-		 この値(ズームレベル)が大きいほど、ポリゴンサイズが細かくなり、画像が精細になりますが、ダウンロードされる画像タイル数が増え、
+	<!-- MeshZoomLevel属性及びImageZoomLevel属性は、メッシュサイズ及びテクスチャイメージのピクセルサイズを指定するものであり(最大18)、
+		 この値(ズームレベル)が大きいほど、メッシュサイズが細かくなり、画像が精細になりますが、ダウンロードされる画像タイル数が増え、
 		 処理に時間とメモリを必要とするようになります。ズームレベルについては https://maps.gsi.go.jp/development/siyou.html をご覧ください。-->
-
 	<ShapeCfg
 		Margin="0.005"
-		PolygonZoomLevel="8"
-		ImageZoomLevel="12"
-		NearPlane="500"
+		MeshZoomLevel="14"
+		ImageZoomLevel="16"
+		NearPlane="10"
 		_ToCheckDataOnly="true"
 		_ToDrawShapeAsTIN="true"
 		_ToDrawShapeAsLayer="true"/>
@@ -59,9 +64,9 @@
 	<!-- 複数の地域を定義し、アンダーバー(_)でコメントアウトして表示対象を切り替えています。-->
 
 	<!-- Title            : ウインドウに表示するタイトル -->
-	<!-- PolygonZoomLevel : このズームレベルのピクセル間隔をポリゴンサイズにする。WPまたはTileモードで使用する。-->
+	<!-- MeshZoomLevel    : このズームレベルのピクセル間隔をメッシュサイズにする。WPまたはTileモードで使用する。-->
 	<!-- ImageZoomLevel   : 表示する画像(テクスチャ)に使用する画像タイルのズームレベル -->
-	<!-- PolygonSize      : ポリゴンサイズ。LgLtモードで使用する。-->
+	<!-- MeshSize	      : メッシュサイズ。LgLtモードで使用する。-->
 	<!-- NearPlane        : 近平面までの距離。この値を大きくすると(なぜか)オブジェクト間の前後判定の精度が向上する。-->
 	<!-- Start            : 表示範囲の南西隅 -->
 	<!-- End              : 表示範囲の北東隅 -->
@@ -71,9 +76,9 @@
 
 	<_MapCfg
 		Title="埼玉県"
-		PolygonZoomLevel="8"
+		MeshZoomLevel="8"
 		ImageZoomLevel="12"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="1000">
 		<Start Lg="138.7" Lt="35.7"/>
 		<End   Lg="140.0" Lt="36.3"/>
@@ -81,9 +86,9 @@
 
 	<_MapCfg
 		Title="東京湾"
-		PolygonZoomLevel="10"
+		MeshZoomLevel="10"
 		ImageZoomLevel="15"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="100">
 		<Start Lg="139.73" Lt="35.55"/>
 		<End   Lg="139.94" Lt="35.68"/>
@@ -91,9 +96,9 @@
 
 	<_MapCfg
 		Title="糸島半島"
-		PolygonZoomLevel="11"
+		MeshZoomLevel="11"
 		ImageZoomLevel="15"
-		PolygonSize="200"
+		MeshSize="200"
 		NearPlane="100"> <!-- m -->
 		<Start Lg="130.1" Lt="33.5"/> <!-- 10進形式 -->
 		<End   Lg="130.3" Lt="33.7"/>
@@ -105,9 +110,9 @@
 
 	<_MapCfg
 		Title="糸島半島～佐賀平野"
-		PolygonZoomLevel="10"
+		MeshZoomLevel="10"
 		ImageZoomLevel="15"
-		PolygonSize="800"
+		MeshSize="800"
 		NearPlane="100">
 		<Start Lg="130  6 0.00" Lt="33  5 0.00"/> <!-- 度分秒形式 -->
 		<End   Lg="130 18 0.00" Lt="33 45 0.00"/>
@@ -115,9 +120,9 @@
 
 	<_MapCfg
 		Title="糸島半島～飯塚"
-		PolygonZoomLevel="10"
+		MeshZoomLevel="10"
 		ImageZoomLevel="15"
-		PolygonSize="800"
+		MeshSize="800"
 		NearPlane="100">
 		<Start Lg="130.1" Lt="33.5"/>
 		<End   Lg="130.9" Lt="33.7"/>
@@ -126,9 +131,9 @@
 	<!-- ZL13で約4千万ポリゴン・メモリ32GB、ZL14はメモリーオーバー -->
 	<_MapCfg
 		Title="糸島半島～広範囲"
-		PolygonZoomLevel="13"
+		MeshZoomLevel="13"
 		ImageZoomLevel="14"
-		PolygonSize="800"
+		MeshSize="800"
 		NearPlane="100">
 		<Start Lg="130.1" Lt="33  5 0.00"/>
 		<End   Lg="130.9" Lt="33 45 0.00"/>
@@ -136,9 +141,9 @@
 
 	<_MapCfg
 		Title="可也山"
-		PolygonZoomLevel="10"
+		MeshZoomLevel="10"
 		ImageZoomLevel="15"
-		PolygonSize="10"
+		MeshSize="10"
 		NearPlane="100">
 		<Start Lg="130.15" Lt="33.56"/>
 		<End   Lg="130.18" Lt="33.58"/>
@@ -146,9 +151,9 @@
 
 	<_MapCfg
 		Title="志賀島"
-		PolygonZoomLevel="14"
+		MeshZoomLevel="14"
 		ImageZoomLevel="15"
-		PolygonSize="20"
+		MeshSize="20"
 		NearPlane="100">
 		<Start Lg="130.281029" Lt="33.657748"/>
 		<End   Lg="130.317340" Lt="33.690176"/>
@@ -156,9 +161,9 @@
 
 	<_MapCfg
 		Title="福岡市南区"
-		PolygonZoomLevel="14"
+		MeshZoomLevel="14"
 		ImageZoomLevel="17"
-		PolygonSize="200"
+		MeshSize="200"
 		NearPlane="100">
 		<Start Lg="130.35" Lt="33.50"/>
 		<End   Lg="130.47" Lt="33.61"/>
@@ -166,9 +171,9 @@
 
 	<_MapCfg
 		Title="島原半島"
-		PolygonZoomLevel="10"
+		MeshZoomLevel="10"
 		ImageZoomLevel="15"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="100">
 		<Start Lg="130  7 0.0" Lt="32 35 0.0"/>
 		<End   Lg="130 24 0.0" Lt="32 53 0.0"/>
@@ -176,9 +181,9 @@
 
 	<_MapCfg
 		Title="眉山"
-		PolygonZoomLevel="14"
+		MeshZoomLevel="14"
 		ImageZoomLevel="15"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="100">
 		<Start Lg="130 20 0.0" Lt="32 45 0.0"/>
 		<End   Lg="130 22 0.0" Lt="32 47 0.0"/>
@@ -186,9 +191,9 @@
 
 	<_MapCfg
 		Title="熊本北部"
-		PolygonZoomLevel="12"
+		MeshZoomLevel="12"
 		ImageZoomLevel="15"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="100">
 		<Start Lg="131.0" Lt="33.0"/>
 		<End   Lg="131.3" Lt="33.3"/>
@@ -196,9 +201,9 @@
 
 	<_MapCfg
 		Title="阿蘇"
-		PolygonZoomLevel="11"
+		MeshZoomLevel="11"
 		ImageZoomLevel="15"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="100">
 		<Start Lg="130 55 0.0" Lt="32 46 0.0"/>
 		<End   Lg="131 12 0.0" Lt="33  1 0.0"/>
@@ -206,9 +211,9 @@
 
 	<_MapCfg
 		Title="桜島"
-		PolygonZoomLevel="11"
+		MeshZoomLevel="11"
 		ImageZoomLevel="15"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="100">
 		<Start Lg="130 33 0.0" Lt="31 32 0.0"/>
 		<End   Lg="130 44 0.0" Lt="31 38 0.0"/>
@@ -216,9 +221,9 @@
 
 	<_MapCfg
 		Title="屋久島"
-		PolygonZoomLevel="11"
+		MeshZoomLevel="11"
 		ImageZoomLevel="15"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="100">
 		<Start Lg="130.37" Lt="30.22"/>
 		<End   Lg="130.68" Lt="30.47"/>
@@ -226,9 +231,9 @@
 
 	<_MapCfg
 		Title="琵琶湖の水止めたろか"
-		PolygonZoomLevel="11"
+		MeshZoomLevel="11"
 		ImageZoomLevel="15"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="500"> <!-- ◆NearPlaneを大きくすると水面のまだらが軽減される。 -->
 		<Start Lg="135 50 00.0" Lt="34 57 00.0"/>
 		<End   Lg="135 60 00.0" Lt="35 04 00.0"/>
@@ -236,9 +241,9 @@
 
 	<_MapCfg
 		Title="天竜川(経度帯境界付近)"
-		PolygonZoomLevel="12"
+		MeshZoomLevel="12"
 		ImageZoomLevel="15"
-		PolygonSize="1000"
+		MeshSize="1000"
 		NearPlane="100">
 		<Start Lg="137.9" Lt="34.9"/>
 		<End   Lg="138.1" Lt="35.1"/>
@@ -246,9 +251,9 @@
 
 	<_MapCfg
 		Title="富士山"
-		PolygonZoomLevel="14"
+		MeshZoomLevel="14"
 		ImageZoomLevel="15"
-		PolygonSize="50"
+		MeshSize="50"
 		NearPlane="100">
 		<Start Lg="138.65" Lt="35.3"/>
 		<End   Lg="138.80" Lt="35.4"/>
@@ -256,9 +261,9 @@
 
 	<_MapCfg
 		Title="伊豆山"
-		PolygonZoomLevel="14"
+		MeshZoomLevel="14"
 		ImageZoomLevel="18"
-		PolygonSize="200"
+		MeshSize="200"
 		NearPlane="100">
 		<Start Lg="139 04  0.0" Lt="35 06 30.0"/>
 		<End   Lg="139 06  0.0" Lt="35 07 30.0"/>
@@ -266,9 +271,9 @@
 
 	<_MapCfg
 		Title="熱海"
-		PolygonZoomLevel="13"
+		MeshZoomLevel="13"
 		ImageZoomLevel="16"
-		PolygonSize="200"
+		MeshSize="200"
 		NearPlane="100">
 		<Start Lg="139 03  0.0" Lt="35 05  0.0"/>
 		<End   Lg="139 06  0.0" Lt="35 08  0.0"/>
@@ -276,9 +281,9 @@
 
 	<MapCfg
 		Title="熱海広域"
-		PolygonZoomLevel="10"
+		MeshZoomLevel="14"
 		ImageZoomLevel="14"
-		PolygonSize="200"
+		MeshSize="200"
 		NearPlane="1000">
 		<Start Lg="138 59 45.0" Lt="35  0  0.0"/>
 		<End   Lg="139 15  0.0" Lt="35 10 20.0"/>
@@ -286,9 +291,9 @@
 
 	<_MapCfg
 		Title="伊豆大島"
-		PolygonZoomLevel="12"
+		MeshZoomLevel="12"
 		ImageZoomLevel="15"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="100">
 		<Start Lg="139.34" Lt="34.67"/>
 		<End   Lg="139.46" Lt="34.80"/>
@@ -296,9 +301,9 @@
 
 	<_MapCfg
 		Title="伊豆半島"
-		PolygonZoomLevel="11"
+		MeshZoomLevel="11"
 		ImageZoomLevel="11"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="100">
 		<Start Lg="138 40 00.0" Lt="34 40 00.0"/>
 		<End   Lg="139 20 00.0" Lt="35 20 00.0"/>
@@ -306,20 +311,20 @@
 
 	<_MapCfg
 		Title="硫黄島"
-		PolygonZoomLevel="13"
+		MeshZoomLevel="13"
 		ImageZoomLevel="16"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="100">
 		<Start Lg="141.28" Lt="24.74"/>
 		<End   Lg="141.36" Lt="24.82"/>
 	</_MapCfg>
 
-	<!-- ◆PolygonZoomLevelが15以上だと汚くなる。標高タイルのズームレベルを超えるからか。その場合はTudeモードの方がきれい。-->
+	<!-- ◆MeshZoomLevelが15以上だと汚くなる。標高タイルのズームレベルを超えるからか。その場合はTudeモードの方がきれい。-->
 	<_MapCfg
 		Title="南硫黄島"
-		PolygonZoomLevel="14"
+		MeshZoomLevel="14"
 		ImageZoomLevel="16"
-		PolygonSize="5"
+		MeshSize="5"
 		NearPlane="100">
 		<Start Lg="141.45" Lt="24.22"/>
 		<End   Lg="141.48" Lt="24.25"/>
@@ -327,9 +332,9 @@
 
 	<_MapCfg
 		Title="八王子"
-		PolygonZoomLevel="12"
+		MeshZoomLevel="12"
 		ImageZoomLevel="15"
-		PolygonSize="200"
+		MeshSize="200"
 		NearPlane="100">
 		<Start Lg="139.23" Lt="35.61"/>
 		<End   Lg="139.40" Lt="35.70"/>
@@ -337,9 +342,9 @@
 
 	<_MapCfg
 		Title="元八王子"
-		PolygonZoomLevel="14"
+		MeshZoomLevel="14"
 		ImageZoomLevel="18"
-		PolygonSize="10"
+		MeshSize="10"
 		NearPlane="100">
 		<Start Lg="139 16 10.0" Lt="35 39 30.0"/>
 		<End   Lg="139 17 10.0" Lt="35 40  0.0"/>
@@ -347,9 +352,9 @@
 
 	<_MapCfg
 		Title="礼文島"
-		PolygonZoomLevel="11"
+		MeshZoomLevel="11"
 		ImageZoomLevel="15"
-		PolygonSize="10"
+		MeshSize="10"
 		NearPlane="100">
 		<Start Lg="140.95" Lt="45.27"/>
 		<End   Lg="141.08" Lt="45.48"/>

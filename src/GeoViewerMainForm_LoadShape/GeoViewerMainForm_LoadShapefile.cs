@@ -313,15 +313,15 @@ public partial class GeoViewerMainForm : Form
 
 						// ◆オーバレイの範囲は南北逆転
 						var ol = ((CGeoViewer_WP)Viewer).MakeOverlay
-							(ToWPInt(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_e_lt, AGL)),
-							 ToWPInt(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_s_lt, AGL)),
+							(ToWPInt(MeshZoomLevel, new CLgLt(ol_s_lg, ol_e_lt, AGL)),
+							 ToWPInt(MeshZoomLevel, new CLgLt(ol_e_lg, ol_s_lt, AGL)),
 							 ol_w, ol_h);
 
 						foreach(var pt in entity.Parts)
 						{
 							pt_lglt.SetLg(pt.X).SetLt(pt.Y); // ◆オーバレイなので高度は関係ない。
 
-							pts[pt_i++] = ol.ToPointOnOverlay(ToWP(PolygonZoomLevel, pt_lglt));
+							pts[pt_i++] = ol.ToPointOnOverlay(ToWP(MeshZoomLevel, pt_lglt));
 						}
 
 						var polygon = new System.Drawing.Drawing2D.GraphicsPath();

@@ -51,14 +51,14 @@ public partial class GeoViewerMainForm : Form
 		var vert_nx = log["VertexNX"];
 		var vert_ny = log["VertexNY"];
 
-		DialogTextBox.AppendText($"              頂点数 : {vert_nx:#,0} x {vert_ny:#,0}\r\n");
-		DialogTextBox.AppendText($"          ポリゴン数 : {(vert_nx - 1) * (vert_ny - 1) * 2:#,0}\r\n");
-		DialogTextBox.AppendText($"    テクスチャサイズ : {log["TexW"]}px x {log["TexH"]}px\r\n");
-		DialogTextBox.AppendText($"      テクスチャ枚数 : {log["TexN"]}\r\n");
-		DialogTextBox.AppendText($"      表示地域サイズ : {plane_size_EW:#,0}m x {plane_size_NS:#,0}m\r\n");
-		DialogTextBox.AppendText($"      ポリゴンサイズ : {plane_size_EW / (vert_nx - 1)}m x {plane_size_NS / (vert_ny - 1)}m\r\n");
-		DialogTextBox.AppendText($"    画像ズームレベル : {ImageZoomLevel}\r\n");
-		DialogTextBox.AppendText($"ポリゴンズームレベル : {PolygonZoomLevel}\r\n");
+		DialogTextBox.AppendText($"                  頂点数 : {vert_nx:#,0} x {vert_ny:#,0}\r\n");
+		DialogTextBox.AppendText($"メッシュ(三角ポリゴン)数 : {(vert_nx - 1) * (vert_ny - 1) * 2:#,0}\r\n");
+		DialogTextBox.AppendText($"        テクスチャサイズ : {log["TexW"]}px x {log["TexH"]}px\r\n");
+		DialogTextBox.AppendText($"          テクスチャ枚数 : {log["TexN"]}\r\n");
+		DialogTextBox.AppendText($"          表示地域サイズ : {plane_size_EW:#,0}m x {plane_size_NS:#,0}m\r\n");
+		DialogTextBox.AppendText($"          メッシュサイズ : {plane_size_EW / (vert_nx - 1)}m x {plane_size_NS / (vert_ny - 1)}m\r\n");
+		DialogTextBox.AppendText($"        画像ズームレベル : {ImageZoomLevel}\r\n");
+		DialogTextBox.AppendText($"    メッシュズームレベル : {MeshZoomLevel}\r\n");
 		DialogTextBox.AppendText($"\r\n");
 
 		// 表示の有無にかかわらずストップする。
@@ -68,11 +68,11 @@ public partial class GeoViewerMainForm : Form
 
 		if(ToShowDebugInfo)
 		{
-			DialogTextBox.AppendText($"polygons count from planes\r\n");
-			DialogTextBox.AppendText($"gnd-sea polygons : {log["gnd_sea_polygons_count"]:#,0}\r\n");
-			DialogTextBox.AppendText($"texture polygons : {log["texture_polygons_count"]:#,0}\r\n");
+			DialogTextBox.AppendText($"mesh count from planes\r\n");
+			DialogTextBox.AppendText($"gnd-sea mesh : {log["gnd_sea_mesh_count"]:#,0}\r\n");
+			DialogTextBox.AppendText($"texture mesh : {log["texture_mesh_count"]:#,0}\r\n");
 			DialogTextBox.AppendText($"\r\n");
-			DialogTextBox.AppendText($"polygons count from GLObjects\r\n");
+			DialogTextBox.AppendText($"mesh count from GLObjects\r\n");
 
 			var gl_objs_count = Viewer.GLObjectCount();	
 

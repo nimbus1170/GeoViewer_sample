@@ -30,17 +30,18 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 1 開始・終了座標について、経緯度座標をクランプしてWP座標を作成するとともに、WP座標にクランプされた経緯度座標を作成する。
 
-		// タイルへのクランプ前のポリゴン単位のWP座標
-		var s_wp_0 = new CWPInt(ToWPIntX(PolygonZoomLevel, StartLgLt_0.Lg), ToWPIntY(PolygonZoomLevel, EndLgLt_0  .Lt));
-		var e_wp_0 = new CWPInt(ToWPIntX(PolygonZoomLevel, EndLgLt_0  .Lg), ToWPIntY(PolygonZoomLevel, StartLgLt_0.Lt));
+		// タイルへのクランプ前のメッシュ単位のWP座標
+		var s_wp_0 = new CWPInt(ToWPIntX(MeshZoomLevel, StartLgLt_0.Lg), ToWPIntY(MeshZoomLevel, EndLgLt_0  .Lt));
+//		var e_wp_0 = new CWPInt(ToWPIntX(MeshZoomLevel, EndLgLt_0  .Lg), ToWPIntY(MeshZoomLevel, StartLgLt_0.Lt));
 
 		// タイル
 		var s_tile = GetTile(s_wp_0);
-		var e_tile = GetTile(e_wp_0);
+//		var e_tile = GetTile(e_wp_0);
 
 		// タイルにクランプされたWP座標
 		StartWP	= new CWPInt(GetStartWPIntX(s_tile.X), GetStartWPIntY(s_tile.Y));
-		EndWP	= new CWPInt(GetEndWPIntX  (e_tile.X), GetEndWPIntY  (e_tile.Y));
+//		EndWP	= new CWPInt(GetEndWPIntX  (e_tile.X), GetEndWPIntY  (e_tile.Y));
+		EndWP	= new CWPInt(GetEndWPIntX  (s_tile.X), GetEndWPIntY  (s_tile.Y));
 
 		// タイルにクランプされた経緯度座標
 		StartLgLt = new CLgLt(ToLg(StartWP.X), ToLt(EndWP  .Y), AGL);
@@ -128,11 +129,12 @@ public partial class GeoViewerMainForm : Form
 		var viewer = new CGeoViewer_WP
 			(picture_box,
 			s_tile,
-			e_tile,
+//			e_tile,
+			s_tile,
 			NearPlane,
 			ev_map_data,
 			geoid_map_data,
-			"view_tri_polygons",
+			"view_tri_mesh",
 			scene_cfg,
 			controller_parts);
 			

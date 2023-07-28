@@ -13,7 +13,7 @@
           "DSF_NET_GSITileDownloader": "1.0.0.0",
           "DSF_NET_MapGrid": "1.0.0.0",
           "DSF_NET_ProfilerLog": "1.0.0.0",
-          "DSF_NET_Scene": "1.0.8604.37516",
+          "DSF_NET_Scene": "1.0.8605.31683",
           "DSF_NET_TacticalDrawing": "1.0.0.0"
         },
         "runtime": {
@@ -735,10 +735,10 @@
           }
         }
       },
-      "DSF_NET_Scene/1.0.8604.37516": {
+      "DSF_NET_Scene/1.0.8605.31683": {
         "runtime": {
           "DSF_NET_Scene.dll": {
-            "assemblyVersion": "1.0.8604.37516",
+            "assemblyVersion": "1.0.8605.31683",
             "fileVersion": "0.0.0.0"
           }
         }
@@ -1180,7 +1180,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "DSF_NET_Scene/1.0.8604.37516": {
+    "DSF_NET_Scene/1.0.8605.31683": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

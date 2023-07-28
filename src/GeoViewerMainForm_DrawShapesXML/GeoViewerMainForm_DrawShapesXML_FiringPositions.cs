@@ -48,7 +48,7 @@ public partial class GeoViewerMainForm : Form
 				 new CGeoPolyline()
 					.SetColor(color_f)
 					.SetLineWidth(line_width)
-					.AddNodes(MakeGridCrossPointsWP(fp.BorderNodes, PolygonZoomLevel))
+					.AddNodes(MakeGridCrossPointsWP(fp.BorderNodes, MeshZoomLevel))
 					.AddNode(fp.BorderNodes[0])); // フタをする。◆最後の線分は地面に沿わないのでは？
 
 			//--------------------------------------------------
@@ -56,11 +56,11 @@ public partial class GeoViewerMainForm : Form
 		 
 			var inner_symbol = fp.InnerSymbol;
 
-			Viewer.AddShape(name, new CGeoPolyline().SetColor(color_f).SetLineWidth(line_width).AddNodes(MakeGridCrossPointsWP(new List<CLgLt>(){inner_symbol[0], inner_symbol[1]}, PolygonZoomLevel)));
-			Viewer.AddShape(name, new CGeoPolyline().SetColor(color_f).SetLineWidth(line_width).AddNodes(MakeGridCrossPointsWP(new List<CLgLt>(){inner_symbol[2], inner_symbol[1]}, PolygonZoomLevel)));
-			Viewer.AddShape(name, new CGeoPolyline().SetColor(color_f).SetLineWidth(line_width).AddNodes(MakeGridCrossPointsWP(new List<CLgLt>(){inner_symbol[1], inner_symbol[4]}, PolygonZoomLevel)));
-			Viewer.AddShape(name, new CGeoPolyline().SetColor(color_f).SetLineWidth(line_width).AddNodes(MakeGridCrossPointsWP(new List<CLgLt>(){inner_symbol[3], inner_symbol[4]}, PolygonZoomLevel)));
-			Viewer.AddShape(name, new CGeoPolyline().SetColor(color_f).SetLineWidth(line_width).AddNodes(MakeGridCrossPointsWP(new List<CLgLt>(){inner_symbol[5], inner_symbol[4]}, PolygonZoomLevel)));
+			Viewer.AddShape(name, new CGeoPolyline().SetColor(color_f).SetLineWidth(line_width).AddNodes(MakeGridCrossPointsWP(new List<CLgLt>(){inner_symbol[0], inner_symbol[1]}, MeshZoomLevel)));
+			Viewer.AddShape(name, new CGeoPolyline().SetColor(color_f).SetLineWidth(line_width).AddNodes(MakeGridCrossPointsWP(new List<CLgLt>(){inner_symbol[2], inner_symbol[1]}, MeshZoomLevel)));
+			Viewer.AddShape(name, new CGeoPolyline().SetColor(color_f).SetLineWidth(line_width).AddNodes(MakeGridCrossPointsWP(new List<CLgLt>(){inner_symbol[1], inner_symbol[4]}, MeshZoomLevel)));
+			Viewer.AddShape(name, new CGeoPolyline().SetColor(color_f).SetLineWidth(line_width).AddNodes(MakeGridCrossPointsWP(new List<CLgLt>(){inner_symbol[3], inner_symbol[4]}, MeshZoomLevel)));
+			Viewer.AddShape(name, new CGeoPolyline().SetColor(color_f).SetLineWidth(line_width).AddNodes(MakeGridCrossPointsWP(new List<CLgLt>(){inner_symbol[5], inner_symbol[4]}, MeshZoomLevel)));
 		}
 	}
 }

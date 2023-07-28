@@ -46,7 +46,7 @@ public partial class GeoViewerMainForm : Form
 				 new CGeoPolyline()
 					.SetColor(color_f)
 					.SetLineWidth(line_width)
-					.AddNodes(MakeGridCrossPointsWP(dp.BorderNodes, PolygonZoomLevel)));
+					.AddNodes(MakeGridCrossPointsWP(dp.BorderNodes, MeshZoomLevel)));
 		
 			//--------------------------------------------------
 			// •”‘à‹K–Í•W¦‚ğ•`‰æ‚·‚éB

@@ -9,7 +9,7 @@ using DSF_NET_Scene;
 
 using System.Runtime.Versioning;
 
-using static DSF_CS_Profiler.CProfilerLog;
+//using static DSF_CS_Profiler.CProfilerLog;
 
 using static DSF_NET_Color.CColor;
 using static DSF_NET_Geography.Convert_LgLt_WP;
@@ -398,8 +398,8 @@ StopWatch.Lap("after  set min_max");
 
 		// ◆オーバレイの範囲は南北逆転
 		var ol = ((CGeoViewer_WP)Viewer).MakeOverlay
-			(ToWPInt(PolygonZoomLevel, new CLgLt(ol_s_lg, ol_e_lt, AE)),
-			 ToWPInt(PolygonZoomLevel, new CLgLt(ol_e_lg, ol_s_lt, AE)),
+			(ToWPInt(MeshZoomLevel, new CLgLt(ol_s_lg, ol_e_lt, AE)),
+			 ToWPInt(MeshZoomLevel, new CLgLt(ol_e_lg, ol_s_lt, AE)),
 			 ol_w, ol_h);
 
 StopWatch.Lap("after  MakeOverlay");
@@ -476,7 +476,7 @@ StopWatch.Lap("before ToPointOnOverlay");
 				foreach(var coord in coords)
 				{
 					// ◆高度は取り敢えず。
-					nodes_ol[node_i++] = ol.ToPointOnOverlay(ToWP(PolygonZoomLevel, node_lglt.SetLg(coord.Longitude).SetLt(coord.Latitude).SetAltitude(AE, 0)));
+					nodes_ol[node_i++] = ol.ToPointOnOverlay(ToWP(MeshZoomLevel, node_lglt.SetLg(coord.Longitude).SetLt(coord.Latitude).SetAltitude(AE, 0)));
 				}
 StopWatch.Lap("after  ToPointOnOverlay");
 
