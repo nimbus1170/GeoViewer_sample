@@ -5,7 +5,7 @@
 	<!-- 地域、点群又は図形をダイアログから選択する。(ファイル選択モード) -->
 	<!-- いずれも定義されていなければ、本設定ファイル内の地域設定を読み込む。-->
 	<_ToSelectMapCfgFile/>
-	<ToSelectLASFile/>
+	<_ToSelectLASFile/>
 	<_ToSelectShapeFile/>
 
 	<!-- LAS設定 -->
@@ -94,7 +94,7 @@
 		<End   Lg="139.94" Lt="35.68"/>
 	</_MapCfg>
 
-	<_MapCfg
+	<MapCfg
 		Title="糸島半島"
 		MeshZoomLevel="11"
 		ImageZoomLevel="15"
@@ -106,7 +106,7 @@
 		<!-- フォルダ内のすべてのファイルを描画する方法 -->
 		<!-- ◆保留 -->
 		<_Drawings Folder="C:/DSF/SharedData/MapView/MapDrawing"/>
-	</_MapCfg>
+	</MapCfg>
 
 	<_MapCfg
 		Title="糸島半島～佐賀平野"
@@ -279,7 +279,7 @@
 		<End   Lg="139 06  0.0" Lt="35 08  0.0"/>
 	</_MapCfg>
 
-	<MapCfg
+	<_MapCfg
 		Title="熱海広域"
 		MeshZoomLevel="14"
 		ImageZoomLevel="14"
@@ -287,7 +287,7 @@
 		NearPlane="1000">
 		<Start Lg="138 59 45.0" Lt="35  0  0.0"/>
 		<End   Lg="139 15  0.0" Lt="35 10 20.0"/>
-	</MapCfg>
+	</_MapCfg>
 
 	<_MapCfg
 		Title="伊豆大島"
