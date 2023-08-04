@@ -109,4 +109,7 @@
   <ItemGroup>
     <Folder Include="src\DSF\Geography\" />
   </ItemGroup>
+  <PropertyGroup>
+    <SatelliteResourceLanguages>_</SatelliteResourceLanguages>
+  </PropertyGroup>
 </Project>

@@ -19,10 +19,10 @@
 	<!-- TXTFormat     : 行のフォーマット（テキストデータの場合）-->
 	<LASCfg
 		_LASFile="C:\DSF\dev\data\LAS\森林LAS\PointCloud.las"
-		ReadStart="1000000000"
-		ReadEnd  ="1020000000"
+		_ReadStart="1000000000"
+		_ReadEnd  ="1020000000"
 		_ReadStep="25"
-		DefaultOrigin="2"
+		DefaultOrigin="3"
 		PointSize="5"
 		TXTTitleLine="false"
 		TXTFormat="ID X.2 Y.2 Z.2"/> <!-- ID X座標(小数点以下2桁) Y座標(〃) Z座標(〃) -->
