@@ -618,8 +618,8 @@ MemWatch .Lap("after  DrawScene");
 		foreach(var pt in laszip_points)
 		{
 			if(!(has_intensity) && ( pt.intensity != 0)						  ) has_intensity = true;
-			if(!(has_color    ) && ((pt.R != 0) || (pt.G != 0) || (pt.B != 0))) has_color = true;
-			if(!(has_class	  ) && ( pt.classification != 0)				  ) has_class = true;
+			if(!(has_color    ) && ((pt.R != 0) || (pt.G != 0) || (pt.B != 0))) has_color	  = true;　// ◆実際は32767を入れている。
+			if(!(has_class	  ) && ( pt.classification != 0)				  ) has_class	  = true;
 		}
 
 		DialogTextBox.AppendText($"  輝度付きポイント : {(has_intensity? "あり":"なし")}\r\n");

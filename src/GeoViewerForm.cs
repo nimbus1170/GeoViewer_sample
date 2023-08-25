@@ -42,7 +42,7 @@ public abstract partial class GeoViewerForm : Form
 	{
 		if(Viewer == null) return;
 
-		switch (e.Button)
+		switch(e.Button)
 		{
 			case MouseButtons.Middle:
 				contextMenuStrip1.Show(Left + e.X, Top + e.Y);

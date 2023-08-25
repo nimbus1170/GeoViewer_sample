@@ -7,6 +7,9 @@ using DSF_NET_Geography;
 using static DSF_NET_Geography.Convert_LgLt_GeoCentricCoord;
 using static DSF_NET_Geography.DAltitudeBase;
 
+using DSF_NET_Scene;
+using static DSF_NET_Scene.CGLObject;
+
 using static DSF_CS_Profiler.CProfilerLog;
 
 using static System.Math;
@@ -59,6 +62,7 @@ public partial class GeoViewerMainForm : Form
 		DialogTextBox.AppendText($"          メッシュサイズ : {plane_size_EW / (vert_nx - 1)}m x {plane_size_NS / (vert_ny - 1)}m\r\n");
 		DialogTextBox.AppendText($"        画像ズームレベル : {ImageZoomLevel}\r\n");
 		DialogTextBox.AppendText($"    メッシュズームレベル : {MeshZoomLevel}\r\n");
+		DialogTextBox.AppendText($"              OpenGL精度 : {GetGLPrecision()}\r\n");
 		DialogTextBox.AppendText($"\r\n");
 
 		// 表示の有無にかかわらずストップする。

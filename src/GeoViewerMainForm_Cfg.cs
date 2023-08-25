@@ -99,10 +99,10 @@ public partial class GeoViewerMainForm : Form
 			PointSize	  = ToInt32(las_cfg.Attributes["PointSize"	  ].InnerText);
 
 			// ◆必須ではない。
-			if(las_cfg.Attributes["LASFile"	 ] != null) LASFile =			las_cfg.Attributes["LASFile"  ].InnerText;
-			if(las_cfg.Attributes["ReadStart"] != null) ReadStart = ToInt64(las_cfg.Attributes["ReadStart"].InnerText); 
+			if(las_cfg.Attributes["LASFile"	 ] != null) LASFile =			las_cfg.Attributes["LASFile"  ].InnerText ; // ◆使われていない。
+			if(las_cfg.Attributes["ReadStart"] != null) ReadStart = ToInt64(las_cfg.Attributes["ReadStart"].InnerText);
 			if(las_cfg.Attributes["ReadEnd"  ] != null) ReadEnd	  = ToInt64(las_cfg.Attributes["ReadEnd"  ].InnerText);
-			if(las_cfg.Attributes["ReadStep" ] != null) ReadStep  = ToInt64(las_cfg.Attributes["ReadStep" ].InnerText);  
+			if(las_cfg.Attributes["ReadStep" ] != null) ReadStep  = ToInt64(las_cfg.Attributes["ReadStep" ].InnerText);
 
 			// ◆必須ではない。
 			if(las_cfg.Attributes["TXTTitleLine" ] != null) TXTTitleLine = las_cfg.Attributes["TXTTitleLine" ].InnerText;
