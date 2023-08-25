@@ -7,11 +7,13 @@ using DSF_NET_Geography;
 using DSF_NET_Geometry;
 using DSF_NET_Color;
 using DSF_NET_Scene;
+using DSF_NET_LAS;
 
 using System.Runtime.Versioning;
 
 using static DSF_CS_Profiler.CProfilerLog;
 using static DSF_NET_Geography.DAltitudeBase;
+using static DSF_NET_LAS.CLAS;
 
 using static System.Convert;
 //---------------------------------------------------------------------------
@@ -75,7 +77,7 @@ MemWatch .Stop();
 
 	//-----------------------------------------------------------------------
 
-	CXYOrigin ReadLASOrigin(in string vlrs_data)
+/*	CXYOrigin ReadLASOrigin(in string vlrs_data)
 	{
 		CXYOrigin origin;
 
@@ -102,7 +104,7 @@ MemWatch .Stop();
 		else
 			throw new Exception("unknown vlrs_data and appropriate DefaultOrigin not defined");
 
-		return origin;
+		return origin;*/
 /*
 vlrs_dataの例
 WKTか。
@@ -144,7 +146,7 @@ XYの場合
 
 vlrs_dataがない場合もある。
 */
-	}
+//	}
 
 	//-----------------------------------------------------------------------
 
@@ -204,7 +206,7 @@ vlrs_dataがない場合もある。
 			{
 				// 平面直角座標
 
-				Convert_LgLt_XY.Origin = ReadLASOrigin(vlrs_data);
+				Convert_LgLt_XY.Origin = ReadLASOrigin(vlrs_data, DefaultOrigin);
 
 				// ◆LASデータはXが東西のようだ。
 				var min_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(laszip_header.min_y, laszip_header.min_x), AGL);
@@ -501,7 +503,7 @@ vlrs_dataがない場合もある。
 		{
 			// 平面直角座標
 
-			Convert_LgLt_XY.Origin = ReadLASOrigin(vlrs_data);
+			Convert_LgLt_XY.Origin = ReadLASOrigin(vlrs_data, DefaultOrigin);
 
 			if(false)
 			{
