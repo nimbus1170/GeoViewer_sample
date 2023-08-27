@@ -7,7 +7,10 @@
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
+
 using System.Xml;
+
+using DSF_NET_LAS;
 
 using static DSF_NET_TacticalDrawing.XMLReader;
 
@@ -31,24 +34,18 @@ public partial class GeoViewerMainForm : Form
 
 	double NearPlane;
 
+	int PointSize;
+
 	CLgLt StartLgLt_0;
 	CLgLt EndLgLt_0;
 
 	string MapDataFolder;
 
-	// 平面直角座標
-	// ◆国土地理院データ固定
-	int	DefaultOrigin;
+	// ◆LASに含まれているが、LAS以外でも使用される。LASから出すかまとめるべき。
+	int DefaultOrigin;
 
 	// 点群
-	// ◆国土地理院データ固定
-	string LASFile   = "";
-	Int64  ReadStart = -1;
-	Int64  ReadEnd	 = -1;
-	Int64  ReadStep	 = -1;
-	int	   PointSize;
-	string TXTTitleLine;
-	string TXTFormat;
+	CLAS LAS = null;
 
 	// 点群・図形共通
 	bool   ToCheckDataOnly = false;
@@ -89,24 +86,17 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 		// LAS設定
-		// ◆LASファイルを後から読み込む場合にも必要。
 
-		var las_cfg = geoviewer_cfg.SelectSingleNode("LASCfg");
+//		LAS = new CLAS(cfg_fname);
 
-		if(las_cfg != null)
+		//--------------------------------------------------
+		// 平面直角座標設定
+
+		var xy_cfg = geoviewer_cfg.SelectSingleNode("XYCfg");
+
+		if(xy_cfg != null)
 		{
-			DefaultOrigin = ToInt32(las_cfg.Attributes["DefaultOrigin"].InnerText);
-			PointSize	  = ToInt32(las_cfg.Attributes["PointSize"	  ].InnerText);
-
-			// ◆必須ではない。
-			if(las_cfg.Attributes["LASFile"	 ] != null) LASFile =			las_cfg.Attributes["LASFile"  ].InnerText ; // ◆使われていない。
-			if(las_cfg.Attributes["ReadStart"] != null) ReadStart = ToInt64(las_cfg.Attributes["ReadStart"].InnerText);
-			if(las_cfg.Attributes["ReadEnd"  ] != null) ReadEnd	  = ToInt64(las_cfg.Attributes["ReadEnd"  ].InnerText);
-			if(las_cfg.Attributes["ReadStep" ] != null) ReadStep  = ToInt64(las_cfg.Attributes["ReadStep" ].InnerText);
-
-			// ◆必須ではない。
-			if(las_cfg.Attributes["TXTTitleLine" ] != null) TXTTitleLine = las_cfg.Attributes["TXTTitleLine" ].InnerText;
-			if(las_cfg.Attributes["TXTFormat"	 ] != null)	TXTFormat	 = las_cfg.Attributes["TXTFormat"	 ].InnerText;
+			DefaultOrigin = ToInt32(xy_cfg.Attributes["DefaultOrigin"].InnerText);
 		}
 
 		//--------------------------------------------------
@@ -122,6 +112,8 @@ public partial class GeoViewerMainForm : Form
 			ImageZoomLevel = ToInt32(shape_cfg.Attributes["ImageZoomLevel"].InnerText);
 
 			NearPlane = ToDouble(shape_cfg.Attributes["NearPlane"].InnerText);
+
+			PointSize = ToInt32(shape_cfg.Attributes["PointSize"].InnerText);
 
 			ToCheckDataOnly	= (shape_cfg.Attributes["ToCheckDataOnly"]?.InnerText == "true")? true: false;
 

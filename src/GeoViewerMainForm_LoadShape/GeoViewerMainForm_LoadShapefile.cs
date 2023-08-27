@@ -70,6 +70,7 @@ public partial class GeoViewerMainForm : Form
 					var origin_txt = prj_wkt.Items[0];
 
 					// ◆WKTに経緯度でも定義されているのでは？(→ LoadLAS)
+					// ◆LASの要素ではない。
 					DefaultOrigin = 
 						origin_txt.EndsWith("Japan_Zone_1" )?  1:
 						origin_txt.EndsWith("Japan_Zone_2" )?  2:
