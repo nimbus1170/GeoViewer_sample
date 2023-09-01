@@ -12,9 +12,10 @@
           "Microsoft.Windows.Compatibility": "6.0.0",
           "DSF_NET_GSITileDownloader": "1.0.0.0",
           "DSF_NET_LAS": "1.0.0.0",
+          "DSF_NET_MapDataCfg": "1.0.0.0",
           "DSF_NET_MapGrid": "1.0.0.0",
           "DSF_NET_ProfilerLog": "1.0.0.0",
-          "DSF_NET_Scene": "1.0.8638.20220",
+          "DSF_NET_Scene": "1.0.8641.30578",
           "DSF_NET_TacticalDrawing": "1.0.0.0"
         },
         "runtime": {
@@ -646,6 +647,14 @@
           }
         }
       },
+      "DSF_NET_MapDataCfg/1.0.0.0": {
+        "runtime": {
+          "DSF_NET_MapDataCfg.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "DSF_NET_MapGrid/1.0.0.0": {
         "runtime": {
           "DSF_NET_MapGrid.dll": {
@@ -662,10 +671,10 @@
           }
         }
       },
-      "DSF_NET_Scene/1.0.8638.20220": {
+      "DSF_NET_Scene/1.0.8641.30578": {
         "runtime": {
           "DSF_NET_Scene.dll": {
-            "assemblyVersion": "1.0.8638.20220",
+            "assemblyVersion": "1.0.8641.30578",
             "fileVersion": "0.0.0.0"
           }
         }
@@ -1102,6 +1111,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "DSF_NET_MapDataCfg/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "DSF_NET_MapGrid/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -1112,7 +1126,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "DSF_NET_Scene/1.0.8638.20220": {
+    "DSF_NET_Scene/1.0.8641.30578": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

@@ -10,8 +10,6 @@ using DSF_NET_Geography;
 
 using System.Xml;
 
-using DSF_NET_LAS;
-
 using static DSF_NET_TacticalDrawing.XMLReader;
 
 using static System.Convert;
@@ -21,6 +19,17 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
+	//--------------------------------------------------
+	// 地図データフォルダ等設定
+
+	CMapDataCfg MapDataCfg;
+
+	//--------------------------------------------------
+	// 個別設定
+
+	double LgLtMargin;
+	bool   ToCheckDataOnly = false;
+	
 	bool ToShowDebugInfo;
 
 	string PlaneMode;
@@ -39,30 +48,6 @@ public partial class GeoViewerMainForm : Form
 	CLgLt StartLgLt_0;
 	CLgLt EndLgLt_0;
 
-	string MapDataFolder;
-
-	// ◆LASに含まれているが、LAS以外でも使用される。LASから出すかまとめるべき。
-	int DefaultOrigin;
-
-	// 点群
-	CLAS LAS = null;
-
-	// 点群・図形共通
-	bool   ToCheckDataOnly = false;
-	double LgLtMargin;
-	
-	// ◆国土地理院データ固定
-
-	string GSIImageTileFolder;
-	string GSIImageTileExt;
-	
-	string GSIPhotoTileFolder;
-	string GSIPhotoTileExt;
-	
-	string GSIElevationTileFolder;
-
-	string GSIGeoidModelFile;
-
 	bool ToDrawGrid = false;
 
 	int GridFontSize;
@@ -70,6 +55,8 @@ public partial class GeoViewerMainForm : Form
 	XmlNode GridOverlayCfg = null;
 	
 	string DrawingFileName;
+
+	//---------------------------------------------------------------------------
 
 	void ReadCfgFromFile(in string cfg_fname)
 	{
@@ -85,19 +72,9 @@ public partial class GeoViewerMainForm : Form
 		var geoviewer_cfg = cfg_doc.SelectSingleNode("GeoViewerCfg")?? throw new Exception("tag GeoViewerCfg not found (" + cfg_fname + ")");
 
 		//--------------------------------------------------
-		// LAS設定
+		// 共通設定
 
-//		LAS = new CLAS(cfg_fname);
-
-		//--------------------------------------------------
-		// 平面直角座標設定
-
-		var xy_cfg = geoviewer_cfg.SelectSingleNode("XYCfg");
-
-		if(xy_cfg != null)
-		{
-			DefaultOrigin = ToInt32(xy_cfg.Attributes["DefaultOrigin"].InnerText);
-		}
+		MapDataCfg = new CMapDataCfg(cfg_fname);
 
 		//--------------------------------------------------
 		// 図形設定
@@ -143,27 +120,6 @@ public partial class GeoViewerMainForm : Form
 
 		if(plane_mode_cfg != null)
 			PlaneMode = plane_mode_cfg.Attributes["Mode"].InnerText;
-
-		//--------------------------------------------------
-		// 地図データ設定
-		// ◆XML読み込みの成否は、個々にnull判定するのではなく、取り敢えず例外を出させる。
-
-		var map_data_cfg = geoviewer_cfg.SelectSingleNode("MapDataCfg");
-
-		if(map_data_cfg != null) 
-		{
-			MapDataFolder = map_data_cfg.SelectSingleNode("MapData").Attributes["Folder"].InnerText;
-
-			GSIImageTileFolder = map_data_cfg.SelectSingleNode("GSIImageTiles").Attributes["Folder"].InnerText;
-			GSIImageTileExt	   = map_data_cfg.SelectSingleNode("GSIImageTiles").Attributes["Ext"   ].InnerText;
-
-			GSIPhotoTileFolder = map_data_cfg.SelectSingleNode("GSIPhotoTiles").Attributes["Folder"].InnerText;
-			GSIPhotoTileExt	   = map_data_cfg.SelectSingleNode("GSIPhotoTiles").Attributes["Ext"   ].InnerText;
-
-			GSIElevationTileFolder = map_data_cfg.SelectSingleNode("GSIElevationTiles").Attributes["Folder"].InnerText;
-
-			GSIGeoidModelFile = map_data_cfg.SelectSingleNode("GSIGeoidModel").Attributes["File"].InnerText;
-		}
 
 		//--------------------------------------------------
 		// ファイル選択モード
@@ -264,6 +220,8 @@ MemWatch .Lap("after  ReadShapefileFromFile");
 		}
 	}
 
+	//---------------------------------------------------------------------------
+
 	void ReadCfgFromParam(in string param)
 	{
 		// ◆paramsは予約語	
@@ -275,9 +233,11 @@ MemWatch .Lap("after  ReadShapefileFromFile");
 		StartLgLt_0.Set(new CLg(ToDouble(prms[0])), new CLt(ToDouble(prms[1])));
 		EndLgLt_0  .Set(new CLg(ToDouble(prms[2])), new CLt(ToDouble(prms[3])));
 
-		MeshZoomLevel = ToInt32(prms[4]);
-		ImageZoomLevel	 = ToInt32(prms[5]);
+		MeshZoomLevel  = ToInt32(prms[4]);
+		ImageZoomLevel = ToInt32(prms[5]);
 	}
+
+	//---------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------
 }

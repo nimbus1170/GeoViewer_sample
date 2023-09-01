@@ -8,8 +8,8 @@ using DSF_NET_Scene;
 
 using static DSF_NET_Geography.Convert_LgLt_WP;
 using static DSF_NET_Geography.Convert_LgLt_WPInt;
+using static DSF_NET_Geography.Convert_WP_Tile;
 using static DSF_NET_Geography.DAltitudeBase;
-using static DSF_NET_Geography.XMapTile;
 
 using System.Runtime.Versioning;
 //---------------------------------------------------------------------------
@@ -30,7 +30,7 @@ public partial class GeoViewerMainForm : Form
 		// ◆GeoViewer_Tileと比較して、正しいか？
 
 		// ◆ここはクランプ前で良いのか？
-		DownloadGSITiles(StartLgLt_0, EndLgLt_0, ImageZoomLevel, MapDataFolder);
+		DownloadGSITiles(StartLgLt_0, EndLgLt_0, ImageZoomLevel, MapDataCfg.MapDataFolder);
 
 		//--------------------------------------------------
 		// 2 開始・終了座標について、経緯度座標をクランプしてWP座標を作成するとともに、WP座標にクランプされた経緯度座標を作成する。
@@ -40,8 +40,8 @@ public partial class GeoViewerMainForm : Form
 		EndWP	= new CWPInt(ToWPIntX(MeshZoomLevel, EndLgLt_0  .Lg), ToWPIntY(MeshZoomLevel, StartLgLt_0.Lt));
 
 		// ◆南北は逆転している。WPの南北逆転を一律に変換できないか？範囲クラスにするべきか。
-		StartLgLt = new CLgLt(ToLg(StartWP.X), ToLt(EndWP  .Y), AGL);
-		EndLgLt	  = new CLgLt(ToLg(EndWP  .X), ToLt(StartWP.Y), AGL);
+		StartLgLt = new CLgLt(ToLg(StartWP.X), ToLt(EndWP  .Y));
+		EndLgLt	  = new CLgLt(ToLg(EndWP  .X), ToLt(StartWP.Y));
 
 		//--------------------------------------------------
 		// 3 標高地図データを作成する。
@@ -49,9 +49,9 @@ public partial class GeoViewerMainForm : Form
 		// 開始・終了座標は標高データのズームレベルの新規インスタンスにする。
 		// ◆標高データのズームレベルは取り敢えず14のみ。
 		var ev_map_data = new CElevationMapData_GSI_DEM_PNG
-			(GSIElevationTileFolder,
-			 GetTile(new CWPInt(StartWP, 14)),
-			 GetTile(new CWPInt(EndWP  , 14)));
+			(MapDataCfg.GSIElevationTileFolder,
+			 ToTile(new CWPInt(StartWP, 14)),
+			 ToTile(new CWPInt(EndWP  , 14)));
 
 		// 高度クラスに標高地図データを設定することにより、座標オブジェクトに標高が自動設定される。
 		CAltitude.SetElevationMapData(ev_map_data);
@@ -66,8 +66,8 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 4.1 地図画像を作成する。
 
-		MapImage = GSIImageTile.MakeMapImageFromGSITiles(GSIImageTileFolder, GSIImageTileExt, img_s_wp, img_e_wp);
-		MapPhoto = GSIImageTile.MakeMapImageFromGSITiles(GSIPhotoTileFolder, GSIPhotoTileExt, img_s_wp, img_e_wp);
+		MapImage = GSIImageTile.MakeMapImageFromGSITiles(MapDataCfg.GSIImageTileFolder, MapDataCfg.GSIImageTileExt, img_s_wp, img_e_wp);
+		MapPhoto = GSIImageTile.MakeMapImageFromGSITiles(MapDataCfg.GSIPhotoTileFolder, MapDataCfg.GSIPhotoTileExt, img_s_wp, img_e_wp);
 
 		//--------------------------------------------------
 		// 4.2 グリッドを描画する。

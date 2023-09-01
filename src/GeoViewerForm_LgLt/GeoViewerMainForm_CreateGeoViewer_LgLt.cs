@@ -39,14 +39,15 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 2 タイルをダウンロードする。
 
-		DownloadGSITiles(StartLgLt, EndLgLt, ImageZoomLevel, MapDataFolder);
+		DownloadGSITiles(StartLgLt, EndLgLt, ImageZoomLevel, MapDataCfg.MapDataFolder);
 
 		//--------------------------------------------------
 		// 3 標高地図データを作成する。
 
 		// ◆ズームレベルは取り敢えず14とする。15は抜けが多い。
+		// ◆もしかしたらおかしい。
 		var ev_map_data = new CElevationMapData_GSI_DEM_PNG
-			(GSIElevationTileFolder,
+			(MapDataCfg.GSIElevationTileFolder,
 			 14,
 			 StartLgLt,
 			 EndLgLt);
@@ -60,8 +61,8 @@ public partial class GeoViewerMainForm : Form
 		//--------------------------------------------------
 		// 4.1 地図画像を作成する。
 
-		MapImage = GSIImageTile.MakeMapImageFromGSITiles(GSIImageTileFolder, GSIImageTileExt, ImageZoomLevel, StartLgLt, EndLgLt);
-		MapPhoto = GSIImageTile.MakeMapImageFromGSITiles(GSIPhotoTileFolder, GSIPhotoTileExt, ImageZoomLevel, StartLgLt, EndLgLt);
+		MapImage = GSIImageTile.MakeMapImageFromGSITiles(MapDataCfg.GSIImageTileFolder, MapDataCfg.GSIImageTileExt, ImageZoomLevel, StartLgLt, EndLgLt);
+		MapPhoto = GSIImageTile.MakeMapImageFromGSITiles(MapDataCfg.GSIPhotoTileFolder, MapDataCfg.GSIPhotoTileExt, ImageZoomLevel, StartLgLt, EndLgLt);
 
 		//--------------------------------------------------
 		// 4.2 グリッドを描画する。
@@ -114,7 +115,7 @@ public partial class GeoViewerMainForm : Form
 		double dst_e_lg = (double)((int)(src_e_lglt.Lg.DecimalDeg * 100000.0			) / mesh_size * mesh_size) / 100000.0;
 		double dst_e_lt = (double)((int)(src_e_lglt.Lt.DecimalDeg * 100000.0			) / mesh_size * mesh_size) / 100000.0;
 
-		return new Tuple<CLgLt, CLgLt>(new CLgLt(new CLg(dst_s_lg), new CLt(dst_s_lt), AGL), new CLgLt(new CLg(dst_e_lg), new CLt(dst_e_lt), AGL));
+		return new Tuple<CLgLt, CLgLt>(new CLgLt(new CLg(dst_s_lg), new CLt(dst_s_lt)), new CLgLt(new CLg(dst_e_lg), new CLt(dst_e_lt)));
 	}
 
 	static Tuple<CLgLt, CLgLt> ExtendToMeshSize(in CLgLt src_s_lglt, in CLgLt src_e_lglt, in int mesh_size)
@@ -124,7 +125,7 @@ public partial class GeoViewerMainForm : Form
 		double dst_e_lg = (double)((int)(src_e_lglt.Lg.DecimalDeg * 100000.0 + mesh_size) / mesh_size * mesh_size) / 100000.0;
 		double dst_e_lt = (double)((int)(src_e_lglt.Lt.DecimalDeg * 100000.0 + mesh_size) / mesh_size * mesh_size) / 100000.0;
 
-		return new Tuple<CLgLt, CLgLt>(new CLgLt(new CLg(dst_s_lg), new CLt(dst_s_lt), AGL), new CLgLt(new CLg(dst_e_lg), new CLt(dst_e_lt), AGL));
+		return new Tuple<CLgLt, CLgLt>(new CLgLt(new CLg(dst_s_lg), new CLt(dst_s_lt)), new CLgLt(new CLg(dst_e_lg), new CLt(dst_e_lt)));
 	}
 
 	[SupportedOSPlatform("windows")]
@@ -173,8 +174,8 @@ public partial class GeoViewerMainForm : Form
 	/// <summary>2座標間の東西方向のピクセル数から1Kmのピクセル数を返す。</summary>
 	static Int32 PixelPerKmX(in CLgLt s_lglt, in CLgLt e_lglt, in int px_w)
 	{
-		var s_coord = ToGeoCentricCoord(new CLgLt(s_lglt.Lg, s_lglt.Lt, AGL));
-		var e_coord = ToGeoCentricCoord(new CLgLt(e_lglt.Lg, s_lglt.Lt, AGL)); // ◆経度方向の長さなので緯度は同じ。
+		var s_coord = ToGeoCentricCoord(new CLgLt(s_lglt.Lg, s_lglt.Lt));
+		var e_coord = ToGeoCentricCoord(new CLgLt(e_lglt.Lg, s_lglt.Lt)); // ◆経度方向の長さなので緯度は同じ。
 
 		var d = CCoord.Distance3D(s_coord, e_coord);
 

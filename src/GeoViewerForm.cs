@@ -158,7 +158,7 @@ public abstract partial class GeoViewerForm : Form
 
 		var ct_utm = ToUTM(ct);
 
-		var (x, y, z) = BLHToXYZ(ct_lt_deg, ct_lg_deg, ct.AltitudeAE());
+		var (x, y, z) = BLHToXYZ(ct_lt_deg, ct_lg_deg, ct.AltitudeAE);
 
 		var op_lg_deg = op.Lg.DecimalDeg;
 		var op_lt_deg = op.Lt.DecimalDeg;
@@ -168,7 +168,7 @@ public abstract partial class GeoViewerForm : Form
 			$"北緯  {ct_lt_dms.Deg:00}度{ct_lt_dms.Min:00}分{ct_lt_dms.Sec:00.000}秒 ( {ct_lt_deg:00.00000}度)\n" +
 			$"UTM  {ct_utm.LgBand:00}{((ct_utm.Hemi == DHemi.N) ? "n" : "s")}   {ct_utm.EW:00000} {ct_utm.NS:00000}\n" +
 			$"MGRS {ct_utm.LgBand:00}{GetLtBand(ToLgLt(ct_utm).Lt):0} {GetMGRS_ID(ct_utm):00} {GetMGRS_EW(ct_utm):00000}   {GetMGRS_NS(ct_utm):00000}\n" +
-			$"標高 {ct.AltitudeAMSL():0.0}m　ジオイド高 {ct.AltitudeAE() - ct.AltitudeAMSL():0.000}m\n" +
+			$"標高 {ct.AltitudeAMSL:0.0}m　ジオイド高 {ct.AltitudeAE - ct.AltitudeAMSL:0.000}m\n" +
 			$"地心直交座標 X:{(int)x:#,0}m Y:{(int)y:#,0}m Z:{(int)z:#,0}m\n" +
 			$"距離 {Viewer.Distance:0.}m　方位角 {Viewer.Dir:0.0}度　俯角 {Viewer.Angle:0.0}度\n" +
 			$"カメラ位置 {op_lg_deg:000.00000}度 {op_lt_deg:00.00000}度" +

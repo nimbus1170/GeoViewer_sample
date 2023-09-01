@@ -8,8 +8,8 @@ using DSF_NET_Scene;
 
 using static DSF_NET_Geography.Convert_LgLt_WP;
 using static DSF_NET_Geography.Convert_LgLt_WPInt;
+using static DSF_NET_Geography.Convert_WP_Tile;
 using static DSF_NET_Geography.DAltitudeBase;
-using static DSF_NET_Geography.XMapTile;
 
 using System.Runtime.Versioning;
 //---------------------------------------------------------------------------
@@ -35,8 +35,8 @@ public partial class GeoViewerMainForm : Form
 //		var e_wp_0 = new CWPInt(ToWPIntX(MeshZoomLevel, EndLgLt_0  .Lg), ToWPIntY(MeshZoomLevel, StartLgLt_0.Lt));
 
 		// タイル
-		var s_tile = GetTile(s_wp_0);
-//		var e_tile = GetTile(e_wp_0);
+		var s_tile = ToTile(s_wp_0);
+//		var e_tile = ToTile(e_wp_0);
 
 		// タイルにクランプされたWP座標
 		StartWP	= new CWPInt(GetStartWPIntX(s_tile.X), GetStartWPIntY(s_tile.Y));
@@ -44,8 +44,8 @@ public partial class GeoViewerMainForm : Form
 		EndWP	= new CWPInt(GetEndWPIntX  (s_tile.X), GetEndWPIntY  (s_tile.Y));
 
 		// タイルにクランプされた経緯度座標
-		StartLgLt = new CLgLt(ToLg(StartWP.X), ToLt(EndWP  .Y), AGL);
-		EndLgLt	  = new CLgLt(ToLg(EndWP  .X), ToLt(StartWP.Y), AGL);
+		StartLgLt = new CLgLt(ToLg(StartWP.X), ToLt(EndWP  .Y));
+		EndLgLt	  = new CLgLt(ToLg(EndWP  .X), ToLt(StartWP.Y));
 
 		//--------------------------------------------------
 		// 2 標高データを作成する。
@@ -59,19 +59,19 @@ public partial class GeoViewerMainForm : Form
 		ev_s_wp.ZoomLevel =
 		ev_e_wp.ZoomLevel = 14;
 
-		var ev_s_tile = GetTile(ev_s_wp);
-		var ev_e_tile = GetTile(ev_e_wp);
+		var ev_s_tile = ToTile(ev_s_wp);
+		var ev_e_tile = ToTile(ev_e_wp);
 
 		//--------------------------------------------------
 		// 2.1 標高タイルをダウンロードする。
 
-		DownloadGSIElevationTiles(ev_s_tile, ev_e_tile, MapDataFolder);
+		DownloadGSIElevationTiles(ev_s_tile, ev_e_tile, MapDataCfg.MapDataFolder);
 
 		//--------------------------------------------------
 		// 2.2 標高データを作成する。
 		
 		// 国土地理院標高タイルから標高地図データを作成する。
-		var ev_map_data = new CElevationMapData_GSI_DEM_PNG(GSIElevationTileFolder, ev_s_tile, ev_e_tile);
+		var ev_map_data = new CElevationMapData_GSI_DEM_PNG(MapDataCfg.GSIElevationTileFolder, ev_s_tile, ev_e_tile);
 
 		// 高度クラスに標高地図データを設定する。
 		// これにより、座標オブジェクトに標高が自動設定される。
@@ -84,20 +84,20 @@ public partial class GeoViewerMainForm : Form
 		var img_s_wp = new CWPInt(StartWP, ImageZoomLevel);
 		var img_e_wp = new CWPInt(EndWP	 , ImageZoomLevel);
 
-		var img_s_tile = GetTile(img_s_wp);
-		var img_e_tile = GetTile(img_e_wp);
+		var img_s_tile = ToTile(img_s_wp);
+		var img_e_tile = ToTile(img_e_wp);
 
 		//--------------------------------------------------
 		// 3.1 地図画像タイルをダウンロードする。
 
-		DownloadGSIImageTiles(img_s_tile, img_e_tile, MapDataFolder);
+		DownloadGSIImageTiles(img_s_tile, img_e_tile, MapDataCfg.MapDataFolder);
 
 		//--------------------------------------------------
 		// 3.2 地図画像を作成する。
 
 	// ◆タイルで範囲を与えるとズレる。タイルはそのタイルの始点を指してないか？標高との整合もWPの方が正しいようだ。
-		MapImage = GSIImageTile.MakeMapImageFromGSITiles(GSIImageTileFolder, GSIImageTileExt, img_s_tile/*tile*/, img_e_tile/*tile*/);
-		MapPhoto = GSIImageTile.MakeMapImageFromGSITiles(GSIPhotoTileFolder, GSIPhotoTileExt, img_s_tile/*tile*/, img_e_tile/*tile*/);
+		MapImage = GSIImageTile.MakeMapImageFromGSITiles(MapDataCfg.GSIImageTileFolder, MapDataCfg.GSIImageTileExt, img_s_tile/*tile*/, img_e_tile/*tile*/);
+		MapPhoto = GSIImageTile.MakeMapImageFromGSITiles(MapDataCfg.GSIPhotoTileFolder, MapDataCfg.GSIPhotoTileExt, img_s_tile/*tile*/, img_e_tile/*tile*/);
 
 		//--------------------------------------------------
 		// 3.3 グリッドを描画する。

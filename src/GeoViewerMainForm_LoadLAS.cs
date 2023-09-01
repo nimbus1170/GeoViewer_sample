@@ -13,13 +13,15 @@ using System.Runtime.Versioning;
 
 using static DSF_CS_Profiler.CProfilerLog;
 using static DSF_NET_Geography.DAltitudeBase;
-//using static DSF_NET_LAS.CLAS;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
+	// 点群
+	CLAS LAS = null;
+
 	CLASzip LASzipData = null;
 
 	string ReadLASMsg = "";
@@ -85,8 +87,8 @@ MemWatch .Stop();
 		{
 			// 経緯度
 
-			StartLgLt_0 = new CLgLt(new CLg(laszip_header.min_x - LgLtMargin), new CLt(laszip_header.min_y - LgLtMargin), AGL);
-			EndLgLt_0   = new CLgLt(new CLg(laszip_header.max_x + LgLtMargin), new CLt(laszip_header.max_y + LgLtMargin), AGL);
+			StartLgLt_0 = new CLgLt(new CLg(laszip_header.min_x - LgLtMargin), new CLt(laszip_header.min_y - LgLtMargin));
+			EndLgLt_0   = new CLgLt(new CLg(laszip_header.max_x + LgLtMargin), new CLt(laszip_header.max_y + LgLtMargin));
 		}
 		else
 		{
@@ -98,8 +100,8 @@ MemWatch .Stop();
 			var min_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(laszip_header.min_y, laszip_header.min_x), AGL);
 			var max_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(laszip_header.max_y, laszip_header.max_x), AGL);
 
-			StartLgLt_0 = new CLgLt(new CLg(min_lglt.Lg.DecimalDeg - LgLtMargin), new CLt(min_lglt.Lt.DecimalDeg - LgLtMargin), AGL);
-			EndLgLt_0   = new CLgLt(new CLg(max_lglt.Lg.DecimalDeg + LgLtMargin), new CLt(max_lglt.Lt.DecimalDeg + LgLtMargin), AGL);
+			StartLgLt_0 = new CLgLt(new CLg(min_lglt.Lg.DecimalDeg - LgLtMargin), new CLt(min_lglt.Lt.DecimalDeg - LgLtMargin));
+			EndLgLt_0   = new CLgLt(new CLg(max_lglt.Lg.DecimalDeg + LgLtMargin), new CLt(max_lglt.Lt.DecimalDeg + LgLtMargin));
 		}
 
 		return (laszip_data, "");
@@ -172,9 +174,9 @@ MemWatch .Stop();
 				{
 					//--------------------------------------------------
 
-					x = x_offset + pt.X * x_scale_factor;
-					y = y_offset + pt.Y * y_scale_factor;
-					z = z_offset + pt.Z * z_scale_factor;
+					x = x_offset + pt.x * x_scale_factor;
+					y = y_offset + pt.y * y_scale_factor;
+					z = z_offset + pt.z * z_scale_factor;
 
 					pt_lglt.SetLg(x).SetLt(y).SetAltitude(AMSL, z);
 
@@ -182,9 +184,9 @@ MemWatch .Stop();
 
 					intensity = (has_intensity)? ((pt.intensity - min_intensity) / intensity_range): 1.0f;
 
-					r = pt.R;
-					g = pt.G;
-					b = pt.B;
+					r = pt.r;
+					g = pt.g;
+					b = pt.b;
 
 					if((r != 0) || (g != 0) || (b != 0))
 					{
@@ -256,9 +258,9 @@ MemWatch .Stop();
 				{
 					//--------------------------------------------------
 
-					x = x_offset + pt.X * x_scale_factor;
-					y = y_offset + pt.Y * y_scale_factor;
-					z = z_offset + pt.Z * z_scale_factor;
+					x = x_offset + pt.x * x_scale_factor;
+					y = y_offset + pt.y * y_scale_factor;
+					z = z_offset + pt.z * z_scale_factor;
 
 //StopWatch.Lap("(C#)before XYToLgLt");
 					// ◆ここに時間がかかっている。
@@ -273,9 +275,9 @@ MemWatch .Stop();
 
 					intensity = (has_intensity)? ((pt.intensity - min_intensity) / intensity_range): 1.0f;
 
-					r = pt.R;
-					g = pt.G;
-					b = pt.B;
+					r = pt.r;
+					g = pt.g;
+					b = pt.b;
 
 					if((r != 0) || (g != 0) || (b != 0))
 					{
@@ -335,7 +337,7 @@ MemWatch .Lap("after  DrawScene");
 		foreach(var pt in laszip_points)
 		{
 			if(!(has_intensity) && ( pt.intensity != 0)						  ) has_intensity = true;
-			if(!(has_color    ) && ((pt.R != 0) || (pt.G != 0) || (pt.B != 0))) has_color	  = true;　// ◆実際は32767を入れている。
+			if(!(has_color    ) && ((pt.r != 0) || (pt.g != 0) || (pt.b != 0))) has_color	  = true;　// ◆実際は32767を入れている。
 			if(!(has_class	  ) && ( pt.classification != 0)				  ) has_class	  = true;
 		}
 

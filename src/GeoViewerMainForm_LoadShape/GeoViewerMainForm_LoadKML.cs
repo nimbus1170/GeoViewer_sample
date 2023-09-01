@@ -398,8 +398,8 @@ StopWatch.Lap("after  set min_max");
 
 		// ŸƒI[ƒoƒŒƒC‚Ì”ÍˆÍ‚Í“ì–k‹t“]
 		var ol = ((CGeoViewer_WP)Viewer).MakeOverlay
-			(ToWPInt(MeshZoomLevel, new CLgLt(ol_s_lg, ol_e_lt, AE)),
-			 ToWPInt(MeshZoomLevel, new CLgLt(ol_e_lg, ol_s_lt, AE)),
+			(ToWPInt(MeshZoomLevel, new CLgLt(ol_s_lg, ol_e_lt)),
+			 ToWPInt(MeshZoomLevel, new CLgLt(ol_e_lg, ol_s_lt)),
 			 ol_w, ol_h);
 
 StopWatch.Lap("after  MakeOverlay");

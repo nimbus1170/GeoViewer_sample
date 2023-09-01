@@ -71,7 +71,7 @@ public partial class GeoViewerMainForm : Form
 
 					// ◆WKTに経緯度でも定義されているのでは？(→ LoadLAS)
 					// ◆LASの要素ではない。
-					DefaultOrigin = 
+					var default_origin = 
 						origin_txt.EndsWith("Japan_Zone_1" )?  1:
 						origin_txt.EndsWith("Japan_Zone_2" )?  2:
 						origin_txt.EndsWith("Japan_Zone_3" )?  3:
@@ -90,16 +90,16 @@ public partial class GeoViewerMainForm : Form
 						origin_txt.EndsWith("Japan_Zone_16")? 16:
 						origin_txt.EndsWith("Japan_Zone_17")? 17:
 						origin_txt.EndsWith("Japan_Zone_18")? 18:
-						origin_txt.EndsWith("Japan_Zone_19")? 19: DefaultOrigin;
+						origin_txt.EndsWith("Japan_Zone_19")? 19: MapDataCfg.DefaultOrigin;
 
-					Convert_LgLt_XY.Origin = Convert_LgLt_XY.Origins[DefaultOrigin];
+					Convert_LgLt_XY.Origin = Convert_LgLt_XY.Origins[default_origin];
 
 					// ◆シェープファイルはXが東西のようだ。
-					var min_lglt = ToLgLt(new CCoord(shp_file.MinBound[1], shp_file.MinBound[0]), AGL);
-					var max_lglt = ToLgLt(new CCoord(shp_file.MaxBound[1], shp_file.MaxBound[0]), AGL);
+					var min_lglt = ToLgLt(new CCoord(shp_file.MinBound[1], shp_file.MinBound[0]), AE);
+					var max_lglt = ToLgLt(new CCoord(shp_file.MaxBound[1], shp_file.MaxBound[0]), AE);
 
-					StartLgLt_0 = new CLgLt(new CLg(min_lglt.Lg.DecimalDeg - LgLtMargin), new CLt(min_lglt.Lt.DecimalDeg - LgLtMargin), AGL);
-					EndLgLt_0   = new CLgLt(new CLg(max_lglt.Lg.DecimalDeg + LgLtMargin), new CLt(max_lglt.Lt.DecimalDeg + LgLtMargin), AGL);
+					StartLgLt_0 = new CLgLt(new CLg(min_lglt.Lg.DecimalDeg - LgLtMargin), new CLt(min_lglt.Lt.DecimalDeg - LgLtMargin));
+					EndLgLt_0   = new CLgLt(new CLg(max_lglt.Lg.DecimalDeg + LgLtMargin), new CLt(max_lglt.Lt.DecimalDeg + LgLtMargin));
 
 					break;
 				}
@@ -109,8 +109,8 @@ public partial class GeoViewerMainForm : Form
 					// 経緯度座標系
 					// ◆GEOGCSの有無で判断するのか？
 
-					StartLgLt_0 = new CLgLt(new CLg(shp_file.MinBound[0] - LgLtMargin), new CLt(shp_file.MinBound[1] - LgLtMargin), AGL);
-					EndLgLt_0   = new CLgLt(new CLg(shp_file.MaxBound[0] + LgLtMargin), new CLt(shp_file.MaxBound[1] + LgLtMargin), AGL);
+					StartLgLt_0 = new CLgLt(new CLg(shp_file.MinBound[0] - LgLtMargin), new CLt(shp_file.MinBound[1] - LgLtMargin));
+					EndLgLt_0   = new CLgLt(new CLg(shp_file.MaxBound[0] + LgLtMargin), new CLt(shp_file.MaxBound[1] + LgLtMargin));
 
 					break;
 				}
@@ -122,8 +122,8 @@ public partial class GeoViewerMainForm : Form
 		else
 		{
 			// ◆prjファイルが無かったら経緯度座標系とする。
-			StartLgLt_0 = new CLgLt(new CLg(shp_file.MinBound[0] - LgLtMargin), new CLt(shp_file.MinBound[1] - LgLtMargin), AGL);
-			EndLgLt_0   = new CLgLt(new CLg(shp_file.MaxBound[0] + LgLtMargin), new CLt(shp_file.MaxBound[1] + LgLtMargin), AGL);
+			StartLgLt_0 = new CLgLt(new CLg(shp_file.MinBound[0] - LgLtMargin), new CLt(shp_file.MinBound[1] - LgLtMargin));
+			EndLgLt_0   = new CLgLt(new CLg(shp_file.MaxBound[0] + LgLtMargin), new CLt(shp_file.MaxBound[1] + LgLtMargin));
 		}
 
 		//--------------------------------------------------
@@ -314,8 +314,8 @@ public partial class GeoViewerMainForm : Form
 
 						// ◆オーバレイの範囲は南北逆転
 						var ol = ((CGeoViewer_WP)Viewer).MakeOverlay
-							(ToWPInt(MeshZoomLevel, new CLgLt(ol_s_lg, ol_e_lt, AGL)),
-							 ToWPInt(MeshZoomLevel, new CLgLt(ol_e_lg, ol_s_lt, AGL)),
+							(ToWPInt(MeshZoomLevel, new CLgLt(ol_s_lg, ol_e_lt)),
+							 ToWPInt(MeshZoomLevel, new CLgLt(ol_e_lg, ol_s_lt)),
 							 ol_w, ol_h);
 
 						foreach(var pt in entity.Parts)

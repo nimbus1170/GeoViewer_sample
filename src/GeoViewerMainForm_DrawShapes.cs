@@ -183,14 +183,14 @@ public partial class GeoViewerMainForm : Form
 
 		foreach(var gnd_node in gnd_nodes)
 		{
-			var gnd_node_alt_AE = gnd_node.Value.AltitudeAE();
+			var gnd_node_alt_AE = gnd_node.Value.AltitudeAE;
 
 			var los_node_p = new CCoord
 				(op_p.X + dx_op_obj * gnd_node.Key,
 				 op_p.Y + dy_op_obj * gnd_node.Key,
 				 op_p.Z + dz_op_obj * gnd_node.Key);
 
-			var los_node_alt_AE = ToLgLt(los_node_p).AltitudeAE();
+			var los_node_alt_AE = ToLgLt(los_node_p).AltitudeAE;
 
 			var sticker_node = new CLgLt(gnd_node.Value).SetAltitude(AGL, 50.0);
 

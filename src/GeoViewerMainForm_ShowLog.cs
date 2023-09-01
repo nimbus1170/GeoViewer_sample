@@ -27,8 +27,8 @@ public partial class GeoViewerMainForm : Form
 		// プレーンサイズを計算する。
 
 		var lglt_00 = StartLgLt;
-		var lglt_10 = new CLgLt(EndLgLt  .Lg, StartLgLt.Lt, AGL);
-		var lglt_01 = new CLgLt(StartLgLt.Lg, EndLgLt  .Lt, AGL);
+		var lglt_10 = new CLgLt(EndLgLt  .Lg, StartLgLt.Lt);
+		var lglt_01 = new CLgLt(StartLgLt.Lg, EndLgLt  .Lt);
 
 		var coord_00 = ToGeoCentricCoord(lglt_00);
 		var coord_10 = ToGeoCentricCoord(lglt_10);

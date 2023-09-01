@@ -223,7 +223,7 @@ public partial class GeoViewerMainForm : Form
 			// ◆例外ではなくジオイドを無視するようにしろ。
 		//	if(!(File.Exists(gsi_geoid_model_file))) throw new Exception("geoid model file not found");
 
-			var geoid_map_data = new CGSIGeoidMapData(GSIGeoidModelFile);
+			var geoid_map_data = new CGSIGeoidMapData(MapDataCfg.GSIGeoidModelFile);
 //			var geoid_map_data = new CGeoidMapData_Dummy(30);
 
 			// 高度クラスにジオイドデータを設定することにより、座標オブジェクトにジオイド高が自動設定される。

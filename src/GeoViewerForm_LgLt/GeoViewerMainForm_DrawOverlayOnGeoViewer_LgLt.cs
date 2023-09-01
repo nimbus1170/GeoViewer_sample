@@ -65,8 +65,8 @@ public partial class GeoViewerMainForm : Form
 
 			// ‰Â–çŽR
 			var (ol_s_lglt, ol_e_lglt) = ExtendToMeshSize
-				(new CLgLt(new CLg(new CDMS(130,  9, 0.0).DecimalDeg), new CLt(new CDMS(33, 34, 0.0).DecimalDeg), AGL),
-				 new CLgLt(new CLg(new CDMS(130, 10, 0.0).DecimalDeg), new CLt(new CDMS(33, 35, 0.0).DecimalDeg), AGL),
+				(new CLgLt(new CLg(new CDMS(130,  9, 0.0).DecimalDeg), new CLt(new CDMS(33, 34, 0.0).DecimalDeg)),
+				 new CLgLt(new CLg(new CDMS(130, 10, 0.0).DecimalDeg), new CLt(new CDMS(33, 35, 0.0).DecimalDeg)),
 				 MeshSize);
 
 			var ol = viewer.MakeOverlay(ol_s_lglt, ol_e_lglt, ol_w, ol_h);

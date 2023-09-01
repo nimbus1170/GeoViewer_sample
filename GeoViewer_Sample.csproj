@@ -57,6 +57,9 @@
     <Reference Include="DSF_NET_LAS">
       <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_LAS.dll</HintPath>
     </Reference>
+    <Reference Include="DSF_NET_MapDataCfg">
+      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_MapDataCfg.dll</HintPath>
+    </Reference>
     <Reference Include="DSF_NET_MapGrid">
       <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_MapGrid.dll</HintPath>
       <Private>True</Private>
