@@ -17,7 +17,7 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
-	// ◆ローカルで良いものも多いが、現状でLgLt、WP及びTileにわかれているので、共通部分を別にまとめておく。
+	// ◆ローカルで良いものも多いが、現状でLgLt、WP及びTileに分かれているので、共通部分を別にまとめておく。
 
 	// ◆関係フォームの依存関係(作成順)のためコンストラクタで指定できないのでreadonlyやprivateにできない。
 	public CGeoViewer Viewer = null;
