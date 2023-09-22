@@ -7,6 +7,7 @@
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
+using DSF_NET_Scene;
 
 using System.Xml;
 
@@ -22,19 +23,22 @@ public partial class GeoViewerMainForm : Form
 	//--------------------------------------------------
 	// 地図データフォルダ等設定
 
-	CMapDataCfg MapDataCfg;
+	CMapDataCfg MapDataCfg = new ();
+
+	//--------------------------------------------------
+
+	CShapeCfg ShapeCfg = new ();
 
 	//--------------------------------------------------
 	// 個別設定
 
-	double LgLtMargin;
-	bool   ToCheckDataOnly = false;
-	
 	bool ToShowDebugInfo;
 
 	string PlaneMode;
 
 	string Title;
+
+	double LgLtMargin = 0.001;
 
 	int MeshZoomLevel;
 	int ImageZoomLevel;
@@ -42,8 +46,6 @@ public partial class GeoViewerMainForm : Form
 	int MeshSize;
 
 	double NearPlane;
-
-	int PointSize;
 
 	CLgLt StartLgLt_0;
 	CLgLt EndLgLt_0;
@@ -55,6 +57,8 @@ public partial class GeoViewerMainForm : Form
 	XmlNode GridOverlayCfg = null;
 	
 	string DrawingFileName;
+
+	string LASFname = "";
 
 	//---------------------------------------------------------------------------
 
@@ -69,34 +73,23 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 
-		var geoviewer_cfg = cfg_doc.SelectSingleNode("GeoViewerCfg")?? throw new Exception("tag GeoViewerCfg not found (" + cfg_fname + ")");
+		var geoviewer_cfg = cfg_doc.SelectSingleNode("CfgRoot")?? throw new Exception("CfgRoot not found (" + cfg_fname + ")");
 
 		//--------------------------------------------------
 		// 共通設定
 
-		MapDataCfg = new CMapDataCfg(cfg_fname);
+		MapDataCfg.ReadFromFile(cfg_fname);
 
 		//--------------------------------------------------
 		// 図形設定
 
-		var shape_cfg = geoviewer_cfg.SelectSingleNode("ShapeCfg");
+		ShapeCfg.ReadFromFile(cfg_fname);
 
-		if(shape_cfg != null)
-		{
-			LgLtMargin = ToDouble(shape_cfg.Attributes["Margin"].InnerText);
-
-			MeshZoomLevel  = ToInt32(shape_cfg.Attributes["MeshZoomLevel" ].InnerText);
-			ImageZoomLevel = ToInt32(shape_cfg.Attributes["ImageZoomLevel"].InnerText);
-
-			NearPlane = ToDouble(shape_cfg.Attributes["NearPlane"].InnerText);
-
-			PointSize = ToInt32(shape_cfg.Attributes["PointSize"].InnerText);
-
-			ToCheckDataOnly	= (shape_cfg.Attributes["ToCheckDataOnly"]?.InnerText == "true")? true: false;
-
-			ToDrawShapeAsTIN   = (shape_cfg.Attributes["ToDrawShapeAsTIN"  ]?.InnerText == "true")? true: false;
-			ToDrawShapeAsLayer = (shape_cfg.Attributes["ToDrawShapeAsLayer"]?.InnerText == "true")? true: false;
-		}
+		// ◆MapCfgでも設定しているが、こちらのを使うこともある？
+		LgLtMargin	   = ShapeCfg.LgLtMargin;
+		MeshZoomLevel  = ShapeCfg.MeshZoomLevel;
+		ImageZoomLevel = ShapeCfg.ImageZoomLevel;
+		NearPlane	   = ShapeCfg.NearPlane;
 		
 		//--------------------------------------------------
 		// グリッド設定
@@ -106,7 +99,7 @@ public partial class GeoViewerMainForm : Form
 		if(grid_cfg != null)
 		{
 			ToDrawGrid = true;		
-			GridFontSize = ToInt32(grid_cfg.Attributes["FontSize"].InnerText);
+			GridFontSize = ToInt32(grid_cfg.Attributes["FontSize"].Value);
 			GridOverlayCfg = grid_cfg.SelectSingleNode("GridOverlay");
 		}
 		
@@ -119,7 +112,7 @@ public partial class GeoViewerMainForm : Form
 		var plane_mode_cfg = geoviewer_cfg.SelectSingleNode("PlaneMode");
 
 		if(plane_mode_cfg != null)
-			PlaneMode = plane_mode_cfg.Attributes["Mode"].InnerText;
+			PlaneMode = plane_mode_cfg.Attributes["Mode"].Value;
 
 		//--------------------------------------------------
 		// ファイル選択モード
@@ -167,7 +160,7 @@ public partial class GeoViewerMainForm : Form
 
 StopWatch.Lap("before ReadLASFromFiles");
 MemWatch .Lap("before ReadLASFromFiles");
-					(LASzipData, ReadLASMsg) = ReadLASFromFile(fname);
+					LAS = ReadLASFromLASFile(fname);
 StopWatch.Lap("after  ReadLASFromFile");
 MemWatch .Lap("after  ReadLASFromFile");
 
@@ -199,23 +192,23 @@ MemWatch .Lap("after  ReadShapefileFromFile");
 			// ◆ファイル選択モードもあるので、定義されていなくても間違いではない？
 			if(map_cfg != null)
 			{
-				Title =	map_cfg.Attributes["Title"].InnerText;
+				Title =	map_cfg.Attributes["Title"].Value;
 
-				MeshSize = ToInt32(map_cfg.Attributes["MeshSize"].InnerText);
+				MeshSize = ToInt32(map_cfg.Attributes["MeshSize"].Value);
 
-				MeshZoomLevel  = ToInt32(map_cfg.Attributes["MeshZoomLevel" ].InnerText);
-				ImageZoomLevel = ToInt32(map_cfg.Attributes["ImageZoomLevel"].InnerText);
+				MeshZoomLevel  = ToInt32(map_cfg.Attributes["MeshZoomLevel" ].Value);
+				ImageZoomLevel = ToInt32(map_cfg.Attributes["ImageZoomLevel"].Value);
 
 				if(PlaneMode == "Tile") ImageZoomLevel = MeshZoomLevel;
 
-				NearPlane = ToDouble(map_cfg.Attributes["NearPlane"].InnerText);
+				NearPlane = ToDouble(map_cfg.Attributes["NearPlane"].Value);
 
 				// クランプ前の開始・終了経緯度座標
 				// ◆プレーンをWP単位にクランプするので、クランプ前のものを使用しないようにする。
 				StartLgLt_0	= ReadLgLt(map_cfg.SelectSingleNode("Start"));
 				EndLgLt_0	= ReadLgLt(map_cfg.SelectSingleNode("End"  ));
 
-				DrawingFileName = map_cfg.SelectSingleNode("Drawings")?.Attributes["File"]?.InnerText;
+				DrawingFileName = map_cfg.SelectSingleNode("Drawings")?.Attributes["File"]?.Value;
 			}
 		}
 	}

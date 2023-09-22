@@ -19,12 +19,10 @@ namespace GeoViewer_sample
 //---------------------------------------------------------------------------
 public partial class GeoViewerMainForm : Form
 {
+	//-----------------------------------------------------------------------
 	// 点群
+
 	CLAS LAS = null;
-
-	CLASzip LASzipData = null;
-
-	string ReadLASMsg = "";
 
 	//-----------------------------------------------------------------------
 
@@ -48,20 +46,20 @@ MemWatch .Lap("before ReadLASFromFiles");
 		{
 			DialogTextBox.AppendText($"loading {las_fname}\r\n");
 
-			var (laszip_data, read_las_msg) = ReadLASFromFile(las_fname);
+			var las = ReadLASFromLASFile(las_fname);
 
 StopWatch.Lap("after  ReadLASFromFile");
 MemWatch .Lap("after  ReadLASFromFile");
 
-			if(laszip_data != null)
+			if(las.LASzip != null)
 			{
-				DrawLAS("las" + (++ShapesN), laszip_data);
+				DrawLAS("las" + (++ShapesN), las.LASzip);
 
-				ShowLASLog("las" + ShapesN, laszip_data, read_las_msg);
+				ShowLASLog("las" + ShapesN, las.LASzip,"");
 				DialogTextBox.AppendText("\r\n");
 			}
 			else
-				DialogTextBox.AppendText($"reading LAS error : {read_las_msg}\r\n");
+				DialogTextBox.AppendText($"reading LAS error : {""}\r\n"); // ◆エラーではなく例外を出している。
 		}
 StopWatch.Stop();
 MemWatch .Stop();
@@ -76,11 +74,10 @@ MemWatch .Stop();
 
 	//-----------------------------------------------------------------------
 
-	(CLASzip laszip_data, string msg) ReadLASFromFile(in string las_fname)
+	CLAS ReadLASFromLASFile(in string las_fname)
 	{
-		LAS = new CLAS(las_fname);
+		LAS = new CLAS().ReadFromLASFile(las_fname);
 
-		var laszip_data	  = LAS.LASzip;
 		var laszip_header = LAS.LASzip.Header;
 
 		if(LAS.LASType == DLASType.LAS_LgLt)
@@ -104,7 +101,37 @@ MemWatch .Stop();
 			EndLgLt_0   = new CLgLt(new CLg(max_lglt.Lg.DecimalDeg + LgLtMargin), new CLt(max_lglt.Lt.DecimalDeg + LgLtMargin));
 		}
 
-		return (laszip_data, "");
+		return LAS;
+	}
+
+	CLAS ReadLASFromCfgFile(in string cfg_fname)
+	{
+		LAS = new CLAS().ReadFromCfgFile(cfg_fname);
+
+		var laszip_header = LAS.LASzip.Header;
+
+		if(LAS.LASType == DLASType.LAS_LgLt)
+		{
+			// 経緯度
+
+			StartLgLt_0 = new CLgLt(new CLg(laszip_header.min_x - LgLtMargin), new CLt(laszip_header.min_y - LgLtMargin));
+			EndLgLt_0   = new CLgLt(new CLg(laszip_header.max_x + LgLtMargin), new CLt(laszip_header.max_y + LgLtMargin));
+		}
+		else
+		{
+			// 平面直角座標
+
+			Convert_LgLt_XY.Origin =  LAS.XYOrigin;
+
+			// ◆LASデータはXが東西のようだ。
+			var min_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(laszip_header.min_y, laszip_header.min_x), AGL);
+			var max_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(laszip_header.max_y, laszip_header.max_x), AGL);
+
+			StartLgLt_0 = new CLgLt(new CLg(min_lglt.Lg.DecimalDeg - LgLtMargin), new CLt(min_lglt.Lt.DecimalDeg - LgLtMargin));
+			EndLgLt_0   = new CLgLt(new CLg(max_lglt.Lg.DecimalDeg + LgLtMargin), new CLt(max_lglt.Lt.DecimalDeg + LgLtMargin));
+		}
+
+		return LAS;
 	}
 
 	//-----------------------------------------------------------------------
@@ -112,7 +139,8 @@ MemWatch .Stop();
 	[SupportedOSPlatform("windows")]
 	void DrawLAS(in string name, in CLASzip laszip_data)
 	{
-		if(ToCheckDataOnly) return;
+		// ◆ShapeCfg？
+		if(ShapeCfg.ToCheckDataOnly) return;
 
 		var laszip_header = laszip_data.Header;
 
@@ -164,7 +192,7 @@ MemWatch .Stop();
 
 				//--------------------------------------------------
 
-				var dst_pts = new CGeoPoints(PointSize);
+				var dst_pts = new CGeoPoints((float)ShapeCfg.PointSize);
 
 				var pt_lglt = new CLgLt();
 
@@ -213,7 +241,7 @@ MemWatch .Stop();
 			else
 				// DLL内で各点を作成する。
 				// C#で処理はできないが高速
-				Viewer.AddShape(name, laszip_data.MakeGeoPointsBL(PointSize));
+				Viewer.AddShape(name, laszip_data.MakeGeoPointsBL((float)ShapeCfg.PointSize));
 		}
 		else
 		{
@@ -246,7 +274,7 @@ MemWatch .Stop();
 
 				//--------------------------------------------------
 
-				var dst_pts = new CGeoPoints(PointSize);
+				var dst_pts = new CGeoPoints((float)ShapeCfg.PointSize);
 
 				var pt_xy = new CCoord();
 
@@ -304,7 +332,7 @@ MemWatch .Stop();
 			else
 				// DLL内で各点を作成する。
 				// C#で処理はできないが高速
-				Viewer.AddShape(name, laszip_data.MakeGeoPointsXY(PointSize));
+				Viewer.AddShape(name, laszip_data.MakeGeoPointsXY((float)ShapeCfg.PointSize));
 		}
 
 StopWatch.Lap("after  MakeLASPoints");
@@ -321,29 +349,7 @@ MemWatch .Lap("after  DrawScene");
 	[SupportedOSPlatform("windows")]
 	private void ShowLASLog(in string las_name, in CLASzip laszip_data, in string msg)
 	{
-		var laszip_header = laszip_data.Header;
-
-		DialogTextBox.AppendText($"[{las_name}]\r\n");
-		DialogTextBox.AppendText($"        バージョン : {laszip_header.version_major}.{laszip_header.version_minor}\r\n");
-		DialogTextBox.AppendText($"      フォーマット : {laszip_header.point_data_format}\r\n");
-		DialogTextBox.AppendText($"        ポイント数 : {(int)laszip_header.number_of_point_records:#,0}\r\n");
-
-		var laszip_points = laszip_data.Points;
-
-		var has_intensity = false;
-		var has_color = false;
-		var has_class = false;
-			
-		foreach(var pt in laszip_points)
-		{
-			if(!(has_intensity) && ( pt.intensity != 0)						  ) has_intensity = true;
-			if(!(has_color    ) && ((pt.r != 0) || (pt.g != 0) || (pt.b != 0))) has_color	  = true;　// ◆実際は32767を入れている。
-			if(!(has_class	  ) && ( pt.classification != 0)				  ) has_class	  = true;
-		}
-
-		DialogTextBox.AppendText($"  輝度付きポイント : {(has_intensity? "あり":"なし")}\r\n");
-		DialogTextBox.AppendText($"    色付きポイント : {(has_color?	 "あり":"なし")}\r\n");
-		DialogTextBox.AppendText($"クラス付きポイント : {(has_class?	 "あり":"なし")}\r\n");
+		DialogTextBox.AppendText(LAS.Log);
 
 		if(!string.IsNullOrEmpty(msg)) DialogTextBox.AppendText(msg);
 

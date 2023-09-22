@@ -27,7 +27,7 @@ public partial class GeoViewerMainForm : Form
 		// ローカルな設定をファイルから読み込む。
 		// ◆最初に読み込みを試行し、原点定義等が存在していればそれでDefaultOrigin等を上書きする。
 
-		var local_cfg_fname = Path.GetDirectoryName(geojson_fname) + "\\GeoViewerCfg.local.xml";
+		var local_cfg_fname = Path.GetDirectoryName(geojson_fname) + "\\default.cfg.xml";
 
 		if(File.Exists(local_cfg_fname)) ReadCfgFromFile(local_cfg_fname);
 
@@ -102,7 +102,7 @@ public partial class GeoViewerMainForm : Form
 													{ 
 														/* "coordinates": [30, 10] */
 
-														var pts = new CGeoPoints(PointSize);
+														var pts = new CGeoPoints((float)ShapeCfg.PointSize);
 
 														var pt_lglt = new CLgLt();
 

@@ -28,9 +28,6 @@ public partial class GeoViewerMainForm : Form
 
 	string ReadShapefileMsg = "";
 
-	bool ToDrawShapeAsTIN	= false;
-	bool ToDrawShapeAsLayer	= false;
-
 	//-----------------------------------------------------------------------
 
 	(CShapeFile shp_file, string msg) ReadShapefileFromFile(in string shp_fname)
@@ -38,7 +35,7 @@ public partial class GeoViewerMainForm : Form
 		// ローカルな設定をファイルから読み込む。
 		// ◆最初に読み込みを試行し、原点定義等が存在していればそれでDefaultOrigin等を上書きする。
 
-		var local_cfg_fname = Path.GetDirectoryName(shp_fname) + "\\GeoViewerCfg.local.xml";
+		var local_cfg_fname = Path.GetDirectoryName(shp_fname) + "\\default.cfg.xml";
 
 		if(File.Exists(local_cfg_fname)) ReadCfgFromFile(local_cfg_fname);
 
@@ -136,7 +133,7 @@ public partial class GeoViewerMainForm : Form
 	[SupportedOSPlatform("windows")]
 	void DrawShapefile(in string name, in CShapeFile shp_file)
 	{
-		if(ToCheckDataOnly) return;
+		if(ShapeCfg.ToCheckDataOnly) return;
 
 		switch(shp_file.ShapeType)
 		{
@@ -144,7 +141,7 @@ public partial class GeoViewerMainForm : Form
 
 			case "Point":
 			{
-				var dst_pts = new CGeoPoints(PointSize);
+				var dst_pts = new CGeoPoints((float)ShapeCfg.PointSize);
 
 				var pt_lglt = new CLgLt();
 
@@ -204,7 +201,7 @@ public partial class GeoViewerMainForm : Form
 
 			case "Polygon":
 			{
-				if(ToDrawShapeAsTIN)
+				if(ShapeCfg.ToDrawShapeAsTIN)
 				{
 					// 三角形分割する。
 					// ◆このポリゴンは地表面に沿っていない。テクスチャの方なら沿ってはいるが…。
@@ -257,7 +254,7 @@ public partial class GeoViewerMainForm : Form
 						}
 					}
 				}
-				else if(ToDrawShapeAsLayer)
+				else if(ShapeCfg.ToDrawShapeAsLayer)
 				{
 					// テクスチャで貼りつける。
 

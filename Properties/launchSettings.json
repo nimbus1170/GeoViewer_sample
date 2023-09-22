@@ -2,6 +2,7 @@
   "profiles": {
     "GeoViewer_Sample": {
       "commandName": "Project",
+      "commandLineArgs": "01_Default.lascfg.xml",
       "nativeDebugging": true
     }
   }

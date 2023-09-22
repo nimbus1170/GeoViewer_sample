@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="yes"?>
+
+<CfgRoot>
+
+	<!-- 01 Default.las -->
+	<!-- 熊本県・大分県あたり -->
+
+	<!-- DefaultOrigin : 座標系原点番号(1～19) -->
+	<XYCfg
+		DefaultOrigin="2"/>
+
+	<LASCfg
+		LASFile="C:\DSF\dev\data\LAS\森林LAS\01 Default.las"
+		_ReadRangeByRate="x:0.1-0.2 y:0.3-0.4"
+		AltitudeBasis="AMSL"/>
+
+	<ShapeCfg
+		Margin="0.005"
+		MeshZoomLevel="14"
+		ImageZoomLevel="18"
+		NearPlane="10"
+		PointSize="10"
+		_ToCheckDataOnly="true"
+		_ToDrawShapeAsTIN="true"
+		_ToDrawShapeAsLayer="true"/>
+
+</CfgRoot>

@@ -82,41 +82,59 @@ public partial class GeoViewerMainForm : Form
 
 			// argsがここで渡されるので、これらの処理はForm_Loadではなくここで実施する。
 
+			// ◆フォルダ等の設定があるのでまず読んで、その後で個別の設定ファイルで必要個所を書き換える。
+			// ◆srgsにはアプリ名が含まれていない。
+			var app_name = Path.GetFileNameWithoutExtension(Environment.GetCommandLineArgs()[0]);
+
+			ReadCfgFromFile($"{app_name}.cfg.xml");
+
 			switch(args.Length)
 			{ 
-				case 0:
-					ReadCfgFromFile("GeoViewerCfg.xml");
+				case 0: // デフォルト設定ファイルを読む。
 					break;
 
-				case 1:
+				case 1: // 個別の設定ファイルを読む。
+
 					// ◆ファイル名とみなす。
 					var fname = args[0];
 
-					switch(Path.GetExtension(fname))
+					if(fname.EndsWith(".las.cfg.xml"))
+					{
+						LAS = ReadLASFromCfgFile(fname);
+						Title = LAS.LASFile;
+						break;
+					}
+
+					if(fname.EndsWith(".cfg.xml"))
+					{
+						ReadCfgFromFile(fname);
+						break;
+					}
+
+/*					switch(Path.GetExtension(fname))
 					{
 						case ".xml":
 							ReadCfgFromFile(fname);
+							ReadLASFromCfgFile(fname); // ◆LASファイルは設定ファイルに書いても良いか？
 							break;
 
-/*						case ".las":
-							// ◆他フォルダのlasファイルをドラッグ・ドロップするとカレントディレクトリがそこに移ってしまうので、GeoViewerCfg.xmlやgsiフォルダが読めない。バッチファイルとかでもできない。
-							ReadCfgFromFile("GeoViewerCfg.xml");
+						case ".las":
+							// ◆他フォルダのlasファイルをドラッグ・ドロップするとカレントディレクトリがそこに移ってしまうので、default.cfg.xmlやgsiフォルダが読めない。バッチファイルとかでもできない。
+							ReadCfgFromFile("default.cfg.xml");
 							ReadLASFromFile(fname);
 							break;
-*/
+
 						default:
 							throw new Exception("unknown file ext (" + fname +")");
 					}
-
+*/
 					break;
 
-				case 2:
+				case 2: // ◆DKROBOに渡す用
 
 					switch(args[0])
 					{
 						case "-cfgparam":
-							// ◆フォルダ等の設定があるので一旦読み込んで必要個所を書き換える。
-							ReadCfgFromFile("GeoViewerCfg.xml");
 							ReadCfgFromParam(args[1]);
 							break;
 
@@ -318,10 +336,10 @@ MemWatch.Lap("after  CreateGeoViewer");
 			//--------------------------------------------------
 			// 12 点群を表示する。
 
-			if(LASzipData != null)
+			if(LAS != null)
 			{
 MemWatch.Lap("before DrawLAS");
-				DrawLAS("las" + (++ShapesN), LASzipData);
+				DrawLAS("las" + (++ShapesN), LAS.LASzip);
 MemWatch.Lap("after  DrawLASr");
 			}
 

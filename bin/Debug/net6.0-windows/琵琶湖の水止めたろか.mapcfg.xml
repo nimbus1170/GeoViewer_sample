@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" standalone="yes"?>
 
-<GeoViewerCfg>
+<CfgRoot>
 
 	<!-- MapCfg : 表示範囲 -->
 
@@ -21,12 +21,12 @@
 
 	<MapCfg
 		Title="琵琶湖の水止めたろか"
-		PolygonZoomLevel="11"
+		MeshZoomLevel="11"
 		ImageZoomLevel="15"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="1000"> <!-- ◆NearPlaneを大きくすると水面のまだらが軽減される。 -->
 		<Start Lg="135 50 00.0" Lt="34 57 00.0"/>
 		<End   Lg="135 60 00.0" Lt="35 04 00.0"/>
 	</MapCfg>
 
-</GeoViewerCfg>
+</CfgRoot>

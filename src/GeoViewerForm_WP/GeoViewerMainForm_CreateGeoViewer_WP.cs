@@ -4,10 +4,12 @@
 //
 //---------------------------------------------------------------------------
 using DSF_NET_Geography;
+using DSF_NET_Geometry;
 using DSF_NET_Scene;
 
 using static DSF_NET_Geography.Convert_LgLt_WP;
 using static DSF_NET_Geography.Convert_LgLt_WPInt;
+using static DSF_NET_Geography.Convert_LgLt_XY;
 using static DSF_NET_Geography.Convert_WP_Tile;
 using static DSF_NET_Geography.DAltitudeBase;
 
@@ -105,6 +107,39 @@ public partial class GeoViewerMainForm : Form
 			 "view_tri_mesh",
 			 scene_cfg,
 			 controller_parts);
+
+		//--------------------------------------------------
+		// 5.1 樹高が対地高度なので標高を加える。
+		// ◆標高データの作成後に処理する。
+		// ◆ここにあるべきではないが取り敢えず。
+
+		if((!ShapeCfg.ToCheckDataOnly) && (LAS?.AltitudeBasis == "AGL"))
+		{
+			var x_offset = LAS.LASzip.Header.x_offset;
+			var y_offset = LAS.LASzip.Header.y_offset;
+			var z_offset = LAS.LASzip.Header.z_offset;
+
+			var x_scale_factor = LAS.LASzip.Header.x_scale_factor;
+			var y_scale_factor = LAS.LASzip.Header.y_scale_factor;
+			var z_scale_factor = LAS.LASzip.Header.z_scale_factor;
+
+			var pt_xy = new CCoord();
+
+			foreach(var pt in LAS.LASzip.Points)
+			{
+				pt_xy.Set
+					(pt.x * x_scale_factor + x_offset,
+					 pt.y * y_scale_factor + y_offset,
+					 0.0);
+
+				// ◆「森林LAS\PointCloud.las」のZ値が不明で、そのままだと地中深く埋もれてしまう。
+				// 　min_zとz_offsetがほぼ同じで88mなので、（対地高度として、）Z値からz_offsetを減じ忘れている？
+				// 　取り敢えず、z_offsetを減じてみる。
+				// 　ちなみにこの辺の標高は約900m
+				// →◆そもそも画像が合わない。
+				pt.z += (int)((ToLgLt(pt_xy, AGL).AltitudeAMSL - z_offset) / z_scale_factor);
+			}
+		}
 
 		//--------------------------------------------------
 		// 6 シーンを描画する。

@@ -91,7 +91,7 @@ public partial class GeoViewerMainForm : Form
 
 		//--------------------------------------------------
 		
-		if(LASzipData != null) ShowLASLog("las" + ShapesN, LASzipData, ReadLASMsg);
+		if(LAS != null) ShowLASLog("las" + ShapesN, LAS.LASzip, ""); // ◆エラーが出たら例外を出している。
 
 		// ◆なぜかプロンプトを受け付けなくなったが、表示量を削減したら大丈夫だった。単に表示量が多いから？
 		if(ShapeFile != null) ShowShapefileLog("shp" + ShapesN, ShapeFile, ReadShapefileMsg);

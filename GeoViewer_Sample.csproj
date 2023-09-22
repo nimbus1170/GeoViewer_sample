@@ -70,6 +70,9 @@
     <Reference Include="DSF_NET_Scene">
       <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_Scene.dll</HintPath>
     </Reference>
+    <Reference Include="DSF_NET_ShapeCfg">
+      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_ShapeCfg.dll</HintPath>
+    </Reference>
     <Reference Include="DSF_NET_TacticalDrawing">
       <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_TacticalDrawing.dll</HintPath>
     </Reference>
@@ -90,7 +93,7 @@
     <Compile Include="..\..\..\..\src\cs\DSF\Geography\WKT.cs" Link="src\DSF\Geography\WKT.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\net6.0-windows\GeoViewerCfg.xml" />
+    <Content Include="bin\Debug\net6.0-windows\GeoViewer_Sample.cfg.xml" />
     <Content Include="bin\Debug\net6.0-windows\MapDrawing_test_1.xml" />
   </ItemGroup>
   <ItemGroup>

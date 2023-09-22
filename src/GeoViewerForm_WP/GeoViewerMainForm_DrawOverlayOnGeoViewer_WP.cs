@@ -39,7 +39,7 @@ public partial class GeoViewerMainForm : Form
 		if(ToDrawGrid && (GridOverlayCfg != null))
 		{
 			// オーバレイのサイズの基準(小さい辺をこのサイズにする。)
-			var ol_size = ToInt32(GridOverlayCfg.Attributes["Size"].InnerText);
+			var ol_size = ToInt32(GridOverlayCfg.Attributes["Size"].Value);
 			int ol_w = (MapImage.Height > MapImage.Width )? ol_size: (ol_size * MapImage.Width  / MapImage.Height);
 			int ol_h = (MapImage.Width  > MapImage.Height)? ol_size: (ol_size * MapImage.Height / MapImage.Width ); 
 
@@ -50,7 +50,7 @@ public partial class GeoViewerMainForm : Form
 			DrawUTMGrid (grid_map_img, StartLgLt, EndLgLt, GridFontSize);
 
 			// 地表面からの高さ
-		 	var ol_offset = ToDouble(GridOverlayCfg.Attributes["Offset"].InnerText);
+		 	var ol_offset = ToDouble(GridOverlayCfg.Attributes["Offset"].Value);
 
 			// 地図画像データのズームレベルにするので新規インスタンスにする。
 			var img_s_wp = new CWPInt(StartWP, ImageZoomLevel);

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" standalone="yes"?>
 
-<GeoViewerCfg>
+<CfgRoot>
 
 	<!-- MapCfg : 表示範囲 -->
 
@@ -21,12 +21,12 @@
 
 	<MapCfg
 		Title="埼玉県"
-		PolygonZoomLevel="8"
+		MeshZoomLevel="8"
 		ImageZoomLevel="12"
-		PolygonSize="400"
+		MeshSize="400"
 		NearPlane="1000">
 		<Start Lg="138.7" Lt="35.7"/>
 		<End   Lg="140.0" Lt="36.3"/>
 	</MapCfg>
 
-</GeoViewerCfg>
+</CfgRoot>

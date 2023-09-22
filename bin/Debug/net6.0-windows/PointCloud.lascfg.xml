@@ -1,0 +1,34 @@
+<?xml version="1.0" standalone="yes"?>
+
+<CfgRoot>
+
+	<!-- PointCloud.las -->
+	<!-- 熊本県・大分県あたり -->
+
+	<!-- DefaultOrigin : 座標系原点番号(1～19) -->
+	<XYCfg
+		DefaultOrigin="2"/>
+
+	<!-- PointSize : 点の大きさ -->
+	<ShapeCfg
+		 PointSize="10"/>
+
+	<_LASCfg
+		ReadStart="1000000000"
+		ReadEnd  ="1000200000"
+		ReadStep="1"
+		AltitudeBasis="AGL"/>
+
+	<_LASCfg
+		AltitudeBasis="AGL"/>
+
+	<_LASCfg
+		LASFile="C:\DSF\dev\data\LAS\森林LAS\PointCloud.las"
+		ReadRangeByRate="x:0.2-0.22 y:0.2-0.22"
+		AltitudeBasis="AGL"/>
+
+	<LASCfg
+		LASFile="C:\DSF\dev\data\LAS\森林LAS\01 Default.las"
+		_ReadRangeByRate="x:0.0-0.5 y:0.0-0.5"/>
+
+</CfgRoot>
