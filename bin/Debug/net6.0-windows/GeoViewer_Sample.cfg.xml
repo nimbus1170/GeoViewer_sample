@@ -5,7 +5,7 @@
 	<!-- 地域、点群又は図形をダイアログから選択する。(ファイル選択モード) -->
 	<!-- いずれも定義されていなければ、本設定ファイル内の地域設定を読み込む。-->
 	<_ToSelectMapCfgFile/>
-	<ToSelectLASFile/>
+	<_ToSelectLASFile/>
 	<_ToSelectShapeFile/>
 
 	<!-- DefaultOrigin : LASデータ等に座標系原点に関する情報が含まれていない場合の座標系原点(系番号) -->
