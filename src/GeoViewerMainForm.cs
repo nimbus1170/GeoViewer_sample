@@ -269,6 +269,7 @@ public partial class GeoViewerMainForm : Form
 									   throw new Exception("unknown plane mode");
 
 			// ●https://maps.gsi.go.jp/development/ichiran.html
+			// ◆地図データの名前等は地図データ内に保持するべき。
 			viewer_form.MapSrcLabel.Text = 
 				"国土地理院 " +
 					((ImageZoomLevel <=  4)? "-": // 地図画像
@@ -281,8 +282,8 @@ public partial class GeoViewerMainForm : Form
 					 (ImageZoomLevel <= 13)? "全国ランドサットモザイク画像":
 					 (ImageZoomLevel <= 18)? "全国最新写真":
 											 "-") + $"(ZL{ImageZoomLevel})・" +
-				"標高タイル(DEM10B-PNG形式)(ZL14)・" + // ◆標高タイルはZL14であり、メッシュサイズではない。
-				"日本のジオイド2011(Ver.2.1)";
+				"標高タイル(DEM10B-PNG)(ZL14)・" + // ◆標高タイルはZL14であり、メッシュサイズではない。
+				geoid_map_data.Name + "(" + geoid_map_data.Version + ")";
 
 			//--------------------------------------------------
 			// 7 ビューアを作成する。

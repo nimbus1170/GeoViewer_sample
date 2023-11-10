@@ -11,6 +11,7 @@
 	<!-- DefaultOrigin : LASデータ等に座標系原点に関する情報が含まれていない場合の座標系原点(系番号) -->
 	<XYCfg
 		DefaultOrigin="2"/>
+		_DefaultOrigin="8"/>
 
 	<!-- LAS設定 -->
 	<!-- LASFile       : 点群データファイル (これが定義されていれば読み込み・表示する。絶対パス。) ←◆個別設定ファイルの方に書く。-->
@@ -93,7 +94,7 @@
 		<End   Lg="139.94" Lt="35.68"/>
 	</_MapCfg>
 
-	<MapCfg
+	<_MapCfg
 		Title="糸島半島"
 		MeshZoomLevel="11"
 		ImageZoomLevel="15"
@@ -105,7 +106,7 @@
 		<!-- フォルダ内のすべてのファイルを描画する方法 -->
 		<!-- ◆保留 -->
 		<_Drawings Folder="C:/DSF/SharedData/MapView/MapDrawing"/>
-	</MapCfg>
+	</_MapCfg>
 
 	<_MapCfg
 		Title="糸島半島～佐賀平野"
@@ -148,7 +149,7 @@
 		<End   Lg="130.18" Lt="33.58"/>
 	</_MapCfg>
 
-	<_MapCfg
+	<MapCfg
 		Title="志賀島"
 		MeshZoomLevel="14"
 		ImageZoomLevel="15"
@@ -156,7 +157,7 @@
 		NearPlane="100">
 		<Start Lg="130.281029" Lt="33.657748"/>
 		<End   Lg="130.317340" Lt="33.690176"/>
-	</_MapCfg>
+	</MapCfg>
 
 	<_MapCfg
 		Title="福岡市南区"
@@ -368,6 +369,7 @@
 		<MapData Folder="."/>
 
 		<!-- ◆gsiより下のフォルダは自動作成されるため、gsi以下のフォルダ名は変更しないこと。-->
+		<!-- ◆タグ名はGSI固有ということで良いか？ -->
 
 		<!-- 地図画像タイル -->
 		<_GSIImageTiles Folder="C:/DSF/MapData/gsi/std" Ext="png"/>
@@ -383,7 +385,10 @@
 
 		<!-- ジオイドモデル -->
 		<_GSIGeoidModel File="C:/DSF/MapData/gsi/gsigeo2011_ver2_1_asc/program/gsigeo2011_ver2_1.bin"/>
-		<GSIGeoidModel File="./gsi/gsigeo2011_ver2_1_asc/program/gsigeo2011_ver2_1.bin"/>
+		<_GSIGeoidModel File="./gsi/gsigeo2011_ver2_1_asc/program/gsigeo2011_ver2_1.asc"/>
+		<_GSIGeoidModel File="./gsi/gsigeo2011_ver2_1_asc/program/gsigeo2011_ver2_1.bin"/>
+		<_GSIGeoidModel File="./gsi/gsigeo2011_ver2_2_asc/program/gsigeo2011_ver2_2.asc"/>
+		<GSIGeoidModel File="./gsi/gsigeo2011_ver2_2_asc/program/gsigeo2011_ver2_2.bin"/>
 
 	</MapDataCfg>
 
