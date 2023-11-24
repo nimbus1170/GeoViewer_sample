@@ -15,7 +15,7 @@
           "DSF_NET_MapDataCfg": "1.0.0.0",
           "DSF_NET_MapGrid": "1.0.0.0",
           "DSF_NET_ProfilerLog": "1.0.0.0",
-          "DSF_NET_Scene": "1.0.8719.17005",
+          "DSF_NET_Scene": "1.0.8726.23511",
           "DSF_NET_ShapeCfg": "1.0.0.0",
           "DSF_NET_TacticalDrawing": "1.0.0.0"
         },
@@ -672,10 +672,10 @@
           }
         }
       },
-      "DSF_NET_Scene/1.0.8719.17005": {
+      "DSF_NET_Scene/1.0.8726.23511": {
         "runtime": {
           "DSF_NET_Scene.dll": {
-            "assemblyVersion": "1.0.8719.17005",
+            "assemblyVersion": "1.0.8726.23511",
             "fileVersion": "0.0.0.0"
           }
         }
@@ -1135,7 +1135,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "DSF_NET_Scene/1.0.8719.17005": {
+    "DSF_NET_Scene/1.0.8726.23511": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
