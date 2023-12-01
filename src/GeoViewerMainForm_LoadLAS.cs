@@ -29,7 +29,7 @@ public partial class GeoViewerMainForm : Form
 	[SupportedOSPlatform("windows")]
 	void LoadLAS()
 	{
-		OpenFileDialog of_dialog = new ()
+		var of_dialog = new OpenFileDialog()
 			{ Title  = "点群ファイルを開く",
 			  Filter = "点群ファイル(*.las;*.csv;*.txt)|*.las;*.csv;*.txt",
 			  Multiselect = true };

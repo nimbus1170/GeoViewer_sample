@@ -40,7 +40,7 @@
 		MeshZoomLevel="14"
 		ImageZoomLevel="18"
 		NearPlane="10"
-		PointSize="5"
+		PointSize="10"
 		_ToCheckDataOnly="true"
 		_ToDrawShapeAsTIN="true"
 		_ToDrawShapeAsLayer="true"/>
