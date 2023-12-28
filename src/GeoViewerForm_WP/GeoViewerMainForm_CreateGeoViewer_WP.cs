@@ -9,7 +9,7 @@ using DSF_NET_Scene;
 
 using static DSF_NET_Geography.Convert_LgLt_WP;
 using static DSF_NET_Geography.Convert_LgLt_WPInt;
-using static DSF_NET_Geography.Convert_LgLt_XY;
+using static DSF_NET_Geography.Convert_LgLt_JPXY;
 using static DSF_NET_Geography.Convert_WP_Tile;
 using static DSF_NET_Geography.DAltitudeBase;
 

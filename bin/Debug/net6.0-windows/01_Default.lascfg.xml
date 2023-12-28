@@ -6,7 +6,7 @@
 	<!-- 熊本県・大分県あたり -->
 
 	<!-- DefaultOrigin : 座標系原点番号(1～19) -->
-	<XYCfg
+	<JPXYCfg
 		DefaultOrigin="2"/>
 
 	<LASCfg

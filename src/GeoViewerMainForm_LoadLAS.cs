@@ -91,11 +91,11 @@ MemWatch .Stop();
 		{
 			// 平面直角座標
 
-			Convert_LgLt_XY.Origin =  LAS.XYOrigin;
+			Convert_LgLt_JPXY.Origin =  LAS.JPXYOrigin;
 
 			// ◆LASデータはXが東西のようだ。
-			var min_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(laszip_header.min_y, laszip_header.min_x), AGL);
-			var max_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(laszip_header.max_y, laszip_header.max_x), AGL);
+			var min_lglt = Convert_LgLt_JPXY.ToLgLt(new CCoord(laszip_header.min_y, laszip_header.min_x), AGL);
+			var max_lglt = Convert_LgLt_JPXY.ToLgLt(new CCoord(laszip_header.max_y, laszip_header.max_x), AGL);
 
 			StartLgLt_0 = new CLgLt(new CLg(min_lglt.Lg.DecimalDeg - LgLtMargin), new CLt(min_lglt.Lt.DecimalDeg - LgLtMargin));
 			EndLgLt_0   = new CLgLt(new CLg(max_lglt.Lg.DecimalDeg + LgLtMargin), new CLt(max_lglt.Lt.DecimalDeg + LgLtMargin));
@@ -121,11 +121,11 @@ MemWatch .Stop();
 		{
 			// 平面直角座標
 
-			Convert_LgLt_XY.Origin =  LAS.XYOrigin;
+			Convert_LgLt_JPXY.Origin =  LAS.JPXYOrigin;
 
 			// ◆LASデータはXが東西のようだ。
-			var min_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(laszip_header.min_y, laszip_header.min_x), AGL);
-			var max_lglt = Convert_LgLt_XY.ToLgLt(new CCoord(laszip_header.max_y, laszip_header.max_x), AGL);
+			var min_lglt = Convert_LgLt_JPXY.ToLgLt(new CCoord(laszip_header.min_y, laszip_header.min_x), AGL);
+			var max_lglt = Convert_LgLt_JPXY.ToLgLt(new CCoord(laszip_header.max_y, laszip_header.max_x), AGL);
 
 			StartLgLt_0 = new CLgLt(new CLg(min_lglt.Lg.DecimalDeg - LgLtMargin), new CLt(min_lglt.Lt.DecimalDeg - LgLtMargin));
 			EndLgLt_0   = new CLgLt(new CLg(max_lglt.Lg.DecimalDeg + LgLtMargin), new CLt(max_lglt.Lt.DecimalDeg + LgLtMargin));
@@ -247,8 +247,8 @@ MemWatch .Stop();
 		{
 			// 平面直角座標
 
-//			Convert_LgLt_XY.Origin = ReadLASOrigin(vlrs_data, DefaultOrigin);
-			Convert_LgLt_XY.Origin = LAS.XYOrigin;
+//			Convert_LgLt_JPXY.Origin = ReadLASOrigin(vlrs_data, DefaultOrigin);
+			Convert_LgLt_JPXY.Origin = LAS.JPXYOrigin;
 
 			if(false)
 			{
@@ -293,7 +293,7 @@ MemWatch .Stop();
 //StopWatch.Lap("(C#)before XYToLgLt");
 					// ◆ここに時間がかかっている。
 					// ◆LASデータはXが東西のようだ。
-					var pt_lglt = Convert_LgLt_XY.ToLgLt(pt_xy.Set(y, x), AMSL).SetAltitude(AMSL, z);
+					var pt_lglt = Convert_LgLt_JPXY.ToLgLt(pt_xy.Set(y, x), AMSL).SetAltitude(AMSL, z);
 					// ◆渡すようにすると速い？遅い？
 					// ◆ストップウォッチで時間喰ってる。
 				//	Convert_LgLt_XY.ToLgLt(pt_xy.Set(y, x), ref pt_lglt).SetAltitude(AMSL, z);

@@ -16,7 +16,7 @@ using static DSF_CS_Profiler.CProfilerLog;
 
 using static DSF_NET_Geography.Convert_LgLt_WP;
 using static DSF_NET_Geography.Convert_LgLt_WPInt;
-using static DSF_NET_Geography.Convert_LgLt_XY;
+using static DSF_NET_Geography.Convert_LgLt_JPXY;
 using static DSF_NET_Geography.DAltitudeBase;
 //---------------------------------------------------------------------------
 namespace GeoViewer_sample
@@ -89,7 +89,7 @@ public partial class GeoViewerMainForm : Form
 						origin_txt.EndsWith("Japan_Zone_18")? 18:
 						origin_txt.EndsWith("Japan_Zone_19")? 19: MapDataCfg.DefaultOrigin;
 
-					Convert_LgLt_XY.Origin = Convert_LgLt_XY.Origins[default_origin];
+					Convert_LgLt_JPXY.Origin = Convert_LgLt_JPXY.Origins[default_origin];
 
 					// ◆シェープファイルはXが東西のようだ。
 					var min_lglt = ToLgLt(new CCoord(shp_file.MinBound[1], shp_file.MinBound[0]), AE);

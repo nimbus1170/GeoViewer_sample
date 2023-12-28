@@ -9,7 +9,7 @@
 	<_ToSelectShapeFile/>
 
 	<!-- DefaultOrigin : LASデータ等に座標系原点に関する情報が含まれていない場合の座標系原点(系番号) -->
-	<XYCfg
+	<JPXYCfg
 		DefaultOrigin="2"/>
 		_DefaultOrigin="8"/>
 
