@@ -2,130 +2,145 @@
 // PlanViewerMainForm_ParseCommand.cs
 //
 //---------------------------------------------------------------------------
-using System.Runtime.Versioning;
-//---------------------------------------------------------------------------
 namespace GeoViewer_sample
 {
-//---------------------------------------------------------------------------
-public partial class GeoViewerMainForm : Form
-{
-	int ShapesN = 0;
-
-	[SupportedOSPlatform("windows")]
-	private string ParseCommand(in string cmd_line)
+	public partial class GeoViewerMainForm : Form
 	{
-		if(Viewer == null) return "no viewer";
-			
-		var cmd_lines = cmd_line.Split(' ');
+		int ShapesN = 0;
 
-		if(cmd_lines.Length == 0) return "no command line";
-		
-		var cmd		= cmd_lines[0];
-		var options = cmd_lines[1..];
-
-		// ◆複数行の文字列が返ることもあるので改行も含める。
-		string ret = "";
-
-		// ◆ヘルプと処理を一緒に書けないか？デリゲート(Func/Action)でコンテナに入れるとできそうだが、
-		// 　複雑になる。switchだと書きやすいか？switch以外で書けないが。
-		switch(cmd)
+		private string ParseCommand(in string cmd_line)
 		{
-			case "showshapes":
+			if(Viewer == null) return "no viewer";
+			
+			var cmd_lines = cmd_line.Split(' ');
+
+			if(cmd_lines.Length == 0) return "no command line";
+		
+			var cmd		= cmd_lines[0];
+			var options = cmd_lines[1..];
+
+			// ◆複数行の文字列が返ることもあるので改行も含める。
+			string ret = "";
+
+			// ◆ヘルプと処理を一緒に書けないか？デリゲート(Func/Action)でコンテナに入れるとできそうだが、
+			// 　複雑になる。switchだと書きやすいか？switch以外で書けないが。
+			switch(cmd)
+			{
+				case "showshapes":
 	
-				if(options.Length == 0)
-					Viewer.ShowShapes();
-				else
-					foreach(var shape_name in options)
-						Viewer.ShowShapes(shape_name);
+					if(options.Length == 0)
+						Viewer.ShowShapes();
+					else
+						foreach(var shape_name in options)
+							Viewer.ShowShapes(shape_name);
 
-				Viewer.DrawScene();
+					Viewer.Draw();
 				
-				break;
+					break;
 
-			case "hideshapes":
+				case "hideshapes":
 
-				if(options.Length == 0)
-					Viewer.HideShapes();
-				else
-					foreach(var shape_name in options)
-						Viewer.HideShapes(shape_name);
+					if(options.Length == 0)
+						Viewer.HideShapes();
+					else
+						foreach(var shape_name in options)
+							Viewer.HideShapes(shape_name);
 
-				Viewer.DrawScene();
+					Viewer.Draw();
 				
-				break;
+					break;
 
-			case "showlayers":
+				case "showlayers":
 	
-				if(options.Length == 0)
-					Viewer.ShowOverlays();
-				else
-					foreach(var ol_name in options)
-						Viewer.ShowOverlays(ol_name);
+					if(options.Length == 0)
+						Viewer.ShowOverlays();
+					else
+						foreach(var ol_name in options)
+							Viewer.ShowOverlays(ol_name);
 
-				Viewer.DrawScene();
+					Viewer.Draw();
 				
-				break;
+					break;
 
-			case "hidelayers":
+				case "hidelayers":
 
-				if(options.Length == 0)
-					Viewer.HideOverlays();
-				else
-					foreach(var ol_name in options)
-						Viewer.HideOverlays(ol_name);
+					if(options.Length == 0)
+						Viewer.HideOverlays();
+					else
+						foreach(var ol_name in options)
+							Viewer.HideOverlays(ol_name);
 
-				Viewer.DrawScene();
+					Viewer.Draw();
 				
-				break;
+					break;
 
-			case "reloadshapes":
+				case "reloadshapes":
 
-				if(DrawingFileName == null) break;
+					if(Cfg.DrawingFileName == null) break;
 				
-				Viewer.DeleteShapes();
+					Viewer.DeleteShapes();
 
-				DrawShapesXML();
+					DrawShapesXML();
 
-				Viewer.DrawScene();
+					Viewer.Draw();
 
-				break;
+					break;
 
-			case "loadlas":
-				LoadLAS();
-				break;
+				case "loadlas":
+					LoadLAS();
+					break;
 
-			case "loadshp":
-				LoadShape();
-				break;
+				case "loadshp":
+					LoadShape();
+					break;
 
-			case "countobj":
+				case "listshp":
 
-				var gl_objs_count = Viewer.GLObjectCount();	
+					var shape_names = Viewer.ShapeNames();
 
-				foreach(var gl_objs_count_i in gl_objs_count)
-					ret	+= $"{gl_objs_count_i.Key, -12} : {gl_objs_count_i.Value:#,0}\r\n";
+					foreach(var shape_name in shape_names)
+						ret	+= $"{shape_name}\r\n";
 	
-				break;
+					break;
 
-			case "help":
-				DialogTextBox.AppendText
-					("showshapes 図形名 … 図形を表示する。図形名を省略するとすべて表示する。\r\n" + 
-					 "hideshapes 図形名 … 図形を非表示にする。図形名を省略するとすべて非表示にする。\r\n" +
-					 "showlayers レイヤー名 … レイヤーを表示する。レイヤー名を省略するとすべて表示する。\r\n" +
-					 "hidelayers レイヤー名 … レイヤーを非表示にする。レイヤー名を省略するとすべて非表示にする。\r\n" +
-					 "loadlas … LASファイル読み込みダイアログを表示する。\r\n" +
-					 "loadshp … 図形ファイル読み込みダイアログを表示する。\r\n" +
-					 "countobj … OpenGLオブジェクトの数を表示する。\r\n" +
-					 "help … ヘルプを表示する。\r\n");
-				break;
+				case "countobj":
 
-			default:
-				ret = "unknown command\r\n";
-				break;
+					var gl_objs_count = Viewer.GLObjectCount();	
+
+					foreach(var gl_objs_count_i in gl_objs_count)
+						ret	+= $"{gl_objs_count_i.Key, -12} : {gl_objs_count_i.Value:#,0}\r\n";
+	
+					break;
+
+				case "ptsize":
+					
+					if(options.Length == 0) break;
+
+					Viewer.SetPointSize_m(float.Parse(options[0])).Draw();
+					
+					break;
+
+
+				case "help":
+					ShowLog
+						("showshapes 図形名 … 図形を表示する。図形名を省略するとすべて表示する。\r\n" + 
+						 "hideshapes 図形名 … 図形を非表示にする。図形名を省略するとすべて非表示にする。\r\n" +
+						 "showlayers レイヤー名 … レイヤーを表示する。レイヤー名を省略するとすべて表示する。\r\n" +
+						 "hidelayers レイヤー名 … レイヤーを非表示にする。レイヤー名を省略するとすべて非表示にする。\r\n" +
+						 "loadlas … LASファイル読み込みダイアログを表示する。\r\n" +
+						 "loadshp … 図形ファイル読み込みダイアログを表示する。\r\n" +
+						 "listshp … 読み込まれている図形名を表示する。\r\n" +
+						 "countobj … OpenGLオブジェクトの数を表示する。\r\n" +
+						 "ptsize 点サイズ … 点のサイズを設定する。\r\n" +
+						 "help … ヘルプを表示する。\r\n");
+					break;
+
+				default:
+					ret = "unknown command\r\n";
+					break;
+			}
+
+			return ret;
 		}
-
-		return ret;
 	}
-}
-//---------------------------------------------------------------------------
 }

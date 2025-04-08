@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace GeoViewer_sample
+﻿namespace GeoViewer_sample
 {
 	static class Program
 	{
@@ -11,6 +8,11 @@ namespace GeoViewer_sample
 		[STAThread]
 		static void Main(string[] args)
 		{
+			// DLLにPATHを通す。
+			// プロセスが終了したら環境変数は元に戻る。
+			// ◆(なぜか)メインフォーム作成前に参照されるのでここで処置する。
+			Environment.SetEnvironmentVariable("PATH", Path.GetFullPath("./DLL") + ";" + Environment.GetEnvironmentVariable("PATH"));
+
 			Application.EnableVisualStyles();
 			Application.SetHighDpiMode(HighDpiMode.SystemAware);
 			Application.SetCompatibleTextRenderingDefault(false);

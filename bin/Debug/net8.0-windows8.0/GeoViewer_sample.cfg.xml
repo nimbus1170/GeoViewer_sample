@@ -1,0 +1,478 @@
+﻿<?xml version="1.0" standalone="yes"?>
+
+<!-- Debug用 -->
+<CfgRoot>
+
+	<!-- 地域、点群又は図形をダイアログから選択する。(ファイル選択モード) -->
+	<!-- いずれも定義されていなければ、本設定ファイル内の地域設定を読み込む。-->
+	<_ToSelectMapCfgFile/>
+	<ToSelectLASFile/>
+	<_ToSelectShapeFile/>
+
+	<!-- －－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－ -->
+	<!-- LAS設定 -->
+	<!-- ◆保留 -->
+	<!-- LASFile       : 点群データファイル (これが定義されていれば読み込み・表示する。絶対パス。) ←◆個別設定ファイルの方に書く。-->
+	<!-- DefaultOrigin : LASデータ等に座標系原点に関する情報が含まれていない場合の座標系原点(系番号) -->
+	<!-- TXTTitleLine  : 1行目がタイトル行か否か（テキストデータの場合）-->
+	<!-- TXTFormat     : 行のフォーマット（テキストデータの場合）-->
+
+	<_LASCfg
+		LASFile="C:\DSF\dev\data\LAS\宇部興産コンサルタント\絵堂_cut.las"
+		DefaultOrigin="3"
+		_ReadRangeByRate="x:0.1-0.15 y:0.3-0.35"
+		_TXTTitleLine="false"
+		_TXTFormat="ID X.2 Y.2 Z.2"/>
+	<!-- ID X座標(小数点以下2桁) Y座標(〃) Z座標(〃) -->
+
+	<!-- ◆森林LASはⅡ系のようだが、高度がおかしく地下になってしまうので、Ⅲ系(海上になるが)で表示する。-->
+	<_LASCfg
+		LASFile="C:\DSF\dev\data\LAS\森林LAS\PointCloud.las"
+		DefaultOrigin="3"
+		_ReadRangeByRate="x:0.1-0.15 y:0.3-0.35"
+		_TXTTitleLine="false"
+		_TXTFormat="ID X.2 Y.2 Z.2"/>
+
+	<!-- －－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－ -->
+
+	<!-- 図形設定(兼LASデータ設定) -->
+	<!-- DefaultOrigin		: Shapeデータ等に座標系原点に関する情報が含まれていない場合の座標系原点(系番号) -->
+	<!-- Margin				: 図形データ・LASデータを含む表示範囲の東西南北のマージン(十進経緯度) -->
+	<!-- PointrSize			: 点のサイズ -->
+	<!-- ToCheckDataOnly	: 図形データ・LASデータを表示せずに、その情報のみを表示する。-->
+	<!-- ToDrawShapeAsTIN	: 図形をTINに変換して表示する。(実験的) -->
+	<!-- ToDrawShapeAsLayer	: 図形をレイヤーとして表示する。-->
+	<!-- 上記のいずれも指定しなければポリゴンで表示する。-->
+	<!-- MeshZoomLevel属性及びImageZoomLevel属性は、メッシュサイズ及びテクスチャイメージのピクセルサイズを指定するものであり(最大18)、
+		 この値(ズームレベル)が大きいほど、メッシュサイズが細かくなり、画像が精細になりますが、ダウンロードされる画像タイル数が増え、
+		 処理に時間とメモリを必要とするようになります。ズームレベルについては https://maps.gsi.go.jp/development/siyou.html をご覧ください。-->
+	<ShapeCfg
+		_DefaultOrigin="2"
+		DefaultOrigin="8"
+		Margin="0.005"
+		MeshZoomLevel="14"
+		ImageZoomLevel="18"
+		NearPlane="10"
+		PointSize="0.2"
+		_ToCheckDataOnly="true"
+		_ToDrawShapeAsTIN="true"
+		ToDrawShapeAsLayer="true"/>
+
+	<!-- グリッド -->
+	<!-- コメントアウトするとグリッド非表示 -->
+	<Grid FontSize="50"><!-- m -->
+		<!-- GridOverlay要素を定義するとオーバレイでグリッドを描画する。-->
+		<_GridOverlay Size="8000" Offset="50"/>
+	</Grid>
+
+	<!-- デバッグ情報の表示の有無 -->
+	<ToShowDebugInfo/>
+
+	<!-- プレーンモード -->
+	<PlaneMode Mode="WP"/>
+	<_PlaneMode Mode="Tile"/>
+	<_PlaneMode Mode="LgLt"/>
+
+	<!-- －－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－ -->
+	<!-- 地域設定 -->
+	<!-- 複数の地域を定義し、アンダーバー(_)でコメントアウトして表示対象を切り替えています。-->
+
+	<!-- Title            : ウインドウに表示するタイトル -->
+	<!-- MeshZoomLevel    : このズームレベルのピクセル間隔をメッシュサイズにする。WPまたはTileモードで使用する。-->
+	<!--				  : 標高タイルがZL14なので、15以上にするとカクカクになる。-->
+	<!-- ImageZoomLevel   : 表示する画像(テクスチャ)に使用する画像タイルのズームレベル -->
+	<!-- MeshSize	      : メッシュサイズ。LgLtモードで使用する。-->
+	<!-- NearPlane        : 近平面までの距離。この値を大きくすると(なぜか)オブジェクト間の前後判定の精度が向上する。-->
+	<!-- Start            : 表示範囲の南西隅 -->
+	<!-- End              : 表示範囲の北東隅 -->
+
+	<!-- ！注意！表示範囲が広い場合、ImageZoomLevelを大きくしすぎると、必要なテクスチャメモリが大きくなり過ぎてOpenGLの動作が停止することが
+		 ありました。変更する場合は、現在の設定値から少しずつ変更してみてください。-->
+
+	<_MapCfg
+		Title="東金の森"
+		MeshZoomLevel="15"
+		ImageZoomLevel="18"
+		MeshSize="10"
+		NearPlane="50"
+		DefaultOrigin="9">
+		<Start Lg="140.311" Lt="35.557"/>
+		<End   Lg="140.316" Lt="35.565"/>
+	</_MapCfg>
+
+	<MapCfg
+		Title="糸島半島"
+		MeshZoomLevel="12"
+		ImageZoomLevel="15"
+		MeshSize="200"
+		NearPlane="100"
+		DefaultOrigin="2">
+		<Start Lg="130.1" Lt="33.5"/> <!-- 10進形式 -->
+		<End   Lg="130.3" Lt="33.7"/>
+		<Drawings File="./MapDrawing_test_1.xml"/>
+		<!-- フォルダ内のすべてのファイルを描画する方法 -->
+		<!-- ◆保留 -->
+		<_Drawings Folder="C:/DSF/SharedData/MapView/MapDrawing"/>
+	</MapCfg>
+
+	<_MapCfg
+		Title="糸島半島～佐賀平野"
+		MeshZoomLevel="10"
+		ImageZoomLevel="15"
+		MeshSize="800"
+		NearPlane="100"
+		DefaultOrigin="2">
+		<Start Lg="130  6 0.00" Lt="33  5 0.00"/> <!-- 度分秒形式 -->
+		<End   Lg="130 18 0.00" Lt="33 45 0.00"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="糸島半島～飯塚"
+		MeshZoomLevel="10"
+		ImageZoomLevel="15"
+		MeshSize="800"
+		NearPlane="100"
+		DefaultOrigin="2">
+		<Start Lg="130.1" Lt="33.5"/>
+		<End   Lg="130.9" Lt="33.7"/>
+	</_MapCfg>
+
+	<!-- ZL13で約4千万ポリゴン・メモリ32GB、ZL14はメモリーオーバー -->
+	<_MapCfg
+		Title="糸島半島～広範囲"
+		MeshZoomLevel="13"
+		ImageZoomLevel="14"
+		MeshSize="800"
+		NearPlane="100"
+		DefaultOrigin="2">
+		<Start Lg="130.1" Lt="33  5 0.00"/>
+		<End   Lg="130.9" Lt="33 45 0.00"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="可也山"
+		MeshZoomLevel="10"
+		ImageZoomLevel="15"
+		MeshSize="10"
+		NearPlane="100"
+		DefaultOrigin="2">
+		<Start Lg="130.15" Lt="33.56"/>
+		<End   Lg="130.18" Lt="33.58"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="志賀島"
+		MeshZoomLevel="14"
+		ImageZoomLevel="15"
+		MeshSize="20"
+		NearPlane="100"
+		DefaultOrigin="2">
+		<Start Lg="130.281029" Lt="33.657748"/>
+		<End   Lg="130.317340" Lt="33.690176"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="福岡市南区"
+		MeshZoomLevel="14"
+		ImageZoomLevel="17"
+		MeshSize="200"
+		NearPlane="100"
+		DefaultOrigin="2">
+		<Start Lg="130.35" Lt="33.50"/>
+		<End   Lg="130.47" Lt="33.61"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="島原半島"
+		MeshZoomLevel="10"
+		ImageZoomLevel="15"
+		MeshSize="400"
+		NearPlane="100"
+		DefaultOrigin="1">
+		<Start Lg="130  7 0.0" Lt="32 35 0.0"/>
+		<End   Lg="130 24 0.0" Lt="32 53 0.0"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="眉山"
+		MeshZoomLevel="14"
+		ImageZoomLevel="15"
+		MeshSize="400"
+		NearPlane="100"
+		DefaultOrigin="1">
+		<Start Lg="130 20 0.0" Lt="32 45 0.0"/>
+		<End   Lg="130 22 0.0" Lt="32 47 0.0"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="熊本北部"
+		MeshZoomLevel="12"
+		ImageZoomLevel="15"
+		MeshSize="400"
+		NearPlane="100"
+		DefaultOrigin="2">
+		<Start Lg="131.0" Lt="33.0"/>
+		<End   Lg="131.3" Lt="33.3"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="阿蘇"
+		MeshZoomLevel="11"
+		ImageZoomLevel="15"
+		MeshSize="400"
+		NearPlane="100"
+		DefaultOrigin="2">
+		<Start Lg="130 55 0.0" Lt="32 46 0.0"/>
+		<End   Lg="131 12 0.0" Lt="33  1 0.0"/>
+	</_MapCfg>
+	
+	<_MapCfg
+		Title="桜島"
+		MeshZoomLevel="11"
+		ImageZoomLevel="15"
+		MeshSize="400"
+		NearPlane="10"
+		DefaultOrigin="2">
+		<Start Lg="130 33 0.0" Lt="31 32 0.0"/>
+		<End   Lg="130 44 0.0" Lt="31 38 0.0"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="屋久島"
+		MeshZoomLevel="11"
+		ImageZoomLevel="15"
+		MeshSize="400"
+		NearPlane="100"
+		DefaultOrigin="2">
+		<Start Lg="130.37" Lt="30.22"/>
+		<End   Lg="130.68" Lt="30.47"/>
+	</_MapCfg>
+
+	<!-- ◆NearPlaneを大きくすると水面のまだらが軽減される。-->
+	<_MapCfg
+		Title="琵琶湖の水止めたろか"
+		MeshZoomLevel="14"
+		ImageZoomLevel="15"
+		MeshSize="400"
+		NearPlane="500"
+		DefaultOrigin="6">
+		<Start Lg="135 50 00.0" Lt="34 57 00.0"/>
+		<End   Lg="135 60 00.0" Lt="35 04 00.0"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="天竜川(経度帯境界付近)"
+		MeshZoomLevel="12"
+		ImageZoomLevel="15"
+		MeshSize="1000"
+		NearPlane="100"
+		DefaultOrigin="8">
+		<Start Lg="137.9" Lt="34.9"/>
+		<End   Lg="138.1" Lt="35.1"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="富士山"
+		MeshZoomLevel="15"
+		ImageZoomLevel="17"
+		MeshSize="50"
+		NearPlane="100"
+		DefaultOrigin="8">
+		<Start Lg="138.65" Lt="35.3"/>
+		<End   Lg="138.80" Lt="35.4"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="伊豆山"
+		MeshZoomLevel="14"
+		ImageZoomLevel="18"
+		MeshSize="200"
+		NearPlane="100"
+		DefaultOrigin="8">
+		<Start Lg="139 04  0.0" Lt="35 06 30.0"/>
+		<End   Lg="139 06  0.0" Lt="35 07 30.0"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="熱海"
+		MeshZoomLevel="13"
+		ImageZoomLevel="16"
+		MeshSize="200"
+		NearPlane="100"
+		DefaultOrigin="8">
+		<Start Lg="139 03  0.0" Lt="35 05  0.0"/>
+		<End   Lg="139 06  0.0" Lt="35 08  0.0"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="熱海広域"
+		MeshZoomLevel="12"
+		ImageZoomLevel="16"
+		MeshSize="200"
+		NearPlane="1000"
+		DefaultOrigin="8">
+		<Start Lg="138 59 45.0" Lt="35  0  0.0"/>
+		<End   Lg="139 15  0.0" Lt="35 10 20.0"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="伊豆大島"
+		MeshZoomLevel="12"
+		ImageZoomLevel="15"
+		MeshSize="400"
+		NearPlane="100"
+		DefaultOrigin="9">
+		<Start Lg="139.34" Lt="34.67"/>
+		<End   Lg="139.46" Lt="34.80"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="伊豆半島"
+		MeshZoomLevel="11"
+		ImageZoomLevel="11"
+		MeshSize="400"
+		NearPlane="100"
+		DefaultOrigin="8">
+		<Start Lg="138 40 00.0" Lt="34 40 00.0"/>
+		<End   Lg="139 20 00.0" Lt="35 20 00.0"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="埼玉県"
+		MeshZoomLevel="8"
+		ImageZoomLevel="12"
+		MeshSize="400"
+		NearPlane="1000"
+		DefaultOrigin="9">
+		<Start Lg="138.7" Lt="35.7"/>
+		<End   Lg="140.0" Lt="36.3"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="東京湾"
+		MeshZoomLevel="10"
+		ImageZoomLevel="15"
+		MeshSize="400"
+		NearPlane="100"
+		DefaultOrigin="9">
+		<Start Lg="139.73" Lt="35.55"/>
+		<End   Lg="139.94" Lt="35.68"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="硫黄島"
+		MeshZoomLevel="13"
+		ImageZoomLevel="16"
+		MeshSize="400"
+		NearPlane="100"
+		DefaultOrigin="14">
+		<Start Lg="141.28" Lt="24.74"/>
+		<End   Lg="141.36" Lt="24.82"/>
+	</_MapCfg>
+
+	<!-- ◆MeshZoomLevelが16以上だと汚くなる。標高タイルのズームレベルを超えるからか。その場合はTudeモードの方がきれい。-->
+	<_MapCfg
+		Title="南硫黄島"
+		MeshZoomLevel="14"
+		ImageZoomLevel="16"
+		MeshSize="5"
+		NearPlane="100"
+		DefaultOrigin="14">
+		<Start Lg="141.45" Lt="24.22"/>
+		<End   Lg="141.48" Lt="24.25"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="八王子"
+		MeshZoomLevel="12"
+		ImageZoomLevel="15"
+		MeshSize="200"
+		NearPlane="100"
+		DefaultOrigin="9">
+		<Start Lg="139.23" Lt="35.61"/>
+		<End   Lg="139.40" Lt="35.70"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="上柚木運動公園"
+		MeshZoomLevel="15"
+		ImageZoomLevel="18"
+		MeshSize="50"
+		NearPlane="2"
+		DefaultOrigin="9">
+		<Start Lg="139.368" Lt="35.618"/>
+		<End   Lg="139.372" Lt="35.622"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="元八王子"
+		MeshZoomLevel="15"
+		ImageZoomLevel="18"
+		MeshSize="10"
+		NearPlane="100"
+		DefaultOrigin="9">
+		<Start Lg="139 16 0.0" Lt="35 39 30.0"/>
+		<End   Lg="139 17 0.0" Lt="35 40  0.0"/>
+	</_MapCfg>
+
+	<_MapCfg
+		Title="礼文島"
+		MeshZoomLevel="11"
+		ImageZoomLevel="15"
+		MeshSize="10"
+		NearPlane="100"
+		DefaultOrigin="12">
+		<Start Lg="140.95" Lt="45.27"/>
+		<End   Lg="141.08" Lt="45.48"/>
+	</_MapCfg>
+
+	<!-- －－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－ -->
+	<!-- 地図データ設定 -->
+	<MapDataCfg>
+
+		<!-- 地図データ -->
+		<!-- このフォルダのgsi以下の各フォルダに必要なズームレベルのフォルダが自動作成され、必要な国土地理院タイルがダウンロードされる。-->
+		<_MapData Folder="./DEM"/>
+		<MapData Folder="E:/Data"/>
+
+		<!-- ◆gsiより下のフォルダは自動作成されるため、gsi以下のフォルダ名は変更しないこと。-->
+		<!-- ◆タグ名はGSI固有ということで良いか？ -->
+
+		<!-- 地図画像タイル -->
+		<GSIImageTiles
+			Url="https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png"
+			_Folder="./DEM/gsi/std"
+			Folder="E:/Data/GSI/std"/>
+
+		<!-- 衛星画像タイル -->
+		<GSIPhotoTiles
+			Url="https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg"
+			_Folder="./DEM/gsi/seamlessphoto"
+			Folder="E:/Data/GSI/seamlessphoto"/>
+
+		<!-- 標高タイル -->
+		<!-- ◆DEM5AはZL15があるが、水系が標高0mになっている(どのZLでも)ので、ZL15以外は使わない方が良い。-->
+		<GSIElevationTiles
+			_Url="https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png"
+			_ZoomLevel="14"
+			Url="https://cyberjapandata.gsi.go.jp/xyz/dem5a_png/{z}/{x}/{y}.png"
+			ZoomLevel="15"
+			_Folder="./DEM/gsi/dem_png"
+			Folder="E:/Data/GSI/dem_png"/>
+
+		<!-- ジオイドモデル -->
+		<_GSIGeoidModel File="./DEM/gsi/gsigeo2011_ver2_2_asc/program/gsigeo2011_ver2_2.bin"/>
+		<GSIGeoidModel File="E:/Data/GSI/gsigeo2011_ver2_2_asc/program/gsigeo2011_ver2_2.bin"/>
+
+	</MapDataCfg>
+
+	<_MapDataCfg
+		DefaultOrigin="3">
+
+		<DEM File="C:/DSF/dev/project/NET_DLL/TreeCounter/TreeCounterForm/bin/Debug/net8.0-windows8.0/DEM/宇部興産コンサルタント/絵堂地形_DEM.tif"/>
+
+		<GSIGeoidModel File="./DEM/gsi/gsigeo2011_ver2_2_asc/program/gsigeo2011_ver2_2.bin"/>
+
+	</_MapDataCfg>
+
+</CfgRoot>

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows8.0</TargetFramework>
     <OutputType>WinExe</OutputType>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -50,34 +50,6 @@
     <None Remove="地形表示サンプル.pdf" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="DSF_NET_GSITileDownloader">
-      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_GSITileDownloader.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DSF_NET_LAS">
-      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_LAS.dll</HintPath>
-    </Reference>
-    <Reference Include="DSF_NET_MapDataCfg">
-      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_MapDataCfg.dll</HintPath>
-    </Reference>
-    <Reference Include="DSF_NET_MapGrid">
-      <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_MapGrid.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DSF_NET_ProfilerLog">
-      <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_ProfilerLog.dll</HintPath>
-    </Reference>
-    <Reference Include="DSF_NET_Scene">
-      <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_Scene.dll</HintPath>
-    </Reference>
-    <Reference Include="DSF_NET_ShapeCfg">
-      <HintPath>..\..\..\..\lib\Debug\net6.0\DSF_NET_ShapeCfg.dll</HintPath>
-    </Reference>
-    <Reference Include="DSF_NET_TacticalDrawing">
-      <HintPath>..\..\..\..\lib\Debug\net6.0-windows\DSF_NET_TacticalDrawing.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 および x64%29</ProductName>
@@ -93,14 +65,9 @@
     <Compile Include="..\..\..\..\src\cs\DSF\Geography\WKT.cs" Link="src\DSF\Geography\WKT.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\net6.0-windows\GeoViewer_Sample.cfg.xml" />
-    <Content Include="bin\Debug\net6.0-windows\MapDrawing_test_1.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.0" />
+    <Content Include="bin\Debug\net8.0-windows7.0\GeoViewer_sample.cfg.xml" />
+    <Content Include="bin\Debug\net8.0-windows7.0\MapDrawing_test_1.xml" />
+    <Content Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
@@ -118,7 +85,20 @@
   <ItemGroup>
     <Folder Include="src\DSF\Geography\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libDSF_NET_1\libDSF_NET_1.vcxproj" />
+    <ProjectReference Include="..\..\libDSF_NET_2\libDSF_NET_2.csproj" />
+  </ItemGroup>
   <PropertyGroup>
     <SatelliteResourceLanguages>_</SatelliteResourceLanguages>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CA1416;IDE0130</NoWarn>
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;CA1416;IDE0130</NoWarn>
+    <WarningLevel>9999</WarningLevel>
   </PropertyGroup>
 </Project>
